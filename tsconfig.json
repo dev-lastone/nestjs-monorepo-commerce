@@ -17,6 +17,13 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
-    "paths": {}
+    "paths": {
+      "@domain/domain": [
+        "libs/domain/src"
+      ],
+      "@domain/domain/*": [
+        "libs/domain/src/*"
+      ]
+    }
   }
 }
