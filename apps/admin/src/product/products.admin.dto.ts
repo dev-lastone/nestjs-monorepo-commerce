@@ -5,3 +5,8 @@ export class PostProductAdminRequestDto extends PickType(Product, [
   'name',
   'price',
 ]) {}
+
+export class PutProductAdminRequestDto extends PickType(Product, [
+  'name',
+  'price',
+]) {}
