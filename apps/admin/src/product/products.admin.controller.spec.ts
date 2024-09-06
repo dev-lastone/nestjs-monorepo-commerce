@@ -21,7 +21,7 @@ describe('AdminController', () => {
   });
 
   describe('products', () => {
-    it('post - products', () => {
+    it('post', () => {
       const postProductAdminRequestDto = new PostProductAdminRequestDto();
       postProductAdminRequestDto.name = 'test2';
       postProductAdminRequestDto.price = 20000;
@@ -34,7 +34,7 @@ describe('AdminController', () => {
       });
     });
 
-    it('get - products', () => {
+    it('get', () => {
       expect(productsAdminController.getProducts()).toEqual([
         {
           id: 1,
@@ -44,7 +44,7 @@ describe('AdminController', () => {
       ]);
     });
 
-    it('put - products', () => {
+    it('put', () => {
       const id = 1;
       const putProductAdminRequestDto = new PutProductAdminRequestDto();
       putProductAdminRequestDto.name = '상품2';
