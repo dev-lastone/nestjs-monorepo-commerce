@@ -1,5 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { PostProductAdminRequestDto } from './products.admin.dto';
+import {
+  PostProductAdminRequestDto,
+  PutProductAdminRequestDto,
+} from './products.admin.dto';
 import { Product } from '@domain/domain/product/product';
 
 @Injectable()
@@ -30,5 +33,21 @@ export class ProductsAdminService {
 
   getProducts(): Product[] {
     return this.products;
+  }
+
+  putProduct(id: number, dto: PutProductAdminRequestDto): Product {
+    const { name, price } = dto;
+
+    const idx = this.products.findIndex((product) => {
+      return product.id === id;
+    });
+
+    const product = this.products[idx];
+    product.name = name;
+    product.price = price;
+
+    this.products[idx] = product;
+
+    return product;
   }
 }

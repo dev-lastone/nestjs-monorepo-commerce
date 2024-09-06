@@ -1,6 +1,18 @@
-import { Body, Controller, Get, Post, Version } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+  Put,
+  Version,
+} from '@nestjs/common';
 import { ProductsAdminService } from './products.admin.service';
-import { PostProductAdminRequestDto } from './products.admin.dto';
+import {
+  PostProductAdminRequestDto,
+  PutProductAdminRequestDto,
+} from './products.admin.dto';
 import { Product } from '@domain/domain/product/product';
 
 @Controller('products')
@@ -17,5 +29,14 @@ export class ProductsAdminController {
   @Get()
   getProducts(): Product[] {
     return this.adminService.getProducts();
+  }
+
+  @Version('1')
+  @Put(':id')
+  putProduct(
+    @Param('id', new ParseIntPipe()) id: number,
+    @Body() dto: PutProductAdminRequestDto,
+  ): Product {
+    return this.adminService.putProduct(id, dto);
   }
 }
