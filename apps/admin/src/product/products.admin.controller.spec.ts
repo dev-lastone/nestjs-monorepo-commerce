@@ -1,7 +1,10 @@
 import { ProductsAdminController } from './products.admin.controller';
 import { Test, TestingModule } from '@nestjs/testing';
 import { ProductsAdminService } from './products.admin.service';
-import { PostProductAdminRequestDto } from './products.admin.dto';
+import {
+  PostProductAdminRequestDto,
+  PutProductAdminRequestDto,
+} from './products.admin.dto';
 
 describe('AdminController', () => {
   let productsAdminController: ProductsAdminController;
@@ -40,6 +43,20 @@ describe('AdminController', () => {
           price: 10000,
         },
       ]);
+    });
+
+    it('put - products', () => {
+      const id = 1;
+      const putProductAdminRequestDto = new PutProductAdminRequestDto();
+      putProductAdminRequestDto.name = '상품2';
+      putProductAdminRequestDto.price = 15000;
+
+      expect(
+        productsAdminController.putProduct(id, putProductAdminRequestDto),
+      ).toEqual({
+        id,
+        ...putProductAdminRequestDto,
+      });
     });
   });
 });
