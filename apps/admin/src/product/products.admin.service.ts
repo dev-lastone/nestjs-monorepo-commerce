@@ -4,7 +4,13 @@ import { Product } from '@domain/domain/product/product';
 
 @Injectable()
 export class ProductsAdminService {
-  private readonly products: Product[] = [];
+  private readonly products: Product[] = [
+    {
+      id: 1,
+      name: 'test1',
+      price: 10000,
+    },
+  ];
 
   postProduct(dto: PostProductAdminRequestDto): Product {
     const { name, price } = dto;
@@ -20,5 +26,9 @@ export class ProductsAdminService {
     this.products.push(product);
 
     return product;
+  }
+
+  getProducts(): Product[] {
+    return this.products;
   }
 }

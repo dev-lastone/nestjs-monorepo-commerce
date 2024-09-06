@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Version } from '@nestjs/common';
+import { Body, Controller, Get, Post, Version } from '@nestjs/common';
 import { ProductsAdminService } from './products.admin.service';
 import { PostProductAdminRequestDto } from './products.admin.dto';
 import { Product } from '@domain/domain/product/product';
@@ -11,5 +11,11 @@ export class ProductsAdminController {
   @Post()
   postProduct(@Body() dto: PostProductAdminRequestDto): Product {
     return this.adminService.postProduct(dto);
+  }
+
+  @Version('1')
+  @Get()
+  getProducts(): Product[] {
+    return this.adminService.getProducts();
   }
 }
