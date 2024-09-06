@@ -30,8 +30,7 @@ describe('AdminController', () => {
         productsAdminController.postProduct(postProductAdminRequestDto),
       ).toEqual({
         id: 2,
-        name: 'test2',
-        price: 20000,
+        ...postProductAdminRequestDto,
       });
     });
 
