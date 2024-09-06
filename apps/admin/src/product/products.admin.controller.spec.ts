@@ -20,16 +20,26 @@ describe('AdminController', () => {
   describe('products', () => {
     it('post - products', () => {
       const postProductAdminRequestDto = new PostProductAdminRequestDto();
-      postProductAdminRequestDto.name = 'test';
-      postProductAdminRequestDto.price = 10000;
+      postProductAdminRequestDto.name = 'test2';
+      postProductAdminRequestDto.price = 20000;
 
       expect(
         productsAdminController.postProduct(postProductAdminRequestDto),
       ).toEqual({
-        id: 1,
-        name: 'test',
-        price: 10000,
+        id: 2,
+        name: 'test2',
+        price: 20000,
       });
+    });
+
+    it('get - products', () => {
+      expect(productsAdminController.getProducts()).toEqual([
+        {
+          id: 1,
+          name: 'test1',
+          price: 10000,
+        },
+      ]);
     });
   });
 });
