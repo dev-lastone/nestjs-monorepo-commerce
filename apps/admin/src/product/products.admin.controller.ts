@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   ParseIntPipe,
@@ -41,7 +42,7 @@ export class ProductsAdminController {
   }
 
   @Version('1')
-  @Put(':id')
+  @Delete(':id')
   deleteProduct(@Param('id', new ParseIntPipe()) id: number) {
     this.adminService.deleteProduct(id);
   }
