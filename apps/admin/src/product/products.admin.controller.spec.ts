@@ -58,7 +58,7 @@ describe('AdminController', () => {
         ).toThrow(new NotFoundException());
       });
 
-      it('201', () => {
+      it('200', () => {
         const id = 1;
 
         expect(
@@ -79,7 +79,7 @@ describe('AdminController', () => {
         );
       });
 
-      it('204', () => {
+      it('200', () => {
         const id = 1;
 
         productsAdminController.deleteProduct(id);
