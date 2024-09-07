@@ -39,4 +39,10 @@ export class ProductsAdminController {
   ): Product {
     return this.adminService.putProduct(id, dto);
   }
+
+  @Version('1')
+  @Put(':id')
+  deleteProduct(@Param('id', new ParseIntPipe()) id: number) {
+    this.adminService.deleteProduct(id);
+  }
 }

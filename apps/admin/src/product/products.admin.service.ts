@@ -7,7 +7,7 @@ import { Product } from '@domain/domain/product/product';
 
 @Injectable()
 export class ProductsAdminService {
-  private readonly products: Product[] = [
+  private products: Product[] = [
     {
       id: 1,
       name: 'test1',
@@ -53,5 +53,19 @@ export class ProductsAdminService {
     this.products[idx] = product;
 
     return product;
+  }
+
+  deleteProduct(id: number) {
+    const idx = this.products.findIndex((product) => {
+      return product.id === id;
+    });
+
+    if (idx === -1) {
+      throw new NotFoundException();
+    }
+
+    this.products = this.products.filter((product) => {
+      return product.id !== id;
+    });
   }
 }
