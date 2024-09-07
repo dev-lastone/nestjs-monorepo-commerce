@@ -8,6 +8,8 @@ import {
 import { NotFoundException } from '@nestjs/common';
 
 describe('AdminController', () => {
+  const NON_EXISTENT_ID = Number.MAX_SAFE_INTEGER;
+
   let productsAdminController: ProductsAdminController;
 
   beforeEach(async () => {
@@ -51,10 +53,11 @@ describe('AdminController', () => {
       putProductAdminRequestDto.price = 15000;
 
       it('404', () => {
-        const id = Number.MAX_SAFE_INTEGER;
-
         expect(() =>
-          productsAdminController.putProduct(id, putProductAdminRequestDto),
+          productsAdminController.putProduct(
+            NON_EXISTENT_ID,
+            putProductAdminRequestDto,
+          ),
         ).toThrow(new NotFoundException());
       });
 
@@ -72,11 +75,9 @@ describe('AdminController', () => {
 
     describe('delete', () => {
       it('404', () => {
-        const id = Number.MAX_SAFE_INTEGER;
-
-        expect(() => productsAdminController.deleteProduct(id)).toThrow(
-          new NotFoundException(),
-        );
+        expect(() =>
+          productsAdminController.deleteProduct(NON_EXISTENT_ID),
+        ).toThrow(new NotFoundException());
       });
 
       it('200', () => {
