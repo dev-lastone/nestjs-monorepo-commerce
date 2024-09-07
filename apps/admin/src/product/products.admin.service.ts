@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import {
   PostProductAdminRequestDto,
   PutProductAdminRequestDto,
@@ -41,6 +41,10 @@ export class ProductsAdminService {
     const idx = this.products.findIndex((product) => {
       return product.id === id;
     });
+
+    if (idx === -1) {
+      throw new NotFoundException();
+    }
 
     const product = this.products[idx];
     product.name = name;
