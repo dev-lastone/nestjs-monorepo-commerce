@@ -71,5 +71,23 @@ describe('AdminController', () => {
         });
       });
     });
+
+    describe('delete', () => {
+      it('404', () => {
+        const id = Number.MAX_SAFE_INTEGER;
+
+        expect(() => productsAdminController.deleteProduct(id)).toThrow(
+          new NotFoundException(),
+        );
+      });
+
+      it('204', () => {
+        const id = 1;
+
+        productsAdminController.deleteProduct(id);
+
+        expect(productsAdminController.getProducts()).toEqual([]);
+      });
+    });
   });
 });
