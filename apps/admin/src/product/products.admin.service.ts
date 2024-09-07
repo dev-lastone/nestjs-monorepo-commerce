@@ -38,13 +38,7 @@ export class ProductsAdminService {
   putProduct(id: number, dto: PutProductAdminRequestDto): Product {
     const { name, price } = dto;
 
-    const idx = this.products.findIndex((product) => {
-      return product.id === id;
-    });
-
-    if (idx === -1) {
-      throw new NotFoundException();
-    }
+    const idx = this.#checkProductExist(id);
 
     const product = this.products[idx];
     product.name = name;
@@ -56,6 +50,14 @@ export class ProductsAdminService {
   }
 
   deleteProduct(id: number) {
+    this.#checkProductExist(id);
+
+    this.products = this.products.filter((product) => {
+      return product.id !== id;
+    });
+  }
+
+  #checkProductExist(id: number): number {
     const idx = this.products.findIndex((product) => {
       return product.id === id;
     });
@@ -64,8 +66,6 @@ export class ProductsAdminService {
       throw new NotFoundException();
     }
 
-    this.products = this.products.filter((product) => {
-      return product.id !== id;
-    });
+    return idx;
   }
 }
