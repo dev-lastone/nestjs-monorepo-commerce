@@ -5,6 +5,7 @@ import {
   PostProductAdminRequestDto,
   PutProductAdminRequestDto,
 } from './products.admin.dto';
+import { NotFoundException } from '@nestjs/common';
 
 describe('AdminController', () => {
   let productsAdminController: ProductsAdminController;
@@ -44,17 +45,30 @@ describe('AdminController', () => {
       ]);
     });
 
-    it('put', () => {
-      const id = 1;
-      const putProductAdminRequestDto = new PutProductAdminRequestDto();
-      putProductAdminRequestDto.name = '상품2';
-      putProductAdminRequestDto.price = 15000;
+    describe('put', () => {
+      it('404', () => {
+        const id = Number.MAX_SAFE_INTEGER;
+        const putProductAdminRequestDto = new PutProductAdminRequestDto();
+        putProductAdminRequestDto.name = '상품2';
+        putProductAdminRequestDto.price = 15000;
 
-      expect(
-        productsAdminController.putProduct(id, putProductAdminRequestDto),
-      ).toEqual({
-        id,
-        ...putProductAdminRequestDto,
+        expect(() =>
+          productsAdminController.putProduct(id, putProductAdminRequestDto),
+        ).toThrow(new NotFoundException());
+      });
+
+      it('201', () => {
+        const id = 1;
+        const putProductAdminRequestDto = new PutProductAdminRequestDto();
+        putProductAdminRequestDto.name = '상품2';
+        putProductAdminRequestDto.price = 15000;
+
+        expect(
+          productsAdminController.putProduct(id, putProductAdminRequestDto),
+        ).toEqual({
+          id,
+          ...putProductAdminRequestDto,
+        });
       });
     });
   });
