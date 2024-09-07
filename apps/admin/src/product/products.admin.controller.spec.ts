@@ -46,11 +46,12 @@ describe('AdminController', () => {
     });
 
     describe('put', () => {
+      const putProductAdminRequestDto = new PutProductAdminRequestDto();
+      putProductAdminRequestDto.name = '상품2';
+      putProductAdminRequestDto.price = 15000;
+
       it('404', () => {
         const id = Number.MAX_SAFE_INTEGER;
-        const putProductAdminRequestDto = new PutProductAdminRequestDto();
-        putProductAdminRequestDto.name = '상품2';
-        putProductAdminRequestDto.price = 15000;
 
         expect(() =>
           productsAdminController.putProduct(id, putProductAdminRequestDto),
@@ -59,9 +60,6 @@ describe('AdminController', () => {
 
       it('201', () => {
         const id = 1;
-        const putProductAdminRequestDto = new PutProductAdminRequestDto();
-        putProductAdminRequestDto.name = '상품2';
-        putProductAdminRequestDto.price = 15000;
 
         expect(
           productsAdminController.putProduct(id, putProductAdminRequestDto),
