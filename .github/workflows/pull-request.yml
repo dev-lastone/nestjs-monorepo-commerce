@@ -41,6 +41,6 @@ jobs:
         with:
           name: test-results
           path: junit.xml
-          fail-on-error: 'false'
+          fail-on-error: 'true'
           reporter: jest-junit
           token: ${{ secrets.GITHUB_TOKEN }}
