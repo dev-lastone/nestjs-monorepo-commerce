@@ -19,7 +19,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./apps/app/test/jest-e2e.json",
-    "test:report": "jest --ci --reporters=default --reporters=jest-junit"
+    "test:report": "jest --ci --reporters=default --reporters=jest-junit",
+    "test:report-cov": "jest --ci --coverage && codecov"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
@@ -60,7 +61,10 @@
       "ts"
     ],
     "rootDir": ".",
-    "testRegex": [".*\\.spec\\.ts$", ".*\\.e2e-spec\\.ts$"],
+    "testRegex": [
+      ".*\\.spec\\.ts$",
+      ".*\\.e2e-spec\\.ts$"
+    ],
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
