@@ -15,7 +15,9 @@ import {
   PutProductAdminRequestDto,
 } from './products.admin.dto';
 import { Product } from '@domain/domain/product/product';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('products')
 @Controller('products')
 export class ProductsAdminController {
   constructor(private readonly adminService: ProductsAdminService) {}
