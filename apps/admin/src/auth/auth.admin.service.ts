@@ -15,7 +15,7 @@ export class AuthAdminService {
     },
   ];
 
-  async signIn(dto: PostAuthAdminRequestDto) {
+  signIn(dto: PostAuthAdminRequestDto) {
     const { email, password } = dto;
 
     const user = this.users.find((user) => user.email === email);
