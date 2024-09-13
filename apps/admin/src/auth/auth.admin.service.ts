@@ -1,10 +1,11 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { User } from '@domain/domain/admin/user';
 import { PostAuthAdminRequestDto } from './auth.admin.dto';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthAdminService {
-  constructor() {}
+  constructor(private readonly jwtService: JwtService) {}
 
   private users: User[] = [
     {
@@ -15,7 +16,7 @@ export class AuthAdminService {
     },
   ];
 
-  signIn(dto: PostAuthAdminRequestDto) {
+  async signIn(dto: PostAuthAdminRequestDto) {
     const { email, password } = dto;
 
     const user = this.users.find((user) => user.email === email);
@@ -24,6 +25,10 @@ export class AuthAdminService {
       throw new UnauthorizedException();
     }
 
-    return user;
+    const payload = { sub: user.id, email: user.email, name: user.name };
+    const token = await this.jwtService.signAsync(payload);
+    return {
+      token,
+    };
   }
 }

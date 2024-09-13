@@ -10,7 +10,7 @@ export class AuthAdminController {
 
   @Version('1')
   @Post()
-  signIn(@Body() dto: PostAuthAdminRequestDto) {
-    return this.authAdminService.signIn(dto);
+  async signIn(@Body() dto: PostAuthAdminRequestDto) {
+    return await this.authAdminService.signIn(dto);
   }
 }
