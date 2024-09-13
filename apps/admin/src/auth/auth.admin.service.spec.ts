@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthAdminService } from './auth.admin.service';
 import { PostAuthAdminRequestDto } from './auth.admin.dto';
 import { JwtService } from '@nestjs/jwt';
+import { UnauthorizedException } from '@nestjs/common';
 
 describe('AuthAdminService', () => {
   let authAdminService: AuthAdminService;
@@ -25,6 +26,26 @@ describe('AuthAdminService', () => {
   });
 
   describe('signIn', () => {
+    it('잘못된 이메일', async () => {
+      const postAuthAdminRequestDto = new PostAuthAdminRequestDto();
+      postAuthAdminRequestDto.email = 'invalid@test.com';
+      postAuthAdminRequestDto.password = '1234';
+
+      await expect(() =>
+        authAdminService.signIn(postAuthAdminRequestDto),
+      ).rejects.toThrow(new UnauthorizedException());
+    });
+
+    it('잘못된 패스워드', async () => {
+      const postAuthAdminRequestDto = new PostAuthAdminRequestDto();
+      postAuthAdminRequestDto.email = 'test@test.com';
+      postAuthAdminRequestDto.password = 'invalid';
+
+      await expect(() =>
+        authAdminService.signIn(postAuthAdminRequestDto),
+      ).rejects.toThrow(new UnauthorizedException());
+    });
+
     it('성공', async () => {
       const postAuthAdminRequestDto = new PostAuthAdminRequestDto();
       postAuthAdminRequestDto.email = 'test@test.com';
