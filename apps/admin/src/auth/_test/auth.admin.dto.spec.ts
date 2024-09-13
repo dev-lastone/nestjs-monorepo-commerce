@@ -1,4 +1,4 @@
-import { PostAuthAdminRequestDto } from './auth.admin.dto';
+import { PostAuthAdminRequestDto } from '../auth.admin.dto';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
 
 describe('AuthAdminDto', () => {

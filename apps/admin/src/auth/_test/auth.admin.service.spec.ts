@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AuthAdminService } from './auth.admin.service';
-import { PostAuthAdminRequestDto } from './auth.admin.dto';
+import { AuthAdminService } from '../auth.admin.service';
+import { PostAuthAdminRequestDto } from '../auth.admin.dto';
 import { JwtService } from '@nestjs/jwt';
 import { UnauthorizedException } from '@nestjs/common';
 
