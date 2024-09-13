@@ -10,7 +10,7 @@ import { JwtService } from '@nestjs/jwt';
 export class AuthAdminGuard implements CanActivate {
   constructor(private jwtService: JwtService) {}
 
-  async canActivate(context: ExecutionContext): Promise<boolean> {
+  canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest();
     const token = this.#extractTokenFromHeader(request);
     if (!token) {
@@ -18,7 +18,7 @@ export class AuthAdminGuard implements CanActivate {
     }
 
     try {
-      request.user = await this.jwtService.verifyAsync(token, {
+      request.user = this.jwtService.verify(token, {
         secret: 'test',
       });
     } catch {
