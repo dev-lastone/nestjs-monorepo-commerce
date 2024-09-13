@@ -16,6 +16,15 @@ async function bootstrap() {
     .setTitle('ADMIN API')
     .setDescription('ADMIN API 문서입니다.')
     .setVersion('1.0.0')
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        name: 'Authorization',
+        in: 'header',
+      },
+      'jwt',
+    )
     .build();
 
   const document = SwaggerModule.createDocument(app, options);
