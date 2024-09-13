@@ -68,26 +68,6 @@ describe('AuthAdminController', () => {
       });
     });
 
-    // it('잘못된 이메일', async () => {
-    //   const postAuthAdminRequestDto = new PostAuthAdminRequestDto();
-    //   postAuthAdminRequestDto.email = 'invalid@test.com';
-    //   postAuthAdminRequestDto.password = '1234';
-    //
-    //   await expect(() =>
-    //     authAdminController.signIn(postAuthAdminRequestDto),
-    //   ).rejects.toThrow(new UnauthorizedException());
-    // });
-    //
-    // it('잘못된 패스워드', async () => {
-    //   const postAuthAdminRequestDto = new PostAuthAdminRequestDto();
-    //   postAuthAdminRequestDto.email = 'test@test.com';
-    //   postAuthAdminRequestDto.password = 'invalid';
-    //
-    //   await expect(() =>
-    //     authAdminController.signIn(postAuthAdminRequestDto),
-    //   ).rejects.toThrow(new UnauthorizedException());
-    // });
-
     it('성공', async () => {
       const postAuthAdminRequestDto = new PostAuthAdminRequestDto();
       postAuthAdminRequestDto.email = 'test@test.com';
