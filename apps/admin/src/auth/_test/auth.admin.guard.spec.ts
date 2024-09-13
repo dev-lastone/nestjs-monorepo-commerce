@@ -6,33 +6,33 @@ describe('AuthAdminGuard', () => {
   const jwtService = new JwtService();
   const authAdminGuard = new AuthAdminGuard(jwtService);
 
-  it('성공', async () => {
+  it('성공', () => {
     const mockExecutionContext = createMockExecutionContext('valid-token');
     jest
-      .spyOn(jwtService, 'verifyAsync')
-      .mockResolvedValue({ sub: 1, email: 'test@test.com', name: '홍길동' });
+      .spyOn(jwtService, 'verify')
+      .mockReturnValue({ sub: 1, email: 'test@test.com', name: '홍길동' });
 
-    const result = await authAdminGuard.canActivate(mockExecutionContext);
+    const result = authAdminGuard.canActivate(mockExecutionContext);
     expect(result).toBe(true);
   });
 
-  it('잘못된 토큰', async () => {
+  it('잘못된 토큰', () => {
     const mockExecutionContext = createMockExecutionContext('invalid-token');
-    jest.spyOn(jwtService, 'verifyAsync').mockImplementation(() => {
+    jest.spyOn(jwtService, 'verify').mockImplementation(() => {
       throw new Error('Invalid token');
     });
 
-    await expect(() =>
-      authAdminGuard.canActivate(mockExecutionContext),
-    ).rejects.toThrow(new UnauthorizedException());
+    expect(() => authAdminGuard.canActivate(mockExecutionContext)).toThrow(
+      new UnauthorizedException(),
+    );
   });
 
-  it('토큰이 없을때', async () => {
+  it('토큰이 없을때', () => {
     const mockExecutionContext = createMockExecutionContext(null);
 
-    await expect(() =>
-      authAdminGuard.canActivate(mockExecutionContext),
-    ).rejects.toThrow(new UnauthorizedException());
+    expect(() => authAdminGuard.canActivate(mockExecutionContext)).toThrow(
+      new UnauthorizedException(),
+    );
   });
 
   function createMockExecutionContext(token: string | null): ExecutionContext {
