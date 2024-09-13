@@ -16,7 +16,7 @@ import {
   PutProductAdminRequestDto,
 } from './products.admin.dto';
 import { Product } from '@domain/domain/product/product';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthAdminGuard } from '../auth/auth.admin.guard';
 
 @ApiTags('products')
@@ -24,6 +24,7 @@ import { AuthAdminGuard } from '../auth/auth.admin.guard';
 export class ProductsAdminController {
   constructor(private readonly adminService: ProductsAdminService) {}
 
+  @ApiBearerAuth('jwt')
   @UseGuards(AuthAdminGuard)
   @Version('1')
   @Post()
@@ -31,6 +32,7 @@ export class ProductsAdminController {
     return this.adminService.postProduct(dto);
   }
 
+  @ApiBearerAuth('jwt')
   @UseGuards(AuthAdminGuard)
   @Version('1')
   @Get()
@@ -38,6 +40,7 @@ export class ProductsAdminController {
     return this.adminService.getProducts();
   }
 
+  @ApiBearerAuth('jwt')
   @UseGuards(AuthAdminGuard)
   @Version('1')
   @Put(':id')
@@ -48,6 +51,7 @@ export class ProductsAdminController {
     return this.adminService.putProduct(id, dto);
   }
 
+  @ApiBearerAuth('jwt')
   @UseGuards(AuthAdminGuard)
   @Version('1')
   @Delete(':id')
