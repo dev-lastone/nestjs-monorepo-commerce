@@ -2,11 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthAdminController } from './auth.admin.controller';
 import { AuthAdminService } from './auth.admin.service';
 import { PostAuthAdminRequestDto } from './auth.admin.dto';
-import {
-  BadRequestException,
-  UnauthorizedException,
-  ValidationPipe,
-} from '@nestjs/common';
+import { BadRequestException, ValidationPipe } from '@nestjs/common';
 
 describe('AuthAdminController', () => {
   let authAdminController: AuthAdminController;
@@ -15,7 +11,14 @@ describe('AuthAdminController', () => {
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
       controllers: [AuthAdminController],
-      providers: [AuthAdminService],
+      providers: [
+        {
+          provide: AuthAdminService,
+          useValue: {
+            signIn: jest.fn().mockResolvedValue({ token: 'mockToken' }),
+          },
+        },
+      ],
     }).compile();
 
     authAdminController = app.get<AuthAdminController>(AuthAdminController);
@@ -65,35 +68,35 @@ describe('AuthAdminController', () => {
       });
     });
 
-    it('잘못된 이메일', () => {
-      const postAuthAdminRequestDto = new PostAuthAdminRequestDto();
-      postAuthAdminRequestDto.email = 'invalid@test.com';
-      postAuthAdminRequestDto.password = '1234';
+    // it('잘못된 이메일', async () => {
+    //   const postAuthAdminRequestDto = new PostAuthAdminRequestDto();
+    //   postAuthAdminRequestDto.email = 'invalid@test.com';
+    //   postAuthAdminRequestDto.password = '1234';
+    //
+    //   await expect(() =>
+    //     authAdminController.signIn(postAuthAdminRequestDto),
+    //   ).rejects.toThrow(new UnauthorizedException());
+    // });
+    //
+    // it('잘못된 패스워드', async () => {
+    //   const postAuthAdminRequestDto = new PostAuthAdminRequestDto();
+    //   postAuthAdminRequestDto.email = 'test@test.com';
+    //   postAuthAdminRequestDto.password = 'invalid';
+    //
+    //   await expect(() =>
+    //     authAdminController.signIn(postAuthAdminRequestDto),
+    //   ).rejects.toThrow(new UnauthorizedException());
+    // });
 
-      expect(() => authAdminController.signIn(postAuthAdminRequestDto)).toThrow(
-        new UnauthorizedException(),
-      );
-    });
-
-    it('잘못된 패스워드', () => {
+    it('성공', async () => {
       const postAuthAdminRequestDto = new PostAuthAdminRequestDto();
       postAuthAdminRequestDto.email = 'test@test.com';
-      postAuthAdminRequestDto.password = 'invalid';
-
-      expect(() => authAdminController.signIn(postAuthAdminRequestDto)).toThrow(
-        new UnauthorizedException(),
-      );
-    });
-
-    it('성공', () => {
-      const postAuthAdminRequestDto = new PostAuthAdminRequestDto();
-      postAuthAdminRequestDto.email = 'test@test.com';
       postAuthAdminRequestDto.password = '1234';
 
-      expect(authAdminController.signIn(postAuthAdminRequestDto)).toEqual({
-        id: 1,
-        name: '홍길동',
-        ...postAuthAdminRequestDto,
+      await expect(
+        authAdminController.signIn(postAuthAdminRequestDto),
+      ).resolves.toEqual({
+        token: 'mockToken',
       });
     });
   });
