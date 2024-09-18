@@ -2,7 +2,7 @@ import { JwtStrategy } from '../jwt.strategy';
 import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 
-describe('JwtAuthGuard', () => {
+describe('JwtStrategy', () => {
   let jwtStrategy: JwtStrategy;
 
   beforeEach(async () => {
