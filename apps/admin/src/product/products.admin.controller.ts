@@ -17,7 +17,7 @@ import {
 } from './products.admin.dto';
 import { Product } from '@domain/domain/product/product';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { AuthAdminGuard } from '../auth/auth.admin.guard';
+import { JwtAuthGuard } from '../auth/jwt.auth.guard';
 
 @ApiTags('products')
 @Controller('products')
@@ -25,7 +25,7 @@ export class ProductsAdminController {
   constructor(private readonly adminService: ProductsAdminService) {}
 
   @ApiBearerAuth('jwt')
-  @UseGuards(AuthAdminGuard)
+  @UseGuards(JwtAuthGuard)
   @Version('1')
   @Post()
   postProduct(@Body() dto: PostProductAdminRequestDto): Product {
@@ -33,7 +33,7 @@ export class ProductsAdminController {
   }
 
   @ApiBearerAuth('jwt')
-  @UseGuards(AuthAdminGuard)
+  @UseGuards(JwtAuthGuard)
   @Version('1')
   @Get()
   getProducts(): Product[] {
@@ -41,7 +41,7 @@ export class ProductsAdminController {
   }
 
   @ApiBearerAuth('jwt')
-  @UseGuards(AuthAdminGuard)
+  @UseGuards(JwtAuthGuard)
   @Version('1')
   @Put(':id')
   putProduct(
@@ -52,7 +52,7 @@ export class ProductsAdminController {
   }
 
   @ApiBearerAuth('jwt')
-  @UseGuards(AuthAdminGuard)
+  @UseGuards(JwtAuthGuard)
   @Version('1')
   @Delete(':id')
   deleteProduct(@Param('id', new ParseIntPipe()) id: number) {
