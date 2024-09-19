@@ -1,28 +1,29 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthAdminService } from '../auth.admin.service';
 import { PostAuthAdminRequestDto } from '../auth.admin.dto';
-import { JwtService } from '@nestjs/jwt';
 import { UnauthorizedException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import * as jwt from 'jsonwebtoken';
 
 describe('AuthAdminService', () => {
   let authAdminService: AuthAdminService;
-  let jwtService: JwtService;
+  let configService: ConfigService;
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
       providers: [
         AuthAdminService,
         {
-          provide: JwtService,
+          provide: ConfigService,
           useValue: {
-            signAsync: jest.fn(),
+            get: jest.fn(),
           },
         },
       ],
     }).compile();
 
     authAdminService = app.get<AuthAdminService>(AuthAdminService);
-    jwtService = app.get<JwtService>(JwtService);
+    configService = app.get<ConfigService>(ConfigService);
   });
 
   describe('signIn', () => {
@@ -51,12 +52,22 @@ describe('AuthAdminService', () => {
       postAuthAdminRequestDto.email = 'test@test.com';
       postAuthAdminRequestDto.password = '1234';
 
-      jest.spyOn(jwtService, 'signAsync').mockResolvedValue('mockToken');
+      jest.spyOn(configService, 'get').mockImplementation((key: string) => {
+        if (key === 'JWT_SECRET') return 'test';
+        if (key === 'JWT_EXPIRES_IN') return '60s';
+      });
+
+      const secret = configService.get('JWT_SECRET');
+      const expiresIn = configService.get('JWT_EXPIRES_IN');
+
+      jest.spyOn(jwt, 'sign').mockReturnValue('mockToken');
 
       const result = await authAdminService.signIn(postAuthAdminRequestDto);
 
       const payload = { sub: 1, email: 'test@test.com', name: '홍길동' };
-      expect(jwtService.signAsync).toHaveBeenCalledWith(payload);
+      expect(jwt.sign).toHaveBeenCalledWith(payload, secret, {
+        expiresIn,
+      });
 
       expect(result).toEqual({
         token: 'mockToken',
