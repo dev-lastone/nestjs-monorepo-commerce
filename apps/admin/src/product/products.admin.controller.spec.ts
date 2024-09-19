@@ -6,7 +6,6 @@ import {
   PutProductAdminRequestDto,
 } from './products.admin.dto';
 import { NotFoundException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 
 describe('AdminController', () => {
   const NON_EXISTENT_ID = Number.MAX_SAFE_INTEGER;
@@ -16,13 +15,7 @@ describe('AdminController', () => {
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
       controllers: [ProductsAdminController],
-      providers: [
-        ProductsAdminService,
-        {
-          provide: JwtService,
-          useValue: {},
-        },
-      ],
+      providers: [ProductsAdminService],
     }).compile();
 
     productsAdminController = app.get<ProductsAdminController>(
