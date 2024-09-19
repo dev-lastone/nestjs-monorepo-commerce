@@ -1,11 +1,12 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { User } from '@domain/domain/admin/user';
 import { PostAuthAdminRequestDto } from './auth.admin.dto';
-import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
+import * as jwt from 'jsonwebtoken';
 
 @Injectable()
 export class AuthAdminService {
-  constructor(private readonly jwtService: JwtService) {}
+  constructor(private readonly configService: ConfigService) {}
 
   private users: User[] = [
     {
@@ -26,7 +27,13 @@ export class AuthAdminService {
     }
 
     const payload = { sub: user.id, email: user.email, name: user.name };
-    const token = await this.jwtService.signAsync(payload);
+
+    const secret = this.configService.get<string>('JWT_SECRET');
+    const expiresIn = this.configService.get<string>('JWT_EXPIRES_IN');
+    const token = jwt.sign(payload, secret, {
+      expiresIn,
+    });
+
     return {
       token,
     };
