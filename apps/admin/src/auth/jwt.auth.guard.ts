@@ -5,8 +5,8 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { IS_PUBLIC_KEY } from '../decorator/public.decorator';
 import * as jwt from 'jsonwebtoken';
+import { IS_PUBLIC_KEY } from '@common/common/decorator/public.decorator';
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
