@@ -17,26 +17,24 @@ import {
 import { Product } from '@domain/domain/product/product';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiBearerAuth('jwt')
 @ApiTags('products')
 @Controller('products')
 export class ProductsAdminController {
   constructor(private readonly adminService: ProductsAdminService) {}
 
-  @ApiBearerAuth('jwt')
   @Version('1')
   @Post()
   postProduct(@Body() dto: PostProductAdminRequestDto): Product {
     return this.adminService.postProduct(dto);
   }
 
-  @ApiBearerAuth('jwt')
   @Version('1')
   @Get()
   getProducts(): Product[] {
     return this.adminService.getProducts();
   }
 
-  @ApiBearerAuth('jwt')
   @Version('1')
   @Put(':id')
   putProduct(
@@ -46,7 +44,6 @@ export class ProductsAdminController {
     return this.adminService.putProduct(id, dto);
   }
 
-  @ApiBearerAuth('jwt')
   @Version('1')
   @Delete(':id')
   deleteProduct(@Param('id', new ParseIntPipe()) id: number) {
