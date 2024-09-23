@@ -6,6 +6,9 @@ export function configModule() {
   return ConfigModule.forRoot({
     isGlobal: true,
     validate: validateEnv,
-    envFilePath: join(__dirname, '../../../.env'),
+    envFilePath: [
+      join(__dirname, '../../../.env'),
+      join(__dirname, '../../../../.env'),
+    ],
   });
 }
