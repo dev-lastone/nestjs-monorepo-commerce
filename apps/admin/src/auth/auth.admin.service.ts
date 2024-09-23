@@ -1,5 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { User } from '@domain/domain/admin/user';
+import { AdminUser } from '@domain/domain/admin/user';
 import { PostAuthAdminRequestDto } from './auth.admin.dto';
 import { AuthService } from '@domain/domain/auth/auth.service';
 
@@ -7,7 +7,7 @@ import { AuthService } from '@domain/domain/auth/auth.service';
 export class AuthAdminService {
   constructor(private readonly authService: AuthService) {}
 
-  private users: User[] = [
+  private adminUsers: AdminUser[] = [
     {
       id: 1,
       name: '홍길동',
@@ -19,7 +19,7 @@ export class AuthAdminService {
   signIn(dto: PostAuthAdminRequestDto) {
     const { email, password } = dto;
 
-    const user = this.users.find((user) => user.email === email);
+    const user = this.adminUsers.find((user) => user.email === email);
 
     if (!user || password !== user.password) {
       throw new UnauthorizedException();
