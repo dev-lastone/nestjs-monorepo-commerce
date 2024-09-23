@@ -73,7 +73,8 @@
       "^.+\\.(t|j)s$": "ts-jest"
     },
     "coveragePathIgnorePatterns": [
-      "main.ts"
+      "main.ts",
+      "common/src/setting/*"
     ],
     "collectCoverageFrom": [
       "**/*.(t|j)s"
