@@ -22,17 +22,15 @@ describe('AuthAdminController', () => {
     authAdminController = app.get<AuthAdminController>(AuthAdminController);
   });
 
-  describe('signIn', () => {
-    it('성공', async () => {
-      const postAuthAdminRequestDto = new PostAuthAdminRequestDto();
-      postAuthAdminRequestDto.email = 'test@test.com';
-      postAuthAdminRequestDto.password = '1234';
+  it('signIn', async () => {
+    const postAuthAdminRequestDto = new PostAuthAdminRequestDto();
+    postAuthAdminRequestDto.email = 'test@test.com';
+    postAuthAdminRequestDto.password = '1234';
 
-      await expect(
-        authAdminController.signIn(postAuthAdminRequestDto),
-      ).resolves.toEqual({
-        token: 'mockToken',
-      });
+    await expect(
+      authAdminController.signIn(postAuthAdminRequestDto),
+    ).resolves.toEqual({
+      token: 'mockToken',
     });
   });
 });
