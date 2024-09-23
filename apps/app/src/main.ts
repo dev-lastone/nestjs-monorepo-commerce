@@ -1,16 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { swagger } from '@common/common/setting/swagger';
+import { defaultSetting } from '@common/common/setting/default';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.enableVersioning({
-    type: VersioningType.URI,
-  });
-
-  app.useGlobalPipes(new ValidationPipe());
+  defaultSetting(app);
 
   swagger(app, 'APP');
 
