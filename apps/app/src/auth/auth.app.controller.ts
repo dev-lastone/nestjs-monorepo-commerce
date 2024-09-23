@@ -12,7 +12,7 @@ export class AuthAppController {
   @Public()
   @Version('1')
   @Post()
-  async signIn(@Body() dto: PostAuthAppRequestDto) {
-    return await this.authAppService.signIn(dto);
+  signIn(@Body() dto: PostAuthAppRequestDto) {
+    return this.authAppService.signIn(dto);
   }
 }
