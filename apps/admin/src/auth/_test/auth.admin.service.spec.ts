@@ -2,28 +2,27 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthAdminService } from '../auth.admin.service';
 import { PostAuthAdminRequestDto } from '../auth.admin.dto';
 import { UnauthorizedException } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import * as jwt from 'jsonwebtoken';
+import { AuthService } from '@domain/domain/auth/auth.service';
 
 describe('AuthAdminService', () => {
   let authAdminService: AuthAdminService;
-  let configService: ConfigService;
+  let authService: AuthService;
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
       providers: [
         AuthAdminService,
         {
-          provide: ConfigService,
+          provide: AuthService,
           useValue: {
-            get: jest.fn(),
+            createToken: jest.fn(),
           },
         },
       ],
     }).compile();
 
     authAdminService = app.get<AuthAdminService>(AuthAdminService);
-    configService = app.get<ConfigService>(ConfigService);
+    authService = app.get<AuthService>(AuthService);
   });
 
   describe('signIn', () => {
@@ -32,9 +31,9 @@ describe('AuthAdminService', () => {
       postAuthAdminRequestDto.email = 'invalid@test.com';
       postAuthAdminRequestDto.password = '1234';
 
-      await expect(() =>
-        authAdminService.signIn(postAuthAdminRequestDto),
-      ).rejects.toThrow(new UnauthorizedException());
+      expect(() => authAdminService.signIn(postAuthAdminRequestDto)).toThrow(
+        new UnauthorizedException(),
+      );
     });
 
     it('잘못된 패스워드', async () => {
@@ -42,9 +41,9 @@ describe('AuthAdminService', () => {
       postAuthAdminRequestDto.email = 'test@test.com';
       postAuthAdminRequestDto.password = 'invalid';
 
-      await expect(() =>
-        authAdminService.signIn(postAuthAdminRequestDto),
-      ).rejects.toThrow(new UnauthorizedException());
+      expect(() => authAdminService.signIn(postAuthAdminRequestDto)).toThrow(
+        new UnauthorizedException(),
+      );
     });
 
     it('성공', async () => {
@@ -52,22 +51,9 @@ describe('AuthAdminService', () => {
       postAuthAdminRequestDto.email = 'test@test.com';
       postAuthAdminRequestDto.password = '1234';
 
-      jest.spyOn(configService, 'get').mockImplementation((key: string) => {
-        if (key === 'JWT_SECRET') return 'test';
-        if (key === 'JWT_EXPIRES_IN') return '60s';
-      });
+      jest.spyOn(authService, 'createToken').mockReturnValue('mockToken');
 
-      const secret = configService.get('JWT_SECRET');
-      const expiresIn = configService.get('JWT_EXPIRES_IN');
-
-      jest.spyOn(jwt, 'sign').mockReturnValue('mockToken');
-
-      const result = await authAdminService.signIn(postAuthAdminRequestDto);
-
-      const payload = { sub: 1, email: 'test@test.com', name: '홍길동' };
-      expect(jwt.sign).toHaveBeenCalledWith(payload, secret, {
-        expiresIn,
-      });
+      const result = authAdminService.signIn(postAuthAdminRequestDto);
 
       expect(result).toEqual({
         token: 'mockToken',
