@@ -1,12 +1,11 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { User } from '@domain/domain/admin/user';
-import { ConfigService } from '@nestjs/config';
-import * as jwt from 'jsonwebtoken';
 import { PostAuthAppRequestDto } from './auth.app.dto';
+import { AuthService } from '@domain/domain/auth/auth.service';
 
 @Injectable()
 export class AuthAppService {
-  constructor(private readonly configService: ConfigService) {}
+  constructor(private readonly authService: AuthService) {}
 
   private users: User[] = [
     {
@@ -17,7 +16,7 @@ export class AuthAppService {
     },
   ];
 
-  async signIn(dto: PostAuthAppRequestDto) {
+  signIn(dto: PostAuthAppRequestDto) {
     const { email, password } = dto;
 
     const user = this.users.find((user) => user.email === email);
@@ -28,11 +27,7 @@ export class AuthAppService {
 
     const payload = { sub: user.id, email: user.email, name: user.name };
 
-    const secret = this.configService.get<string>('JWT_SECRET');
-    const expiresIn = this.configService.get<string>('JWT_EXPIRES_IN');
-    const token = jwt.sign(payload, secret, {
-      expiresIn,
-    });
+    const token = this.authService.createToken(payload);
 
     return {
       token,
