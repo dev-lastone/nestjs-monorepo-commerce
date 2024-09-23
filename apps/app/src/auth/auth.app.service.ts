@@ -1,13 +1,13 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { User } from '@domain/domain/admin/user';
 import { PostAuthAppRequestDto } from './auth.app.dto';
 import { AuthService } from '@domain/domain/auth/auth.service';
+import { AppUser } from '@domain/domain/app/user';
 
 @Injectable()
 export class AuthAppService {
   constructor(private readonly authService: AuthService) {}
 
-  private users: User[] = [
+  private appUsers: AppUser[] = [
     {
       id: 1,
       name: '홍길동',
@@ -19,7 +19,7 @@ export class AuthAppService {
   signIn(dto: PostAuthAppRequestDto) {
     const { email, password } = dto;
 
-    const user = this.users.find((user) => user.email === email);
+    const user = this.appUsers.find((user) => user.email === email);
 
     if (!user || password !== user.password) {
       throw new UnauthorizedException();
