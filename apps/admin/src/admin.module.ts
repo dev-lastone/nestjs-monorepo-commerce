@@ -3,22 +3,12 @@ import { AdminController } from './admin.controller';
 import { AdminService } from './admin.service';
 import { ProductsAdminModule } from './product/products.admin.module';
 import { AuthAdminModule } from './auth/auth.admin.module';
-import { ConfigModule } from '@nestjs/config';
-import { validateEnv } from './config/env.validation';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from '@common/common/guard/jwt.auth.guard';
-import { join } from 'path';
+import { configModule } from '@common/common/setting/config';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      validate: validateEnv,
-      envFilePath: join(__dirname, '../../../.env'),
-    }),
-    AuthAdminModule,
-    ProductsAdminModule,
-  ],
+  imports: [configModule(), AuthAdminModule, ProductsAdminModule],
   controllers: [AdminController],
   providers: [
     AdminService,
