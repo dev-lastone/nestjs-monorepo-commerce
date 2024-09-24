@@ -1,11 +1,11 @@
-import { ProductsAdminController } from './products.admin.controller';
 import { Test, TestingModule } from '@nestjs/testing';
-import { ProductsAdminService } from './products.admin.service';
+import { NotFoundException } from '@nestjs/common';
+import { ProductsAdminController } from '../products.admin.controller';
+import { ProductsAdminService } from '../products.admin.service';
 import {
   PostProductAdminRequestDto,
   PutProductAdminRequestDto,
-} from './products.admin.dto';
-import { NotFoundException } from '@nestjs/common';
+} from '../products.admin.dto';
 
 describe('AdminController', () => {
   const NON_EXISTENT_ID = Number.MAX_SAFE_INTEGER;
