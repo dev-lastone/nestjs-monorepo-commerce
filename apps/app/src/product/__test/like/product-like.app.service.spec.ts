@@ -14,7 +14,7 @@ describe('ProductLikeAppService', () => {
         {
           provide: ProductService,
           useValue: {
-            checkProductExist: jest.fn(),
+            checkExistentProduct: jest.fn(),
           },
         },
       ],
@@ -35,7 +35,7 @@ describe('ProductLikeAppService', () => {
       expect(() => productLikeAppService.productLike(dto)).toThrow(
         'Product already liked',
       );
-      expect(productService.checkProductExist).toHaveBeenCalledWith(
+      expect(productService.checkExistentProduct).toHaveBeenCalledWith(
         dto.productId,
       );
     });
@@ -47,7 +47,7 @@ describe('ProductLikeAppService', () => {
 
       const result = productLikeAppService.productLike(dto);
 
-      expect(productService.checkProductExist).toHaveBeenCalledWith(
+      expect(productService.checkExistentProduct).toHaveBeenCalledWith(
         dto.productId,
       );
       expect(result).toBe(true);
