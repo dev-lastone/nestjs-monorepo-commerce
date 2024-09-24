@@ -32,6 +32,9 @@ jobs:
 
       - name: Run tests
         run: npm run test:report
+        env:
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          JWT_EXPIRES_IN: ${{ secrets.JWT_EXPIRES_IN }}
 
       - name: Test Report
         uses: dorny/test-reporter@v1
