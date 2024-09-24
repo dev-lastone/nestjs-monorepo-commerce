@@ -15,7 +15,10 @@ import {
   PutProductAdminRequestDto,
 } from './products.admin.dto';
 import { Product } from '@domain/domain/product/product';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiBearerAuth('jwt')
+@ApiTags('products')
 @Controller('products')
 export class ProductsAdminController {
   constructor(private readonly adminService: ProductsAdminService) {}

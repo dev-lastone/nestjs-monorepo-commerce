@@ -23,6 +23,12 @@
       ],
       "@domain/domain/*": [
         "libs/domain/src/*"
+      ],
+      "@common/common": [
+        "libs/common/src"
+      ],
+      "@common/common/*": [
+        "libs/common/src/*"
       ]
     }
   }

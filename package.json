@@ -19,13 +19,18 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./apps/app/test/jest-e2e.json",
-    "test:report": "jest --ci --reporters=default --reporters=jest-junit"
+    "test:report": "jest --ci --reporters=default --reporters=jest-junit",
+    "test:report-cov": "jest --ci --coverage"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
+    "@nestjs/config": "^3.2.3",
     "@nestjs/core": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/swagger": "^7.4.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
+    "jsonwebtoken": "^9.0.2",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1"
   },
@@ -60,12 +65,16 @@
       "ts"
     ],
     "rootDir": ".",
-    "testRegex": [".*\\.spec\\.ts$", ".*\\.e2e-spec\\.ts$"],
+    "testRegex": [
+      ".*\\.spec\\.ts$",
+      ".*\\.e2e-spec\\.ts$"
+    ],
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
     "coveragePathIgnorePatterns": [
-      "main.ts"
+      "main.ts",
+      "common/src/setting/*"
     ],
     "collectCoverageFrom": [
       "**/*.(t|j)s"
@@ -77,7 +86,8 @@
       "<rootDir>/libs/"
     ],
     "moduleNameMapper": {
-      "^@domain/domain(|/.*)$": "<rootDir>/libs/domain/src/$1"
+      "^@domain/domain(|/.*)$": "<rootDir>/libs/domain/src/$1",
+      "^@common/common(|/.*)$": "<rootDir>/libs/common/src/$1"
     }
   }
 }

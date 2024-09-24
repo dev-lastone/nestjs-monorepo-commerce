@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-      - dev
-      - pr-test
   pull_request:
     branches:
       - "**"
@@ -44,3 +42,14 @@ jobs:
           fail-on-error: 'false'
           reporter: jest-junit
           token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run tests with coverage
+        run: npm run test:report-cov
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          name: codecov-umbrella
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./coverage/lcov.info
+          fail_ci_if_error: true
