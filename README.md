@@ -63,6 +63,8 @@ $ pnpm run test:cov
 
 ### etc
 - [x] swagger
+- [x] pr test
+- [x] pr test coverage
 - [ ] typeorm
 - [ ] graphQL
 - [ ] prisma
