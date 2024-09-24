@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Product } from '@domain/domain/product/product';
 
 @Injectable()
-export class ProductsAppService {
+export class ProductService {
   private products: Product[] = [
     {
       id: 1,
@@ -11,7 +11,7 @@ export class ProductsAppService {
     },
   ];
 
-  getProducts(): Product[] {
+  findProducts(): Product[] {
     return this.products;
   }
 }
