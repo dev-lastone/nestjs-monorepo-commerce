@@ -30,21 +30,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Run tests
-        run: npm run test:report
-
-      - name: Test Report
-        uses: dorny/test-reporter@v1
-        if: success() || failure()
-        with:
-          name: test-results
-          path: junit.xml
-          fail-on-error: 'false'
-          reporter: jest-junit
-          token: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Run tests with coverage
         run: npm run test:report-cov
+        env:
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          JWT_EXPIRES_IN: ${{ secrets.JWT_EXPIRES_IN }}
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
