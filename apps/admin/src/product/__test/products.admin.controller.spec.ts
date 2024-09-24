@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { NotFoundException } from '@nestjs/common';
 import { ProductsAdminController } from '../products.admin.controller';
-import { ProductsAdminService } from '../products.admin.service';
+import { ProductModule } from '@domain/domain/product/product.module';
 import {
-  PostProductAdminRequestDto,
-  PutProductAdminRequestDto,
-} from '../products.admin.dto';
+  CreateProductDto,
+  UpdateProductDto,
+} from '@domain/domain/product/product.dto';
 
 describe('ProductsAdminController', () => {
   const NON_EXISTENT_ID = Number.MAX_SAFE_INTEGER;
@@ -14,8 +14,8 @@ describe('ProductsAdminController', () => {
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
+      imports: [ProductModule],
       controllers: [ProductsAdminController],
-      providers: [ProductsAdminService],
     }).compile();
 
     productsAdminController = app.get<ProductsAdminController>(
@@ -24,15 +24,13 @@ describe('ProductsAdminController', () => {
   });
 
   it('post', () => {
-    const postProductAdminRequestDto = new PostProductAdminRequestDto();
-    postProductAdminRequestDto.name = 'test2';
-    postProductAdminRequestDto.price = 20000;
+    const createProductDto = new CreateProductDto();
+    createProductDto.name = 'test2';
+    createProductDto.price = 20000;
 
-    expect(
-      productsAdminController.postProduct(postProductAdminRequestDto),
-    ).toEqual({
+    expect(productsAdminController.postProduct(createProductDto)).toEqual({
       id: 2,
-      ...postProductAdminRequestDto,
+      ...createProductDto,
     });
   });
 
@@ -47,27 +45,22 @@ describe('ProductsAdminController', () => {
   });
 
   describe('put', () => {
-    const putProductAdminRequestDto = new PutProductAdminRequestDto();
-    putProductAdminRequestDto.name = '상품2';
-    putProductAdminRequestDto.price = 15000;
+    const updateProductDto = new UpdateProductDto();
+    updateProductDto.name = '상품2';
+    updateProductDto.price = 15000;
 
     it('404', () => {
       expect(() =>
-        productsAdminController.putProduct(
-          NON_EXISTENT_ID,
-          putProductAdminRequestDto,
-        ),
+        productsAdminController.putProduct(NON_EXISTENT_ID, updateProductDto),
       ).toThrow(new NotFoundException());
     });
 
     it('200', () => {
       const id = 1;
 
-      expect(
-        productsAdminController.putProduct(id, putProductAdminRequestDto),
-      ).toEqual({
+      expect(productsAdminController.putProduct(id, updateProductDto)).toEqual({
         id,
-        ...putProductAdminRequestDto,
+        ...updateProductDto,
       });
     });
   });
