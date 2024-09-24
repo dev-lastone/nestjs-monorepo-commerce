@@ -1,16 +1,16 @@
 import { Controller, Get, Version } from '@nestjs/common';
-import { ProductsAppService } from './products.app.service';
 import { Product } from '@domain/domain/product/product';
 import { ApiTags } from '@nestjs/swagger';
+import { ProductService } from '@domain/domain/product/product.service';
 
 @ApiTags('products')
 @Controller('products')
 export class ProductsAppController {
-  constructor(private readonly productsAppService: ProductsAppService) {}
+  constructor(private readonly productService: ProductService) {}
 
   @Version('1')
   @Get()
   getProducts(): Product[] {
-    return this.productsAppService.getProducts();
+    return this.productService.findProducts();
   }
 }
