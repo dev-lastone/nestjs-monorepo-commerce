@@ -41,7 +41,7 @@ $ pnpm run test:cov
 
 ### app
 - [x] auth
-- [ ] 상품 조회
+- [x] 상품 조회
 - [ ] 상품 좋아요
 - [ ] decorator request.user
 - [ ] 상품 장바구니
