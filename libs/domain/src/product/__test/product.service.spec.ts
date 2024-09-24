@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ProductService } from '@domain/domain/product/product.service';
 import { NotFoundException } from '@nestjs/common';
+import { NON_EXISTENT_ID } from '@common/common/constant/constants';
 
 describe('ProductService', () => {
   let productService: ProductService;
@@ -15,9 +16,9 @@ describe('ProductService', () => {
 
   describe('checkExistentProduct', () => {
     it('실패', () => {
-      expect(() => productService.checkExistentProduct(0)).toThrow(
-        new NotFoundException(),
-      );
+      expect(() =>
+        productService.checkExistentProduct(NON_EXISTENT_ID),
+      ).toThrow(new NotFoundException());
     });
 
     it('성공', () => {
