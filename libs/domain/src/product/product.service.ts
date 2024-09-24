@@ -36,7 +36,7 @@ export class ProductService {
   }
 
   updateProduct(dto: UpdateProductDto): Product {
-    const idx = this.#checkProductExist(dto.id);
+    const idx = this.checkProductExist(dto.id);
 
     const product = this.products[idx];
     product.name = dto.name;
@@ -48,14 +48,14 @@ export class ProductService {
   }
 
   deleteProduct(id: number) {
-    this.#checkProductExist(id);
+    this.checkProductExist(id);
 
     this.products = this.products.filter((product) => {
       return product.id !== id;
     });
   }
 
-  #checkProductExist(id: number): number {
+  checkProductExist(id: number): number {
     const idx = this.products.findIndex((product) => {
       return product.id === id;
     });
