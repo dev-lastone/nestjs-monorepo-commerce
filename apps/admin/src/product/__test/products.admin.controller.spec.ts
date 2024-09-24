@@ -6,10 +6,9 @@ import {
   CreateProductDto,
   UpdateProductDto,
 } from '@domain/domain/product/product.dto';
+import { NON_EXISTENT_ID } from '@common/common/constant/constants';
 
 describe('ProductsAdminController', () => {
-  const NON_EXISTENT_ID = Number.MAX_SAFE_INTEGER;
-
   let productsAdminController: ProductsAdminController;
 
   beforeEach(async () => {
