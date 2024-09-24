@@ -27,8 +27,6 @@ $ pnpm run test:cov
 ```
 
 ## TODO
-- [x] swagger
-
 ### admin
 - [x] product
   - [x] create
@@ -64,6 +62,7 @@ $ pnpm run test:cov
 - [ ] guard (api-key)
 
 ### etc
+- [x] swagger
 - [ ] typeorm
 - [ ] graphQL
 - [ ] prisma
