@@ -21,7 +21,7 @@ export class ProductLikeAppController {
     @Req() req,
     @Param('productId', new ParseIntPipe()) productId: number,
   ) {
-    return this.productLikeAppService.productLike({
+    return this.productLikeAppService.postProductLike({
       userId: req.user.id,
       productId,
     });
