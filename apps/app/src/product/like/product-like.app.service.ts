@@ -13,7 +13,7 @@ export class ProductLikeAppService {
 
   constructor(private readonly productService: ProductService) {}
 
-  productLike(dto: ProductLikeAppDto) {
+  postProductLike(dto: ProductLikeAppDto) {
     this.productService.checkExistentProduct(dto.productId);
 
     const productLike = this.#productLikes.find((productLike) => {
