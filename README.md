@@ -42,7 +42,7 @@ $ pnpm run test:cov
 ### app
 - [x] auth
 - [x] 상품 조회
-- [ ] 상품 좋아요
+- [x] 상품 좋아요
 - [ ] decorator request.user
 - [ ] 상품 장바구니
 - [ ] 유저 배송지 설정
