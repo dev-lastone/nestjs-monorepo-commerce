@@ -31,4 +31,23 @@ export class ProductLikeAppService {
 
     return true;
   }
+
+  deleteProductLike(dto: ProductLikeAppDto) {
+    this.productService.checkExistentProduct(dto.productId);
+
+    const productLikeIndex = this.#productLikes.findIndex((productLike) => {
+      return (
+        productLike.productId === dto.productId &&
+        productLike.userId === dto.userId
+      );
+    });
+
+    if (productLikeIndex === -1) {
+      throw new BadRequestException('Product not liked');
+    }
+
+    this.#productLikes.splice(productLikeIndex, 1);
+
+    return false;
+  }
 }
