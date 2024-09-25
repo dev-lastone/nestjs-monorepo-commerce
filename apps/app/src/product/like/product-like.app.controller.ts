@@ -4,11 +4,11 @@ import {
   Param,
   ParseIntPipe,
   Post,
-  Req,
   Version,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ProductLikeAppService } from './product-like.app.service';
+import { UserId } from '@common/common/decorator/user-id.decorator';
 
 @ApiBearerAuth('jwt')
 @ApiTags('product')
@@ -19,11 +19,11 @@ export class ProductLikeAppController {
   @Version('1')
   @Post()
   postProductLike(
-    @Req() req,
+    @UserId() userId: number,
     @Param('productId', new ParseIntPipe()) productId: number,
   ) {
     return this.productLikeAppService.postProductLike({
-      userId: req.user.sub,
+      userId,
       productId,
     });
   }
@@ -31,11 +31,11 @@ export class ProductLikeAppController {
   @Version('1')
   @Delete()
   deleteProductLike(
-    @Req() req,
+    @UserId() userId: number,
     @Param('productId', new ParseIntPipe()) productId: number,
   ) {
     return this.productLikeAppService.deleteProductLike({
-      userId: req.user.sub,
+      userId,
       productId,
     });
   }
