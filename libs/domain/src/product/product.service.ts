@@ -61,7 +61,7 @@ export class ProductService {
     });
 
     if (idx === -1) {
-      throw new NotFoundException();
+      throw new NotFoundException('Product not found');
     }
 
     return idx;
