@@ -1,5 +1,4 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { NotFoundException } from '@nestjs/common';
 import { ProductsAdminController } from '../products.admin.controller';
 import { ProductModule } from '@domain/domain/product/product.module';
 import {
@@ -51,7 +50,7 @@ describe('ProductsAdminController', () => {
     it('404', () => {
       expect(() =>
         productsAdminController.putProduct(NON_EXISTENT_ID, updateProductDto),
-      ).toThrow(new NotFoundException());
+      ).toThrow('Product not found');
     });
 
     it('200', () => {
@@ -68,7 +67,7 @@ describe('ProductsAdminController', () => {
     it('404', () => {
       expect(() =>
         productsAdminController.deleteProduct(NON_EXISTENT_ID),
-      ).toThrow(new NotFoundException());
+      ).toThrow('Product not found');
     });
 
     it('200', () => {
