@@ -19,22 +19,10 @@ describe('ProductLikeController', () => {
   });
 
   it('post', () => {
-    const req = {
-      user: {
-        sub: 2,
-      },
-    };
-
-    expect(productLikeAppController.postProductLike(req, 1)).toBe(true);
+    expect(productLikeAppController.postProductLike(2, 1)).toBe(true);
   });
 
   it('delete', () => {
-    const req = {
-      user: {
-        sub: 1,
-      },
-    };
-
-    expect(productLikeAppController.deleteProductLike(req, 1)).toBe(false);
+    expect(productLikeAppController.deleteProductLike(1, 1)).toBe(false);
   });
 });
