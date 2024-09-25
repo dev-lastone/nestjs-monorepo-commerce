@@ -43,7 +43,7 @@ $ pnpm run test:cov
 - [x] auth
 - [x] 상품 조회
 - [x] 상품 좋아요
-- [ ] custom decorator request user
+- [x] custom decorator request user
 - [ ] 상품 장바구니
 - [ ] 유저 배송지 설정
 - [ ] 상품 주문
