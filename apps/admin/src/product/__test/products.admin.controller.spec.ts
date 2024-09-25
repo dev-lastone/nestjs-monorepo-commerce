@@ -6,6 +6,7 @@ import {
   UpdateProductDto,
 } from '@domain/domain/product/product.dto';
 import { NON_EXISTENT_ID } from '@common/common/constant/constants';
+import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
 
 describe('ProductsAdminController', () => {
   let productsAdminController: ProductsAdminController;
@@ -50,7 +51,7 @@ describe('ProductsAdminController', () => {
     it('404', () => {
       expect(() =>
         productsAdminController.putProduct(NON_EXISTENT_ID, updateProductDto),
-      ).toThrow('Product not found');
+      ).toThrow(ERROR_MESSAGES.ProductNotFound);
     });
 
     it('200', () => {
@@ -67,7 +68,7 @@ describe('ProductsAdminController', () => {
     it('404', () => {
       expect(() =>
         productsAdminController.deleteProduct(NON_EXISTENT_ID),
-      ).toThrow('Product not found');
+      ).toThrow(ERROR_MESSAGES.ProductNotFound);
     });
 
     it('200', () => {

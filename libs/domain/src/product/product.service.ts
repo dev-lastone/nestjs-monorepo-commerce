@@ -4,6 +4,7 @@ import {
   CreateProductDto,
   UpdateProductDto,
 } from '@domain/domain/product/product.dto';
+import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
 
 @Injectable()
 export class ProductService {
@@ -61,7 +62,7 @@ export class ProductService {
     });
 
     if (idx === -1) {
-      throw new NotFoundException('Product not found');
+      throw new NotFoundException(ERROR_MESSAGES.ProductNotFound);
     }
 
     return idx;
