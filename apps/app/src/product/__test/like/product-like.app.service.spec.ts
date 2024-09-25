@@ -32,7 +32,7 @@ describe('ProductLikeAppService', () => {
       dto.productId = 1;
       dto.userId = 1;
 
-      expect(() => productLikeAppService.productLike(dto)).toThrow(
+      expect(() => productLikeAppService.postProductLike(dto)).toThrow(
         'Product already liked',
       );
       expect(productService.checkExistentProduct).toHaveBeenCalledWith(
@@ -45,7 +45,7 @@ describe('ProductLikeAppService', () => {
       dto.productId = 1;
       dto.userId = 2;
 
-      const result = productLikeAppService.productLike(dto);
+      const result = productLikeAppService.postProductLike(dto);
 
       expect(productService.checkExistentProduct).toHaveBeenCalledWith(
         dto.productId,
