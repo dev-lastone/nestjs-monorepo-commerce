@@ -1,5 +1,6 @@
 import {
   Controller,
+  Delete,
   Param,
   ParseIntPipe,
   Post,
@@ -22,7 +23,19 @@ export class ProductLikeAppController {
     @Param('productId', new ParseIntPipe()) productId: number,
   ) {
     return this.productLikeAppService.postProductLike({
-      userId: req.user.id,
+      userId: req.user.sub,
+      productId,
+    });
+  }
+
+  @Version('1')
+  @Delete()
+  deleteProductLike(
+    @Req() req,
+    @Param('productId', new ParseIntPipe()) productId: number,
+  ) {
+    return this.productLikeAppService.deleteProductLike({
+      userId: req.user.sub,
       productId,
     });
   }
