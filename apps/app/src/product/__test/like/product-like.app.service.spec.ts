@@ -26,7 +26,7 @@ describe('ProductLikeAppService', () => {
     productService = app.get<ProductService>(ProductService);
   });
 
-  describe('productLike', () => {
+  describe('postProductLike', () => {
     it('이미 좋아요', () => {
       const dto = new ProductLikeAppDto();
       dto.productId = 1;
@@ -51,6 +51,34 @@ describe('ProductLikeAppService', () => {
         dto.productId,
       );
       expect(result).toBe(true);
+    });
+  });
+
+  describe('deleteProductLike', () => {
+    it('좋아요 정보 없음.', () => {
+      const dto = new ProductLikeAppDto();
+      dto.productId = 1;
+      dto.userId = 2;
+
+      expect(() => productLikeAppService.deleteProductLike(dto)).toThrow(
+        'Product not liked',
+      );
+      expect(productService.checkExistentProduct).toHaveBeenCalledWith(
+        dto.productId,
+      );
+    });
+
+    it('성공', () => {
+      const dto = new ProductLikeAppDto();
+      dto.productId = 1;
+      dto.userId = 1;
+
+      const result = productLikeAppService.deleteProductLike(dto);
+
+      expect(productService.checkExistentProduct).toHaveBeenCalledWith(
+        dto.productId,
+      );
+      expect(result).toBe(false);
     });
   });
 });
