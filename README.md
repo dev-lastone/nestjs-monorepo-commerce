@@ -44,7 +44,6 @@ $ pnpm run test:cov
 - [x] 상품 조회
 - [x] 상품 좋아요
 - [x] custom decorator request user
-- [ ] 상품 장바구니
 - [ ] 유저 배송지 설정
 - [ ] 상품 주문
 - [ ] 상품 리뷰
@@ -57,6 +56,8 @@ $ pnpm run test:cov
 - [ ] decorator cache
 
 ### cron
+- [ ] 포인트 만료
+- [ ] 배송 상태 변경
 
 ### external
 - [ ] guard (api-key)
