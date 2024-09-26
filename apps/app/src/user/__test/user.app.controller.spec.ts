@@ -80,4 +80,31 @@ describe('UserAppController', () => {
       );
     });
   });
+
+  describe('delete', () => {
+    const userId = 1;
+
+    it('성공', () => {
+      const id = 1;
+
+      expect(userAppController.deleteUserAddress(userId, id)).toBeUndefined();
+    });
+
+    it(ERROR_MESSAGES.UserAddressNotFound, () => {
+      const id = NON_EXISTENT_ID;
+
+      expect(() => userAppController.deleteUserAddress(userId, id)).toThrow(
+        ERROR_MESSAGES.UserAddressNotFound,
+      );
+    });
+
+    it(ERROR_MESSAGES.UserAddressForbidden, () => {
+      const id = 1;
+      const userId = 2;
+
+      expect(() => userAppController.deleteUserAddress(userId, id)).toThrow(
+        ERROR_MESSAGES.UserAddressForbidden,
+      );
+    });
+  });
 });
