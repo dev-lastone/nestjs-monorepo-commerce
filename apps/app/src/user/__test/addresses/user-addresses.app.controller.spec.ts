@@ -48,6 +48,23 @@ describe('UserAddressesAppController', () => {
         ...dto,
       });
     });
+
+    it(ERROR_MESSAGES.UserAddressMaxLength, () => {
+      const userId = 1;
+      const dto = {
+        zipcode: '01235',
+        address: '서울시 강남구 신사동 *********',
+        isDefault: false,
+      };
+
+      for (let i = 0; i < 9; i++) {
+        userAddressesAppController.postUserAddress(userId, dto);
+      }
+
+      expect(() =>
+        userAddressesAppController.postUserAddress(userId, dto),
+      ).toThrow(ERROR_MESSAGES.UserAddressMaxLength);
+    });
   });
 
   it('get', () => {
