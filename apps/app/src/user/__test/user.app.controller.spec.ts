@@ -30,6 +30,20 @@ describe('UserAppController', () => {
     });
   });
 
+  it('get', () => {
+    const userId = 1;
+
+    expect(userAppController.getUserAddresses(userId)).toEqual([
+      {
+        id: 1,
+        userId,
+        zipcode: '01234',
+        address: '서울시 강남구 역삼동 *********',
+        isDefault: true,
+      },
+    ]);
+  });
+
   describe('put', () => {
     const userId = 1;
     const dto = {
