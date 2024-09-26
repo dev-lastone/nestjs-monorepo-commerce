@@ -1,19 +1,21 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UserAppController } from '../user.app.controller';
-import { UserAppService } from '../user.app.service';
 import { NON_EXISTENT_ID } from '@common/common/constant/constants';
 import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
+import { UserAddressesAppController } from '../../addresses/user-addresses.app.controller';
+import { UserAddressesAppService } from '../../addresses/user-addresses.app.service';
 
 describe('UserAppController', () => {
-  let userAppController: UserAppController;
+  let userAddressesAppController: UserAddressesAppController;
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
-      controllers: [UserAppController],
-      providers: [UserAppService],
+      controllers: [UserAddressesAppController],
+      providers: [UserAddressesAppService],
     }).compile();
 
-    userAppController = app.get<UserAppController>(UserAppController);
+    userAddressesAppController = app.get<UserAddressesAppController>(
+      UserAddressesAppController,
+    );
   });
 
   it('post', () => {
@@ -24,7 +26,7 @@ describe('UserAppController', () => {
       isDefault: false,
     };
 
-    expect(userAppController.postUserAddress(userId, dto)).toEqual({
+    expect(userAddressesAppController.postUserAddress(userId, dto)).toEqual({
       id: 2,
       userId,
       ...dto,
@@ -34,7 +36,7 @@ describe('UserAppController', () => {
   it('get', () => {
     const userId = 1;
 
-    expect(userAppController.getUserAddresses(userId)).toEqual([
+    expect(userAddressesAppController.getUserAddresses(userId)).toEqual([
       {
         id: 1,
         userId,
@@ -56,7 +58,9 @@ describe('UserAppController', () => {
     it('성공', () => {
       const id = 1;
 
-      expect(userAppController.putUserAddress(userId, id, dto)).toEqual({
+      expect(
+        userAddressesAppController.putUserAddress(userId, id, dto),
+      ).toEqual({
         id,
         userId,
         ...dto,
@@ -66,18 +70,18 @@ describe('UserAppController', () => {
     it(ERROR_MESSAGES.UserAddressNotFound, () => {
       const id = NON_EXISTENT_ID;
 
-      expect(() => userAppController.putUserAddress(userId, id, dto)).toThrow(
-        ERROR_MESSAGES.UserAddressNotFound,
-      );
+      expect(() =>
+        userAddressesAppController.putUserAddress(userId, id, dto),
+      ).toThrow(ERROR_MESSAGES.UserAddressNotFound);
     });
 
     it(ERROR_MESSAGES.UserAddressForbidden, () => {
       const id = 1;
       const userId = 2;
 
-      expect(() => userAppController.putUserAddress(userId, id, dto)).toThrow(
-        ERROR_MESSAGES.UserAddressForbidden,
-      );
+      expect(() =>
+        userAddressesAppController.putUserAddress(userId, id, dto),
+      ).toThrow(ERROR_MESSAGES.UserAddressForbidden);
     });
   });
 
@@ -87,24 +91,26 @@ describe('UserAppController', () => {
     it('성공', () => {
       const id = 1;
 
-      expect(userAppController.deleteUserAddress(userId, id)).toBeUndefined();
+      expect(
+        userAddressesAppController.deleteUserAddress(userId, id),
+      ).toBeUndefined();
     });
 
     it(ERROR_MESSAGES.UserAddressNotFound, () => {
       const id = NON_EXISTENT_ID;
 
-      expect(() => userAppController.deleteUserAddress(userId, id)).toThrow(
-        ERROR_MESSAGES.UserAddressNotFound,
-      );
+      expect(() =>
+        userAddressesAppController.deleteUserAddress(userId, id),
+      ).toThrow(ERROR_MESSAGES.UserAddressNotFound);
     });
 
     it(ERROR_MESSAGES.UserAddressForbidden, () => {
       const id = 1;
       const userId = 2;
 
-      expect(() => userAppController.deleteUserAddress(userId, id)).toThrow(
-        ERROR_MESSAGES.UserAddressForbidden,
-      );
+      expect(() =>
+        userAddressesAppController.deleteUserAddress(userId, id),
+      ).toThrow(ERROR_MESSAGES.UserAddressForbidden);
     });
   });
 });
