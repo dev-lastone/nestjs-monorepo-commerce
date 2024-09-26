@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { UserAddress } from '@domain/domain/app/user-address';
 import { PostUserAddressRequestDto } from './user.app.dto';
 
@@ -23,6 +27,26 @@ export class UserAppService {
     userAddress.isDefault = dto.isDefault;
 
     this.#userAddresses.push(userAddress);
+
+    return userAddress;
+  }
+
+  putUserAddress(dto: UserAddress) {
+    const userAddress = this.#userAddresses.find(
+      (userAddress) => userAddress.id === dto.id,
+    );
+
+    if (!userAddress) {
+      throw new NotFoundException('User address not found');
+    }
+
+    if (userAddress.userId !== dto.userId) {
+      throw new ForbiddenException('User address forbidden');
+    }
+
+    userAddress.zipcode = dto.zipcode;
+    userAddress.address = dto.address;
+    userAddress.isDefault = dto.isDefault;
 
     return userAddress;
   }
