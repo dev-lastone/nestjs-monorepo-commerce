@@ -19,7 +19,7 @@ describe('UserAddressesAppController', () => {
   });
 
   describe('post', () => {
-    it('신규 생성', () => {
+    describe('신규 생성', () => {
       const userId = 2;
       const dto = {
         zipcode: '01235',
@@ -27,25 +27,52 @@ describe('UserAddressesAppController', () => {
         isDefault: false,
       };
 
-      expect(userAddressesAppController.postUserAddress(userId, dto)).toEqual({
-        userId,
-        id: 1,
-        ...dto,
+      it(ERROR_MESSAGES.UserAddressDefaultRequired, () => {
+        expect(() =>
+          userAddressesAppController.postUserAddress(userId, dto),
+        ).toThrow(ERROR_MESSAGES.UserAddressDefaultRequired);
+      });
+
+      it('성공', () => {
+        dto.isDefault = true;
+
+        expect(userAddressesAppController.postUserAddress(userId, dto)).toEqual(
+          {
+            userId,
+            id: 1,
+            ...dto,
+          },
+        );
       });
     });
 
-    it('추가 생성', () => {
+    describe('추가 생성', () => {
       const userId = 1;
       const dto = {
         zipcode: '01235',
         address: '서울시 강남구 신사동 *********',
-        isDefault: false,
+        isDefault: true,
       };
 
-      expect(userAddressesAppController.postUserAddress(userId, dto)).toEqual({
-        userId,
-        id: 2,
-        ...dto,
+      it('isDefault true', () => {
+        expect(userAddressesAppController.postUserAddress(userId, dto)).toEqual(
+          {
+            userId,
+            id: 2,
+            ...dto,
+          },
+        );
+      });
+
+      it('isDefault false', () => {
+        dto.isDefault = false;
+        expect(userAddressesAppController.postUserAddress(userId, dto)).toEqual(
+          {
+            userId,
+            id: 2,
+            ...dto,
+          },
+        );
       });
     });
 
