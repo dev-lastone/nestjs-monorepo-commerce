@@ -63,4 +63,20 @@ export class UserAppService {
 
     return userAddress;
   }
+
+  deleteUserAddress(userId: number, id: number) {
+    const userAddressIndex = this.#userAddresses.findIndex(
+      (userAddress) => userAddress.id === id,
+    );
+
+    if (userAddressIndex === -1) {
+      throw new NotFoundException(ERROR_MESSAGES.UserAddressNotFound);
+    }
+
+    if (this.#userAddresses[userAddressIndex].userId !== userId) {
+      throw new ForbiddenException(ERROR_MESSAGES.UserAddressForbidden);
+    }
+
+    this.#userAddresses.splice(userAddressIndex, 1);
+  }
 }

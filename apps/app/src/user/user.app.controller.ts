@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   ParseIntPipe,
@@ -49,5 +50,14 @@ export class UserAppController {
       userId,
       ...dto,
     });
+  }
+
+  @Version('1')
+  @Delete('addresses/:id')
+  deleteUserAddress(
+    @UserId() userId: number,
+    @Param('id', new ParseIntPipe()) id: number,
+  ) {
+    return this.userAppService.deleteUserAddress(userId, id);
   }
 }
