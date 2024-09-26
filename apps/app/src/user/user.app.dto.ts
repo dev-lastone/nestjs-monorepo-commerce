@@ -6,3 +6,9 @@ export class PostUserAddressRequestDto extends PickType(UserAddress, [
   'address',
   'isDefault',
 ] as const) {}
+
+export class PutUserAddressRequestDto extends PickType(UserAddress, [
+  'zipcode',
+  'address',
+  'isDefault',
+] as const) {}
