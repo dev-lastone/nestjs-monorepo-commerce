@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { UserAddress, UsersAddresses } from '@domain/domain/app/user-address';
 import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
 import { PostUserAddressRequestDto } from './user-addresses.app.dto';
+import { USER_ADDRESS_MAX_LENGTH } from '@common/common/constant/constants';
 
 @Injectable()
 export class UserAddressesAppService {
@@ -12,12 +13,15 @@ export class UserAddressesAppService {
       TODO
       isDefault 1개만 가능하도록
       데이터가 있을 경우 isDefault 1개 무조건 유지
-      maxLength 10
     */
 
     const userAddresses = this.#usersAddresses.get(userId)
       ? this.#usersAddresses.get(userId)
       : new Map<number, UserAddress>();
+
+    if (userAddresses.size >= USER_ADDRESS_MAX_LENGTH) {
+      throw new NotFoundException(ERROR_MESSAGES.UserAddressMaxLength);
+    }
 
     const userAddress = new UserAddress();
     userAddress.id =
