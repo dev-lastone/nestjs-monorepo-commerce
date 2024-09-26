@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   Param,
   ParseIntPipe,
   Post,
@@ -28,6 +29,12 @@ export class UserAppController {
     @Body() dto: PostUserAddressRequestDto,
   ) {
     return this.userAppService.postUserAddress(userId, dto);
+  }
+
+  @Version('1')
+  @Get('addresses')
+  getUserAddresses(@UserId() userId: number) {
+    return this.userAppService.getUserAddresses(userId);
   }
 
   @Version('1')

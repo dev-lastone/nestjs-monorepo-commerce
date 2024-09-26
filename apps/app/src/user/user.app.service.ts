@@ -31,6 +31,12 @@ export class UserAppService {
     return userAddress;
   }
 
+  getUserAddresses(userId: number) {
+    return this.#userAddresses.filter(
+      (userAddress) => userAddress.userId === userId,
+    );
+  }
+
   putUserAddress(dto: UserAddress) {
     const userAddress = this.#userAddresses.find(
       (userAddress) => userAddress.id === dto.id,
