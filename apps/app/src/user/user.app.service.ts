@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { UserAddress } from '@domain/domain/app/user-address';
 import { PostUserAddressRequestDto } from './user.app.dto';
+import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
 
 @Injectable()
 export class UserAppService {
@@ -43,11 +44,11 @@ export class UserAppService {
     );
 
     if (!userAddress) {
-      throw new NotFoundException('User address not found');
+      throw new NotFoundException(ERROR_MESSAGES.UserAddressNotFound);
     }
 
     if (userAddress.userId !== dto.userId) {
-      throw new ForbiddenException('User address forbidden');
+      throw new ForbiddenException(ERROR_MESSAGES.UserAddressForbidden);
     }
 
     userAddress.zipcode = dto.zipcode;

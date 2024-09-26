@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UserAppController } from '../user.app.controller';
 import { UserAppService } from '../user.app.service';
 import { NON_EXISTENT_ID } from '@common/common/constant/constants';
+import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
 
 describe('UserAppController', () => {
   let userAppController: UserAppController;
@@ -62,20 +63,20 @@ describe('UserAppController', () => {
       });
     });
 
-    it('User address not found', () => {
+    it(ERROR_MESSAGES.UserAddressNotFound, () => {
       const id = NON_EXISTENT_ID;
 
       expect(() => userAppController.putUserAddress(userId, id, dto)).toThrow(
-        'User address not found',
+        ERROR_MESSAGES.UserAddressNotFound,
       );
     });
 
-    it('User address forbidden', () => {
+    it(ERROR_MESSAGES.UserAddressForbidden, () => {
       const id = 1;
       const userId = 2;
 
       expect(() => userAppController.putUserAddress(userId, id, dto)).toThrow(
-        'User address forbidden',
+        ERROR_MESSAGES.UserAddressForbidden,
       );
     });
   });
