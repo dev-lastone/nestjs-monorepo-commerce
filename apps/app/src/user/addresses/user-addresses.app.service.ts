@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { UserAddress, UsersAddresses } from '@domain/domain/app/user-address';
 import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
 import { PostUserAddressRequestDto } from './user-addresses.app.dto';
@@ -9,18 +13,25 @@ export class UserAddressesAppService {
   #usersAddresses = UsersAddresses.of();
 
   postUserAddress(userId: number, dto: PostUserAddressRequestDto) {
-    /*
-      TODO
-      isDefault 1개만 가능하도록
-      데이터가 있을 경우 isDefault 1개 무조건 유지
-    */
-
     const userAddresses = this.#usersAddresses.get(userId)
       ? this.#usersAddresses.get(userId)
       : new Map<number, UserAddress>();
 
     if (userAddresses.size >= USER_ADDRESS_MAX_LENGTH) {
       throw new NotFoundException(ERROR_MESSAGES.UserAddressMaxLength);
+    }
+
+    if (dto.isDefault) {
+      userAddresses.forEach((userAddress) => {
+        userAddress.isDefault = false;
+      });
+    } else {
+      const userAddressesArray = Array.from(userAddresses.values());
+      if (!userAddressesArray.some((userAddress) => userAddress.isDefault)) {
+        throw new BadRequestException(
+          ERROR_MESSAGES.UserAddressDefaultRequired,
+        );
+      }
     }
 
     const userAddress = new UserAddress();
