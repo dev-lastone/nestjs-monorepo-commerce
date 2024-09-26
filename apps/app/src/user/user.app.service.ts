@@ -9,6 +9,12 @@ import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
 
 @Injectable()
 export class UserAppService {
+  /*
+  TODO
+  isDefault 1개만 가능하도록
+  데이터가 있을 경우 isDefault 1개 무조건 유지
+  maxLength 10
+   */
   #userAddresses: UserAddress[] = [
     {
       id: 1,
