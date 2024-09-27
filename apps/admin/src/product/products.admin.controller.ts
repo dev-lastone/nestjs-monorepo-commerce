@@ -10,7 +10,12 @@ import {
   Version,
 } from '@nestjs/common';
 import { Product } from '@domain/domain/product/product';
-import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOkResponse,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { ProductService } from '@domain/domain/product/product.service';
 import {
   CreateProductDto,
@@ -35,6 +40,9 @@ export class ProductsAdminController {
 
   @Version('1')
   @Get()
+  @ApiOkResponse({
+    type: [Product],
+  })
   getProducts(): Product[] {
     return this.productService.findProducts();
   }
