@@ -1,7 +1,12 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { PostAuthAppRequestDto } from './auth.app.dto';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { PostAuthAppRequestDto, PostAuthSignUpAppReqDto } from './auth.app.dto';
 import { AuthService } from '@domain/domain/auth/auth.service';
 import { AppUser } from '@domain/domain/app/user';
+import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
 
 @Injectable()
 export class AuthAppService {
@@ -15,6 +20,24 @@ export class AuthAppService {
       password: '1234',
     },
   ];
+
+  signUp(dto: PostAuthSignUpAppReqDto) {
+    if (dto.password !== dto.passwordConfirm) {
+      throw new BadRequestException(ERROR_MESSAGES.PasswordConfirm);
+    }
+
+    const user = new AppUser();
+    user.id = this.appUsers.length + 1;
+    user.name = dto.name;
+    user.email = dto.email;
+    user.password = dto.password;
+
+    this.appUsers.push(user);
+
+    const payload = { sub: user.id, email: user.email, name: user.name };
+
+    return this.authService.createToken(payload);
+  }
 
   signIn(dto: PostAuthAppRequestDto) {
     const { email, password } = dto;
