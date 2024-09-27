@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
   Param,
   ParseIntPipe,
   Post,
@@ -62,6 +63,7 @@ export class UserAddressesAppController {
 
   @Version('1')
   @Delete(':id')
+  @HttpCode(204)
   deleteUserAddress(
     @UserId() userId: number,
     @Param('id', new ParseIntPipe()) id: number,
