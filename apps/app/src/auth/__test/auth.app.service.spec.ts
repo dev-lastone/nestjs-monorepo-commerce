@@ -55,9 +55,7 @@ describe('AuthAppService', () => {
 
       const result = authAppService.signIn(postAuthAdminRequestDto);
 
-      expect(result).toEqual({
-        token: 'mockToken',
-      });
+      expect(result).toEqual('mockToken');
     });
   });
 });

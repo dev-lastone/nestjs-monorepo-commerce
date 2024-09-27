@@ -13,7 +13,7 @@ describe('AuthAppController', () => {
         {
           provide: AuthAppService,
           useValue: {
-            signIn: jest.fn().mockResolvedValue({ token: 'mockToken' }),
+            signIn: jest.fn().mockResolvedValue('mockToken'),
           },
         },
       ],
@@ -29,8 +29,6 @@ describe('AuthAppController', () => {
 
     await expect(
       authAppController.signIn(postAuthAppRequestDto),
-    ).resolves.toEqual({
-      token: 'mockToken',
-    });
+    ).resolves.toEqual('mockToken');
   });
 });
