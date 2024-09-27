@@ -34,9 +34,7 @@ export class AuthAppService {
 
     this.appUsers.push(user);
 
-    const payload = { sub: user.id, email: user.email, name: user.name };
-
-    return this.authService.createToken(payload);
+    return this.authService.createToken(user);
   }
 
   signIn(dto: PostAuthAppRequestDto) {
@@ -48,8 +46,6 @@ export class AuthAppService {
       throw new UnauthorizedException();
     }
 
-    const payload = { sub: user.id, email: user.email, name: user.name };
-
-    return this.authService.createToken(payload);
+    return this.authService.createToken(user);
   }
 }

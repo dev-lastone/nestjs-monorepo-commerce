@@ -25,8 +25,6 @@ export class AuthAdminService {
       throw new UnauthorizedException();
     }
 
-    const payload = { sub: user.id, email: user.email, name: user.name };
-
-    return this.authService.createToken(payload);
+    return this.authService.createToken(user);
   }
 }
