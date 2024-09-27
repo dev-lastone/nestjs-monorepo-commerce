@@ -10,7 +10,7 @@ import {
   Version,
 } from '@nestjs/common';
 import { Product } from '@domain/domain/product/product';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ProductService } from '@domain/domain/product/product.service';
 import {
   CreateProductDto,
@@ -25,6 +25,10 @@ export class ProductsAdminController {
 
   @Version('1')
   @Post()
+  @ApiResponse({
+    status: 201,
+    type: Product,
+  })
   postProduct(@Body() dto: CreateProductDto): Product {
     return this.productService.createProduct(dto);
   }

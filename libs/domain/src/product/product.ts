@@ -1,10 +1,17 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 export class Product {
+  @ApiProperty({
+    example: 1,
+  })
   id: number;
-  @ApiProperty()
+  @ApiProperty({
+    example: '상품명',
+  })
   name: string;
-  @ApiProperty()
+  @ApiProperty({
+    example: 10000,
+  })
   price: number;
 
   constructor(dto: { id: number; name: string; price: number }) {
