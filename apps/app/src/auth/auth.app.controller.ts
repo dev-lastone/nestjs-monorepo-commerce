@@ -1,7 +1,7 @@
 import { Body, Controller, Post, Version } from '@nestjs/common';
 import { AuthAppService } from './auth.app.service';
 import { PostAuthAppRequestDto } from './auth.app.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Public } from '@common/common/decorator/public.decorator';
 
 @ApiTags('auth')
@@ -12,6 +12,10 @@ export class AuthAppController {
   @Public()
   @Version('1')
   @Post()
+  @ApiResponse({
+    status: 201,
+    type: String,
+  })
   signIn(@Body() dto: PostAuthAppRequestDto) {
     return this.authAppService.signIn(dto);
   }

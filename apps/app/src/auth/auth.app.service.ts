@@ -27,10 +27,6 @@ export class AuthAppService {
 
     const payload = { sub: user.id, email: user.email, name: user.name };
 
-    const token = this.authService.createToken(payload);
-
-    return {
-      token,
-    };
+    return this.authService.createToken(payload);
   }
 }
