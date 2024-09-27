@@ -36,8 +36,8 @@ export class ProductService {
     return product;
   }
 
-  updateProduct(dto: UpdateProductDto): Product {
-    const idx = this.checkExistentProduct(dto.id);
+  updateProduct(id: number, dto: UpdateProductDto): Product {
+    const idx = this.checkExistentProduct(id);
 
     const product = this.products[idx];
     product.name = dto.name;
