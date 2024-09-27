@@ -66,6 +66,7 @@ export class ProductsAdminController {
 
   @Version('1')
   @Delete(':id')
+  @HttpCode(204)
   deleteProduct(@Param('id', new ParseIntPipe()) id: number) {
     this.productService.deleteProduct(id);
   }
