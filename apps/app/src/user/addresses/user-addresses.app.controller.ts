@@ -45,6 +45,9 @@ export class UserAddressesAppController {
 
   @Version('1')
   @Put(':id')
+  @ApiResponse({
+    type: UserAddress,
+  })
   putUserAddress(
     @UserId() userId: number,
     @Param('id', new ParseIntPipe()) id: number,
