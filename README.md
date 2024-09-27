@@ -44,7 +44,7 @@ $ pnpm run test:cov
 - [x] 상품 조회
 - [x] 상품 좋아요
 - [x] custom decorator request user
-- [ ] 유저 배송지 설정
+- [x] 유저 배송지 설정
 - [ ] 상품 주문
 - [ ] 상품 리뷰
 - [ ] 포인트 적립 (주문, 리뷰)
