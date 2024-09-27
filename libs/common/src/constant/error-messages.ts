@@ -5,4 +5,5 @@ export const ERROR_MESSAGES = {
   UserAddressNotFound: 'User address not found',
   UserAddressMaxLength: 'User address max length is ' + USER_ADDRESS_MAX_LENGTH,
   UserAddressDefaultRequired: 'Please set the default address.',
+  PasswordConfirm: 'Please check the password.',
 };
