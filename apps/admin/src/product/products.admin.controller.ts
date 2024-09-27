@@ -51,7 +51,8 @@ export class ProductsAdminController {
   @Version('1')
   @Put(':id')
   @HttpCode(201)
-  @ApiOkResponse({
+  @ApiResponse({
+    status: 201,
     type: Product,
   })
   putProduct(
