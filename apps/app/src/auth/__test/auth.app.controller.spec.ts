@@ -1,6 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthAppController } from '../auth.app.controller';
-import { PostAuthAppRequestDto } from '../auth.app.dto';
+import {
+  PostAuthAppRequestDto,
+  PostAuthSignUpAppReqDto,
+} from '../auth.app.dto';
 import { AuthAppService } from '../auth.app.service';
 
 describe('AuthAppController', () => {
@@ -13,6 +16,7 @@ describe('AuthAppController', () => {
         {
           provide: AuthAppService,
           useValue: {
+            signUp: jest.fn().mockResolvedValue('mockToken'),
             signIn: jest.fn().mockResolvedValue('mockToken'),
           },
         },
@@ -20,6 +24,17 @@ describe('AuthAppController', () => {
     }).compile();
 
     authAppController = app.get<AuthAppController>(AuthAppController);
+  });
+
+  it('signUp', async () => {
+    const postAuthAppRequestDto = new PostAuthSignUpAppReqDto();
+    postAuthAppRequestDto.name = 'test';
+    postAuthAppRequestDto.email = 'test@test.com';
+    postAuthAppRequestDto.password = '1234';
+
+    await expect(
+      authAppController.signUp(postAuthAppRequestDto),
+    ).resolves.toEqual('mockToken');
   });
 
   it('signIn', async () => {
