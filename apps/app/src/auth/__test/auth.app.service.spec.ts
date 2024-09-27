@@ -2,7 +2,11 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UnauthorizedException } from '@nestjs/common';
 import { AuthService } from '@domain/domain/auth/auth.service';
 import { AuthAppService } from '../auth.app.service';
-import { PostAuthAppRequestDto } from '../auth.app.dto';
+import {
+  PostAuthAppRequestDto,
+  PostAuthSignUpAppReqDto,
+} from '../auth.app.dto';
+import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
 
 describe('AuthAppService', () => {
   let authAppService: AuthAppService;
@@ -23,6 +27,34 @@ describe('AuthAppService', () => {
 
     authAppService = app.get<AuthAppService>(AuthAppService);
     authService = app.get<AuthService>(AuthService);
+  });
+
+  describe('signUp', () => {
+    it(ERROR_MESSAGES.PasswordConfirm, async () => {
+      const postAuthAdminRequestDto = new PostAuthSignUpAppReqDto();
+      postAuthAdminRequestDto.name = '홍길동';
+      postAuthAdminRequestDto.email = 'test@test.com';
+      postAuthAdminRequestDto.password = '1234';
+      postAuthAdminRequestDto.passwordConfirm = 'invalid';
+
+      expect(() => authAppService.signUp(postAuthAdminRequestDto)).toThrow(
+        ERROR_MESSAGES.PasswordConfirm,
+      );
+    });
+
+    it('성공', async () => {
+      const postAuthAdminRequestDto = new PostAuthSignUpAppReqDto();
+      postAuthAdminRequestDto.name = '홍길동';
+      postAuthAdminRequestDto.email = 'test@test.com';
+      postAuthAdminRequestDto.password = '1234';
+      postAuthAdminRequestDto.passwordConfirm = '1234';
+
+      jest.spyOn(authService, 'createToken').mockReturnValue('mockToken');
+
+      const result = authAppService.signUp(postAuthAdminRequestDto);
+
+      expect(result).toEqual('mockToken');
+    });
   });
 
   describe('signIn', () => {
