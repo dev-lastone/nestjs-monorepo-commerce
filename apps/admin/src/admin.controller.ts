@@ -1,6 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { Public } from '@common/common/decorator/public.decorator';
+import { ApiOkResponse } from '@nestjs/swagger';
 
 @Controller()
 export class AdminController {
@@ -8,6 +9,9 @@ export class AdminController {
 
   @Public()
   @Get()
+  @ApiOkResponse({
+    example: 'Hello admin!',
+  })
   getHello(): string {
     return this.adminService.getHello();
   }
