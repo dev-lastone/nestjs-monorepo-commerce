@@ -2,13 +2,23 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsBoolean, IsNotEmpty, IsString } from 'class-validator';
 
 export class UserAddress {
+  @ApiProperty({
+    example: 1,
+  })
   userId: number;
+  @ApiProperty({
+    example: 1,
+  })
   id: number;
-  @ApiProperty()
+  @ApiProperty({
+    example: '01234',
+  })
   @IsNotEmpty()
   @IsString()
   zipcode: string;
-  @ApiProperty()
+  @ApiProperty({
+    example: '서울시 강남구 역삼동 *********',
+  })
   @IsNotEmpty()
   @IsString()
   address: string;
