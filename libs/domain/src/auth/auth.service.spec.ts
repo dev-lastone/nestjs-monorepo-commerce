@@ -2,6 +2,7 @@ import { AuthService } from '@domain/domain/auth/auth.service';
 import { ConfigService } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
 import * as jwt from 'jsonwebtoken';
+import { AdminUser } from '@domain/domain/admin/user';
 
 describe('AuthService', () => {
   let authService: AuthService;
@@ -34,12 +35,19 @@ describe('AuthService', () => {
 
     jest.spyOn(jwt, 'sign').mockReturnValue('mockToken');
 
-    const payload = { sub: 1, email: 'test@test.com', name: '홍길동' };
-    const result = authService.createToken(payload);
+    const user = new AdminUser();
+    user.id = 1;
+    user.name = '홍길동';
+    user.email = 'test@test.com';
+    const result = authService.createToken(user);
 
-    expect(jwt.sign).toHaveBeenCalledWith(payload, secret, {
-      expiresIn,
-    });
+    expect(jwt.sign).toHaveBeenCalledWith(
+      { sub: user.id, email: user.email, name: user.name },
+      secret,
+      {
+        expiresIn,
+      },
+    );
     expect(result).toEqual('mockToken');
   });
 });
