@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
   Param,
   ParseIntPipe,
   Post,
@@ -49,12 +50,15 @@ export class ProductsAdminController {
 
   @Version('1')
   @Put(':id')
+  @HttpCode(201)
+  @ApiOkResponse({
+    type: Product,
+  })
   putProduct(
     @Param('id', new ParseIntPipe()) id: number,
     @Body() dto: UpdateProductDto,
   ): Product {
-    return this.productService.updateProduct({
-      id,
+    return this.productService.updateProduct(id, {
       name: dto.name,
       price: dto.price,
     });
