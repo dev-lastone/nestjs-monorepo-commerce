@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserCartsAppController } from '../../carts/user-carts.app.controller';
 import { UserCartsAppService } from '../../carts/user-carts.app.service';
+import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
 
 describe('UserCartsAppController', () => {
   let userCartsAppController: UserCartsAppController;
@@ -35,5 +36,24 @@ describe('UserCartsAppController', () => {
         count: 1,
       },
     ]);
+  });
+
+  describe('put', () => {
+    it(ERROR_MESSAGES.UserCartNotFound, () => {
+      const dto = { count: 2 };
+      expect(() => userCartsAppController.putUserCart(1, 2, dto)).toThrowError(
+        ERROR_MESSAGES.UserCartNotFound,
+      );
+    });
+
+    it('성공', () => {
+      const dto = { count: 2 };
+      expect(userCartsAppController.putUserCart(1, 1, dto)).toEqual({
+        id: 1,
+        userId: 1,
+        productId: 1,
+        count: 2,
+      });
+    });
   });
 });
