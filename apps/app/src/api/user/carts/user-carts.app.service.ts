@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { UserCart } from '@domain/domain/app/user-cart';
 import { PostUserCartsAppReqDto } from './user-carts.app.dto';
 import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
+import { UserCart } from '../../../domain/user/user-cart';
 
 @Injectable()
 export class UserCartsAppService {

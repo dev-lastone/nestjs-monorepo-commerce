@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as jwt from 'jsonwebtoken';
-import { AppUser } from '@domain/domain/app/user';
 import { AdminUser } from '@domain/domain/admin/user';
+import { AppUser } from '@domain/domain/user/app-user';
 
 @Injectable()
 export class AuthService {
