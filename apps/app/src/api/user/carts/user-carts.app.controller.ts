@@ -17,7 +17,7 @@ import {
   PutUserCartsAppReqDto,
 } from './user-carts.app.dto';
 import { UserId } from '@common/common/decorator/user-id.decorator';
-import { UserCart } from '../../../domain/user/user-cart';
+import { UserCart } from '../../../domain/user/cart/user-cart';
 
 @ApiBearerAuth('jwt')
 @ApiTags('user')
