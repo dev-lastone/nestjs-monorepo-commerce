@@ -4,7 +4,14 @@ import { PostUserCartsAppReqDto } from './user-carts.app.dto';
 
 @Injectable()
 export class UserCartsAppService {
-  #userCarts: UserCart[] = [];
+  #userCarts: UserCart[] = [
+    {
+      userId: 1,
+      id: 1,
+      productId: 1,
+      count: 1,
+    },
+  ];
 
   postUserCart(userId: number, dto: PostUserCartsAppReqDto) {
     const userCart = new UserCart();
@@ -16,5 +23,9 @@ export class UserCartsAppService {
     this.#userCarts.push(userCart);
 
     return userCart;
+  }
+
+  getUserCarts(userId: number) {
+    return this.#userCarts.filter((userCart) => userCart.userId === userId);
   }
 }
