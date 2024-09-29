@@ -1,10 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { UserCart } from '@domain/domain/app/user-cart';
-import { PostUserCartsAppReqDto } from './user-carts.app.dto';
 import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
+import { UserCart } from './user-cart';
+import {
+  CreateUserCartDto,
+  DeleteUserCartDto,
+  UpdateUserCartDto,
+} from './user-cart.dto';
 
 @Injectable()
-export class UserCartsAppService {
+export class UserCartService {
   #userCarts: UserCart[] = [
     {
       userId: 1,
@@ -14,9 +18,9 @@ export class UserCartsAppService {
     },
   ];
 
-  postUserCart(userId: number, dto: PostUserCartsAppReqDto) {
+  createUserCart(dto: CreateUserCartDto) {
     const userCart = new UserCart();
-    userCart.userId = userId;
+    userCart.userId = dto.userId;
     userCart.id = this.#userCarts.length + 1;
     userCart.productId = dto.productId;
     userCart.count = dto.count;
@@ -30,8 +34,7 @@ export class UserCartsAppService {
     return this.#userCarts.filter((userCart) => userCart.userId === userId);
   }
 
-  // TODO dto domain 정의
-  putUserCart(dto: { userId: number; id: number; count: number }) {
+  putUserCart(dto: UpdateUserCartDto) {
     const userCart = this.#userCarts.find(
       (userCart) => userCart.id === dto.id && userCart.userId === dto.userId,
     );
@@ -45,7 +48,7 @@ export class UserCartsAppService {
     return userCart;
   }
 
-  deleteUserCart(dto: { userId: number; id: number }) {
+  deleteUserCart(dto: DeleteUserCartDto) {
     this.#userCarts = this.#userCarts.filter(
       (userCart) => userCart.userId !== dto.userId || userCart.id !== dto.id,
     );
