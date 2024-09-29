@@ -44,4 +44,10 @@ export class UserCartsAppService {
 
     return userCart;
   }
+
+  deleteUserCart(dto: { userId: number; id: number }) {
+    this.#userCarts = this.#userCarts.filter(
+      (userCart) => userCart.userId !== dto.userId || userCart.id !== dto.id,
+    );
+  }
 }
