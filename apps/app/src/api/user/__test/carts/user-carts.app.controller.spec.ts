@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserCartsAppController } from '../../carts/user-carts.app.controller';
-import { UserCartsAppService } from '../../carts/user-carts.app.service';
 import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
+import { UserCartService } from '../../../../domain/user/cart/user-cart.service';
 
 describe('UserCartsAppController', () => {
   let userCartsAppController: UserCartsAppController;
@@ -9,7 +9,7 @@ describe('UserCartsAppController', () => {
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
       controllers: [UserCartsAppController],
-      providers: [UserCartsAppService],
+      providers: [UserCartService],
     }).compile();
 
     userCartsAppController = app.get<UserCartsAppController>(

@@ -45,7 +45,7 @@ $ pnpm run test:cov
 - [x] 상품 좋아요
 - [x] custom decorator request user
 - [x] 유저 배송지 설정
-- [ ] 유저 장바구니
+- [x] 유저 장바구니
 - [ ] 상품 주문
 - [ ] 상품 리뷰
 - [ ] 포인트 적립 (주문, 리뷰)
@@ -56,7 +56,7 @@ $ pnpm run test:cov
 - [ ] transformer
 - [ ] decorator cache
 
-### cron
+### batch
 - [ ] 포인트 만료
 - [ ] 배송 상태 변경
 

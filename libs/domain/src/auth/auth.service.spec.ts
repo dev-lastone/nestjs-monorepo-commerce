@@ -2,7 +2,7 @@ import { AuthService } from '@domain/domain/auth/auth.service';
 import { ConfigService } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
 import * as jwt from 'jsonwebtoken';
-import { AdminUser } from '@domain/domain/admin/user';
+import { AdminUser } from '@domain/domain/user/admin-user';
 
 describe('AuthService', () => {
   let authService: AuthService;
