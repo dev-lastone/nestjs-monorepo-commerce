@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Version } from '@nestjs/common';
+import { Body, Controller, Get, Post, Version } from '@nestjs/common';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserCartsAppService } from './user-carts.app.service';
 import { PostUserCartsAppReqDto } from './user-carts.app.dto';
@@ -19,5 +19,11 @@ export class UserCartsAppController {
   })
   postUserCart(@UserId() userId: number, @Body() dto: PostUserCartsAppReqDto) {
     return this.userCartsAppService.postUserCart(userId, dto);
+  }
+
+  @Version('1')
+  @Get()
+  getUserCarts(@UserId() userId: number) {
+    return this.userCartsAppService.getUserCarts(userId);
   }
 }
