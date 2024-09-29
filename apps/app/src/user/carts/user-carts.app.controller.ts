@@ -1,7 +1,9 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  HttpCode,
   Param,
   ParseIntPipe,
   Post,
@@ -55,5 +57,15 @@ export class UserCartsAppController {
       id,
       ...dto,
     });
+  }
+
+  @Version('1')
+  @Delete(':id')
+  @HttpCode(204)
+  deleteUserCart(
+    @UserId() userId: number,
+    @Param('id', new ParseIntPipe()) id: number,
+  ) {
+    this.userCartsAppService.deleteUserCart({ userId, id });
   }
 }
