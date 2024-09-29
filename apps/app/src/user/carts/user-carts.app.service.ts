@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { UserCart } from '@domain/domain/app/user-cart';
 import { PostUserCartsAppReqDto } from './user-carts.app.dto';
+import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
 
 @Injectable()
 export class UserCartsAppService {
@@ -27,5 +28,20 @@ export class UserCartsAppService {
 
   getUserCarts(userId: number) {
     return this.#userCarts.filter((userCart) => userCart.userId === userId);
+  }
+
+  // TODO dto domain 정의
+  putUserCart(dto: { userId: number; id: number; count: number }) {
+    const userCart = this.#userCarts.find(
+      (userCart) => userCart.id === dto.id && userCart.userId === dto.userId,
+    );
+
+    if (!userCart) {
+      throw new NotFoundException(ERROR_MESSAGES.UserCartNotFound);
+    }
+
+    userCart.count = dto.count;
+
+    return userCart;
   }
 }
