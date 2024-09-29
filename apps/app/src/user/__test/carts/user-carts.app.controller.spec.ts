@@ -56,4 +56,8 @@ describe('UserCartsAppController', () => {
       });
     });
   });
+
+  it('delete', () => {
+    expect(userCartsAppController.deleteUserCart(1, 1)).toBeUndefined();
+  });
 });
