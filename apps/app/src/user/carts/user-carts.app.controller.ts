@@ -1,9 +1,22 @@
-import { Body, Controller, Get, Post, Version } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+  Put,
+  Version,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserCartsAppService } from './user-carts.app.service';
-import { PostUserCartsAppReqDto } from './user-carts.app.dto';
+import {
+  PostUserCartsAppReqDto,
+  PutUserCartsAppReqDto,
+} from './user-carts.app.dto';
 import { UserId } from '@common/common/decorator/user-id.decorator';
 import { UserCart } from '@domain/domain/app/user-cart';
+import { UserAddress } from '@domain/domain/app/user-address';
 
 @ApiBearerAuth('jwt')
 @ApiTags('user')
@@ -25,5 +38,22 @@ export class UserCartsAppController {
   @Get()
   getUserCarts(@UserId() userId: number) {
     return this.userCartsAppService.getUserCarts(userId);
+  }
+
+  @Version('1')
+  @Put(':id')
+  @ApiResponse({
+    type: UserAddress,
+  })
+  putUserCart(
+    @UserId() userId: number,
+    @Param('id', new ParseIntPipe()) id: number,
+    @Body() dto: PutUserCartsAppReqDto,
+  ) {
+    return this.userCartsAppService.putUserCart({
+      userId,
+      id,
+      ...dto,
+    });
   }
 }
