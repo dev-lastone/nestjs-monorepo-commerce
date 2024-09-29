@@ -56,7 +56,7 @@ $ pnpm run test:cov
 - [ ] transformer
 - [ ] decorator cache
 
-### cron
+### batch
 - [ ] 포인트 만료
 - [ ] 배송 상태 변경
 
