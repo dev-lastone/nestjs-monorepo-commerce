@@ -19,10 +19,21 @@ describe('UserCartsAppController', () => {
   it('post', () => {
     const dto = { productId: 1, count: 1 };
     expect(userCartsAppController.postUserCart(1, dto)).toEqual({
-      id: 1,
+      id: 2,
       userId: 1,
       productId: 1,
       count: 1,
     });
+  });
+
+  it('get', () => {
+    expect(userCartsAppController.getUserCarts(1)).toEqual([
+      {
+        id: 1,
+        userId: 1,
+        productId: 1,
+        count: 1,
+      },
+    ]);
   });
 });
