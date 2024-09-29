@@ -11,19 +11,20 @@ import {
   Version,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { UserCartsAppService } from './user-carts.app.service';
 import {
   PostUserCartsAppReqDto,
   PutUserCartsAppReqDto,
 } from './user-carts.app.dto';
 import { UserId } from '@common/common/decorator/user-id.decorator';
 import { UserCart } from '../../../domain/user/cart/user-cart';
+import { UserCartService } from '../../../domain/user/cart/user-cart.service';
+import { DeleteUserCartDto } from '../../../domain/user/cart/user-cart.dto';
 
 @ApiBearerAuth('jwt')
 @ApiTags('user')
 @Controller('user/carts')
 export class UserCartsAppController {
-  constructor(private readonly userCartsAppService: UserCartsAppService) {}
+  constructor(private readonly userCartService: UserCartService) {}
 
   @Version('1')
   @Post()
@@ -32,13 +33,16 @@ export class UserCartsAppController {
     type: UserCart,
   })
   postUserCart(@UserId() userId: number, @Body() dto: PostUserCartsAppReqDto) {
-    return this.userCartsAppService.postUserCart(userId, dto);
+    return this.userCartService.createUserCart({
+      userId,
+      ...dto,
+    });
   }
 
   @Version('1')
   @Get()
   getUserCarts(@UserId() userId: number) {
-    return this.userCartsAppService.getUserCarts(userId);
+    return this.userCartService.getUserCarts(userId);
   }
 
   @Version('1')
@@ -51,7 +55,7 @@ export class UserCartsAppController {
     @Param('id', new ParseIntPipe()) id: number,
     @Body() dto: PutUserCartsAppReqDto,
   ) {
-    return this.userCartsAppService.putUserCart({
+    return this.userCartService.putUserCart({
       userId,
       id,
       ...dto,
@@ -65,6 +69,9 @@ export class UserCartsAppController {
     @UserId() userId: number,
     @Param('id', new ParseIntPipe()) id: number,
   ) {
-    this.userCartsAppService.deleteUserCart({ userId, id });
+    const dto = new DeleteUserCartDto();
+    dto.userId = userId;
+    dto.id = id;
+    this.userCartService.deleteUserCart(dto);
   }
 }
