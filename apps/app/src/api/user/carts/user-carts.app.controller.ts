@@ -17,8 +17,7 @@ import {
   PutUserCartsAppReqDto,
 } from './user-carts.app.dto';
 import { UserId } from '@common/common/decorator/user-id.decorator';
-import { UserCart } from '@domain/domain/app/user-cart';
-import { UserAddress } from '@domain/domain/app/user-address';
+import { UserCart } from '../../../domain/user/user-cart';
 
 @ApiBearerAuth('jwt')
 @ApiTags('user')
@@ -45,7 +44,7 @@ export class UserCartsAppController {
   @Version('1')
   @Put(':id')
   @ApiResponse({
-    type: UserAddress,
+    type: UserCart,
   })
   putUserCart(
     @UserId() userId: number,

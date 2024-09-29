@@ -17,7 +17,7 @@ import {
   PostUserAddressRequestDto,
   PutUserAddressRequestDto,
 } from './user-addresses.app.dto';
-import { UserAddress } from '@domain/domain/app/user-address';
+import { UserAddress } from '../../../domain/user/user-address';
 
 @ApiBearerAuth('jwt')
 @ApiTags('user')
