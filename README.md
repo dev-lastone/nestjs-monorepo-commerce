@@ -67,7 +67,7 @@ $ pnpm run test:cov
 - [x] swagger
 - [x] pr test
 - [x] pr test coverage
-- [ ] pr sonar-cloud
+- [x] pr sonar-cloud
 - [ ] typeorm
 - [ ] graphQL
 - [ ] prisma
