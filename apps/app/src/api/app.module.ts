@@ -8,11 +8,13 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from '@common/common/guard/jwt.auth.guard';
 import { ProductLikeAppModule } from './product/like/product-like.app.module';
 import { UserAppModule } from './user/user.app.module';
+import { OrdersAppModule } from './order/orders.app.module';
 
 @Module({
   imports: [
     configModule(),
     AuthAppModule,
+    OrdersAppModule,
     UserAppModule,
     ProductsAppModule,
     ProductLikeAppModule,
