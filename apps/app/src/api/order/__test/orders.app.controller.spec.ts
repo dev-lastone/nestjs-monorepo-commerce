@@ -40,4 +40,23 @@ describe('OrdersAppController', () => {
       ],
     });
   });
+
+  it('get', () => {
+    expect(ordersAppController.getOrders(1)).toEqual([
+      {
+        id: 1,
+        userId: 1,
+        zipcode: '01234',
+        address: '서울시 강남구 역삼동 *********',
+        product: [
+          {
+            orderId: 1,
+            id: 1,
+            name: 'product-1',
+            price: 1000,
+          },
+        ],
+      },
+    ]);
+  });
 });
