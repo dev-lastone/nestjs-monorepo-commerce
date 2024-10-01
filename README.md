@@ -28,11 +28,7 @@ $ pnpm run test:cov
 
 ## TODO
 ### admin
-- [x] product
-  - [x] create
-  - [x] update
-  - [x] delete
-  - [x] list
+- [x] product crud
 - [x] signIn
   - [x] jwt
   - [x] guard
@@ -47,14 +43,13 @@ $ pnpm run test:cov
 - [x] 유저 배송지 설정
 - [x] 유저 장바구니
 - [x] 상품 주문
+  - [ ] 포인트 적립
 - [ ] 상품 리뷰
-- [ ] 포인트 적립 (주문, 리뷰)
+  - [ ] 포인트 적립
 - [ ] 포인트 사용 (주문)
-- [ ] 비회원
-- [ ] middleware cookie (guest)
 - [ ] message (bull) - slack, braze, sms...
 - [ ] transformer
-- [ ] decorator cache
+- [ ] custom decorator service
 
 ### batch
 - [ ] 포인트 만료
@@ -68,6 +63,8 @@ $ pnpm run test:cov
 - [x] pr test
 - [x] pr test coverage
 - [x] pr sonar-cloud
+- [ ] nestjs request lifecycle
+- [ ] nestjs lifecycle
 - [ ] typeorm
 - [ ] graphQL
 - [ ] prisma
