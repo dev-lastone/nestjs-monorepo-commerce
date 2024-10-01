@@ -63,8 +63,4 @@ $ pnpm run test:cov
 - [x] pr test
 - [x] pr test coverage
 - [x] pr sonar-cloud
-- [ ] nestjs request lifecycle
-- [ ] nestjs lifecycle
 - [ ] typeorm
-- [ ] graphQL
-- [ ] prisma
