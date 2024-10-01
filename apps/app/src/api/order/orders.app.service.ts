@@ -1,22 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { PostOrdersAppReqDto } from './orders.app.dto';
+import { Order } from '../../domain/order/order';
 
 @Injectable()
 export class OrdersAppService {
-  #orders: [
-    {
-      id: number;
-      userId: number;
-      zipcode: string;
-      address: string;
-      product: {
-        orderId: number;
-        id: number;
-        name: string;
-        price: number;
-      }[];
-    },
-  ] = [
+  #orders: Order[] = [
     {
       id: 1,
       userId: 1,
@@ -32,7 +20,7 @@ export class OrdersAppService {
       ],
     },
   ];
-  postOrder(userId: number, dto: PostOrdersAppReqDto) {
+  postOrder(userId: number, dto: PostOrdersAppReqDto): Order {
     const orderId = this.#orders.length + 1;
     const order = {
       id: orderId,
