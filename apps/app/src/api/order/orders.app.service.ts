@@ -37,4 +37,8 @@ export class OrdersAppService {
 
     return order;
   }
+
+  getOrders(userId: number): Order[] {
+    return this.#orders.filter((order) => order.userId === userId);
+  }
 }

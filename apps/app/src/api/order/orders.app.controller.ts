@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Version } from '@nestjs/common';
+import { Body, Controller, Get, Post, Version } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { OrdersAppService } from './orders.app.service';
 import { PostOrdersAppReqDto } from './orders.app.dto';
@@ -18,5 +18,15 @@ export class OrdersAppController {
   })
   postOrder(@UserId() userId, @Body() dto: PostOrdersAppReqDto) {
     return this.ordersAppService.postOrder(userId, dto);
+  }
+
+  @Version('1')
+  @Get()
+  @ApiResponse({
+    status: 200,
+    type: [Order],
+  })
+  getOrders(@UserId() userId) {
+    return this.ordersAppService.getOrders(userId);
   }
 }
