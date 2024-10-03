@@ -3,6 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 export enum UserPointActionType {
   ORDER_PRODUCT = 'order-product',
   REVIEW = 'review',
+  ORDER = 'order',
 }
 
 export class UserPoint {
