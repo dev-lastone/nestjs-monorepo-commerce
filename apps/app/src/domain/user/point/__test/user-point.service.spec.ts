@@ -15,7 +15,23 @@ describe('UserPointService', () => {
       userId: 1,
       id: 2,
       point: 1000,
-      actionType: 'order-product',
+      actionType: UserPointActionType.ORDER_PRODUCT,
+      actionId: 1,
+    });
+  });
+
+  it('use', () => {
+    const userPoint = userPointService.usePoint(
+      1,
+      -1000,
+      UserPointActionType.ORDER,
+      1,
+    );
+    expect(userPoint).toEqual({
+      userId: 1,
+      id: 3,
+      point: 1000,
+      actionType: UserPointActionType.ORDER,
       actionId: 1,
     });
   });
