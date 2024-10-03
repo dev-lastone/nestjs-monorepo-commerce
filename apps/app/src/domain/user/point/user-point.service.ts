@@ -29,4 +29,21 @@ export class UserPointService {
     this.#userPoints.push(userPoint);
     return userPoint;
   }
+
+  usePoint(
+    userId: number,
+    point: number,
+    actionType: UserPointActionType,
+    actionId: number,
+  ): UserPoint {
+    const userPoint: UserPoint = {
+      userId,
+      id: this.#userPoints.length + 1,
+      point: -point,
+      actionType,
+      actionId,
+    };
+    this.#userPoints.push(userPoint);
+    return userPoint;
+  }
 }
