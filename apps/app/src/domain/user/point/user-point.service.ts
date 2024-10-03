@@ -29,7 +29,7 @@ export class UserPointService {
     this.#userPoints.push(userPoint);
     return userPoint;
   }
-
+  
   usePoint(
     userId: number,
     point: number,
