@@ -16,13 +16,14 @@ import { ApiProperty } from '@nestjs/swagger';
 	- userId
 	- point
 
-	UserPointAction (포인트 적립/사용/복구 이력)
+	UserPointHistory (포인트 적립/사용 이력)
 	- userId
 	- id
 	- action (구매확정, 리뷰확정, 수동 admin, 구매, 구매취소)
 	- actionId
 	- point
-	- details ([id: 1, point: 100])
+	- remainingPoint
+	- details ([{id: 1, point: 1000}])
 	- createdAt
 	- updatedAt
 	- expirationAt
@@ -58,7 +59,11 @@ export class UserPointHistory {
   })
   point: number;
   @ApiProperty({
-    example: [{ id: 1, point: 100 }],
+    example: 500,
+  })
+  remainingPoint: number;
+  @ApiProperty({
+    example: [{ id: 1, point: 1000 }],
   })
   details?: UserPointHistoryDetail[] | null;
   // createdAt: Date;
