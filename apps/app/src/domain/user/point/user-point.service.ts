@@ -10,7 +10,7 @@ export class UserPointService {
   #userPoints: UserPoint[] = [
     {
       userId: 1,
-      point: 1000,
+      point: 2000,
     },
   ];
 
@@ -21,6 +21,15 @@ export class UserPointService {
       action: UserPointHistoryAction.ORDER_PRODUCT,
       actionId: 1,
       point: 1000,
+      remainingPoint: 1000,
+    },
+    {
+      userId: 1,
+      id: 2,
+      action: UserPointHistoryAction.ORDER_PRODUCT,
+      actionId: 2,
+      point: 1000,
+      remainingPoint: 1000,
     },
   ];
 
@@ -42,6 +51,7 @@ export class UserPointService {
     userPointHistory.action = action;
     userPointHistory.actionId = actionId;
     userPointHistory.point = point;
+    userPointHistory.remainingPoint = point;
 
     this.#userPoints.push(userPoint);
     this.#userPointHistories.push(userPointHistory);
@@ -67,6 +77,7 @@ export class UserPointService {
     userPointHistory.action = action;
     userPointHistory.actionId = actionId;
     userPointHistory.point = point;
+    userPointHistory.remainingPoint = 0;
 
     this.#userPoints.push(userPoint);
     this.#userPointHistories.push(userPointHistory);
