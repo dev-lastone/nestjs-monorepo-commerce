@@ -11,6 +11,7 @@
     "start": "nest start",
     "start:admin-dev": "nest start admin --watch",
     "start:app-dev": "nest start app --watch",
+    "start:batch-dev": "nest start batch --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/apps/app/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
