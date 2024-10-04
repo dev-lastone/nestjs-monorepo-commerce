@@ -20,6 +20,22 @@ describe('UserPointService', () => {
     });
   });
 
+  it('save - 신규 생성', () => {
+    const userPoint = userPointService.savePoint(
+      2,
+      1000,
+      UserPointHistoryAction.ORDER_PRODUCT,
+      1,
+    );
+    expect(userPoint).toEqual({
+      userId: 2,
+      id: 3,
+      point: 1000,
+      action: UserPointHistoryAction.ORDER_PRODUCT,
+      actionId: 1,
+    });
+  });
+
   it('use', () => {
     const userPoint = userPointService.usePoint(
       1,
@@ -29,7 +45,7 @@ describe('UserPointService', () => {
     );
     expect(userPoint).toEqual({
       userId: 1,
-      id: 3,
+      id: 4,
       point: 1000,
       action: UserPointHistoryAction.ORDER,
       actionId: 1,
