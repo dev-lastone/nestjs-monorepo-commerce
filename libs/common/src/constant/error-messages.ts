@@ -7,4 +7,5 @@ export const ERROR_MESSAGES = {
   UserAddressDefaultRequired: 'Please set the default address.',
   UserCartNotFound: 'User cart not found',
   PasswordConfirm: 'Please check the password.',
+  NotEnoughPoints: 'Not enough points.',
 };
