@@ -1,5 +1,6 @@
 import { UserPointService } from '../user-point.service';
 import { UserPointHistoryAction } from '../user-point';
+import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
 
 describe('UserPointService', () => {
   const userPointService = new UserPointService();
@@ -40,20 +41,29 @@ describe('UserPointService', () => {
     });
   });
 
-  it('use', () => {
-    const userPoint = userPointService.usePoint(
-      1,
-      1500,
-      UserPointHistoryAction.ORDER,
-      1,
-    );
-    expect(userPoint).toEqual({
-      userId: 1,
-      id: 5,
-      point: 1500,
-      remainingPoint: 0,
-      action: UserPointHistoryAction.ORDER,
-      actionId: 1,
+  // TODO 단일. 전체 테스트시 쌓이는 데이터 차이로 인한 테스트 실패 작업 필요
+  describe('use', () => {
+    it('use - 포인트 부족', () => {
+      expect(() =>
+        userPointService.usePoint(1, 2001, UserPointHistoryAction.ORDER, 1),
+      ).toThrowError(ERROR_MESSAGES.NotEnoughPoints);
+    });
+
+    it('성공', () => {
+      const userPoint = userPointService.usePoint(
+        1,
+        1500,
+        UserPointHistoryAction.ORDER,
+        1,
+      );
+      expect(userPoint).toEqual({
+        userId: 1,
+        id: 5,
+        point: 1500,
+        remainingPoint: 0,
+        action: UserPointHistoryAction.ORDER,
+        actionId: 1,
+      });
     });
   });
 });

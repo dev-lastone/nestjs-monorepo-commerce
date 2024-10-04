@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import {
   UserPoint,
   UserPointHistory,
   UserPointHistoryAction,
 } from './user-point';
+import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
 
 @Injectable()
 export class UserPointService {
@@ -68,6 +69,10 @@ export class UserPointService {
     const userPoint = this.#userPoints.find(
       (userPoint) => userPoint.userId === userId,
     );
+
+    if (point > userPoint.point) {
+      throw new BadRequestException(ERROR_MESSAGES.NotEnoughPoints);
+    }
 
     userPoint.point -= point;
 
