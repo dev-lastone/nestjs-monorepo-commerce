@@ -1,5 +1,5 @@
 import { UserPointService } from '../user-point.service';
-import { UserPointActionType } from '../user-point';
+import { UserPointHistoryAction } from '../user-point';
 
 describe('UserPointService', () => {
   const userPointService = new UserPointService();
@@ -8,14 +8,14 @@ describe('UserPointService', () => {
     const userPoint = userPointService.savePoint(
       1,
       1000,
-      UserPointActionType.ORDER_PRODUCT,
+      UserPointHistoryAction.ORDER_PRODUCT,
       1,
     );
     expect(userPoint).toEqual({
       userId: 1,
       id: 2,
       point: 1000,
-      actionType: UserPointActionType.ORDER_PRODUCT,
+      action: UserPointHistoryAction.ORDER_PRODUCT,
       actionId: 1,
     });
   });
@@ -23,15 +23,15 @@ describe('UserPointService', () => {
   it('use', () => {
     const userPoint = userPointService.usePoint(
       1,
-      -1000,
-      UserPointActionType.ORDER,
+      1000,
+      UserPointHistoryAction.ORDER,
       1,
     );
     expect(userPoint).toEqual({
       userId: 1,
       id: 3,
       point: 1000,
-      actionType: UserPointActionType.ORDER,
+      action: UserPointHistoryAction.ORDER,
       actionId: 1,
     });
   });
