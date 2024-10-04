@@ -17,7 +17,7 @@ import { ApiProperty } from '@nestjs/swagger';
 	- point
 
 	UserPointAction (포인트 적립/사용/복구 이력)
-	- userPointId
+	- userId
 	- id
 	- action (구매확정, 리뷰확정, 수동 admin, 구매, 구매취소)
 	- actionId
@@ -28,7 +28,7 @@ import { ApiProperty } from '@nestjs/swagger';
 	- expirationAt
  */
 
-export enum UserPointActionType {
+export enum UserPointHistoryAction {
   ORDER_PRODUCT = 'order-product',
   REVIEW = 'review',
   ORDER = 'order',
@@ -36,17 +36,37 @@ export enum UserPointActionType {
 
 export class UserPoint {
   userId: number;
+  @ApiProperty({
+    example: 1000,
+  })
+  point: number;
+}
+
+export class UserPointHistory {
+  userId: number;
   id: number;
+  @ApiProperty({
+    enum: UserPointHistoryAction,
+  })
+  action: UserPointHistoryAction;
+  @ApiProperty({
+    example: 1,
+  })
+  actionId: number;
   @ApiProperty({
     example: 1000,
   })
   point: number;
   @ApiProperty({
-    enum: UserPointActionType,
+    example: [{ id: 1, point: 100 }],
   })
-  actionType: UserPointActionType;
-  @ApiProperty({
-    example: 1,
-  })
-  actionId: number;
+  details?: UserPointHistoryDetail[] | null;
+  // createdAt: Date;
+  // updatedAt: Date;
+  // expirationAt?: Date | null;
+}
+
+class UserPointHistoryDetail {
+  id: number;
+  point: number;
 }
