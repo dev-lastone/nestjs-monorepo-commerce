@@ -39,9 +39,7 @@ export class UserPointService {
     action: UserPointHistoryAction,
     actionId: number,
   ) {
-    const userPoint =
-      this.#userPoints.find((userPoint) => userPoint.userId === userId) ??
-      new UserPoint(userId);
+    const userPoint = this.#getUserPoint(userId);
 
     userPoint.point += point;
 
@@ -66,9 +64,7 @@ export class UserPointService {
     action: UserPointHistoryAction,
     actionId: number,
   ) {
-    const userPoint = this.#userPoints.find(
-      (userPoint) => userPoint.userId === userId,
-    );
+    const userPoint = this.#getUserPoint(userId);
 
     if (!userPoint || userPoint.point < point) {
       throw new BadRequestException(ERROR_MESSAGES.NotEnoughPoints);
@@ -89,6 +85,13 @@ export class UserPointService {
         ...userPointHistory,
       },
     };
+  }
+
+  #getUserPoint(userId: number) {
+    return (
+      this.#userPoints.find((userPoint) => userPoint.userId === userId) ??
+      new UserPoint(userId)
+    );
   }
 
   #createUserPointHistory(
