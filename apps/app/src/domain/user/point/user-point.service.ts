@@ -12,25 +12,24 @@ export class UserPointService {
     {
       userId: 1,
       point: 2000,
-    },
-  ];
-
-  #userPointHistories: UserPointHistory[] = [
-    {
-      userId: 1,
-      id: 1,
-      action: UserPointHistoryAction.ORDER_PRODUCT,
-      actionId: 1,
-      point: 1000,
-      remainingPoint: 1000,
-    },
-    {
-      userId: 1,
-      id: 2,
-      action: UserPointHistoryAction.ORDER_PRODUCT,
-      actionId: 2,
-      point: 1000,
-      remainingPoint: 1000,
+      histories: [
+        {
+          userId: 1,
+          id: 1,
+          action: UserPointHistoryAction.ORDER_PRODUCT,
+          actionId: 1,
+          point: 1000,
+          remainingPoint: 1000,
+        },
+        {
+          userId: 1,
+          id: 2,
+          action: UserPointHistoryAction.ORDER_PRODUCT,
+          actionId: 2,
+          point: 1000,
+          remainingPoint: 2000,
+        },
+      ],
     },
   ];
 
@@ -39,25 +38,39 @@ export class UserPointService {
     point: number,
     action: UserPointHistoryAction,
     actionId: number,
-  ): UserPoint {
+  ) {
     const userPoint =
       this.#userPoints.find((userPoint) => userPoint.userId === userId) ??
       new UserPoint();
 
-    userPoint.point += point;
+    if (userPoint.point) {
+      userPoint.point += point;
+    } else {
+      userPoint.point = point;
+    }
 
     const userPointHistory = new UserPointHistory();
     userPointHistory.userId = userId;
-    userPointHistory.id = this.#userPointHistories.length + 1;
+    userPointHistory.id = userPoint.histories
+      ? userPoint.histories.length + 1
+      : 1;
     userPointHistory.action = action;
     userPointHistory.actionId = actionId;
     userPointHistory.point = point;
-    userPointHistory.remainingPoint = point;
+    userPointHistory.remainingPoint = userPoint.point;
 
-    this.#userPoints.push(userPoint);
-    this.#userPointHistories.push(userPointHistory);
+    if (userPoint.histories) {
+      userPoint.histories.push(userPointHistory);
+    } else {
+      userPoint.histories = [];
+    }
 
-    return userPointHistory;
+    return {
+      point: userPoint.point,
+      history: {
+        ...userPointHistory,
+      },
+    };
   }
 
   usePoint(
@@ -65,12 +78,12 @@ export class UserPointService {
     point: number,
     action: UserPointHistoryAction,
     actionId: number,
-  ): UserPoint {
+  ) {
     const userPoint = this.#userPoints.find(
       (userPoint) => userPoint.userId === userId,
     );
 
-    if (point > userPoint.point) {
+    if (!userPoint || userPoint.point < point) {
       throw new BadRequestException(ERROR_MESSAGES.NotEnoughPoints);
     }
 
@@ -78,15 +91,18 @@ export class UserPointService {
 
     const userPointHistory = new UserPointHistory();
     userPointHistory.userId = userId;
-    userPointHistory.id = this.#userPointHistories.length + 1;
+    userPointHistory.id = userPoint.histories.length + 1;
     userPointHistory.action = action;
     userPointHistory.actionId = actionId;
     userPointHistory.point = point;
-    userPointHistory.remainingPoint = 0;
+    userPointHistory.remainingPoint = userPoint.point;
+    userPoint.histories.push(userPointHistory);
 
-    this.#userPoints.push(userPoint);
-    this.#userPointHistories.push(userPointHistory);
-
-    return userPointHistory;
+    return {
+      point: userPoint.point,
+      history: {
+        ...userPointHistory,
+      },
+    };
   }
 }
