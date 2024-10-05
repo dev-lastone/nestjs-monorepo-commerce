@@ -1,32 +1,35 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 /*
-	적립
-	- 구매확정
-	- 리뷰확정
-	- 수동 (관리자)
-
-	사용
-	- 구매
-
-	복구
-	- 구매 취소 (만료일 지난 경우 취소일 기준 자정)
-
-	UserPoint (유저 총 포인트 관리) - 포인트 분리. user row lock 방지
+	UserPoint // 총 포인트
 	- userId
 	- point
 
-	UserPointHistory (포인트 적립/사용 이력)
+	UserPointHistory // 포인트 이력 (행위. 불변)
 	- userId
 	- id
-	- action (구매확정, 리뷰확정, 수동 admin, 구매, 구매취소)
+	- point // 포인트 원본
+	- remainingPoint // 이력 시점 총 잔여 포인트
+	- action (구매확정, 리뷰확정, 수동 admin, 구매, 구매취소, 만료)
 	- actionId
-	- point
-	- remainingPoint
-	- details ([{id: 1, point: 1000}])
 	- createdAt
-	- updatedAt
+
+	UserPointStorage // 적립 포인트 저장소 (포인트 가변)
+	- id
+	- userPointHistoryId
+	- point
 	- expirationAt
+
+	UserPointConsumption // 소비(사용, 만료)
+	- userPointHistoryId
+	- userPointStorageId
+	- point
+
+    UserPoint 총 이력 별도. user 테이블 lock 방지, 총합 계산 안하도록
+    UserPointHistory 변하지않는 행위 이력.
+    UserPointStorage 적립포인트 저장소. 사용될때 일부분만 사용되는것을 커버하기 위함.
+    UserPointConsumption 사용 및 만료 이력. 사용 취소 복구. 만료도 사용되는것으로 묶어 소비로 표현.
+    한 객체 표현시 각 행위별 사용되지않는 속성 발생, 셀프 참조 발생. 해당 이슈 해결을 위해 분리.
  */
 
 export enum UserPointHistoryAction {
@@ -59,11 +62,13 @@ export class UserPointHistory {
   })
   point: number;
   @ApiProperty({
-    example: 500,
+    example: 2000,
+    description: '해당 시점 잔여 포인트',
   })
   remainingPoint: number;
   @ApiProperty({
     example: [{ id: 1, point: 1000 }],
+    description: '포인트 사용 및 복구 이력',
   })
   details?: UserPointHistoryDetail[] | null;
   // createdAt: Date;
