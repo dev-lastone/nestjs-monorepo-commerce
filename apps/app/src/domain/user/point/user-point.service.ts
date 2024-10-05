@@ -58,12 +58,7 @@ export class UserPointService {
     userPointHistory.actionId = actionId;
     userPointHistory.point = point;
     userPointHistory.remainingPoint = userPoint.point;
-
-    if (userPoint.histories) {
-      userPoint.histories.push(userPointHistory);
-    } else {
-      userPoint.histories = [];
-    }
+    userPoint.histories.push(userPointHistory);
 
     return {
       point: userPoint.point,

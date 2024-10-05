@@ -45,6 +45,10 @@ export class UserPoint {
   })
   point: number;
   histories: UserPointHistory[];
+
+  constructor() {
+    this.histories = [];
+  }
 }
 
 export class UserPointHistory {
