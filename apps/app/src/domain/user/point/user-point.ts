@@ -55,7 +55,11 @@ export class UserPoint {
 
   save(point: number, action: UserPointHistoryAction, actionId: number) {
     this.point += point;
-    return this.#addHistory(action, actionId, point);
+    const history = this.#createDefaultHistory(action, actionId, point);
+
+    this.histories.push(history);
+
+    return history;
   }
 
   use(point: number, action: UserPointHistoryAction, actionId: number) {
@@ -64,10 +68,18 @@ export class UserPoint {
     }
 
     this.point -= point;
-    return this.#addHistory(action, actionId, point);
+    const history = this.#createDefaultHistory(action, actionId, point);
+
+    this.histories.push(history);
+
+    return history;
   }
 
-  #addHistory(action: UserPointHistoryAction, actionId: number, point: number) {
+  #createDefaultHistory(
+    action: UserPointHistoryAction,
+    actionId: number,
+    point: number,
+  ) {
     const history = new UserPointHistory();
     history.userId = this.userId;
     history.id = this.histories.length + 1;
@@ -75,8 +87,6 @@ export class UserPoint {
     history.actionId = actionId;
     history.point = point;
     history.remainingPoint = this.point;
-
-    this.histories.push(history);
 
     return history;
   }
