@@ -39,7 +39,14 @@ export class UserPointService {
 
     return {
       point: userPoint.point,
-      history,
+      history: {
+        userId: history.userId,
+        id: history.id,
+        point: history.point,
+        remainingPoint: history.remainingPoint,
+        action: history.action,
+        actionId: history.actionId,
+      },
     };
   }
 
