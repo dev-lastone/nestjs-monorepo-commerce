@@ -41,20 +41,16 @@ export class UserPointService {
   ) {
     const userPoint =
       this.#userPoints.find((userPoint) => userPoint.userId === userId) ??
-      new UserPoint();
+      new UserPoint(userId);
 
     userPoint.point += point;
 
-    const userPointHistory = new UserPointHistory();
-    userPointHistory.userId = userId;
-    userPointHistory.id = userPoint.histories
-      ? userPoint.histories.length + 1
-      : 1;
-    userPointHistory.action = action;
-    userPointHistory.actionId = actionId;
-    userPointHistory.point = point;
-    userPointHistory.remainingPoint = userPoint.point;
-    userPoint.histories.push(userPointHistory);
+    const userPointHistory = this.#createUserPointHistory(
+      userPoint,
+      action,
+      actionId,
+      point,
+    );
 
     return {
       point: userPoint.point,
@@ -80,14 +76,12 @@ export class UserPointService {
 
     userPoint.point -= point;
 
-    const userPointHistory = new UserPointHistory();
-    userPointHistory.userId = userId;
-    userPointHistory.id = userPoint.histories.length + 1;
-    userPointHistory.action = action;
-    userPointHistory.actionId = actionId;
-    userPointHistory.point = point;
-    userPointHistory.remainingPoint = userPoint.point;
-    userPoint.histories.push(userPointHistory);
+    const userPointHistory = this.#createUserPointHistory(
+      userPoint,
+      action,
+      actionId,
+      point,
+    );
 
     return {
       point: userPoint.point,
@@ -95,5 +89,24 @@ export class UserPointService {
         ...userPointHistory,
       },
     };
+  }
+
+  #createUserPointHistory(
+    userPoint: UserPoint,
+    action: UserPointHistoryAction,
+    actionId: number,
+    point: number,
+  ) {
+    const userPointHistory = new UserPointHistory();
+    userPointHistory.userId = userPoint.userId;
+    userPointHistory.id = userPoint.histories.length + 1;
+    userPointHistory.action = action;
+    userPointHistory.actionId = actionId;
+    userPointHistory.point = point;
+    userPointHistory.remainingPoint = userPoint.point;
+
+    userPoint.histories.push(userPointHistory);
+
+    return userPointHistory;
   }
 }
