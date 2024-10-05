@@ -46,7 +46,8 @@ export class UserPoint {
   point: number;
   histories: UserPointHistory[];
 
-  constructor() {
+  constructor(userId: number) {
+    this.userId = userId;
     this.point = 0;
     this.histories = [];
   }
