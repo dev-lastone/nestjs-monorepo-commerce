@@ -53,6 +53,7 @@ export class UserPoint {
     this.histories = [];
   }
 
+  // TODO storage 만료일 기준으로 정렬
   get storages() {
     return this.histories
       .filter((history) => history.storage.point > 0)
@@ -81,6 +82,30 @@ export class UserPoint {
 
     this.point -= point;
     const history = this.#createDefaultHistory(action, actionId, point);
+
+    let remainingPoint = point;
+    while (remainingPoint > 0) {
+      const storage = this.storages[0];
+
+      if (remainingPoint > storage.point) {
+        remainingPoint -= storage.point;
+        storage.point = 0;
+      } else {
+        storage.point -= remainingPoint;
+        remainingPoint = 0;
+      }
+
+      const consumption = new UserPointConsumption();
+      consumption.userPointHistoryId = history.id;
+      consumption.userPointStorageId = this.storages[0].id;
+      consumption.point = storage.point;
+
+      if (history.consumptions) {
+        history.consumptions.push(consumption);
+      } else {
+        history.consumptions = [consumption];
+      }
+    }
 
     this.histories.push(history);
 
