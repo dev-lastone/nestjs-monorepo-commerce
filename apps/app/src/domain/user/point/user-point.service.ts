@@ -17,7 +17,14 @@ export class UserPointService {
 
     return {
       point: userPoint.point,
-      history,
+      history: {
+        userId: history.userId,
+        id: history.id,
+        point: history.point,
+        remainingPoint: history.remainingPoint,
+        action: history.action,
+        actionId: history.actionId,
+      },
     };
   }
 
@@ -37,9 +44,14 @@ export class UserPointService {
   }
 
   #getUserPoint(userId: number) {
-    return (
+    const userPoint =
       this.#userPoints.find((userPoint) => userPoint.userId === userId) ??
-      new UserPoint(userId)
+      new UserPoint(userId);
+
+    userPoint.histories = userPoint.histories.filter(
+      (history) => history.storage.point > 0,
     );
+
+    return userPoint;
   }
 }
