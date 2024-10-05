@@ -48,6 +48,7 @@ describe('UserPointService', () => {
   });
 
   // TODO 단일. 전체 테스트시 쌓이는 데이터 차이로 인한 테스트 실패 작업 필요
+  // TODO service, class 테스트 분리
   describe('use', () => {
     it('use - 포인트 부족', () => {
       expect(() =>
