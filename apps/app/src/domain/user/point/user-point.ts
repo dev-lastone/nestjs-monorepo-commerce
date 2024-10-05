@@ -62,6 +62,7 @@ export class UserPoint {
     storage.userPointHistoryId = history.id;
     storage.point = point;
 
+    history.storage = storage;
     this.histories.push(history);
 
     return history;
