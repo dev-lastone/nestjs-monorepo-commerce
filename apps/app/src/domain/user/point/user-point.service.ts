@@ -43,11 +43,7 @@ export class UserPointService {
       this.#userPoints.find((userPoint) => userPoint.userId === userId) ??
       new UserPoint();
 
-    if (userPoint.point) {
-      userPoint.point += point;
-    } else {
-      userPoint.point = point;
-    }
+    userPoint.point += point;
 
     const userPointHistory = new UserPointHistory();
     userPointHistory.userId = userId;
