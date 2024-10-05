@@ -57,6 +57,11 @@ export class UserPoint {
     this.point += point;
     const history = this.#createDefaultHistory(action, actionId, point);
 
+    const storage = new UserPointStorage();
+    storage.id = this.histories.length + 1;
+    storage.userPointHistoryId = history.id;
+    storage.point = point;
+
     this.histories.push(history);
 
     return history;
