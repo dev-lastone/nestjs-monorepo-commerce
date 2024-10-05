@@ -14,12 +14,15 @@ describe('UserPointService', () => {
         3,
       );
       expect(userPoint).toEqual({
-        userId: 1,
-        id: 3,
-        point: 1000,
-        remainingPoint: 1000,
-        action: UserPointHistoryAction.ORDER_PRODUCT,
-        actionId: 3,
+        point: 3000,
+        history: {
+          userId: 1,
+          id: 3,
+          point: 1000,
+          remainingPoint: 3000,
+          action: UserPointHistoryAction.ORDER_PRODUCT,
+          actionId: 3,
+        },
       });
     });
 
@@ -31,12 +34,15 @@ describe('UserPointService', () => {
         4,
       );
       expect(userPoint).toEqual({
-        userId: 2,
-        id: 4,
         point: 1000,
-        remainingPoint: 1000,
-        action: UserPointHistoryAction.ORDER_PRODUCT,
-        actionId: 4,
+        history: {
+          userId: 2,
+          id: 1,
+          point: 1000,
+          remainingPoint: 1000,
+          action: UserPointHistoryAction.ORDER_PRODUCT,
+          actionId: 4,
+        },
       });
     });
   });
@@ -45,7 +51,7 @@ describe('UserPointService', () => {
   describe('use', () => {
     it('use - 포인트 부족', () => {
       expect(() =>
-        userPointService.usePoint(1, 2001, UserPointHistoryAction.ORDER, 1),
+        userPointService.usePoint(1, 3001, UserPointHistoryAction.ORDER, 1),
       ).toThrowError(ERROR_MESSAGES.NotEnoughPoints);
     });
 
@@ -57,12 +63,15 @@ describe('UserPointService', () => {
         1,
       );
       expect(userPoint).toEqual({
-        userId: 1,
-        id: 5,
         point: 1500,
-        remainingPoint: 0,
-        action: UserPointHistoryAction.ORDER,
-        actionId: 1,
+        history: {
+          userId: 1,
+          id: 4,
+          point: 1500,
+          remainingPoint: 1500,
+          action: UserPointHistoryAction.ORDER,
+          actionId: 1,
+        },
       });
     });
   });
