@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
 
 /*
 	UserPoint // 총 포인트
@@ -51,6 +52,34 @@ export class UserPoint {
     this.point = 0;
     this.histories = [];
   }
+
+  save(point: number, action: UserPointHistoryAction, actionId: number) {
+    this.point += point;
+    return this.#addHistory(action, actionId, point);
+  }
+
+  use(point: number, action: UserPointHistoryAction, actionId: number) {
+    if (this.point < point) {
+      throw new Error(ERROR_MESSAGES.NotEnoughPoints);
+    }
+
+    this.point -= point;
+    return this.#addHistory(action, actionId, point);
+  }
+
+  #addHistory(action: UserPointHistoryAction, actionId: number, point: number) {
+    const history = new UserPointHistory();
+    history.userId = this.userId;
+    history.id = this.histories.length + 1;
+    history.action = action;
+    history.actionId = actionId;
+    history.point = point;
+    history.remainingPoint = this.point;
+
+    this.histories.push(history);
+
+    return history;
+  }
 }
 
 export class UserPointHistory {
@@ -74,6 +103,8 @@ export class UserPointHistory {
   })
   actionId: number;
   // createdAt: Date;
+  storage?: UserPointStorage;
+  consumptions?: UserPointConsumption[];
 }
 
 export class UserPointStorage {

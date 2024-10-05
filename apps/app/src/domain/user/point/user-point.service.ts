@@ -1,37 +1,10 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import {
-  UserPoint,
-  UserPointHistory,
-  UserPointHistoryAction,
-} from './user-point';
-import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
+import { Injectable } from '@nestjs/common';
+import { UserPoint, UserPointHistoryAction } from './user-point';
+import { userPoints } from './__stub/user-point';
 
 @Injectable()
 export class UserPointService {
-  #userPoints: UserPoint[] = [
-    {
-      userId: 1,
-      point: 2000,
-      histories: [
-        {
-          userId: 1,
-          id: 1,
-          action: UserPointHistoryAction.ORDER_PRODUCT,
-          actionId: 1,
-          point: 1000,
-          remainingPoint: 1000,
-        },
-        {
-          userId: 1,
-          id: 2,
-          action: UserPointHistoryAction.ORDER_PRODUCT,
-          actionId: 2,
-          point: 1000,
-          remainingPoint: 2000,
-        },
-      ],
-    },
-  ];
+  #userPoints: UserPoint[] = userPoints;
 
   savePoint(
     userId: number,
@@ -40,21 +13,11 @@ export class UserPointService {
     actionId: number,
   ) {
     const userPoint = this.#getUserPoint(userId);
-
-    userPoint.point += point;
-
-    const userPointHistory = this.#createUserPointHistory(
-      userPoint,
-      action,
-      actionId,
-      point,
-    );
+    const history = userPoint.save(point, action, actionId);
 
     return {
       point: userPoint.point,
-      history: {
-        ...userPointHistory,
-      },
+      history,
     };
   }
 
@@ -65,25 +28,11 @@ export class UserPointService {
     actionId: number,
   ) {
     const userPoint = this.#getUserPoint(userId);
-
-    if (!userPoint || userPoint.point < point) {
-      throw new BadRequestException(ERROR_MESSAGES.NotEnoughPoints);
-    }
-
-    userPoint.point -= point;
-
-    const userPointHistory = this.#createUserPointHistory(
-      userPoint,
-      action,
-      actionId,
-      point,
-    );
+    const history = userPoint.use(point, action, actionId);
 
     return {
       point: userPoint.point,
-      history: {
-        ...userPointHistory,
-      },
+      history,
     };
   }
 
@@ -92,24 +41,5 @@ export class UserPointService {
       this.#userPoints.find((userPoint) => userPoint.userId === userId) ??
       new UserPoint(userId)
     );
-  }
-
-  #createUserPointHistory(
-    userPoint: UserPoint,
-    action: UserPointHistoryAction,
-    actionId: number,
-    point: number,
-  ) {
-    const userPointHistory = new UserPointHistory();
-    userPointHistory.userId = userPoint.userId;
-    userPointHistory.id = userPoint.histories.length + 1;
-    userPointHistory.action = action;
-    userPointHistory.actionId = actionId;
-    userPointHistory.point = point;
-    userPointHistory.remainingPoint = userPoint.point;
-
-    userPoint.histories.push(userPointHistory);
-
-    return userPointHistory;
   }
 }
