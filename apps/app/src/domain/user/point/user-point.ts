@@ -44,19 +44,12 @@ export class UserPoint {
     example: 1000,
   })
   point: number;
+  histories: UserPointHistory[];
 }
 
 export class UserPointHistory {
   userId: number;
   id: number;
-  @ApiProperty({
-    enum: UserPointHistoryAction,
-  })
-  action: UserPointHistoryAction;
-  @ApiProperty({
-    example: 1,
-  })
-  actionId: number;
   @ApiProperty({
     example: 1000,
   })
@@ -67,16 +60,25 @@ export class UserPointHistory {
   })
   remainingPoint: number;
   @ApiProperty({
-    example: [{ id: 1, point: 1000 }],
-    description: '포인트 사용 및 복구 이력',
+    enum: UserPointHistoryAction,
   })
-  details?: UserPointHistoryDetail[] | null;
+  action: UserPointHistoryAction;
+  @ApiProperty({
+    example: 1,
+  })
+  actionId: number;
   // createdAt: Date;
-  // updatedAt: Date;
-  // expirationAt?: Date | null;
 }
 
-class UserPointHistoryDetail {
+export class UserPointStorage {
   id: number;
+  userPointHistoryId: number;
+  point: number;
+  // expirationAt: Date;
+}
+
+export class UserPointConsumption {
+  userPointHistoryId: number;
+  userPointStorageId: number;
   point: number;
 }
