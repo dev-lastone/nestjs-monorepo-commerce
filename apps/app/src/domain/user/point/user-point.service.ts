@@ -44,14 +44,9 @@ export class UserPointService {
   }
 
   #getUserPoint(userId: number) {
-    const userPoint =
+    return (
       this.#userPoints.find((userPoint) => userPoint.userId === userId) ??
-      new UserPoint(userId);
-
-    userPoint.histories = userPoint.histories.filter(
-      (history) => history.storage.point > 0,
+      new UserPoint(userId)
     );
-
-    return userPoint;
   }
 }

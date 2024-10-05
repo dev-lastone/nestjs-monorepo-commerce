@@ -53,6 +53,12 @@ export class UserPoint {
     this.histories = [];
   }
 
+  get storages() {
+    return this.histories
+      .filter((history) => history.storage.point > 0)
+      .map((history) => history.storage);
+  }
+
   save(point: number, action: UserPointHistoryAction, actionId: number) {
     this.point += point;
     const history = this.#createDefaultHistory(action, actionId, point);
