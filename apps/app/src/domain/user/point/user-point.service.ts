@@ -51,9 +51,16 @@ export class UserPointService {
   }
 
   #getUserPoint(userId: number) {
-    return (
-      this.#userPoints.find((userPoint) => userPoint.userId === userId) ??
-      new UserPoint(userId)
+    const userPoint = this.#userPoints.find(
+      (userPoint) => userPoint.userId === userId,
     );
+
+    if (userPoint) {
+      return userPoint;
+    }
+
+    const newUserPoint = new UserPoint(userId);
+    this.#userPoints.push(newUserPoint);
+    return newUserPoint;
   }
 }
