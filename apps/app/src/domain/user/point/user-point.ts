@@ -97,7 +97,7 @@ export class UserPoint {
 
       const consumption = new UserPointConsumption();
       consumption.userPointHistoryId = history.id;
-      consumption.userPointStorageId = this.storages[0].id;
+      consumption.userPointStorageId = storage.id;
       consumption.point = storage.point;
 
       if (history.consumptions) {
