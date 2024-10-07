@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PostOrdersAppReqDto } from './orders.app.dto';
 import { Order } from '../../domain/order/order';
+import { OrderStatus } from '../../domain/order/order-product';
 
 @Injectable()
 export class OrdersAppService {
@@ -16,6 +17,7 @@ export class OrdersAppService {
           id: 1,
           name: 'product-1',
           price: 1000,
+          status: OrderStatus.ORDERED,
         },
       ],
     },
@@ -32,6 +34,7 @@ export class OrdersAppService {
         id,
         name: `product-${id}`,
         price: id * 1000,
+        status: OrderStatus.ORDERED,
       })),
     };
 

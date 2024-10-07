@@ -16,7 +16,7 @@ export class OrdersAppController {
     status: 201,
     type: Order,
   })
-  postOrder(@UserId() userId, @Body() dto: PostOrdersAppReqDto) {
+  postOrder(@UserId() userId: number, @Body() dto: PostOrdersAppReqDto) {
     return this.ordersAppService.postOrder(userId, dto);
   }
 
@@ -26,7 +26,7 @@ export class OrdersAppController {
     status: 200,
     type: [Order],
   })
-  getOrders(@UserId() userId) {
+  getOrders(@UserId() userId: number) {
     return this.ordersAppService.getOrders(userId);
   }
 }
