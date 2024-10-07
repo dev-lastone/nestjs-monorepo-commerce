@@ -15,10 +15,22 @@ export class ProductService {
       price: 10000,
       stock: 10,
     },
+    {
+      id: 2,
+      name: '상품명2',
+      price: 20000,
+      stock: 1,
+    },
   ];
 
   findProducts(): Product[] {
     return this.products;
+  }
+
+  findOneProduct(id: number): Product {
+    const idx = this.checkExistentProduct(id);
+
+    return this.products[idx];
   }
 
   createProduct(dto: CreateProductDto): Product {

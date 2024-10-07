@@ -29,7 +29,7 @@ describe('ProductsAdminController', () => {
     createProductDto.stock = 20;
 
     expect(productsAdminController.postProduct(createProductDto)).toEqual({
-      id: 2,
+      id: 3,
       ...createProductDto,
     });
   });
@@ -41,6 +41,12 @@ describe('ProductsAdminController', () => {
         name: '상품명',
         price: 10000,
         stock: 10,
+      },
+      {
+        id: 2,
+        name: '상품명2',
+        price: 20000,
+        stock: 1,
       },
     ]);
   });
@@ -78,7 +84,14 @@ describe('ProductsAdminController', () => {
 
       productsAdminController.deleteProduct(id);
 
-      expect(productsAdminController.getProducts()).toEqual([]);
+      expect(productsAdminController.getProducts()).toEqual([
+        {
+          id: 2,
+          name: '상품명2',
+          price: 20000,
+          stock: 1,
+        },
+      ]);
     });
   });
 });
