@@ -1,39 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { PostOrdersAppReqDto } from './orders.app.dto';
 import { ProductService } from '@domain/domain/product/product.service';
-import { productStub1 } from '@domain/domain/product/__stub/product.stub';
 import { Order } from '@domain/domain/order/order';
 import { OrderStatus } from '@domain/domain/order/order-product';
+import { orders } from '@domain/domain/order/orders';
 
 @Injectable()
 export class OrdersAppService {
   constructor(private readonly productService: ProductService) {}
-
-  #orders: Order[] = [
-    {
-      id: 1,
-      userId: 1,
-      zipcode: '01234',
-      address: '서울시 강남구 역삼동 *********',
-      products: [
-        {
-          orderId: 1,
-          id: 1,
-          productId: productStub1.id,
-          name: productStub1.name,
-          price: productStub1.price,
-          status: OrderStatus.ORDERED,
-        },
-      ],
-    },
-  ];
 
   postOrder(userId: number, dto: PostOrdersAppReqDto): Order {
     const products = dto.productIds.map((id) => {
       return this.productService.findOneProduct(id);
     });
 
-    const orderId = this.#orders.length + 1;
+    const orderId = orders.length + 1;
     const order = {
       id: orderId,
       userId,
@@ -49,12 +30,12 @@ export class OrdersAppService {
       })),
     };
 
-    this.#orders.push(order);
+    orders.push(order);
 
     return order;
   }
 
   getOrders(userId: number): Order[] {
-    return this.#orders.filter((order) => order.userId === userId);
+    return orders.filter((order) => order.userId === userId);
   }
 }
