@@ -15,6 +15,7 @@ export class OrderProduct {
     example: 1,
   })
   id: number;
+  productId: number;
   @ApiProperty({
     example: '상품명',
   })
