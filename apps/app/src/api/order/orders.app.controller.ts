@@ -3,7 +3,7 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { OrdersAppService } from './orders.app.service';
 import { PostOrdersAppReqDto } from './orders.app.dto';
 import { UserId } from '@common/common/decorator/user-id.decorator';
-import { Order } from '../../domain/order/order';
+import { Order } from '@domain/domain/order/order';
 
 @ApiTags('orders')
 @Controller('orders')

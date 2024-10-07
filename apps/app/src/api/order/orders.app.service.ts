@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { PostOrdersAppReqDto } from './orders.app.dto';
-import { Order } from '../../domain/order/order';
-import { OrderStatus } from '../../domain/order/order-product';
 import { ProductService } from '@domain/domain/product/product.service';
 import { productStub1 } from '@domain/domain/product/__stub/product.stub';
+import { Order } from '@domain/domain/order/order';
+import { OrderStatus } from '@domain/domain/order/order-product';
 
 @Injectable()
 export class OrdersAppService {
@@ -27,6 +27,7 @@ export class OrdersAppService {
       ],
     },
   ];
+
   postOrder(userId: number, dto: PostOrdersAppReqDto): Order {
     const products = dto.productIds.map((id) => {
       return this.productService.findOneProduct(id);
