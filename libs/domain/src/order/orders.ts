@@ -1,7 +1,8 @@
 import { productStub1 } from '@domain/domain/product/__stub/product.stub';
 import { OrderStatus } from '@domain/domain/order/order-product';
+import { Order } from '@domain/domain/order/order';
 
-export const orders = [
+export const orders: Order[] = [
   {
     id: 1,
     userId: 1,
