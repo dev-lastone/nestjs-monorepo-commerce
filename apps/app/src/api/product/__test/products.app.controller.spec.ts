@@ -20,8 +20,9 @@ describe('ProductsAppController', () => {
     expect(productsAppController.getProducts()).toEqual([
       {
         id: 1,
-        name: 'test1',
+        name: '상품명',
         price: 10000,
+        stock: 10,
       },
     ]);
   });

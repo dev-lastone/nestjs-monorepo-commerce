@@ -26,6 +26,7 @@ describe('ProductsAdminController', () => {
     const createProductDto = new CreateProductDto();
     createProductDto.name = 'test2';
     createProductDto.price = 20000;
+    createProductDto.stock = 20;
 
     expect(productsAdminController.postProduct(createProductDto)).toEqual({
       id: 2,
@@ -37,8 +38,9 @@ describe('ProductsAdminController', () => {
     expect(productsAdminController.getProducts()).toEqual([
       {
         id: 1,
-        name: 'test1',
+        name: '상품명',
         price: 10000,
+        stock: 10,
       },
     ]);
   });

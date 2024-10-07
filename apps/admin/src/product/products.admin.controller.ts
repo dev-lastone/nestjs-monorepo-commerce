@@ -60,6 +60,7 @@ export class ProductsAdminController {
     return this.productService.updateProduct(id, {
       name: dto.name,
       price: dto.price,
+      stock: dto.stock,
     });
   }
 
