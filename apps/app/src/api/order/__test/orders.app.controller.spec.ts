@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { OrdersAppController } from '../orders.app.controller';
 import { OrdersAppService } from '../orders.app.service';
+import { OrderStatus } from '../../../domain/order/order-product';
 
 describe('OrdersAppController', () => {
   let ordersAppController: OrdersAppController;
@@ -30,12 +31,14 @@ describe('OrdersAppController', () => {
           id: 1,
           name: 'product-1',
           price: 1000,
+          status: OrderStatus.ORDERED,
         },
         {
           orderId: 2,
           id: 2,
           name: 'product-2',
           price: 2000,
+          status: OrderStatus.ORDERED,
         },
       ],
     });
@@ -54,6 +57,7 @@ describe('OrdersAppController', () => {
             id: 1,
             name: 'product-1',
             price: 1000,
+            status: OrderStatus.ORDERED,
           },
         ],
       },

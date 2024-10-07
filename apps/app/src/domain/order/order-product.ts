@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 
+export enum OrderStatus {
+  ORDERED = 'ordered',
+  DELIVERED = 'delivered',
+  COMPLETED = 'completed',
+}
+
 export class OrderProduct {
   @ApiProperty({
     example: 1,
@@ -17,4 +23,5 @@ export class OrderProduct {
     example: 1000,
   })
   price: number;
+  status: OrderStatus;
 }
