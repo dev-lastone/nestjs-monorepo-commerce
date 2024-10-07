@@ -3,6 +3,10 @@ import { OrdersAppController } from '../orders.app.controller';
 import { OrdersAppService } from '../orders.app.service';
 import { OrderStatus } from '../../../domain/order/order-product';
 import { ProductModule } from '@domain/domain/product/product.module';
+import {
+  productStub1,
+  productStub2,
+} from '@domain/domain/product/__stub/product.stub';
 
 describe('OrdersAppController', () => {
   let ordersAppController: OrdersAppController;
@@ -31,15 +35,15 @@ describe('OrdersAppController', () => {
         {
           orderId: 2,
           id: 1,
-          name: '상품명',
-          price: 10000,
+          name: productStub1.name,
+          price: productStub1.price,
           status: OrderStatus.ORDERED,
         },
         {
           orderId: 2,
           id: 2,
-          name: '상품명2',
-          price: 20000,
+          name: productStub2.name,
+          price: productStub2.price,
           status: OrderStatus.ORDERED,
         },
       ],

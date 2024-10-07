@@ -5,23 +5,11 @@ import {
   UpdateProductDto,
 } from '@domain/domain/product/product.dto';
 import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
+import { productStubs } from '@domain/domain/product/__stub/product.stub';
 
 @Injectable()
 export class ProductService {
-  private products: Product[] = [
-    {
-      id: 1,
-      name: '상품명',
-      price: 10000,
-      stock: 10,
-    },
-    {
-      id: 2,
-      name: '상품명2',
-      price: 20000,
-      stock: 1,
-    },
-  ];
+  private products: Product[] = productStubs;
 
   findProducts(): Product[] {
     return this.products;
@@ -62,9 +50,8 @@ export class ProductService {
   deleteProduct(id: number) {
     this.checkExistentProduct(id);
 
-    this.products = this.products.filter((product) => {
-      return product.id !== id;
-    });
+    const idx = this.products.findIndex((product) => product.id === id);
+    this.products.splice(idx, 1);
   }
 
   checkExistentProduct(id: number): number {

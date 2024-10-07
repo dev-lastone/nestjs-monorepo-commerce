@@ -7,6 +7,7 @@ import {
 } from '@domain/domain/product/product.dto';
 import { NON_EXISTENT_ID } from '@common/common/constant/constants';
 import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
+import { productStubs } from '@domain/domain/product/__stub/product.stub';
 
 describe('ProductsAdminController', () => {
   let productsAdminController: ProductsAdminController;
@@ -35,20 +36,7 @@ describe('ProductsAdminController', () => {
   });
 
   it('get', () => {
-    expect(productsAdminController.getProducts()).toEqual([
-      {
-        id: 1,
-        name: '상품명',
-        price: 10000,
-        stock: 10,
-      },
-      {
-        id: 2,
-        name: '상품명2',
-        price: 20000,
-        stock: 1,
-      },
-    ]);
+    expect(productsAdminController.getProducts()).toEqual(productStubs);
   });
 
   describe('put', () => {
@@ -56,15 +44,14 @@ describe('ProductsAdminController', () => {
     updateProductDto.name = '상품2';
     updateProductDto.price = 15000;
 
-    it('404', () => {
+    it(ERROR_MESSAGES.ProductNotFound, () => {
       expect(() =>
         productsAdminController.putProduct(NON_EXISTENT_ID, updateProductDto),
       ).toThrow(ERROR_MESSAGES.ProductNotFound);
     });
 
-    it('200', () => {
-      const id = 1;
-
+    it('성공', () => {
+      const id = 3;
       expect(productsAdminController.putProduct(id, updateProductDto)).toEqual({
         id,
         ...updateProductDto,
@@ -73,25 +60,16 @@ describe('ProductsAdminController', () => {
   });
 
   describe('delete', () => {
-    it('404', () => {
+    it(ERROR_MESSAGES.ProductNotFound, () => {
       expect(() =>
         productsAdminController.deleteProduct(NON_EXISTENT_ID),
       ).toThrow(ERROR_MESSAGES.ProductNotFound);
     });
 
-    it('200', () => {
-      const id = 1;
+    it('성공', () => {
+      productsAdminController.deleteProduct(3);
 
-      productsAdminController.deleteProduct(id);
-
-      expect(productsAdminController.getProducts()).toEqual([
-        {
-          id: 2,
-          name: '상품명2',
-          price: 20000,
-          stock: 1,
-        },
-      ]);
+      expect(productsAdminController.getProducts()).toEqual(productStubs);
     });
   });
 });
