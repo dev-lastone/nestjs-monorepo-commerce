@@ -38,6 +38,8 @@ export class OrdersAppService {
       })),
     };
 
+    this.#orders.push(order);
+
     return order;
   }
 
