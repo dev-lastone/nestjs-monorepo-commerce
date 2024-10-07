@@ -1,12 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { OrdersAppController } from '../orders.app.controller';
 import { OrdersAppService } from '../orders.app.service';
-import { OrderStatus } from '../../../domain/order/order-product';
 import { ProductModule } from '@domain/domain/product/product.module';
 import {
   productStub1,
   productStub2,
 } from '@domain/domain/product/__stub/product.stub';
+import { OrderStatus } from '@domain/domain/order/order-product';
 
 describe('OrdersAppController', () => {
   let ordersAppController: OrdersAppController;
