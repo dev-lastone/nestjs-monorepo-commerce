@@ -25,7 +25,7 @@ describe('OrdersAppController', () => {
       userId: 1,
       zipcode: '01234',
       address: '서울시 강남구 역삼동 *********',
-      product: [
+      products: [
         {
           orderId: 2,
           id: 1,
@@ -51,11 +51,11 @@ describe('OrdersAppController', () => {
         userId: 1,
         zipcode: '01234',
         address: '서울시 강남구 역삼동 *********',
-        product: [
+        products: [
           {
             orderId: 1,
             id: 1,
-            name: 'product-1',
+            name: '상품명',
             price: 1000,
             status: OrderStatus.ORDERED,
           },

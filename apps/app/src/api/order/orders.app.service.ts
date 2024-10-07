@@ -5,17 +5,19 @@ import { OrderStatus } from '../../domain/order/order-product';
 
 @Injectable()
 export class OrdersAppService {
+  constructor() {}
+
   #orders: Order[] = [
     {
       id: 1,
       userId: 1,
       zipcode: '01234',
       address: '서울시 강남구 역삼동 *********',
-      product: [
+      products: [
         {
           orderId: 1,
           id: 1,
-          name: 'product-1',
+          name: '상품명',
           price: 1000,
           status: OrderStatus.ORDERED,
         },
@@ -29,7 +31,7 @@ export class OrdersAppService {
       userId,
       zipcode: '01234',
       address: '서울시 강남구 역삼동 *********',
-      product: dto.productIds.map((id) => ({
+      products: dto.productIds.map((id) => ({
         orderId,
         id,
         name: `product-${id}`,

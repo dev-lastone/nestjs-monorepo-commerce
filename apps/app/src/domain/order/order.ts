@@ -21,5 +21,5 @@ export class Order {
   @ApiProperty({
     type: [OrderProduct],
   })
-  product: OrderProduct[];
+  products: OrderProduct[];
 }
