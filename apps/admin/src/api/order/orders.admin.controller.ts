@@ -1,8 +1,8 @@
 import { Controller, Get, Param, ParseIntPipe, Version } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { orders } from '@domain/domain/order/orders';
 import { Order } from '@domain/domain/order/order';
 import { OrdersAdminService } from './orders.admin.service';
+import { GetOrdersResDto } from './orders.admin.dto';
 
 @ApiBearerAuth('jwt')
 @ApiTags('orders')
@@ -13,11 +13,11 @@ export class OrdersAdminController {
   @Version('1')
   @Get()
   @ApiOkResponse({
-    type: Order,
+    type: GetOrdersResDto,
     isArray: true,
   })
   getOrders() {
-    return orders;
+    return this.ordersAdminService.getOrders();
   }
 
   @Version('1')

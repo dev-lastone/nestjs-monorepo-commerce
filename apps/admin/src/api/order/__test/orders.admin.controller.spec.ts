@@ -18,7 +18,14 @@ describe('OrdersAdminController', () => {
   });
 
   it('getOrders', () => {
-    expect(ordersAdminController.getOrders()).toEqual(orders);
+    expect(ordersAdminController.getOrders()).toEqual([
+      {
+        id: 1,
+        userId: 1,
+        zipcode: '01234',
+        address: '서울시 강남구 역삼동 *********',
+      },
+    ]);
   });
 
   it('getOrder', () => {
