@@ -24,6 +24,12 @@ describe('ProductsAppController', () => {
         price: 10000,
         stock: 10,
       },
+      {
+        id: 2,
+        name: '상품명2',
+        price: 20000,
+        stock: 1,
+      },
     ]);
   });
 });
