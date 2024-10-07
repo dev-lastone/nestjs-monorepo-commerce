@@ -2,12 +2,14 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { OrdersAppController } from '../orders.app.controller';
 import { OrdersAppService } from '../orders.app.service';
 import { OrderStatus } from '../../../domain/order/order-product';
+import { ProductModule } from '@domain/domain/product/product.module';
 
 describe('OrdersAppController', () => {
   let ordersAppController: OrdersAppController;
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
+      imports: [ProductModule],
       controllers: [OrdersAppController],
       providers: [OrdersAppService],
     }).compile();
@@ -29,15 +31,15 @@ describe('OrdersAppController', () => {
         {
           orderId: 2,
           id: 1,
-          name: 'product-1',
-          price: 1000,
+          name: '상품명',
+          price: 10000,
           status: OrderStatus.ORDERED,
         },
         {
           orderId: 2,
           id: 2,
-          name: 'product-2',
-          price: 2000,
+          name: '상품명2',
+          price: 20000,
           status: OrderStatus.ORDERED,
         },
       ],
