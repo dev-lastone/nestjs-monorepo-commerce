@@ -5,8 +5,8 @@ import { ProductsAdminModule } from './product/products.admin.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from '@common/common/guard/jwt.auth.guard';
 import { configModule } from '@common/common/setting/config';
-import { OrdersAdminModule } from './order/orders.admin.module';
 import { AuthAdminModule } from './api/auth/auth.admin.module';
+import { OrdersAdminModule } from './api/order/orders.admin.module';
 
 @Module({
   imports: [
