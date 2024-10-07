@@ -11,8 +11,9 @@ export class ProductService {
   private products: Product[] = [
     {
       id: 1,
-      name: 'test1',
+      name: '상품명',
       price: 10000,
+      stock: 10,
     },
   ];
 
@@ -21,14 +22,11 @@ export class ProductService {
   }
 
   createProduct(dto: CreateProductDto): Product {
-    const { name, price } = dto;
-
     const id = this.products.length + 1;
 
     const product = new Product({
       id,
-      name,
-      price,
+      ...dto,
     });
 
     this.products.push(product);
@@ -42,6 +40,7 @@ export class ProductService {
     const product = this.products[idx];
     product.name = dto.name;
     product.price = dto.price;
+    product.stock = dto.stock;
 
     this.products[idx] = product;
 
