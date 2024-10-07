@@ -35,6 +35,7 @@ describe('OrdersAppController', () => {
         {
           orderId: 2,
           id: 1,
+          productId: productStub1.id,
           name: productStub1.name,
           price: productStub1.price,
           status: OrderStatus.ORDERED,
@@ -42,6 +43,7 @@ describe('OrdersAppController', () => {
         {
           orderId: 2,
           id: 2,
+          productId: productStub2.id,
           name: productStub2.name,
           price: productStub2.price,
           status: OrderStatus.ORDERED,
@@ -61,8 +63,9 @@ describe('OrdersAppController', () => {
           {
             orderId: 1,
             id: 1,
-            name: '상품명',
-            price: 1000,
+            productId: productStub1.id,
+            name: productStub1.name,
+            price: productStub1.price,
             status: OrderStatus.ORDERED,
           },
         ],
