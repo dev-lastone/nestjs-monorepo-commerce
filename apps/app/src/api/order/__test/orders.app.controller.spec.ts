@@ -70,6 +70,30 @@ describe('OrdersAppController', () => {
           },
         ],
       },
+      {
+        id: 2,
+        userId: 1,
+        zipcode: '01234',
+        address: '서울시 강남구 역삼동 *********',
+        products: [
+          {
+            orderId: 2,
+            id: 1,
+            productId: productStub1.id,
+            name: productStub1.name,
+            price: productStub1.price,
+            status: OrderStatus.ORDERED,
+          },
+          {
+            orderId: 2,
+            id: 2,
+            productId: productStub2.id,
+            name: productStub2.name,
+            price: productStub2.price,
+            status: OrderStatus.ORDERED,
+          },
+        ],
+      },
     ]);
   });
 });
