@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ProductsAppController } from '../products.app.controller';
 import { ProductModule } from '@domain/domain/product/product.module';
+import { productStubs } from '@domain/domain/product/__stub/product.stub';
 
 describe('ProductsAppController', () => {
   let productsAppController: ProductsAppController;
@@ -17,19 +18,6 @@ describe('ProductsAppController', () => {
   });
 
   it('get', () => {
-    expect(productsAppController.getProducts()).toEqual([
-      {
-        id: 1,
-        name: '상품명',
-        price: 10000,
-        stock: 10,
-      },
-      {
-        id: 2,
-        name: '상품명2',
-        price: 20000,
-        stock: 1,
-      },
-    ]);
+    expect(productsAppController.getProducts()).toEqual(productStubs);
   });
 });
