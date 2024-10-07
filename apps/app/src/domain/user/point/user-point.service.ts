@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { UserPoint, UserPointHistoryAction } from './user-point';
-import { userPoints } from './__stub/user-point';
+import { userPointStubs } from './__stub/user-point.stub';
 
 @Injectable()
 export class UserPointService {
-  #userPoints: UserPoint[] = userPoints;
+  #userPoints: UserPoint[] = userPointStubs;
 
   savePoint(
     userId: number,
