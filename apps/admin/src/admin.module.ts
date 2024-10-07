@@ -2,11 +2,11 @@ import { Module } from '@nestjs/common';
 import { AdminController } from './admin.controller';
 import { AdminService } from './admin.service';
 import { ProductsAdminModule } from './product/products.admin.module';
-import { AuthAdminModule } from './auth/auth.admin.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from '@common/common/guard/jwt.auth.guard';
 import { configModule } from '@common/common/setting/config';
 import { OrdersAdminModule } from './order/orders.admin.module';
+import { AuthAdminModule } from './api/auth/auth.admin.module';
 
 @Module({
   imports: [
