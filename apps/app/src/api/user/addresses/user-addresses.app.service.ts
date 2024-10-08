@@ -6,7 +6,10 @@ import {
 import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
 import { PostUserAddressRequestDto } from './user-addresses.app.dto';
 import { USER_ADDRESS_MAX_LENGTH } from '@common/common/constant/constants';
-import { UserAddress, UsersAddresses } from '../../../domain/user/user-address';
+import {
+  UserAddress,
+  UsersAddresses,
+} from '../../../domain/user/address/user-address';
 
 @Injectable()
 export class UserAddressesAppService {
