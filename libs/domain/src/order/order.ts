@@ -1,6 +1,8 @@
 import { OrderProduct } from './order-product';
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
+import { Product } from '@domain/domain/product/product';
+import { UserAddress } from '../../../../apps/app/src/domain/user/address/user-address';
 
 export class Order {
   @ApiProperty({
@@ -28,4 +30,13 @@ export class Order {
   })
   @Expose()
   products: OrderProduct[];
+
+  constructor(userAddress: UserAddress, products: Product[]) {
+    this.userId = userAddress.userId;
+    this.zipcode = userAddress.zipcode;
+    this.address = userAddress.address;
+    this.products = products.map((product) => {
+      return new OrderProduct(product);
+    });
+  }
 }
