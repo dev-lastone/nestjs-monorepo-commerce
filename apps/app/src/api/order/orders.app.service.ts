@@ -2,40 +2,33 @@ import { Injectable } from '@nestjs/common';
 import { PostOrdersAppReqDto } from './orders.app.dto';
 import { ProductService } from '@domain/domain/product/product.service';
 import { Order } from '@domain/domain/order/order';
-import { OrderStatus } from '@domain/domain/order/order-product';
-import { orders } from '@domain/domain/order/orders';
+import { UserAddress } from '../../domain/user/address/user-address';
+import { OrderRepo } from '@domain/domain/order/order.repo';
 
 @Injectable()
 export class OrdersAppService {
-  constructor(private readonly productService: ProductService) {}
+  constructor(
+    private readonly productService: ProductService,
+    private readonly orderRepo: OrderRepo,
+  ) {}
 
   postOrder(userId: number, dto: PostOrdersAppReqDto): Order {
     const products = dto.productIds.map((id) => {
       return this.productService.findOneProduct(id);
     });
 
-    const orderId = orders.length + 1;
-    const order = {
-      id: orderId,
-      userId,
-      zipcode: '01234',
-      address: '서울시 강남구 역삼동 *********',
-      products: products.map((product, id) => ({
-        orderId,
-        id: id + 1,
-        productId: product.id,
-        name: product.name,
-        price: product.price,
-        status: OrderStatus.ORDERED,
-      })),
-    };
+    // TODO address 조회
+    const userAddress = new UserAddress();
+    userAddress.userId = userId;
+    userAddress.zipcode = '01234';
+    userAddress.address = '서울시 강남구 역삼동 *********';
 
-    orders.push(order);
+    const order = new Order(userAddress, products);
 
-    return order;
+    return this.orderRepo.save(order);
   }
 
   getOrders(userId: number): Order[] {
-    return orders.filter((order) => order.userId === userId);
+    return this.orderRepo.findByUserId(userId);
   }
 }

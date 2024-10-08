@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Product } from '@domain/domain/product/product';
 
 export enum OrderStatus {
   ORDERED = 'ordered',
@@ -10,11 +11,11 @@ export class OrderProduct {
   @ApiProperty({
     example: 1,
   })
-  orderId: number;
+  id: number;
   @ApiProperty({
     example: 1,
   })
-  id: number;
+  orderId: number;
   productId: number;
   @ApiProperty({
     example: '상품명',
@@ -25,4 +26,11 @@ export class OrderProduct {
   })
   price: number;
   status: OrderStatus;
+
+  constructor(product: Product) {
+    this.productId = product.id;
+    this.name = product.name;
+    this.price = product.price;
+    this.status = OrderStatus.ORDERED;
+  }
 }

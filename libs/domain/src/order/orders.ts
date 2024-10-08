@@ -11,8 +11,8 @@ export const orders: Order[] = [
     address: '서울시 강남구 역삼동 *********',
     products: [
       {
-        orderId: 1,
         id: 1,
+        orderId: 1,
         productId: productStub1.id,
         name: productStub1.name,
         price: productStub1.price,
