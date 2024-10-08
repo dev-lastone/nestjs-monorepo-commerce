@@ -5,7 +5,7 @@ import { OrdersAdminService } from './orders.admin.service';
 import { GetOrdersResDto } from './orders.admin.dto';
 
 @ApiBearerAuth('jwt')
-@ApiTags('orders')
+@ApiTags('order')
 @Controller('orders')
 export class OrdersAdminController {
   constructor(private readonly ordersAdminService: OrdersAdminService) {}
