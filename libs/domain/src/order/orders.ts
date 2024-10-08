@@ -2,6 +2,7 @@ import { productStub1 } from '@domain/domain/product/__stub/product.stub';
 import { OrderStatus } from '@domain/domain/order/order-product';
 import { Order } from '@domain/domain/order/order';
 
+// TODO products id order 밑 seq 말고 별도 id 관리되도록 수정
 export const orders: Order[] = [
   {
     id: 1,
