@@ -28,22 +28,22 @@ describe('OrdersAppController', () => {
         productIds: [1, 2],
       }),
     ).toEqual({
-      id: 1,
+      id: 2,
       userId: 1,
       zipcode: '01234',
       address: '서울시 강남구 역삼동 *********',
       products: [
         {
-          id: 1,
-          orderId: 1,
+          id: 2,
+          orderId: 2,
           productId: productStub1.id,
           name: productStub1.name,
           price: productStub1.price,
           status: OrderStatus.ORDERED,
         },
         {
-          orderId: 1,
-          id: 2,
+          id: 3,
+          orderId: 2,
           productId: productStub2.id,
           name: productStub2.name,
           price: productStub2.price,
@@ -54,10 +54,6 @@ describe('OrdersAppController', () => {
   });
 
   it('get', () => {
-    ordersAppController.postOrder(1, {
-      productIds: [1, 2],
-    });
-
     expect(ordersAppController.getOrders(1)).toEqual([
       {
         id: 1,
@@ -71,14 +67,6 @@ describe('OrdersAppController', () => {
             productId: productStub1.id,
             name: productStub1.name,
             price: productStub1.price,
-            status: OrderStatus.ORDERED,
-          },
-          {
-            id: 2,
-            orderId: 1,
-            productId: productStub2.id,
-            name: productStub2.name,
-            price: productStub2.price,
             status: OrderStatus.ORDERED,
           },
         ],

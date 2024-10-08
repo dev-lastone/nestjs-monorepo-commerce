@@ -1,13 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { orders } from '@domain/domain/order/orders';
 import { OrdersAdminController } from '../orders/orders.admin.controller';
 import { OrdersAdminService } from '../orders/orders.admin.service';
+import { OrderModule } from '@domain/domain/order/order.module';
+import { orderStub } from '@domain/domain/order/__stub/order.stub';
 
 describe('OrdersAdminController', () => {
   let ordersAdminController: OrdersAdminController;
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
+      imports: [OrderModule],
       controllers: [OrdersAdminController],
       providers: [OrdersAdminService],
     }).compile();
@@ -20,16 +22,15 @@ describe('OrdersAdminController', () => {
   it('getOrders', () => {
     expect(ordersAdminController.getOrders()).toEqual([
       {
-        id: 1,
-        userId: 1,
-        zipcode: '01234',
-        address: '서울시 강남구 역삼동 *********',
+        id: orderStub.id,
+        userId: orderStub.userId,
+        zipcode: orderStub.zipcode,
+        address: orderStub.address,
       },
     ]);
   });
 
   it('getOrder', () => {
-    const id = 1;
-    expect(ordersAdminController.getOrder(id)).toEqual(orders[0]);
+    expect(ordersAdminController.getOrder(orderStub.id)).toEqual(orderStub);
   });
 });
