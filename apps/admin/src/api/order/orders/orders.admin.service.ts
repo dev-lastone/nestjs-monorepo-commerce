@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { orders } from '@domain/domain/order/orders';
 import { plainToInstance } from 'class-transformer';
 import { GetOrdersResDto } from './orders.admin.dto';
+import { OrderRepo } from '@domain/domain/order/order.repo';
 
 @Injectable()
 export class OrdersAdminService {
-  constructor() {}
+  constructor(private readonly orderRepo: OrderRepo) {}
 
   getOrders() {
-    return orders.map((order) => {
+    return this.orderRepo.find().map((order) => {
       return plainToInstance(GetOrdersResDto, order, {
         excludeExtraneousValues: true,
       });
@@ -16,8 +16,6 @@ export class OrdersAdminService {
   }
 
   getOrder(id: number) {
-    return orders.find((order) => {
-      return order.id === id;
-    });
+    return this.orderRepo.findOne(id);
   }
 }
