@@ -7,6 +7,7 @@ import {
   adminUserStub,
   invalidAdminUserStub,
 } from '@domain/domain/admin-user/__stub/admin-user.stub';
+import { AdminUserRepo } from '@domain/domain/admin-user/admin-user.repo';
 
 describe('AuthAdminService', () => {
   let authAdminService: AuthAdminService;
@@ -16,6 +17,7 @@ describe('AuthAdminService', () => {
     const app: TestingModule = await Test.createTestingModule({
       providers: [
         AuthAdminService,
+        AdminUserRepo,
         {
           provide: AuthService,
           useValue: {
