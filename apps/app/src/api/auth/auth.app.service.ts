@@ -7,19 +7,13 @@ import { PostAuthAppRequestDto, PostAuthSignUpAppReqDto } from './auth.app.dto';
 import { AuthService } from '@domain/domain/auth/auth.service';
 import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
 import { AppUser } from '@domain/domain/user/app-user';
+import { appUserStub } from '@domain/domain/user/__stub/app-user.stub';
 
 @Injectable()
 export class AuthAppService {
   constructor(private readonly authService: AuthService) {}
 
-  private appUsers: AppUser[] = [
-    {
-      id: 1,
-      name: '홍길동',
-      email: 'test@test.com',
-      password: '1234',
-    },
-  ];
+  private appUsers: AppUser[] = [appUserStub];
 
   signUp(dto: PostAuthSignUpAppReqDto) {
     if (dto.password !== dto.passwordConfirm) {

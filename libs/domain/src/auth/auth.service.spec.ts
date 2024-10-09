@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
 import * as jwt from 'jsonwebtoken';
 import { AdminUser } from '@domain/domain/user/admin-user';
+import { adminUserStub } from '@domain/domain/user/__stub/admin-user.stub';
 
 describe('AuthService', () => {
   let authService: AuthService;
@@ -36,9 +37,9 @@ describe('AuthService', () => {
     jest.spyOn(jwt, 'sign').mockReturnValue('mockToken');
 
     const user = new AdminUser();
-    user.id = 1;
-    user.name = '홍길동';
-    user.email = 'test@test.com';
+    user.id = adminUserStub.id;
+    user.name = adminUserStub.name;
+    user.email = adminUserStub.email;
     const result = authService.createToken(user);
 
     expect(jwt.sign).toHaveBeenCalledWith(
