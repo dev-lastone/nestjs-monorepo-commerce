@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthAdminController } from '../auth.admin.controller';
 import { AuthAdminService } from '../auth.admin.service';
 import { PostAuthAdminRequestDto } from '../auth.admin.dto';
-import { adminUserStub } from '@domain/domain/user/__stub/admin-user.stub';
+import { adminUserStub } from '@domain/domain/admin-user/__stub/admin-user.stub';
 
 describe('AuthAdminController', () => {
   let authAdminController: AuthAdminController;

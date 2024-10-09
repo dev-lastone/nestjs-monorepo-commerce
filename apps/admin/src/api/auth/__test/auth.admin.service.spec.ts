@@ -6,7 +6,7 @@ import { AuthService } from '@domain/domain/auth/auth.service';
 import {
   adminUserStub,
   invalidAdminUserStub,
-} from '@domain/domain/user/__stub/admin-user.stub';
+} from '@domain/domain/admin-user/__stub/admin-user.stub';
 
 describe('AuthAdminService', () => {
   let authAdminService: AuthAdminService;
