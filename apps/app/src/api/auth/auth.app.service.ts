@@ -6,8 +6,8 @@ import {
 import { PostAuthAppRequestDto, PostAuthSignUpAppReqDto } from './auth.app.dto';
 import { AuthService } from '@domain/domain/auth/auth.service';
 import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
-import { AppUser } from '@domain/domain/user/app-user';
 import { appUserStub } from '@domain/domain/user/__stub/app-user.stub';
+import { AppUser } from '@domain/domain/app-user/app-user';
 
 @Injectable()
 export class AuthAppService {
