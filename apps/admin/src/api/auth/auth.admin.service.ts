@@ -13,7 +13,7 @@ export class AuthAdminService {
   signIn(dto: PostAuthAdminRequestDto) {
     const { email, password } = dto;
 
-    const user = this.adminUserRepo.findOne({ email });
+    const user = this.adminUserRepo.findOneByEmail(email);
 
     if (!user || password !== user.password) {
       throw new UnauthorizedException();
