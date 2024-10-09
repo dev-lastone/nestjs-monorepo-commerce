@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as jwt from 'jsonwebtoken';
-import { AdminUser } from '@domain/domain/user/admin-user';
+import { AdminUser } from '@domain/domain/admin-user/admin-user';
 import { AppUser } from '@domain/domain/app-user/app-user';
 
 @Injectable()
