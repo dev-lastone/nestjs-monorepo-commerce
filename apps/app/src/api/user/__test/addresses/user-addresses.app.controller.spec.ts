@@ -3,6 +3,7 @@ import { NON_EXISTENT_ID } from '@common/common/constant/constants';
 import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
 import { UserAddressesAppController } from '../../addresses/user-addresses.app.controller';
 import { UserAddressesAppService } from '../../addresses/user-addresses.app.service';
+import { userAddressStub } from '../../../../domain/user/address/__stub/user-address.stub';
 
 describe('UserAddressesAppController', () => {
   let userAddressesAppController: UserAddressesAppController;
@@ -38,8 +39,8 @@ describe('UserAddressesAppController', () => {
 
         expect(userAddressesAppController.postUserAddress(userId, dto)).toEqual(
           {
-            userId,
             id: 1,
+            userId,
             ...dto,
           },
         );
@@ -47,7 +48,7 @@ describe('UserAddressesAppController', () => {
     });
 
     describe('추가 생성', () => {
-      const userId = 1;
+      const userId = userAddressStub.userId;
       const dto = {
         zipcode: '01235',
         address: '서울시 강남구 신사동 *********',
@@ -57,8 +58,8 @@ describe('UserAddressesAppController', () => {
       it('isDefault true', () => {
         expect(userAddressesAppController.postUserAddress(userId, dto)).toEqual(
           {
-            userId,
             id: 2,
+            userId,
             ...dto,
           },
         );
@@ -68,8 +69,8 @@ describe('UserAddressesAppController', () => {
         dto.isDefault = false;
         expect(userAddressesAppController.postUserAddress(userId, dto)).toEqual(
           {
-            userId,
             id: 2,
+            userId,
             ...dto,
           },
         );
@@ -77,7 +78,7 @@ describe('UserAddressesAppController', () => {
     });
 
     it(ERROR_MESSAGES.UserAddressMaxLength, () => {
-      const userId = 1;
+      const userId = userAddressStub.userId;
       const dto = {
         zipcode: '01235',
         address: '서울시 강남구 신사동 *********',
@@ -95,21 +96,13 @@ describe('UserAddressesAppController', () => {
   });
 
   it('get', () => {
-    const userId = 1;
-
-    expect(userAddressesAppController.getUserAddresses(userId)).toEqual([
-      {
-        userId,
-        id: 1,
-        zipcode: '01234',
-        address: '서울시 강남구 역삼동 *********',
-        isDefault: true,
-      },
-    ]);
+    expect(
+      userAddressesAppController.getUserAddresses(userAddressStub.userId),
+    ).toEqual([userAddressStub]);
   });
 
   describe('put', () => {
-    const userId = 1;
+    const userId = userAddressStub.userId;
     const dto = {
       zipcode: '55555',
       address: '서울시 강남구 양재동 *********',
@@ -117,7 +110,7 @@ describe('UserAddressesAppController', () => {
     };
 
     it('성공', () => {
-      const id = 1;
+      const id = userAddressStub.id;
 
       expect(
         userAddressesAppController.putUserAddress(userId, id, dto),
@@ -146,10 +139,10 @@ describe('UserAddressesAppController', () => {
   });
 
   describe('delete', () => {
-    const userId = 1;
+    const userId = userAddressStub.userId;
 
     it('성공', () => {
-      const id = 1;
+      const id = userAddressStub.id;
 
       expect(
         userAddressesAppController.deleteUserAddress(userId, id),
