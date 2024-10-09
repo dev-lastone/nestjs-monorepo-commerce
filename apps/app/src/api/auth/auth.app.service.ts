@@ -6,14 +6,15 @@ import {
 import { PostAuthAppRequestDto, PostAuthSignUpAppReqDto } from './auth.app.dto';
 import { AuthService } from '@domain/domain/auth/auth.service';
 import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
-import { appUserStub } from '@domain/domain/user/__stub/app-user.stub';
 import { AppUser } from '@domain/domain/app-user/app-user';
+import { AppUserRepo } from '@domain/domain/app-user/app-user.repo';
 
 @Injectable()
 export class AuthAppService {
-  constructor(private readonly authService: AuthService) {}
-
-  private appUsers: AppUser[] = [appUserStub];
+  constructor(
+    private readonly authService: AuthService,
+    private readonly appUserRepo: AppUserRepo,
+  ) {}
 
   signUp(dto: PostAuthSignUpAppReqDto) {
     if (dto.password !== dto.passwordConfirm) {
@@ -21,12 +22,11 @@ export class AuthAppService {
     }
 
     const user = new AppUser();
-    user.id = this.appUsers.length + 1;
     user.name = dto.name;
     user.email = dto.email;
     user.password = dto.password;
 
-    this.appUsers.push(user);
+    this.appUserRepo.save(user);
 
     return this.authService.createToken(user);
   }
@@ -34,7 +34,7 @@ export class AuthAppService {
   signIn(dto: PostAuthAppRequestDto) {
     const { email, password } = dto;
 
-    const user = this.appUsers.find((user) => user.email === email);
+    const user = this.appUserRepo.findOne({ email });
 
     if (!user || password !== user.password) {
       throw new UnauthorizedException();
