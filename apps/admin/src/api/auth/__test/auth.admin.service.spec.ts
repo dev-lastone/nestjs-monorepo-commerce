@@ -3,7 +3,10 @@ import { AuthAdminService } from '../auth.admin.service';
 import { PostAuthAdminRequestDto } from '../auth.admin.dto';
 import { UnauthorizedException } from '@nestjs/common';
 import { AuthService } from '@domain/domain/auth/auth.service';
-import { adminUserStub } from '@domain/domain/user/__stub/admin-user.stub';
+import {
+  adminUserStub,
+  invalidAdminUserStub,
+} from '@domain/domain/user/__stub/admin-user.stub';
 
 describe('AuthAdminService', () => {
   let authAdminService: AuthAdminService;
@@ -29,7 +32,7 @@ describe('AuthAdminService', () => {
   describe('signIn', () => {
     it('잘못된 이메일', async () => {
       const postAuthAdminRequestDto = new PostAuthAdminRequestDto();
-      postAuthAdminRequestDto.email = 'invalid@test.com';
+      postAuthAdminRequestDto.email = invalidAdminUserStub.email;
       postAuthAdminRequestDto.password = adminUserStub.password;
 
       expect(() => authAdminService.signIn(postAuthAdminRequestDto)).toThrow(
@@ -40,7 +43,7 @@ describe('AuthAdminService', () => {
     it('잘못된 패스워드', async () => {
       const postAuthAdminRequestDto = new PostAuthAdminRequestDto();
       postAuthAdminRequestDto.email = adminUserStub.email;
-      postAuthAdminRequestDto.password = 'invalid';
+      postAuthAdminRequestDto.password = invalidAdminUserStub.password;
 
       expect(() => authAdminService.signIn(postAuthAdminRequestDto)).toThrow(
         new UnauthorizedException(),
