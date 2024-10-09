@@ -1,4 +1,4 @@
-import { appUserStub } from '@domain/domain/user/__stub/app-user.stub';
+import { appUserStub } from '@domain/domain/app-user/__stub/app-user.stub';
 
 export const userAddressStub = {
   id: 1,

@@ -1,4 +1,4 @@
-import { appUserStub } from '@domain/domain/user/__stub/app-user.stub';
+import { appUserStub } from '@domain/domain/app-user/__stub/app-user.stub';
 import { productStub1 } from '@domain/domain/product/__stub/product.stub';
 
 export const userCartStub = {

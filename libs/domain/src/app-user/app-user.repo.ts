@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { AppUser } from '@domain/domain/app-user/app-user';
-import { appUserStub } from '@domain/domain/user/__stub/app-user.stub';
+import { appUserStub } from '@domain/domain/app-user/__stub/app-user.stub';
 
 @Injectable()
 export class AppUserRepo {
