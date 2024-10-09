@@ -7,6 +7,10 @@ import {
   PostAuthSignUpAppReqDto,
 } from '../auth.app.dto';
 import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
+import {
+  appUserStub,
+  invalidAppUserStub,
+} from '@domain/domain/user/__stub/app-user.stub';
 
 describe('AuthAppService', () => {
   let authAppService: AuthAppService;
@@ -32,10 +36,10 @@ describe('AuthAppService', () => {
   describe('signUp', () => {
     it(ERROR_MESSAGES.PasswordConfirm, async () => {
       const postAuthAdminRequestDto = new PostAuthSignUpAppReqDto();
-      postAuthAdminRequestDto.name = '홍길동';
-      postAuthAdminRequestDto.email = 'test@test.com';
-      postAuthAdminRequestDto.password = '1234';
-      postAuthAdminRequestDto.passwordConfirm = 'invalid';
+      postAuthAdminRequestDto.name = appUserStub.name;
+      postAuthAdminRequestDto.email = appUserStub.email;
+      postAuthAdminRequestDto.password = appUserStub.password;
+      postAuthAdminRequestDto.passwordConfirm = invalidAppUserStub.password;
 
       expect(() => authAppService.signUp(postAuthAdminRequestDto)).toThrow(
         ERROR_MESSAGES.PasswordConfirm,
@@ -44,10 +48,10 @@ describe('AuthAppService', () => {
 
     it('성공', async () => {
       const postAuthAdminRequestDto = new PostAuthSignUpAppReqDto();
-      postAuthAdminRequestDto.name = '홍길동';
-      postAuthAdminRequestDto.email = 'test@test.com';
-      postAuthAdminRequestDto.password = '1234';
-      postAuthAdminRequestDto.passwordConfirm = '1234';
+      postAuthAdminRequestDto.name = appUserStub.name;
+      postAuthAdminRequestDto.email = appUserStub.email;
+      postAuthAdminRequestDto.password = appUserStub.password;
+      postAuthAdminRequestDto.passwordConfirm = appUserStub.password;
 
       jest.spyOn(authService, 'createToken').mockReturnValue('mockToken');
 
@@ -60,8 +64,8 @@ describe('AuthAppService', () => {
   describe('signIn', () => {
     it('잘못된 이메일', async () => {
       const postAuthAppRequestDto = new PostAuthAppRequestDto();
-      postAuthAppRequestDto.email = 'invalid@test.com';
-      postAuthAppRequestDto.password = '1234';
+      postAuthAppRequestDto.email = invalidAppUserStub.email;
+      postAuthAppRequestDto.password = appUserStub.password;
 
       expect(() => authAppService.signIn(postAuthAppRequestDto)).toThrow(
         new UnauthorizedException(),
@@ -70,8 +74,8 @@ describe('AuthAppService', () => {
 
     it('잘못된 패스워드', async () => {
       const postAuthAdminRequestDto = new PostAuthAppRequestDto();
-      postAuthAdminRequestDto.email = 'test@test.com';
-      postAuthAdminRequestDto.password = 'invalid';
+      postAuthAdminRequestDto.email = appUserStub.email;
+      postAuthAdminRequestDto.password = invalidAppUserStub.password;
 
       expect(() => authAppService.signIn(postAuthAdminRequestDto)).toThrow(
         new UnauthorizedException(),
@@ -80,8 +84,8 @@ describe('AuthAppService', () => {
 
     it('성공', async () => {
       const postAuthAdminRequestDto = new PostAuthAppRequestDto();
-      postAuthAdminRequestDto.email = 'test@test.com';
-      postAuthAdminRequestDto.password = '1234';
+      postAuthAdminRequestDto.email = appUserStub.email;
+      postAuthAdminRequestDto.password = appUserStub.password;
 
       jest.spyOn(authService, 'createToken').mockReturnValue('mockToken');
 
