@@ -6,7 +6,7 @@ import { adminUserStub } from '@domain/domain/admin-user/__stub/admin-user.stub'
 export class AdminUserRepo {
   #adminUsers: AdminUser[] = [adminUserStub];
 
-  findOne(adminUser: Partial<AdminUser>) {
-    return this.#adminUsers.find((user) => user.email === adminUser.email);
+  findOneByEmail(email: string) {
+    return this.#adminUsers.find((user) => user.email === email);
   }
 }
