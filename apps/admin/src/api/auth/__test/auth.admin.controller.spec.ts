@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthAdminController } from '../auth.admin.controller';
 import { AuthAdminService } from '../auth.admin.service';
 import { PostAuthAdminRequestDto } from '../auth.admin.dto';
+import { adminUserStub } from '@domain/domain/user/__stub/admin-user.stub';
 
 describe('AuthAdminController', () => {
   let authAdminController: AuthAdminController;
@@ -24,8 +25,8 @@ describe('AuthAdminController', () => {
 
   it('signIn', async () => {
     const postAuthAdminRequestDto = new PostAuthAdminRequestDto();
-    postAuthAdminRequestDto.email = 'test@test.com';
-    postAuthAdminRequestDto.password = '1234';
+    postAuthAdminRequestDto.email = adminUserStub.email;
+    postAuthAdminRequestDto.password = adminUserStub.password;
 
     await expect(
       authAdminController.signIn(postAuthAdminRequestDto),
