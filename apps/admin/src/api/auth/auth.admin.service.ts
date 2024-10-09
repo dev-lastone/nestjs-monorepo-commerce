@@ -2,7 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PostAuthAdminRequestDto } from './auth.admin.dto';
 import { AuthService } from '@domain/domain/auth/auth.service';
 import { AdminUser } from '@domain/domain/admin-user/admin-user';
-import { adminUserStub } from '@domain/domain/user/__stub/admin-user.stub';
+import { adminUserStub } from '@domain/domain/admin-user/__stub/admin-user.stub';
 
 @Injectable()
 export class AuthAdminService {
