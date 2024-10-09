@@ -4,3 +4,8 @@ export const adminUserStub = {
   email: 'test@test.com',
   password: '1234',
 };
+
+export const invalidAdminUserStub = {
+  email: 'invalid@test.come',
+  password: 'invalid',
+};
