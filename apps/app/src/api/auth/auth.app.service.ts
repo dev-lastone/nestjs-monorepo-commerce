@@ -34,7 +34,7 @@ export class AuthAppService {
   signIn(dto: PostAuthAppRequestDto) {
     const { email, password } = dto;
 
-    const user = this.appUserRepo.findOne({ email });
+    const user = this.appUserRepo.findOneByEmail(email);
 
     if (!user || password !== user.password) {
       throw new UnauthorizedException();
