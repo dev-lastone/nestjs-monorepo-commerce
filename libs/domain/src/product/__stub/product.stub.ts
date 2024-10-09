@@ -13,4 +13,4 @@ export const productStub2 = new Product({
   stock: 1,
 });
 
-export const productStubs = [productStub1, productStub2];
+export const productsStub = [productStub1, productStub2];

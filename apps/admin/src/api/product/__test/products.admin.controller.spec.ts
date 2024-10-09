@@ -7,7 +7,7 @@ import {
 } from '@domain/domain/product/product.dto';
 import { NON_EXISTENT_ID } from '@common/common/constant/constants';
 import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
-import { productStubs } from '@domain/domain/product/__stub/product.stub';
+import { productsStub } from '@domain/domain/product/__stub/product.stub';
 
 describe('ProductsAdminController', () => {
   let productsAdminController: ProductsAdminController;
@@ -36,7 +36,7 @@ describe('ProductsAdminController', () => {
   });
 
   it('get', () => {
-    expect(productsAdminController.getProducts()).toEqual(productStubs);
+    expect(productsAdminController.getProducts()).toEqual(productsStub);
   });
 
   describe('put', () => {
@@ -69,7 +69,7 @@ describe('ProductsAdminController', () => {
     it('성공', () => {
       productsAdminController.deleteProduct(3);
 
-      expect(productsAdminController.getProducts()).toEqual(productStubs);
+      expect(productsAdminController.getProducts()).toEqual(productsStub);
     });
   });
 });

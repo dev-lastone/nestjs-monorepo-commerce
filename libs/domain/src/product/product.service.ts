@@ -5,11 +5,11 @@ import {
   UpdateProductDto,
 } from '@domain/domain/product/product.dto';
 import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
-import { productStubs } from '@domain/domain/product/__stub/product.stub';
+import { productsStub } from '@domain/domain/product/__stub/product.stub';
 
 @Injectable()
 export class ProductService {
-  private products: Product[] = productStubs;
+  private products: Product[] = productsStub;
 
   findProducts(): Product[] {
     return this.products;
