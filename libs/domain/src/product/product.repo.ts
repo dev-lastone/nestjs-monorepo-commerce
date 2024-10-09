@@ -17,7 +17,7 @@ export class ProductRepo {
   save(product: Product): Product {
     if (product.id) {
       const _product = this.#products.find(
-        (product) => product.id === product.id,
+        (_product) => _product.id === product.id,
       );
       _product.name = product.name;
       _product.price = product.price;
