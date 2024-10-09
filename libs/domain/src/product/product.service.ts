@@ -5,44 +5,36 @@ import {
   UpdateProductDto,
 } from '@domain/domain/product/product.dto';
 import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
-import { productsStub } from '@domain/domain/product/__stub/product.stub';
+import { ProductRepo } from '@domain/domain/product/product.repo';
 
 @Injectable()
 export class ProductService {
-  private products: Product[] = productsStub;
+  constructor(private readonly productRepo: ProductRepo) {}
 
   findProducts(): Product[] {
-    return this.products;
+    return this.productRepo.find();
   }
 
   findOneProduct(id: number): Product {
-    const idx = this.checkExistentProduct(id);
-
-    return this.products[idx];
+    return this.checkExistentProduct(id);
   }
 
   createProduct(dto: CreateProductDto): Product {
-    const id = this.products.length + 1;
-
     const product = new Product({
-      id,
       ...dto,
     });
 
-    this.products.push(product);
-
-    return product;
+    return this.productRepo.save(product);
   }
 
   updateProduct(id: number, dto: UpdateProductDto): Product {
-    const idx = this.checkExistentProduct(id);
+    const product = this.checkExistentProduct(id);
 
-    const product = this.products[idx];
     product.name = dto.name;
     product.price = dto.price;
     product.stock = dto.stock;
 
-    this.products[idx] = product;
+    this.productRepo.save(product);
 
     return product;
   }
@@ -50,19 +42,16 @@ export class ProductService {
   deleteProduct(id: number) {
     this.checkExistentProduct(id);
 
-    const idx = this.products.findIndex((product) => product.id === id);
-    this.products.splice(idx, 1);
+    this.productRepo.delete(id);
   }
 
-  checkExistentProduct(id: number): number {
-    const idx = this.products.findIndex((product) => {
-      return product.id === id;
-    });
+  checkExistentProduct(id: number): Product {
+    const product = this.productRepo.findOneById(id);
 
-    if (idx === -1) {
+    if (!product) {
       throw new NotFoundException(ERROR_MESSAGES.ProductNotFound);
     }
 
-    return idx;
+    return product;
   }
 }

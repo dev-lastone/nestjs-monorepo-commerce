@@ -26,8 +26,7 @@ export class Product {
   @IsNotEmpty()
   stock: number;
 
-  constructor(dto: { id: number; name: string; price: number; stock: number }) {
-    this.id = dto.id;
+  constructor(dto: { name: string; price: number; stock: number }) {
     this.name = dto.name;
     this.price = dto.price;
     this.stock = dto.stock;
