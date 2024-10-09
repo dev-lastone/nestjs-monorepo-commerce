@@ -11,6 +11,7 @@ import {
   appUserStub,
   invalidAppUserStub,
 } from '@domain/domain/user/__stub/app-user.stub';
+import { AppUserRepo } from '@domain/domain/app-user/app-user.repo';
 
 describe('AuthAppService', () => {
   let authAppService: AuthAppService;
@@ -20,6 +21,7 @@ describe('AuthAppService', () => {
     const app: TestingModule = await Test.createTestingModule({
       providers: [
         AuthAppService,
+        AppUserRepo,
         {
           provide: AuthService,
           useValue: {
