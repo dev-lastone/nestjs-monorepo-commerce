@@ -12,7 +12,7 @@ export class AppUserRepo {
     return appUser;
   }
 
-  findOne(appUser: Partial<AppUser>) {
-    return this.#appUsers.find((user) => user.email === appUser.email);
+  findOneByEmail(email: string) {
+    return this.#appUsers.find((user) => user.email === email);
   }
 }
