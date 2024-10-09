@@ -10,12 +10,7 @@ describe('AuthAdminDto', () => {
       postAuthAdminRequestDto.email = '';
       postAuthAdminRequestDto.password = '1234';
 
-      await expect(
-        validationPipe.transform(postAuthAdminRequestDto, {
-          type: 'body',
-          metatype: PostAuthAdminRequestDto,
-        }),
-      ).rejects.toThrow(BadRequestException);
+      await _expect(postAuthAdminRequestDto);
     });
 
     it('password 필수', async () => {
@@ -23,12 +18,7 @@ describe('AuthAdminDto', () => {
       postAuthAdminRequestDto.email = 'test@test.com';
       postAuthAdminRequestDto.password = '';
 
-      await expect(
-        validationPipe.transform(postAuthAdminRequestDto, {
-          type: 'body',
-          metatype: PostAuthAdminRequestDto,
-        }),
-      ).rejects.toThrow(BadRequestException);
+      await _expect(postAuthAdminRequestDto);
     });
 
     it('이메일 형식', async () => {
@@ -36,12 +26,16 @@ describe('AuthAdminDto', () => {
       postAuthAdminRequestDto.email = 'test.com';
       postAuthAdminRequestDto.password = '1234';
 
-      await expect(
-        validationPipe.transform(postAuthAdminRequestDto, {
-          type: 'body',
-          metatype: PostAuthAdminRequestDto,
-        }),
-      ).rejects.toThrow(BadRequestException);
+      await _expect(postAuthAdminRequestDto);
     });
   });
+
+  async function _expect(dto: PostAuthAdminRequestDto) {
+    await expect(
+      validationPipe.transform(dto, {
+        type: 'body',
+        metatype: PostAuthAdminRequestDto,
+      }),
+    ).rejects.toThrow(BadRequestException);
+  }
 });
