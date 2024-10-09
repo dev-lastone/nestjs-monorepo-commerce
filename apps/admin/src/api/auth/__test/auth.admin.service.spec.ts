@@ -3,6 +3,7 @@ import { AuthAdminService } from '../auth.admin.service';
 import { PostAuthAdminRequestDto } from '../auth.admin.dto';
 import { UnauthorizedException } from '@nestjs/common';
 import { AuthService } from '@domain/domain/auth/auth.service';
+import { adminUserStub } from '@domain/domain/user/__stub/admin-user.stub';
 
 describe('AuthAdminService', () => {
   let authAdminService: AuthAdminService;
@@ -29,7 +30,7 @@ describe('AuthAdminService', () => {
     it('잘못된 이메일', async () => {
       const postAuthAdminRequestDto = new PostAuthAdminRequestDto();
       postAuthAdminRequestDto.email = 'invalid@test.com';
-      postAuthAdminRequestDto.password = '1234';
+      postAuthAdminRequestDto.password = adminUserStub.password;
 
       expect(() => authAdminService.signIn(postAuthAdminRequestDto)).toThrow(
         new UnauthorizedException(),
@@ -38,7 +39,7 @@ describe('AuthAdminService', () => {
 
     it('잘못된 패스워드', async () => {
       const postAuthAdminRequestDto = new PostAuthAdminRequestDto();
-      postAuthAdminRequestDto.email = 'test@test.com';
+      postAuthAdminRequestDto.email = adminUserStub.email;
       postAuthAdminRequestDto.password = 'invalid';
 
       expect(() => authAdminService.signIn(postAuthAdminRequestDto)).toThrow(
@@ -48,8 +49,8 @@ describe('AuthAdminService', () => {
 
     it('성공', async () => {
       const postAuthAdminRequestDto = new PostAuthAdminRequestDto();
-      postAuthAdminRequestDto.email = 'test@test.com';
-      postAuthAdminRequestDto.password = '1234';
+      postAuthAdminRequestDto.email = adminUserStub.email;
+      postAuthAdminRequestDto.password = adminUserStub.password;
 
       jest.spyOn(authService, 'createToken').mockReturnValue('mockToken');
 
