@@ -10,7 +10,7 @@ import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
 import {
   appUserStub,
   invalidAppUserStub,
-} from '@domain/domain/user/__stub/app-user.stub';
+} from '@domain/domain/app-user/__stub/app-user.stub';
 import { AppUserRepo } from '@domain/domain/app-user/app-user.repo';
 
 describe('AuthAppService', () => {
