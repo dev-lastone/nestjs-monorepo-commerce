@@ -6,17 +6,11 @@ import {
   DeleteUserCartDto,
   UpdateUserCartDto,
 } from './user-cart.dto';
+import { userCartStub } from './__stub/user-cart.stub';
 
 @Injectable()
 export class UserCartService {
-  #userCarts: UserCart[] = [
-    {
-      userId: 1,
-      id: 1,
-      productId: 1,
-      count: 1,
-    },
-  ];
+  #userCarts: UserCart[] = [userCartStub];
 
   createUserCart(dto: CreateUserCartDto) {
     const userCart = new UserCart();
