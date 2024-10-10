@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Product } from '@domain/domain/product/product';
 
-export enum OrderStatus {
+export enum OrderProductStatus {
   ORDERED = 'ordered',
   DELIVERED = 'delivered',
   COMPLETED = 'completed',
@@ -25,12 +25,12 @@ export class OrderProduct {
     example: 1000,
   })
   price: number;
-  status: OrderStatus;
+  status: OrderProductStatus;
 
   constructor(product: Product) {
     this.productId = product.id;
     this.name = product.name;
     this.price = product.price;
-    this.status = OrderStatus.ORDERED;
+    this.status = OrderProductStatus.ORDERED;
   }
 }
