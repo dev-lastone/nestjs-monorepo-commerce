@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Product } from '@domain/domain/product/product';
+import { BadRequestException } from '@nestjs/common';
 
 export enum OrderProductStatus {
   ORDERED = 'ordered',
@@ -32,5 +33,12 @@ export class OrderProduct {
     this.name = product.name;
     this.price = product.price;
     this.status = OrderProductStatus.ORDERED;
+  }
+
+  deliver() {
+    if (this.status === OrderProductStatus.COMPLETED) {
+      throw new BadRequestException('이미 배송이 완료된 상품입니다.');
+    }
+    this.status = OrderProductStatus.DELIVERED;
   }
 }
