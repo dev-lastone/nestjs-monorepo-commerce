@@ -1,5 +1,5 @@
 import { productStub1 } from '@domain/domain/product/__stub/product.stub';
-import { OrderStatus } from '@domain/domain/order/order-product';
+import { OrderProductStatus } from '@domain/domain/order/order-product';
 
 export const orderStub = {
   id: 1,
@@ -13,7 +13,7 @@ export const orderStub = {
       productId: productStub1.id,
       name: productStub1.name,
       price: productStub1.price,
-      status: OrderStatus.ORDERED,
+      status: OrderProductStatus.ORDERED,
     },
   ],
 };

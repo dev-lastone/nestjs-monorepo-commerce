@@ -6,7 +6,7 @@ import {
   productStub1,
   productStub2,
 } from '@domain/domain/product/__stub/product.stub';
-import { OrderStatus } from '@domain/domain/order/order-product';
+import { OrderProductStatus } from '@domain/domain/order/order-product';
 import { OrderModule } from '@domain/domain/order/order.module';
 
 describe('OrdersAppController', () => {
@@ -39,7 +39,7 @@ describe('OrdersAppController', () => {
           productId: productStub1.id,
           name: productStub1.name,
           price: productStub1.price,
-          status: OrderStatus.ORDERED,
+          status: OrderProductStatus.ORDERED,
         },
         {
           id: 3,
@@ -47,7 +47,7 @@ describe('OrdersAppController', () => {
           productId: productStub2.id,
           name: productStub2.name,
           price: productStub2.price,
-          status: OrderStatus.ORDERED,
+          status: OrderProductStatus.ORDERED,
         },
       ],
     });
@@ -67,7 +67,7 @@ describe('OrdersAppController', () => {
             productId: productStub1.id,
             name: productStub1.name,
             price: productStub1.price,
-            status: OrderStatus.ORDERED,
+            status: OrderProductStatus.ORDERED,
           },
         ],
       },
