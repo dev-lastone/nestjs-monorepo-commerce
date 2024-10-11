@@ -28,6 +28,8 @@ export class OrderRepo {
       (product) => product.id === orderProduct.id,
     );
     product.status = orderProduct.status;
+
+    return product;
   }
 
   find() {
