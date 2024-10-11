@@ -6,7 +6,7 @@ import { PatchOrderProductAdminReqDto } from './order-products.admin.dto';
 export class OrderProductsAdminService {
   constructor(private readonly orderRepo: OrderRepo) {}
 
-  async patchOrder(id: number, dto: PatchOrderProductAdminReqDto) {
+  async patchOrderProduct(id: number, dto: PatchOrderProductAdminReqDto) {
     const orderProduct = this.orderRepo.findOneProductById(id);
 
     if (dto.status === 'delivered') {
