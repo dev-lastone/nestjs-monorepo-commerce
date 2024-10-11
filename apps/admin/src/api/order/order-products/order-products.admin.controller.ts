@@ -24,10 +24,10 @@ export class OrderProductsAdminController {
   @ApiOkResponse({
     type: Order,
   })
-  patchOrder(
+  patchOrderProduct(
     @Param('id', new ParseIntPipe()) id: number,
     @Body() dto: PatchOrderProductAdminReqDto,
   ) {
-    return this.orderProductsAdminService.patchOrder(id, dto);
+    return this.orderProductsAdminService.patchOrderProduct(id, dto);
   }
 }
