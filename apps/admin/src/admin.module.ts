@@ -7,6 +7,7 @@ import { configModule } from '@common/common/setting/config';
 import { AuthAdminModule } from './api/auth/auth.admin.module';
 import { ProductsAdminModule } from './api/product/products.admin.module';
 import { OrdersAdminModule } from './api/order/orders/orders.admin.module';
+import { OrderProductsModule } from './api/order/order-products/order-products.admin.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { OrdersAdminModule } from './api/order/orders/orders.admin.module';
     AuthAdminModule,
     ProductsAdminModule,
     OrdersAdminModule,
+    OrderProductsModule,
   ],
   controllers: [AdminController],
   providers: [
