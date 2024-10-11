@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { OrderRepo } from '@domain/domain/order/order.repo';
 import { PatchOrderProductAdminReqDto } from './order-products.admin.dto';
+import { OrderProductStatus } from '@domain/domain/order/order-product';
 
 @Injectable()
 export class OrderProductsAdminService {
@@ -9,7 +10,7 @@ export class OrderProductsAdminService {
   patchOrderProduct(id: number, dto: PatchOrderProductAdminReqDto) {
     const orderProduct = this.orderRepo.findOneProductById(id);
 
-    if (dto.status === 'delivered') {
+    if (dto.status === OrderProductStatus.DELIVERED) {
       orderProduct.deliver();
     }
 
