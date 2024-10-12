@@ -23,14 +23,14 @@ describe('OrderProductsAdminController', () => {
   it('patchOrderProduct', () => {
     expect(
       orderProductsAdminController.patchOrderProduct(1, {
-        status: OrderProductStatus.DELIVERED,
+        status: OrderProductStatus.ON_DELIVERY,
       }),
     ).toEqual({
       id: 1,
       productId: productStub1.id,
       name: productStub1.name,
       price: productStub1.price,
-      status: OrderProductStatus.DELIVERED,
+      status: OrderProductStatus.ON_DELIVERY,
     });
   });
 });
