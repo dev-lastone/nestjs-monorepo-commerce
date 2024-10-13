@@ -14,6 +14,8 @@ export class OrderProductsAdminService {
       orderProduct.deliver();
     }
 
-    return this.orderRepo.saveProduct(orderProduct);
+    this.orderRepo.saveProduct(orderProduct);
+
+    return orderProduct;
   }
 }
