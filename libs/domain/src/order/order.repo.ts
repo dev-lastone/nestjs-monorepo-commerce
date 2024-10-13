@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { orderStub } from '@domain/domain/order/__stub/order.stub';
 import { OrderProduct } from '@domain/domain/order/order-product';
 
+// repo 자체가 stub
 @Injectable()
 export class OrderRepo {
   #id = 2;
@@ -21,12 +22,8 @@ export class OrderRepo {
   }
 
   saveProduct(orderProduct: OrderProduct) {
-    const order = this.#orders.find((order) =>
-      order.products.find((product) => product.id === orderProduct.id),
-    );
-    const product = order.products.find(
-      (product) => product.id === orderProduct.id,
-    );
+    const product = this.findOneProductById(orderProduct.id);
+
     product.status = orderProduct.status;
 
     return product;
