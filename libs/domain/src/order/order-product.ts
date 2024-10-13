@@ -3,8 +3,8 @@ import { Product } from '@domain/domain/product/product';
 
 export enum OrderProductStatus {
   ORDERED = 'ordered',
-  DELIVERED = 'delivered',
-  COMPLETED = 'completed',
+  ON_DELIVERY = 'onDelivery',
+  CONFIRMED = 'confirmed',
 }
 
 export class OrderProduct {
@@ -39,6 +39,6 @@ export class OrderProduct {
     // if (this.status === OrderProductStatus.COMPLETED) {
     //   throw new BadRequestException('이미 배송이 완료된 상품입니다.');
     // }
-    this.status = OrderProductStatus.DELIVERED;
+    this.status = OrderProductStatus.ON_DELIVERY;
   }
 }
