@@ -10,10 +10,12 @@ export class OrderProductsAdminService {
   patchOrderProduct(id: number, dto: PatchOrderProductAdminReqDto) {
     const orderProduct = this.orderRepo.findOneProductById(id);
 
-    if (dto.status === OrderProductStatus.DELIVERED) {
+    if (dto.status === OrderProductStatus.ON_DELIVERY) {
       orderProduct.deliver();
     }
 
-    return this.orderRepo.saveProduct(orderProduct);
+    this.orderRepo.saveProduct(orderProduct);
+
+    return orderProduct;
   }
 }
