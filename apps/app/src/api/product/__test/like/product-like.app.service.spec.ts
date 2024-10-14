@@ -1,4 +1,4 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
 import { ProductService } from '@domain/domain/product/product.service';
 import { ProductLikeAppService } from '../../like/product-like.app.service';
 import { ProductLikeAppDto } from '../../like/product-like.app.dto';
@@ -8,7 +8,7 @@ describe('ProductLikeAppService', () => {
   let productService: ProductService;
 
   beforeEach(async () => {
-    const app: TestingModule = await Test.createTestingModule({
+    const testingModule = await Test.createTestingModule({
       providers: [
         ProductLikeAppService,
         {
@@ -20,10 +20,8 @@ describe('ProductLikeAppService', () => {
       ],
     }).compile();
 
-    productLikeAppService = app.get<ProductLikeAppService>(
-      ProductLikeAppService,
-    );
-    productService = app.get<ProductService>(ProductService);
+    productLikeAppService = testingModule.get(ProductLikeAppService);
+    productService = testingModule.get(ProductService);
   });
 
   describe('postProductLike', () => {
