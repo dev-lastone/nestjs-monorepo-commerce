@@ -1,4 +1,4 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
 import { AuthAppController } from '../auth.app.controller';
 import {
   PostAuthAppRequestDto,
@@ -8,9 +8,10 @@ import { AuthAppService } from '../auth.app.service';
 
 describe('AuthAppController', () => {
   let authAppController: AuthAppController;
+  let authAppService: AuthAppService;
 
   beforeEach(async () => {
-    const app: TestingModule = await Test.createTestingModule({
+    const testingModule = await Test.createTestingModule({
       controllers: [AuthAppController],
       providers: [
         {
@@ -23,27 +24,28 @@ describe('AuthAppController', () => {
       ],
     }).compile();
 
-    authAppController = app.get<AuthAppController>(AuthAppController);
+    authAppController = testingModule.get(AuthAppController);
+    authAppService = testingModule.get(AuthAppService);
   });
 
-  it('signUp', async () => {
+  it('signUp', () => {
     const postAuthAppRequestDto = new PostAuthSignUpAppReqDto();
     postAuthAppRequestDto.name = 'test';
     postAuthAppRequestDto.email = 'test@test.com';
     postAuthAppRequestDto.password = '1234';
 
-    await expect(
-      authAppController.signUp(postAuthAppRequestDto),
-    ).resolves.toEqual('mockToken');
+    authAppController.signUp(postAuthAppRequestDto);
+
+    expect(authAppService.signUp).toBeCalledWith(postAuthAppRequestDto);
   });
 
-  it('signIn', async () => {
+  it('signIn', () => {
     const postAuthAppRequestDto = new PostAuthAppRequestDto();
     postAuthAppRequestDto.email = 'test@test.com';
     postAuthAppRequestDto.password = '1234';
 
-    await expect(
-      authAppController.signIn(postAuthAppRequestDto),
-    ).resolves.toEqual('mockToken');
+    authAppController.signIn(postAuthAppRequestDto);
+
+    expect(authAppService.signIn).toBeCalledWith(postAuthAppRequestDto);
   });
 });
