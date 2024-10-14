@@ -1,4 +1,4 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
 import { ProductService } from '@domain/domain/product/product.service';
 import { NON_EXISTENT_ID } from '@common/common/constant/constants';
 import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
@@ -16,11 +16,11 @@ describe('ProductService', () => {
   let productService: ProductService;
 
   beforeEach(async () => {
-    const app: TestingModule = await Test.createTestingModule({
+    const testingModule = await Test.createTestingModule({
       providers: [ProductService, ProductRepo],
     }).compile();
 
-    productService = app.get<ProductService>(ProductService);
+    productService = testingModule.get(ProductService);
   });
 
   it('createProduct', () => {
