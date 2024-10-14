@@ -1,4 +1,4 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
 import { OrderProductStatus } from '@domain/domain/order/order-product';
 import { OrderRepo } from '@domain/domain/order/order.repo';
 import { orderProductStub } from '@domain/domain/order/__stub/order-product.stub';
@@ -9,7 +9,7 @@ describe('OrderProductsAdminService', () => {
   let orderRepo: OrderRepo;
 
   beforeEach(async () => {
-    const app: TestingModule = await Test.createTestingModule({
+    const testingModule = await Test.createTestingModule({
       providers: [
         OrderProductsAdminService,
         {
@@ -22,10 +22,8 @@ describe('OrderProductsAdminService', () => {
       ],
     }).compile();
 
-    orderProductsAdminService = app.get<OrderProductsAdminService>(
-      OrderProductsAdminService,
-    );
-    orderRepo = app.get<OrderRepo>(OrderRepo);
+    orderProductsAdminService = testingModule.get(OrderProductsAdminService);
+    orderRepo = testingModule.get(OrderRepo);
   });
 
   it('patchOrderProduct', () => {
