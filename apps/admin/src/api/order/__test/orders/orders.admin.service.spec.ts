@@ -11,8 +11,7 @@ describe('OrdersAdminService', () => {
       providers: [OrdersAdminService, OrderRepo],
     }).compile();
 
-    ordersAdminService =
-      testingModule.get<OrdersAdminService>(OrdersAdminService);
+    ordersAdminService = testingModule.get(OrdersAdminService);
   });
 
   it('getOrders', () => {

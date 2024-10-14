@@ -27,8 +27,8 @@ describe('AuthAdminService', () => {
       ],
     }).compile();
 
-    authAdminService = app.get<AuthAdminService>(AuthAdminService);
-    authService = app.get<AuthService>(AuthService);
+    authAdminService = app.get(AuthAdminService);
+    authService = app.get(AuthService);
   });
 
   describe('signIn', () => {

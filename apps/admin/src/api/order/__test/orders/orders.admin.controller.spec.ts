@@ -21,11 +21,8 @@ describe('OrdersAdminController', () => {
       ],
     }).compile();
 
-    ordersAdminController = testingModule.get<OrdersAdminController>(
-      OrdersAdminController,
-    );
-    ordersAdminService =
-      testingModule.get<OrdersAdminService>(OrdersAdminService);
+    ordersAdminController = testingModule.get(OrdersAdminController);
+    ordersAdminService = testingModule.get(OrdersAdminService);
   });
 
   it('getOrders', () => {

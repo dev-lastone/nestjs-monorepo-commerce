@@ -27,10 +27,8 @@ describe('ProductsAdminController', () => {
       ],
     }).compile();
 
-    productsAdminController = testingModule.get<ProductsAdminController>(
-      ProductsAdminController,
-    );
-    productService = testingModule.get<ProductService>(ProductService);
+    productsAdminController = testingModule.get(ProductsAdminController);
+    productService = testingModule.get(ProductService);
   });
 
   it('post', () => {
