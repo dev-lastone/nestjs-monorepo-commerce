@@ -1,23 +1,31 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
 import { ProductsAppController } from '../products.app.controller';
-import { ProductModule } from '@domain/domain/product/product.module';
-import { productsStub } from '@domain/domain/product/__stub/product.stub';
+import { ProductService } from '@domain/domain/product/product.service';
 
 describe('ProductsAppController', () => {
   let productsAppController: ProductsAppController;
+  let productService: ProductService;
 
   beforeEach(async () => {
-    const app: TestingModule = await Test.createTestingModule({
-      imports: [ProductModule],
+    const testingModule = await Test.createTestingModule({
       controllers: [ProductsAppController],
+      providers: [
+        {
+          provide: ProductService,
+          useValue: {
+            findProducts: jest.fn(),
+          },
+        },
+      ],
     }).compile();
 
-    productsAppController = app.get<ProductsAppController>(
-      ProductsAppController,
-    );
+    productsAppController = testingModule.get(ProductsAppController);
+    productService = testingModule.get(ProductService);
   });
 
-  it('get', () => {
-    expect(productsAppController.getProducts()).toEqual(productsStub);
+  it('getProducts', () => {
+    productsAppController.getProducts();
+
+    expect(productService.findProducts).toBeCalled();
   });
 });
