@@ -1,6 +1,5 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
 import { UserCartsAppController } from '../../carts/user-carts.app.controller';
-import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
 import { UserCartService } from '../../../../domain/user/cart/user-cart.service';
 import { productStub1 } from '@domain/domain/product/__stub/product.stub';
 import { appUserStub } from '@domain/domain/app-user/__stub/app-user.stub';
@@ -8,65 +7,67 @@ import { userCartStub } from '../../../../domain/user/cart/__stub/user-cart.stub
 
 describe('UserCartsAppController', () => {
   let userCartsAppController: UserCartsAppController;
+  let userCartService: UserCartService;
 
   beforeEach(async () => {
-    const app: TestingModule = await Test.createTestingModule({
+    const testingModule = await Test.createTestingModule({
       controllers: [UserCartsAppController],
-      providers: [UserCartService],
+      providers: [
+        {
+          provide: UserCartService,
+          useValue: {
+            createUserCart: jest.fn(),
+            getUserCarts: jest.fn(),
+            putUserCart: jest.fn(),
+            deleteUserCart: jest.fn(),
+          },
+        },
+      ],
     }).compile();
 
-    userCartsAppController = app.get<UserCartsAppController>(
-      UserCartsAppController,
-    );
+    userCartsAppController = testingModule.get(UserCartsAppController);
+    userCartService = testingModule.get(UserCartService);
   });
 
-  it('post', () => {
+  it('postUserCart', () => {
     const dto = { productId: productStub1.id, count: 1 };
-    expect(userCartsAppController.postUserCart(appUserStub.id, dto)).toEqual({
-      id: 2,
+
+    userCartsAppController.postUserCart(appUserStub.id, dto);
+
+    expect(userCartService.createUserCart).toBeCalledWith({
       userId: appUserStub.id,
       productId: dto.productId,
       count: dto.count,
     });
   });
 
-  it('get', () => {
-    expect(userCartsAppController.getUserCarts(appUserStub.id)).toEqual([
-      userCartStub,
-    ]);
+  it('getUserCarts', () => {
+    userCartsAppController.getUserCarts(appUserStub.id);
+
+    expect(userCartService.getUserCarts).toBeCalledWith(appUserStub.id);
   });
 
-  describe('put', () => {
-    it(ERROR_MESSAGES.UserCartNotFound, () => {
-      const dto = { count: 2 };
-      expect(() =>
-        userCartsAppController.putUserCart(appUserStub.id, 2, dto),
-      ).toThrowError(ERROR_MESSAGES.UserCartNotFound);
-    });
+  it('putUserCart', () => {
+    const dto = { count: 2 };
+    userCartsAppController.putUserCart(
+      userCartStub.userId,
+      userCartStub.id,
+      dto,
+    );
 
-    it('성공', () => {
-      const dto = { count: 2 };
-      expect(
-        userCartsAppController.putUserCart(
-          userCartStub.userId,
-          userCartStub.id,
-          dto,
-        ),
-      ).toEqual({
-        id: userCartStub.id,
-        userId: userCartStub.userId,
-        productId: userCartStub.productId,
-        count: dto.count,
-      });
+    expect(userCartService.putUserCart).toBeCalledWith({
+      userId: userCartStub.userId,
+      id: userCartStub.id,
+      count: dto.count,
     });
   });
 
   it('delete', () => {
-    expect(
-      userCartsAppController.deleteUserCart(
-        userCartStub.userId,
-        userCartStub.id,
-      ),
-    ).toBeUndefined();
+    userCartsAppController.deleteUserCart(userCartStub.userId, userCartStub.id);
+
+    expect(userCartService.deleteUserCart).toBeCalledWith({
+      userId: userCartStub.userId,
+      id: userCartStub.id,
+    });
   });
 });
