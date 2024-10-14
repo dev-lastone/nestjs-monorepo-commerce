@@ -1,36 +1,42 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
 import { OrdersAdminController } from '../orders/orders.admin.controller';
 import { OrdersAdminService } from '../orders/orders.admin.service';
-import { OrderModule } from '@domain/domain/order/order.module';
 import { orderStub } from '@domain/domain/order/__stub/order.stub';
 
 describe('OrdersAdminController', () => {
   let ordersAdminController: OrdersAdminController;
+  let ordersAdminService: OrdersAdminService;
 
   beforeEach(async () => {
-    const app: TestingModule = await Test.createTestingModule({
-      imports: [OrderModule],
+    const testingModule = await Test.createTestingModule({
       controllers: [OrdersAdminController],
-      providers: [OrdersAdminService],
+      providers: [
+        {
+          provide: OrdersAdminService,
+          useValue: {
+            getOrders: jest.fn().mockReturnValue([orderStub]),
+            getOrder: jest.fn().mockReturnValue(orderStub),
+          },
+        },
+      ],
     }).compile();
 
-    ordersAdminController = app.get<OrdersAdminController>(
+    ordersAdminController = testingModule.get<OrdersAdminController>(
       OrdersAdminController,
     );
+    ordersAdminService =
+      testingModule.get<OrdersAdminService>(OrdersAdminService);
   });
 
   it('getOrders', () => {
-    expect(ordersAdminController.getOrders()).toEqual([
-      {
-        id: orderStub.id,
-        userId: orderStub.userId,
-        zipcode: orderStub.zipcode,
-        address: orderStub.address,
-      },
-    ]);
+    ordersAdminController.getOrders();
+
+    expect(ordersAdminService.getOrders).toBeCalled();
   });
 
   it('getOrder', () => {
-    expect(ordersAdminController.getOrder(orderStub.id)).toEqual(orderStub);
+    ordersAdminController.getOrder(orderStub.id);
+
+    expect(ordersAdminService.getOrder).toBeCalledWith(orderStub.id);
   });
 });
