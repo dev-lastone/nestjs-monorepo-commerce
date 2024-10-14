@@ -1,28 +1,44 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
 import { ProductLikeAppController } from '../../like/product-like.app.controller';
-import { ProductModule } from '@domain/domain/product/product.module';
 import { ProductLikeAppService } from '../../like/product-like.app.service';
 
 describe('ProductLikeController', () => {
   let productLikeAppController: ProductLikeAppController;
+  let productLikeAppService: ProductLikeAppService;
 
   beforeEach(async () => {
-    const app: TestingModule = await Test.createTestingModule({
-      imports: [ProductModule],
+    const testingModule = await Test.createTestingModule({
       controllers: [ProductLikeAppController],
-      providers: [ProductLikeAppService],
+      providers: [
+        {
+          provide: ProductLikeAppService,
+          useValue: {
+            postProductLike: jest.fn().mockReturnValue(true),
+            deleteProductLike: jest.fn().mockReturnValue(false),
+          },
+        },
+      ],
     }).compile();
 
-    productLikeAppController = app.get<ProductLikeAppController>(
-      ProductLikeAppController,
-    );
+    productLikeAppController = testingModule.get(ProductLikeAppController);
+    productLikeAppService = testingModule.get(ProductLikeAppService);
   });
 
   it('post', () => {
-    expect(productLikeAppController.postProductLike(2, 1)).toBe(true);
+    productLikeAppController.postProductLike(2, 1);
+
+    expect(productLikeAppService.postProductLike).toBeCalledWith({
+      userId: 2,
+      productId: 1,
+    });
   });
 
   it('delete', () => {
-    expect(productLikeAppController.deleteProductLike(1, 1)).toBe(false);
+    productLikeAppController.deleteProductLike(1, 1);
+
+    expect(productLikeAppService.deleteProductLike).toBeCalledWith({
+      userId: 1,
+      productId: 1,
+    });
   });
 });
