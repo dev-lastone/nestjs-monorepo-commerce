@@ -20,13 +20,10 @@ describe('OrderProductsAdminController', () => {
       ],
     }).compile();
 
-    orderProductsAdminController =
-      testingModule.get<OrderProductsAdminController>(
-        OrderProductsAdminController,
-      );
-    orderProductsAdminService = testingModule.get<OrderProductsAdminService>(
-      OrderProductsAdminService,
+    orderProductsAdminController = testingModule.get(
+      OrderProductsAdminController,
     );
+    orderProductsAdminService = testingModule.get(OrderProductsAdminService);
   });
 
   it('patchOrderProduct', () => {
