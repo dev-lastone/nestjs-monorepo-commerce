@@ -25,7 +25,7 @@ describe('AuthAdminController', () => {
     authAdminService = testingModule.get(AuthAdminService);
   });
 
-  it('signIn', async () => {
+  it('signIn', () => {
     const postAuthAdminRequestDto = new PostAuthAdminRequestDto();
     postAuthAdminRequestDto.email = adminUserStub.email;
     postAuthAdminRequestDto.password = adminUserStub.password;
