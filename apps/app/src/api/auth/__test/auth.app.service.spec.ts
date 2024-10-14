@@ -1,4 +1,4 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
 import { UnauthorizedException } from '@nestjs/common';
 import { AuthService } from '@domain/domain/auth/auth.service';
 import { AuthAppService } from '../auth.app.service';
@@ -18,7 +18,7 @@ describe('AuthAppService', () => {
   let authService: AuthService;
 
   beforeEach(async () => {
-    const app: TestingModule = await Test.createTestingModule({
+    const testingModule = await Test.createTestingModule({
       providers: [
         AuthAppService,
         AppUserRepo,
@@ -31,8 +31,8 @@ describe('AuthAppService', () => {
       ],
     }).compile();
 
-    authAppService = app.get<AuthAppService>(AuthAppService);
-    authService = app.get<AuthService>(AuthService);
+    authAppService = testingModule.get(AuthAppService);
+    authService = testingModule.get(AuthService);
   });
 
   describe('signUp', () => {
