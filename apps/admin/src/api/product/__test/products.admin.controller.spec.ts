@@ -1,26 +1,36 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
 import { ProductsAdminController } from '../products.admin.controller';
-import { ProductModule } from '@domain/domain/product/product.module';
 import {
   CreateProductDto,
   UpdateProductDto,
 } from '@domain/domain/product/product.dto';
-import { NON_EXISTENT_ID } from '@common/common/constant/constants';
-import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
 import { productsStub } from '@domain/domain/product/__stub/product.stub';
+import { ProductService } from '@domain/domain/product/product.service';
 
 describe('ProductsAdminController', () => {
   let productsAdminController: ProductsAdminController;
+  let productService: ProductService;
 
   beforeEach(async () => {
-    const app: TestingModule = await Test.createTestingModule({
-      imports: [ProductModule],
+    const testingModule = await Test.createTestingModule({
       controllers: [ProductsAdminController],
+      providers: [
+        {
+          provide: ProductService,
+          useValue: {
+            createProduct: jest.fn(),
+            findProducts: jest.fn().mockReturnValue(productsStub),
+            updateProduct: jest.fn(),
+            deleteProduct: jest.fn(),
+          },
+        },
+      ],
     }).compile();
 
-    productsAdminController = app.get<ProductsAdminController>(
+    productsAdminController = testingModule.get<ProductsAdminController>(
       ProductsAdminController,
     );
+    productService = testingModule.get<ProductService>(ProductService);
   });
 
   it('post', () => {
@@ -29,47 +39,30 @@ describe('ProductsAdminController', () => {
     createProductDto.price = 20000;
     createProductDto.stock = 20;
 
-    expect(productsAdminController.postProduct(createProductDto)).toEqual({
-      id: 3,
-      ...createProductDto,
-    });
+    productsAdminController.postProduct(createProductDto);
+
+    expect(productService.createProduct).toBeCalledWith(createProductDto);
   });
 
   it('get', () => {
-    expect(productsAdminController.getProducts()).toEqual(productsStub);
+    productsAdminController.getProducts();
+
+    expect(productService.findProducts).toBeCalled();
   });
 
-  describe('put', () => {
+  it('put', () => {
     const updateProductDto = new UpdateProductDto();
     updateProductDto.name = '상품2';
     updateProductDto.price = 15000;
 
-    it(ERROR_MESSAGES.ProductNotFound, () => {
-      expect(() =>
-        productsAdminController.putProduct(NON_EXISTENT_ID, updateProductDto),
-      ).toThrow(ERROR_MESSAGES.ProductNotFound);
-    });
+    productsAdminController.putProduct(3, updateProductDto);
 
-    it('성공', () => {
-      const id = 3;
-      expect(productsAdminController.putProduct(id, updateProductDto)).toEqual({
-        id,
-        ...updateProductDto,
-      });
-    });
+    expect(productService.updateProduct).toBeCalledWith(3, updateProductDto);
   });
 
-  describe('delete', () => {
-    it(ERROR_MESSAGES.ProductNotFound, () => {
-      expect(() =>
-        productsAdminController.deleteProduct(NON_EXISTENT_ID),
-      ).toThrow(ERROR_MESSAGES.ProductNotFound);
-    });
+  it('delete', () => {
+    productsAdminController.deleteProduct(3);
 
-    it('성공', () => {
-      productsAdminController.deleteProduct(3);
-
-      expect(productsAdminController.getProducts()).toEqual(productsStub);
-    });
+    expect(productService.deleteProduct).toBeCalledWith(3);
   });
 });
