@@ -10,7 +10,7 @@ describe('AuthService', () => {
   let configService: ConfigService;
 
   beforeEach(async () => {
-    const app = await Test.createTestingModule({
+    const testingModule = await Test.createTestingModule({
       providers: [
         AuthService,
         {
@@ -22,8 +22,8 @@ describe('AuthService', () => {
       ],
     }).compile();
 
-    authService = app.get<AuthService>(AuthService);
-    configService = app.get<ConfigService>(ConfigService);
+    authService = testingModule.get(AuthService);
+    configService = testingModule.get(ConfigService);
   });
 
   it('createToken', () => {
