@@ -1,4 +1,4 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
 import { OrderProductsAdminService } from '../order-products/order-products.admin.service';
 import { OrderProductsAdminController } from '../order-products/order-products.admin.controller';
 import { OrderProductStatus } from '@domain/domain/order/order-product';
@@ -8,7 +8,7 @@ describe('OrderProductsAdminController', () => {
   let orderProductsAdminService: OrderProductsAdminService;
 
   beforeEach(async () => {
-    const app: TestingModule = await Test.createTestingModule({
+    const testingModule = await Test.createTestingModule({
       controllers: [OrderProductsAdminController],
       providers: [
         {
@@ -20,10 +20,11 @@ describe('OrderProductsAdminController', () => {
       ],
     }).compile();
 
-    orderProductsAdminController = app.get<OrderProductsAdminController>(
-      OrderProductsAdminController,
-    );
-    orderProductsAdminService = app.get<OrderProductsAdminService>(
+    orderProductsAdminController =
+      testingModule.get<OrderProductsAdminController>(
+        OrderProductsAdminController,
+      );
+    orderProductsAdminService = testingModule.get<OrderProductsAdminService>(
       OrderProductsAdminService,
     );
   });
