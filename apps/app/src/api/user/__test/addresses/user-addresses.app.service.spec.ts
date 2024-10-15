@@ -7,6 +7,7 @@ import { UserAddressModule } from '../../../../domain/user/address/user-address.
 import { UserAddressRepo } from '../../../../domain/user/address/user-address.repo';
 
 describe('UserAddressesAppService', () => {
+  const userId = userAddressStub.userId;
   let userAddressesService: UserAddressesAppService;
 
   beforeEach(async () => {
@@ -19,13 +20,14 @@ describe('UserAddressesAppService', () => {
   });
 
   describe('post', () => {
+    const dto = {
+      zipcode: '01235',
+      address: '서울시 강남구 신사동 *********',
+      isDefault: false,
+    };
+
     describe('신규 생성', () => {
       const userId = 2;
-      const dto = {
-        zipcode: '01235',
-        address: '서울시 강남구 신사동 *********',
-        isDefault: false,
-      };
 
       it(ERROR_MESSAGES.UserAddressDefaultRequired, () => {
         expect(() => userAddressesService.postUserAddress(userId, dto)).toThrow(
@@ -45,15 +47,7 @@ describe('UserAddressesAppService', () => {
     });
 
     describe('추가 생성', () => {
-      const userId = userAddressStub.userId;
-      const dto = {
-        zipcode: '01235',
-        address: '서울시 강남구 신사동 *********',
-        isDefault: true,
-      };
-
       it('isDefault false', () => {
-        dto.isDefault = false;
         expect(userAddressesService.postUserAddress(userId, dto)).toEqual({
           id: 2,
           userId,
@@ -62,6 +56,8 @@ describe('UserAddressesAppService', () => {
       });
 
       it('isDefault true', () => {
+        dto.isDefault = true;
+
         expect(userAddressesService.postUserAddress(userId, dto)).toEqual({
           id: 2,
           userId,
@@ -71,13 +67,6 @@ describe('UserAddressesAppService', () => {
     });
 
     it(ERROR_MESSAGES.UserAddressMaxLength, () => {
-      const userId = userAddressStub.userId;
-      const dto = {
-        zipcode: '01235',
-        address: '서울시 강남구 신사동 *********',
-        isDefault: false,
-      };
-
       for (let i = 0; i < 9; i++) {
         userAddressesService.postUserAddress(userId, dto);
       }
@@ -95,7 +84,6 @@ describe('UserAddressesAppService', () => {
   });
 
   describe('put', () => {
-    const userId = userAddressStub.userId;
     const dto = {
       zipcode: '55555',
       address: '서울시 강남구 양재동 *********',
@@ -136,8 +124,6 @@ describe('UserAddressesAppService', () => {
   });
 
   describe('delete', () => {
-    const userId = userAddressStub.userId;
-
     it('성공', () => {
       const id = userAddressStub.id;
 
