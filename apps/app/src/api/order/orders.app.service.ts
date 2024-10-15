@@ -1,15 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PostOrdersAppReqDto } from './orders.app.dto';
 import { ProductService } from '@domain/domain/product/product.service';
 import { Order } from '@domain/domain/order/order';
-import { UserAddress } from '../../domain/user/address/user-address';
 import { OrderRepo } from '@domain/domain/order/order.repo';
+import { UserAddressRepo } from '../../domain/user/address/user-address.repo';
 
 @Injectable()
 export class OrdersAppService {
   constructor(
     private readonly productService: ProductService,
     private readonly orderRepo: OrderRepo,
+    private readonly userAddressRepo: UserAddressRepo,
   ) {}
 
   postOrder(userId: number, dto: PostOrdersAppReqDto): Order {
@@ -17,11 +18,11 @@ export class OrdersAppService {
       return this.productService.findOneProduct(id);
     });
 
-    // TODO address 조회
-    const userAddress = new UserAddress();
-    userAddress.userId = userId;
-    userAddress.zipcode = '01234';
-    userAddress.address = '서울시 강남구 역삼동 *********';
+    const userAddress = this.userAddressRepo.findOneById(dto.userAddressId);
+
+    if (userAddress.userId !== userId) {
+      throw new ForbiddenException();
+    }
 
     const order = new Order(userAddress, products);
 
