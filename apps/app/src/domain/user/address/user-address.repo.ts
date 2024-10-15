@@ -4,7 +4,7 @@ import { userAddressStub } from './__stub/user-address.stub';
 
 @Injectable()
 export class UserAddressRepo {
-  #userAddresses: UserAddress[] = [userAddressStub];
+  #userAddresses: UserAddress[] = [{ ...userAddressStub }];
 
   save(userAddress: UserAddress) {
     if (userAddress.id) {
