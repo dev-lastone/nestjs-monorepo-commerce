@@ -5,6 +5,7 @@ import { UserAddressesAppService } from '../../addresses/user-addresses.app.serv
 import { userAddressStub } from '../../../../domain/user/address/__stub/user-address.stub';
 import { UserAddressModule } from '../../../../domain/user/address/user-address.module';
 import { UserAddressRepo } from '../../../../domain/user/address/user-address.repo';
+import { ForbiddenException } from '@nestjs/common';
 
 describe('UserAddressesAppService', () => {
   const userId = userAddressStub.userId;
@@ -124,18 +125,24 @@ describe('UserAddressesAppService', () => {
   });
 
   describe('delete', () => {
+    it(ERROR_MESSAGES.UserAddressNotFound, () => {
+      expect(() =>
+        userAddressesService.deleteUserAddress(userId, NON_EXISTENT_ID),
+      ).toThrow(ERROR_MESSAGES.UserAddressNotFound);
+    });
+
+    it('403', () => {
+      expect(() =>
+        userAddressesService.deleteUserAddress(2, userAddressStub.id),
+      ).toThrowError(new ForbiddenException());
+    });
+
     it('성공', () => {
       const id = userAddressStub.id;
 
       expect(
         userAddressesService.deleteUserAddress(userId, id),
       ).toBeUndefined();
-    });
-
-    it(ERROR_MESSAGES.UserAddressNotFound, () => {
-      expect(() =>
-        userAddressesService.deleteUserAddress(userId, NON_EXISTENT_ID),
-      ).toThrow(ERROR_MESSAGES.UserAddressNotFound);
     });
   });
 });
