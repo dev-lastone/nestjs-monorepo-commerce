@@ -1,26 +1,23 @@
 import {
   BadRequestException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
 import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
 import { PostUserAddressRequestDto } from './user-addresses.app.dto';
 import { USER_ADDRESS_MAX_LENGTH } from '@common/common/constant/constants';
-import {
-  UserAddress,
-  UsersAddresses,
-} from '../../../domain/user/address/user-address';
+import { UserAddress } from '../../../domain/user/address/user-address';
+import { UserAddressRepo } from '../../../domain/user/address/user-address.repo';
 
 @Injectable()
 export class UserAddressesAppService {
-  #usersAddresses = UsersAddresses.of();
+  constructor(private readonly userAddressRepo: UserAddressRepo) {}
 
   postUserAddress(userId: number, dto: PostUserAddressRequestDto) {
-    const userAddresses = this.#usersAddresses.get(userId)
-      ? this.#usersAddresses.get(userId)
-      : new Map<number, UserAddress>();
+    const userAddresses = this.userAddressRepo.findByUserId(userId);
 
-    if (userAddresses.size >= USER_ADDRESS_MAX_LENGTH) {
+    if (userAddresses.length >= USER_ADDRESS_MAX_LENGTH) {
       throw new NotFoundException(ERROR_MESSAGES.UserAddressMaxLength);
     }
 
@@ -29,41 +26,29 @@ export class UserAddressesAppService {
         userAddress.isDefault = false;
       });
     } else {
-      const userAddressesArray = Array.from(userAddresses.values());
-      if (!userAddressesArray.some((userAddress) => userAddress.isDefault)) {
+      if (!userAddresses.some((userAddress) => userAddress.isDefault)) {
         throw new BadRequestException(
           ERROR_MESSAGES.UserAddressDefaultRequired,
         );
       }
     }
 
-    const userAddress = new UserAddress();
-    userAddress.id =
-      userAddresses.size === 0
-        ? 1
-        : Math.max(...Array.from(userAddresses).map((item) => item[1].id)) + 1;
-    userAddress.userId = userId;
-    userAddress.zipcode = dto.zipcode;
-    userAddress.address = dto.address;
-    userAddress.isDefault = dto.isDefault;
+    const userAddress = new UserAddress({
+      userId,
+      ...dto,
+    });
 
-    userAddresses.set(userAddress.id, userAddress);
+    this.userAddressRepo.save(userAddress);
 
     return userAddress;
   }
 
   getUserAddresses(userId: number) {
-    return Array.from(this.#usersAddresses.get(userId)).map((item) => item[1]);
+    return this.userAddressRepo.findByUserId(userId);
   }
 
   putUserAddress(dto: UserAddress) {
-    const userAddresses = this.#usersAddresses.get(dto.userId);
-
-    if (!userAddresses) {
-      throw new NotFoundException(ERROR_MESSAGES.UserAddressNotFound);
-    }
-
-    const userAddress = userAddresses.get(dto.id);
+    const userAddress = this.userAddressRepo.findOneById(dto.id);
 
     if (!userAddress) {
       throw new NotFoundException(ERROR_MESSAGES.UserAddressNotFound);
@@ -73,18 +58,22 @@ export class UserAddressesAppService {
     userAddress.address = dto.address;
     userAddress.isDefault = dto.isDefault;
 
-    userAddresses.set(userAddress.id, userAddress);
+    this.userAddressRepo.save(userAddress);
 
     return userAddress;
   }
 
   deleteUserAddress(userId: number, id: number) {
-    const userAddresses = this.#usersAddresses.get(userId);
+    const userAddress = this.userAddressRepo.findOneById(id);
 
-    if (!userAddresses.has(id)) {
+    if (!userAddress) {
       throw new NotFoundException(ERROR_MESSAGES.UserAddressNotFound);
     }
 
-    userAddresses.delete(id);
+    if (userAddress.userId !== userId) {
+      throw new ForbiddenException();
+    }
+
+    this.userAddressRepo.delete(id);
   }
 }
