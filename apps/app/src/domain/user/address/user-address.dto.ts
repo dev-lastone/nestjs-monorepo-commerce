@@ -1,4 +1,4 @@
-export class CreateUserAddressDto {
+export interface ICreateUserAddress {
   userId: number;
   zipcode: string;
   address: string;

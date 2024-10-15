@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsBoolean, IsNotEmpty, IsString } from 'class-validator';
-import { CreateUserAddressDto } from './user-address.dto';
+import { ICreateUserAddress } from './user-address.dto';
 
 export class UserAddress {
   @ApiProperty({
@@ -28,7 +28,7 @@ export class UserAddress {
   @IsBoolean()
   isDefault: boolean;
 
-  constructor(dto: CreateUserAddressDto) {
+  constructor(dto: ICreateUserAddress) {
     this.userId = dto.userId;
     this.zipcode = dto.zipcode;
     this.address = dto.address;
