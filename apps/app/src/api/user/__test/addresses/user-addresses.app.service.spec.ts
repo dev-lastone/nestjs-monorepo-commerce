@@ -3,13 +3,16 @@ import { NON_EXISTENT_ID } from '@common/common/constant/constants';
 import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
 import { UserAddressesAppService } from '../../addresses/user-addresses.app.service';
 import { userAddressStub } from '../../../../domain/user/address/__stub/user-address.stub';
+import { UserAddressModule } from '../../../../domain/user/address/user-address.module';
+import { UserAddressRepo } from '../../../../domain/user/address/user-address.repo';
 
 describe('UserAddressesAppService', () => {
   let userAddressesService: UserAddressesAppService;
 
   beforeEach(async () => {
     const testingModule = await Test.createTestingModule({
-      providers: [UserAddressesAppService],
+      imports: [UserAddressModule],
+      providers: [UserAddressesAppService, UserAddressRepo],
     }).compile();
 
     userAddressesService = testingModule.get(UserAddressesAppService);
@@ -34,7 +37,7 @@ describe('UserAddressesAppService', () => {
         dto.isDefault = true;
 
         expect(userAddressesService.postUserAddress(userId, dto)).toEqual({
-          id: 1,
+          id: 2,
           userId,
           ...dto,
         });
@@ -49,7 +52,8 @@ describe('UserAddressesAppService', () => {
         isDefault: true,
       };
 
-      it('isDefault true', () => {
+      it('isDefault false', () => {
+        dto.isDefault = false;
         expect(userAddressesService.postUserAddress(userId, dto)).toEqual({
           id: 2,
           userId,
@@ -57,8 +61,7 @@ describe('UserAddressesAppService', () => {
         });
       });
 
-      it('isDefault false', () => {
-        dto.isDefault = false;
+      it('isDefault true', () => {
         expect(userAddressesService.postUserAddress(userId, dto)).toEqual({
           id: 2,
           userId,

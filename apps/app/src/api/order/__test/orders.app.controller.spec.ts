@@ -26,10 +26,12 @@ describe('OrdersAppController', () => {
 
   it('postOrder', () => {
     ordersAppController.postOrder(1, {
+      userAddressId: 1,
       productIds: [1, 2],
     });
 
     expect(ordersAppService.postOrder).toBeCalledWith(1, {
+      userAddressId: 1,
       productIds: [1, 2],
     });
   });
