@@ -8,4 +8,4 @@ import { OrderModule } from '@domain/domain/order/order.module';
   controllers: [OrderProductsAdminController],
   providers: [OrderProductsAdminService],
 })
-export class OrderProductsModule {}
+export class OrderProductsAdminModule {}
