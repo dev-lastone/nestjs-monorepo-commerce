@@ -5,7 +5,7 @@ import { PostOrdersAppReqDto } from './orders.app.dto';
 import { UserId } from '@common/common/decorator/user-id.decorator';
 import { Order } from '@domain/domain/order/order';
 
-@ApiTags('orders')
+@ApiTags('order')
 @Controller('orders')
 export class OrdersAppController {
   constructor(private readonly ordersAppService: OrdersAppService) {}
