@@ -14,6 +14,7 @@ export class OrderService {
       orderProduct.deliver();
     } else if (dto.status === OrderProductStatus.CONFIRMED) {
       orderProduct.confirm();
+      // TODO 포인트 적립
     }
 
     this.orderRepo.saveProduct(orderProduct);
