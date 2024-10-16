@@ -1,16 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { OrderRepo } from '@domain/domain/order/order.repo';
 import { OrderProductStatus } from '@domain/domain/order/order-product';
-import { PatchOrderProductAppReqDto } from './order-products.app.dto';
+import { PatchOrderProductDto } from '@domain/domain/order/order.dto';
 
 @Injectable()
-export class OrderProductsAppService {
+export class OrderService {
   constructor(private readonly orderRepo: OrderRepo) {}
 
-  patchOrderProduct(id: number, dto: PatchOrderProductAppReqDto) {
+  patchOrderProduct(id: number, dto: PatchOrderProductDto) {
     const orderProduct = this.orderRepo.findOneProductById(id);
 
-    if (dto.status === OrderProductStatus.CONFIRMED) {
+    if (dto.status === OrderProductStatus.ON_DELIVERY) {
+      orderProduct.deliver();
+    } else if (dto.status === OrderProductStatus.CONFIRMED) {
       orderProduct.confirm();
     }
 
