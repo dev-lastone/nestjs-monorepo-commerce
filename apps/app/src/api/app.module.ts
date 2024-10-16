@@ -9,12 +9,14 @@ import { JwtAuthGuard } from '@common/common/guard/jwt.auth.guard';
 import { ProductLikeAppModule } from './product/like/product-like.app.module';
 import { UserAppModule } from './user/user.app.module';
 import { OrdersAppModule } from './order/orders.app.module';
+import { OrderProductsAppModule } from './order/products/order-products.app.module';
 
 @Module({
   imports: [
     configModule(),
     AuthAppModule,
     OrdersAppModule,
+    OrderProductsAppModule,
     UserAppModule,
     ProductsAppModule,
     ProductLikeAppModule,
