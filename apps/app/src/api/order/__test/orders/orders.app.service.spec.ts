@@ -5,11 +5,11 @@ import {
 } from '@domain/domain/product/__stub/product.stub';
 import { OrderProductStatus } from '@domain/domain/order/order-product';
 import { orderStub } from '@domain/domain/order/__stub/order.stub';
-import { OrdersAppService } from '../orders.app.service';
 import { ProductModule } from '@domain/domain/product/product.module';
 import { OrderModule } from '@domain/domain/order/order.module';
-import { UserAddressModule } from '../../../domain/user/address/user-address.module';
 import { ForbiddenException } from '@nestjs/common';
+import { OrdersAppService } from '../../orders/orders.app.service';
+import { UserAddressModule } from '../../../../domain/user/address/user-address.module';
 
 describe('OrdersAppService', () => {
   let ordersAppService: OrdersAppService;
