@@ -2,7 +2,7 @@ import { Test } from '@nestjs/testing';
 import { OrderProductStatus } from '@domain/domain/order/order-product';
 import { OrderRepo } from '@domain/domain/order/order.repo';
 import { orderProductStub } from '@domain/domain/order/__stub/order-product.stub';
-import { OrderProductsAppService } from '../../products/order-products.app.service';
+import { OrderProductsAppService } from '../../order-products/order-products.app.service';
 
 describe('OrderProductsAppService', () => {
   let orderProductsAppService: OrderProductsAppService;
