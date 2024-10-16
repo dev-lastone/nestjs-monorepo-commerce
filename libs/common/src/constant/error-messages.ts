@@ -8,4 +8,5 @@ export const ERROR_MESSAGES = {
   UserCartNotFound: 'User cart not found',
   PasswordConfirm: 'Please check the password.',
   NotEnoughPoints: 'Not enough points.',
+  AlreadyBeenDelivered: '이미 배송이 완료된 상품입니다.',
 };
