@@ -8,16 +8,14 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Order } from '@domain/domain/order/order';
-import { PatchOrderProductAppReqDto } from './order-products.app.dto';
-import { OrderProductsAppService } from './order-products.app.service';
+import { OrderService } from '@domain/domain/order/order.service';
+import { PatchOrderProductDto } from '@domain/domain/order/order.dto';
 
 @ApiBearerAuth('jwt')
 @ApiTags('order')
 @Controller('order-products')
 export class OrderProductsAppController {
-  constructor(
-    private readonly orderProductsAppService: OrderProductsAppService,
-  ) {}
+  constructor(private readonly orderService: OrderService) {}
 
   @Version('1')
   @Patch(':id')
@@ -26,8 +24,8 @@ export class OrderProductsAppController {
   })
   patchOrderProduct(
     @Param('id', new ParseIntPipe()) id: number,
-    @Body() dto: PatchOrderProductAppReqDto,
+    @Body() dto: PatchOrderProductDto,
   ) {
-    return this.orderProductsAppService.patchOrderProduct(id, dto);
+    return this.orderService.patchOrderProduct(id, dto);
   }
 }
