@@ -1,9 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Product } from '@domain/domain/product/product';
+import { BadRequestException } from '@nestjs/common';
+import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
 
 export enum OrderProductStatus {
   ORDERED = 'ordered',
   ON_DELIVERY = 'onDelivery',
+  DELIVERED = 'delivered',
   CONFIRMED = 'confirmed',
 }
 
@@ -35,10 +38,9 @@ export class OrderProduct {
   }
 
   deliver() {
-    // TODO 완료 처리 작업 후 주석 해제
-    // if (this.status === OrderProductStatus.COMPLETED) {
-    //   throw new BadRequestException('이미 배송이 완료된 상품입니다.');
-    // }
+    if (this.status !== OrderProductStatus.ORDERED) {
+      throw new BadRequestException(ERROR_MESSAGES.AlreadyBeenDelivered);
+    }
     this.status = OrderProductStatus.ON_DELIVERY;
   }
 
