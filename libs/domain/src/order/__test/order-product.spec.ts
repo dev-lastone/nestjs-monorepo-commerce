@@ -20,4 +20,10 @@ describe('OrderProduct', () => {
     orderProduct.deliver();
     expect(orderProduct.status).toBe(OrderProductStatus.ON_DELIVERY);
   });
+
+  it('confirm', () => {
+    const orderProduct = new OrderProduct(productStub1);
+    orderProduct.confirm();
+    expect(orderProduct.status).toBe(OrderProductStatus.CONFIRMED);
+  });
 });
