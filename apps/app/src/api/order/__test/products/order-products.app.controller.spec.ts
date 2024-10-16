@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
 import { OrderProductStatus } from '@domain/domain/order/order-product';
-import { OrderProductsAppController } from '../../products/order-products.app.controller';
-import { OrderProductsAppService } from '../../products/order-products.app.service';
+import { OrderProductsAppController } from '../../order-products/order-products.app.controller';
+import { OrderProductsAppService } from '../../order-products/order-products.app.service';
 
 describe('OrderProductsAppController', () => {
   let orderProductsAppController: OrderProductsAppController;
