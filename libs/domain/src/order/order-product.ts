@@ -45,6 +45,9 @@ export class OrderProduct {
   }
 
   confirm() {
+    if (this.status !== OrderProductStatus.DELIVERED) {
+      throw new BadRequestException(ERROR_MESSAGES.NotDeliveryStatus);
+    }
     this.status = OrderProductStatus.CONFIRMED;
   }
 }
