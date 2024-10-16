@@ -41,4 +41,8 @@ export class OrderProduct {
     // }
     this.status = OrderProductStatus.ON_DELIVERY;
   }
+
+  confirm() {
+    this.status = OrderProductStatus.CONFIRMED;
+  }
 }
