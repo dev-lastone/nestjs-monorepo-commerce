@@ -28,14 +28,26 @@ describe('OrderProduct', () => {
 
     it('성공', () => {
       const orderProduct = new OrderProduct(productStub1);
+      orderProduct.status = OrderProductStatus.ORDERED;
       orderProduct.deliver();
       expect(orderProduct.status).toBe(OrderProductStatus.ON_DELIVERY);
     });
   });
 
-  it('confirm', () => {
-    const orderProduct = new OrderProduct(productStub1);
-    orderProduct.confirm();
-    expect(orderProduct.status).toBe(OrderProductStatus.CONFIRMED);
+  describe('confirm', () => {
+    it(ERROR_MESSAGES.NotDeliveryStatus, () => {
+      const orderProduct = new OrderProduct(productStub1);
+      orderProduct.status = OrderProductStatus.ON_DELIVERY;
+      expect(() => orderProduct.confirm()).toThrowError(
+        ERROR_MESSAGES.NotDeliveryStatus,
+      );
+    });
+
+    it('성공', () => {
+      const orderProduct = new OrderProduct(productStub1);
+      orderProduct.status = OrderProductStatus.DELIVERED;
+      orderProduct.confirm();
+      expect(orderProduct.status).toBe(OrderProductStatus.CONFIRMED);
+    });
   });
 });
