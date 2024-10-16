@@ -1,18 +1,18 @@
 import { Test } from '@nestjs/testing';
 import { OrderProductStatus } from '@domain/domain/order/order-product';
 import { OrderProductsAppController } from '../../order-products/order-products.app.controller';
-import { OrderProductsAppService } from '../../order-products/order-products.app.service';
+import { OrderService } from '@domain/domain/order/order.service';
 
 describe('OrderProductsAppController', () => {
   let orderProductsAppController: OrderProductsAppController;
-  let orderProductsAppService: OrderProductsAppService;
+  let orderService: OrderService;
 
   beforeEach(async () => {
     const testingModule = await Test.createTestingModule({
       controllers: [OrderProductsAppController],
       providers: [
         {
-          provide: OrderProductsAppService,
+          provide: OrderService,
           useValue: {
             patchOrderProduct: jest.fn(),
           },
@@ -21,7 +21,7 @@ describe('OrderProductsAppController', () => {
     }).compile();
 
     orderProductsAppController = testingModule.get(OrderProductsAppController);
-    orderProductsAppService = testingModule.get(OrderProductsAppService);
+    orderService = testingModule.get(OrderService);
   });
 
   it('patchOrderProduct', () => {
@@ -32,6 +32,6 @@ describe('OrderProductsAppController', () => {
 
     orderProductsAppController.patchOrderProduct(id, dto);
 
-    expect(orderProductsAppService.patchOrderProduct).toBeCalledWith(id, dto);
+    expect(orderService.patchOrderProduct).toBeCalledWith(id, dto);
   });
 });
