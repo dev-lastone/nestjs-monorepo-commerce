@@ -1,6 +1,7 @@
 import { Test } from '@nestjs/testing';
 import { OrderProductsAppController } from '../../order-products/order-products.app.controller';
 import { OrderService } from '@domain/domain/order/order.service';
+import { appUserStub } from '@domain/domain/app-user/__stub/app-user.stub';
 
 describe('OrderProductsAppController', () => {
   let orderProductsAppController: OrderProductsAppController;
@@ -27,8 +28,11 @@ describe('OrderProductsAppController', () => {
   it('postOrderProductConfirm', () => {
     const id = 1;
 
-    orderProductsAppController.postOrderProductConfirm(id);
+    orderProductsAppController.postOrderProductConfirm(appUserStub.id, id);
 
-    expect(orderService.orderProductConfirm).toBeCalledWith(id);
+    expect(orderService.orderProductConfirm).toBeCalledWith({
+      id,
+      userId: appUserStub.id,
+    });
   });
 });
