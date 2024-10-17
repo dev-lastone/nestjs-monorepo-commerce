@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { OrderRepo } from '@domain/domain/order/order.repo';
 import { UserPointService } from '@domain/domain/app-user/point/user-point.service';
 import { UserPointHistoryAction } from '@domain/domain/app-user/point/user-point';
@@ -33,6 +37,10 @@ export class OrderService {
 
     if (!orderProduct) {
       throw new NotFoundException();
+    }
+
+    if (orderProduct.order.userId !== userId) {
+      throw new ForbiddenException();
     }
 
     orderProduct.confirm();
