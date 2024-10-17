@@ -8,6 +8,8 @@ import {
 import { OrderService } from '@domain/domain/order/order.service';
 import { appUserStub } from '@domain/domain/app-user/__stub/app-user.stub';
 import { UserPointService } from '@domain/domain/app-user/point/user-point.service';
+import { NON_EXISTENT_ID } from '@common/common/constant/constants';
+import { NotFoundException } from '@nestjs/common';
 
 describe('OrderService', () => {
   let orderService: OrderService;
@@ -35,16 +37,26 @@ describe('OrderService', () => {
     orderRepo = testingModule.get(OrderRepo);
   });
 
-  it('orderProductDeliver', () => {
-    orderProductStub.status = OrderProductStatus.ORDERED;
+  describe('orderProductDeliver', () => {
+    it('not found', () => {
+      jest.spyOn(orderRepo, 'findOneProductById').mockReturnValue(undefined);
 
-    const result = orderService.orderProductDeliver(orderProductStub.id);
+      expect(() =>
+        orderService.orderProductDeliver(NON_EXISTENT_ID),
+      ).toThrowError(new NotFoundException());
+    });
 
-    expect(orderRepo.findOneProductById).toBeCalledWith(1);
-    expect(orderRepo.saveProduct).toBeCalled();
-    expect(result).toEqual({
-      ...orderProductStub,
-      status: OrderProductStatus.ON_DELIVERY,
+    it('성공', () => {
+      orderProductStub.status = OrderProductStatus.ORDERED;
+
+      const result = orderService.orderProductDeliver(orderProductStub.id);
+
+      expect(orderRepo.findOneProductById).toBeCalledWith(1);
+      expect(orderRepo.saveProduct).toBeCalled();
+      expect(result).toEqual({
+        ...orderProductStub,
+        status: OrderProductStatus.ON_DELIVERY,
+      });
     });
   });
 
