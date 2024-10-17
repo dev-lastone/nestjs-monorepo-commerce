@@ -2,6 +2,8 @@ import { Order } from '@domain/domain/order/order';
 import { Injectable } from '@nestjs/common';
 import { orderStub } from '@domain/domain/order/__stub/order.stub';
 import { OrderProduct } from '@domain/domain/order/order-product';
+import { orderProductStub } from '@domain/domain/order/__stub/order-product.stub';
+import { productStub1 } from '@domain/domain/product/__stub/product.stub';
 
 // repo 자체가 stub
 @Injectable()
@@ -45,5 +47,13 @@ export class OrderRepo {
     return this.#orders
       .flatMap((order) => order.products)
       .find((product) => product.id === id);
+  }
+
+  // TODO order confirm 전용 find 예정
+  findOneOrderProductWishOrderAndProduct(id: number) {
+    const orderProduct = orderProductStub;
+    orderProduct.order = orderStub;
+    orderProduct.product = productStub1;
+    return orderProduct;
   }
 }
