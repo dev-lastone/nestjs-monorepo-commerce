@@ -14,8 +14,25 @@ export class OrderService {
       orderProduct.deliver();
     } else if (dto.status === OrderProductStatus.CONFIRMED) {
       orderProduct.confirm();
-      // TODO 포인트 적립
     }
+
+    this.orderRepo.saveProduct(orderProduct);
+
+    return orderProduct;
+  }
+
+  orderProductConfirm(id: number) {
+    const orderProduct = this.orderRepo.findOneProductById(id);
+
+    orderProduct.confirm();
+
+    // 포인트 적립
+    // this.userPointService.savePoint(
+    //   userId,
+    //   1000, // TODO 상품가 % 1
+    //   UserPointHistoryAction.ORDER_PRODUCT,
+    //   orderProduct.id,
+    // );
 
     this.orderRepo.saveProduct(orderProduct);
 
