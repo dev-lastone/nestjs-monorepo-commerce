@@ -4,6 +4,7 @@ import {
   Param,
   ParseIntPipe,
   Patch,
+  Post,
   Version,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
@@ -27,5 +28,14 @@ export class OrderProductsAppController {
     @Body() dto: PatchOrderProductDto,
   ) {
     return this.orderService.patchOrderProduct(id, dto);
+  }
+
+  @Version('1')
+  @Post(':id/confirm')
+  @ApiOkResponse({
+    type: Order,
+  })
+  postOrderProductConfirm(@Param('id', new ParseIntPipe()) id: number) {
+    return this.orderService.orderProductConfirm(id);
   }
 }
