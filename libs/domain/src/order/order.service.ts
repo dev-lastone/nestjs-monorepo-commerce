@@ -12,8 +12,6 @@ export class OrderService {
 
     if (dto.status === OrderProductStatus.ON_DELIVERY) {
       orderProduct.deliver();
-    } else if (dto.status === OrderProductStatus.CONFIRMED) {
-      orderProduct.confirm();
     }
 
     this.orderRepo.saveProduct(orderProduct);
