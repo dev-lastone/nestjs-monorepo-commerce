@@ -41,21 +41,6 @@ describe('OrderService', () => {
         status: OrderProductStatus.ON_DELIVERY,
       });
     });
-
-    it('confirmed', () => {
-      orderProductStub.status = OrderProductStatus.DELIVERED;
-
-      const result = orderService.patchOrderProduct(orderProductStub.id, {
-        status: OrderProductStatus.CONFIRMED,
-      });
-
-      expect(orderRepo.findOneProductById).toBeCalledWith(1);
-      expect(orderRepo.saveProduct).toBeCalled();
-      expect(result).toEqual({
-        ...orderProductStub,
-        status: OrderProductStatus.CONFIRMED,
-      });
-    });
   });
 
   describe('orderProductConfirm', () => {
