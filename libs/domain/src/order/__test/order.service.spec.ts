@@ -60,19 +60,36 @@ describe('OrderService', () => {
     });
   });
 
-  it('orderProductConfirm', () => {
-    orderProductStub.status = OrderProductStatus.DELIVERED;
+  describe('orderProductConfirm', () => {
+    it('404', () => {
+      jest
+        .spyOn(orderRepo, 'findOneOrderProductWishOrderAndProduct')
+        .mockReturnValue(undefined);
 
-    const result = orderService.orderProductConfirm({
-      id: orderProductStub.id,
-      userId: appUserStub.id,
+      expect(() =>
+        orderService.orderProductConfirm({
+          id: NON_EXISTENT_ID,
+          userId: appUserStub.id,
+        }),
+      ).toThrowError(new NotFoundException());
     });
 
-    expect(orderRepo.findOneOrderProductWishOrderAndProduct).toBeCalledWith(1);
-    expect(orderRepo.saveProduct).toBeCalled();
-    expect(result).toEqual({
-      ...orderProductStub,
-      status: OrderProductStatus.CONFIRMED,
+    it('성공', () => {
+      orderProductStub.status = OrderProductStatus.DELIVERED;
+
+      const result = orderService.orderProductConfirm({
+        id: orderProductStub.id,
+        userId: appUserStub.id,
+      });
+
+      expect(orderRepo.findOneOrderProductWishOrderAndProduct).toBeCalledWith(
+        1,
+      );
+      expect(orderRepo.saveProduct).toBeCalled();
+      expect(result).toEqual({
+        ...orderProductStub,
+        status: OrderProductStatus.CONFIRMED,
+      });
     });
   });
 });
