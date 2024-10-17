@@ -1,5 +1,4 @@
 import { Test } from '@nestjs/testing';
-import { OrderProductStatus } from '@domain/domain/order/order-product';
 import { OrderProductsAdminController } from '../../order-products/order-products.admin.controller';
 import { OrderService } from '@domain/domain/order/order.service';
 
@@ -14,7 +13,7 @@ describe('OrderProductsAdminController', () => {
         {
           provide: OrderService,
           useValue: {
-            patchOrderProduct: jest.fn(),
+            orderProductDeliver: jest.fn(),
           },
         },
       ],
@@ -26,14 +25,11 @@ describe('OrderProductsAdminController', () => {
     orderService = testingModule.get(OrderService);
   });
 
-  it('patchOrderProduct', () => {
+  it('postOrderProductDeliver', () => {
     const id = 1;
-    const dto = {
-      status: OrderProductStatus.ON_DELIVERY,
-    };
 
-    orderProductsAdminController.patchOrderProduct(id, dto);
+    orderProductsAdminController.postOrderProductDeliver(id);
 
-    expect(orderService.patchOrderProduct).toBeCalledWith(id, dto);
+    expect(orderService.orderProductDeliver).toBeCalledWith(id);
   });
 });
