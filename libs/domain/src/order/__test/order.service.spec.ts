@@ -1,8 +1,13 @@
 import { Test } from '@nestjs/testing';
 import { OrderProductStatus } from '@domain/domain/order/order-product';
 import { OrderRepo } from '@domain/domain/order/order.repo';
-import { orderProductStub } from '@domain/domain/order/__stub/order-product.stub';
+import {
+  orderProductStub,
+  orderProductWithOrderAndProductStub,
+} from '@domain/domain/order/__stub/order-product.stub';
 import { OrderService } from '@domain/domain/order/order.service';
+import { appUserStub } from '@domain/domain/app-user/__stub/app-user.stub';
+import { UserPointService } from '@domain/domain/app-user/point/user-point.service';
 
 describe('OrderService', () => {
   let orderService: OrderService;
@@ -12,11 +17,15 @@ describe('OrderService', () => {
     const testingModule = await Test.createTestingModule({
       providers: [
         OrderService,
+        UserPointService,
         {
           provide: OrderRepo,
           useValue: {
             findOneProductById: jest.fn().mockReturnValue(orderProductStub),
             saveProduct: jest.fn().mockReturnValue(orderProductStub),
+            findOneOrderProductWishOrderAndProduct: jest
+              .fn()
+              .mockReturnValue(orderProductWithOrderAndProductStub),
           },
         },
       ],
@@ -42,9 +51,12 @@ describe('OrderService', () => {
   it('orderProductConfirm', () => {
     orderProductStub.status = OrderProductStatus.DELIVERED;
 
-    const result = orderService.orderProductConfirm(orderProductStub.id);
+    const result = orderService.orderProductConfirm({
+      id: orderProductStub.id,
+      userId: appUserStub.id,
+    });
 
-    expect(orderRepo.findOneProductById).toBeCalledWith(1);
+    expect(orderRepo.findOneOrderProductWishOrderAndProduct).toBeCalledWith(1);
     expect(orderRepo.saveProduct).toBeCalled();
     expect(result).toEqual({
       ...orderProductStub,
