@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { OrderRepo } from '@domain/domain/order/order.repo';
 import { UserPointService } from '@domain/domain/app-user/point/user-point.service';
 import { UserPointHistoryAction } from '@domain/domain/app-user/point/user-point';
@@ -13,6 +17,10 @@ export class OrderService {
 
   orderProductDeliver(id: number) {
     const orderProduct = this.orderRepo.findOneProductById(id);
+
+    if (!orderProduct) {
+      throw new NotFoundException();
+    }
 
     orderProduct.deliver();
 
