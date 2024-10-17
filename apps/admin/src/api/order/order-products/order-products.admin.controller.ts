@@ -1,15 +1,7 @@
-import {
-  Body,
-  Controller,
-  Param,
-  ParseIntPipe,
-  Patch,
-  Version,
-} from '@nestjs/common';
+import { Controller, Param, ParseIntPipe, Post, Version } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Order } from '@domain/domain/order/order';
 import { OrderService } from '@domain/domain/order/order.service';
-import { PatchOrderProductDto } from '@domain/domain/order/order.dto';
 
 @ApiBearerAuth('jwt')
 @ApiTags('order')
@@ -18,14 +10,11 @@ export class OrderProductsAdminController {
   constructor(private readonly orderService: OrderService) {}
 
   @Version('1')
-  @Patch(':id')
+  @Post(':id/deliver')
   @ApiOkResponse({
     type: Order,
   })
-  patchOrderProduct(
-    @Param('id', new ParseIntPipe()) id: number,
-    @Body() dto: PatchOrderProductDto,
-  ) {
-    return this.orderService.patchOrderProduct(id, dto);
+  postOrderProductDeliver(@Param('id', new ParseIntPipe()) id: number) {
+    return this.orderService.orderProductDeliver(id);
   }
 }

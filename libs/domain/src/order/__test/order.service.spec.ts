@@ -26,35 +26,29 @@ describe('OrderService', () => {
     orderRepo = testingModule.get(OrderRepo);
   });
 
-  describe('patchOrderProduct', () => {
-    it('onDelivery', () => {
-      orderProductStub.status = OrderProductStatus.ORDERED;
+  it('orderProductDeliver', () => {
+    orderProductStub.status = OrderProductStatus.ORDERED;
 
-      const result = orderService.patchOrderProduct(orderProductStub.id, {
-        status: OrderProductStatus.ON_DELIVERY,
-      });
+    const result = orderService.orderProductDeliver(orderProductStub.id);
 
-      expect(orderRepo.findOneProductById).toBeCalledWith(1);
-      expect(orderRepo.saveProduct).toBeCalled();
-      expect(result).toEqual({
-        ...orderProductStub,
-        status: OrderProductStatus.ON_DELIVERY,
-      });
+    expect(orderRepo.findOneProductById).toBeCalledWith(1);
+    expect(orderRepo.saveProduct).toBeCalled();
+    expect(result).toEqual({
+      ...orderProductStub,
+      status: OrderProductStatus.ON_DELIVERY,
     });
   });
 
-  describe('orderProductConfirm', () => {
-    it('confirmed', () => {
-      orderProductStub.status = OrderProductStatus.DELIVERED;
+  it('orderProductConfirm', () => {
+    orderProductStub.status = OrderProductStatus.DELIVERED;
 
-      const result = orderService.orderProductConfirm(orderProductStub.id);
+    const result = orderService.orderProductConfirm(orderProductStub.id);
 
-      expect(orderRepo.findOneProductById).toBeCalledWith(1);
-      expect(orderRepo.saveProduct).toBeCalled();
-      expect(result).toEqual({
-        ...orderProductStub,
-        status: OrderProductStatus.CONFIRMED,
-      });
+    expect(orderRepo.findOneProductById).toBeCalledWith(1);
+    expect(orderRepo.saveProduct).toBeCalled();
+    expect(result).toEqual({
+      ...orderProductStub,
+      status: OrderProductStatus.CONFIRMED,
     });
   });
 });
