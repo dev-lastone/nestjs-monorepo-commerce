@@ -1,8 +1,4 @@
-import {
-  ForbiddenException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { OrderRepo } from '@domain/domain/order/order.repo';
 import { UserPointService } from '@domain/domain/app-user/point/user-point.service';
 import { UserPointHistoryAction } from '@domain/domain/app-user/point/user-point';
@@ -35,7 +31,9 @@ export class OrderService {
     const orderProduct =
       this.orderRepo.findOneOrderProductWishOrderAndProduct(id);
 
-    // TODO orderProduct userId 확인
+    if (!orderProduct) {
+      throw new NotFoundException();
+    }
 
     orderProduct.confirm();
 
