@@ -9,7 +9,7 @@ import { OrderService } from '@domain/domain/order/order.service';
 import { appUserStub } from '@domain/domain/app-user/__stub/app-user.stub';
 import { UserPointService } from '@domain/domain/app-user/point/user-point.service';
 import { NON_EXISTENT_ID } from '@common/common/constant/constants';
-import { NotFoundException } from '@nestjs/common';
+import { ForbiddenException, NotFoundException } from '@nestjs/common';
 
 describe('OrderService', () => {
   let orderService: OrderService;
@@ -72,6 +72,15 @@ describe('OrderService', () => {
           userId: appUserStub.id,
         }),
       ).toThrowError(new NotFoundException());
+    });
+
+    it('403', () => {
+      expect(() =>
+        orderService.orderProductConfirm({
+          id: orderProductStub.id,
+          userId: NON_EXISTENT_ID,
+        }),
+      ).toThrowError(new ForbiddenException());
     });
 
     it('성공', () => {
