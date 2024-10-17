@@ -15,6 +15,7 @@ describe('OrderProductsAppController', () => {
           provide: OrderService,
           useValue: {
             patchOrderProduct: jest.fn(),
+            orderProductConfirm: jest.fn(),
           },
         },
       ],
@@ -33,5 +34,13 @@ describe('OrderProductsAppController', () => {
     orderProductsAppController.patchOrderProduct(id, dto);
 
     expect(orderService.patchOrderProduct).toBeCalledWith(id, dto);
+  });
+
+  it('postOrderProductConfirm', () => {
+    const id = 1;
+
+    orderProductsAppController.postOrderProductConfirm(id);
+
+    expect(orderService.orderProductConfirm).toBeCalledWith(id);
   });
 });

@@ -57,4 +57,19 @@ describe('OrderService', () => {
       });
     });
   });
+
+  describe('orderProductConfirm', () => {
+    it('confirmed', () => {
+      orderProductStub.status = OrderProductStatus.DELIVERED;
+
+      const result = orderService.orderProductConfirm(orderProductStub.id);
+
+      expect(orderRepo.findOneProductById).toBeCalledWith(1);
+      expect(orderRepo.saveProduct).toBeCalled();
+      expect(result).toEqual({
+        ...orderProductStub,
+        status: OrderProductStatus.CONFIRMED,
+      });
+    });
+  });
 });
