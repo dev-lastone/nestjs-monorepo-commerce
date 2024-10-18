@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { OrderRepo } from '@domain/order/order.repo';
-import { UserPointHistoryAction } from '@domain/app-user/point/user-point';
+import { AppUserPointHistoryAction } from '@domain/app-user/point/app-user-point';
 import { AppUserPointApplicationService } from '@application/app-user-point/app-user-point.application.service';
 
 @Injectable()
@@ -48,7 +48,7 @@ export class OrderApplicationService {
     this.appUserPointApplicationService.savePoint(
       userId,
       orderProduct.product.price * 0.01,
-      UserPointHistoryAction.ORDER_PRODUCT,
+      AppUserPointHistoryAction.ORDER_PRODUCT,
       orderProduct.id,
     );
 
