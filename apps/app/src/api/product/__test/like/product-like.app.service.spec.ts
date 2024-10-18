@@ -1,18 +1,18 @@
 import { Test } from '@nestjs/testing';
-import { ProductService } from '@domain/product/product.service';
 import { ProductLikeAppService } from '../../like/product-like.app.service';
 import { ProductLikeAppDto } from '../../like/product-like.app.dto';
+import { ProductApplicationService } from '@application/product/product.application.service';
 
 describe('ProductLikeAppService', () => {
   let productLikeAppService: ProductLikeAppService;
-  let productService: ProductService;
+  let productApplicationService: ProductApplicationService;
 
   beforeEach(async () => {
     const testingModule = await Test.createTestingModule({
       providers: [
         ProductLikeAppService,
         {
-          provide: ProductService,
+          provide: ProductApplicationService,
           useValue: {
             checkExistentProduct: jest.fn(),
           },
@@ -21,7 +21,7 @@ describe('ProductLikeAppService', () => {
     }).compile();
 
     productLikeAppService = testingModule.get(ProductLikeAppService);
-    productService = testingModule.get(ProductService);
+    productApplicationService = testingModule.get(ProductApplicationService);
   });
 
   describe('postProductLike', () => {
@@ -33,9 +33,9 @@ describe('ProductLikeAppService', () => {
       expect(() => productLikeAppService.postProductLike(dto)).toThrow(
         'Product already liked',
       );
-      expect(productService.checkExistentProduct).toHaveBeenCalledWith(
-        dto.productId,
-      );
+      expect(
+        productApplicationService.checkExistentProduct,
+      ).toHaveBeenCalledWith(dto.productId);
     });
 
     it('성공', () => {
@@ -45,9 +45,9 @@ describe('ProductLikeAppService', () => {
 
       const result = productLikeAppService.postProductLike(dto);
 
-      expect(productService.checkExistentProduct).toHaveBeenCalledWith(
-        dto.productId,
-      );
+      expect(
+        productApplicationService.checkExistentProduct,
+      ).toHaveBeenCalledWith(dto.productId);
       expect(result).toBe(true);
     });
   });
@@ -61,9 +61,9 @@ describe('ProductLikeAppService', () => {
       expect(() => productLikeAppService.deleteProductLike(dto)).toThrow(
         'Product not liked',
       );
-      expect(productService.checkExistentProduct).toHaveBeenCalledWith(
-        dto.productId,
-      );
+      expect(
+        productApplicationService.checkExistentProduct,
+      ).toHaveBeenCalledWith(dto.productId);
     });
 
     it('성공', () => {
@@ -73,9 +73,9 @@ describe('ProductLikeAppService', () => {
 
       const result = productLikeAppService.deleteProductLike(dto);
 
-      expect(productService.checkExistentProduct).toHaveBeenCalledWith(
-        dto.productId,
-      );
+      expect(
+        productApplicationService.checkExistentProduct,
+      ).toHaveBeenCalledWith(dto.productId);
       expect(result).toBe(false);
     });
   });

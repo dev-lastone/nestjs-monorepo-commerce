@@ -8,7 +8,7 @@ import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { ProductRepo } from '@domain/product/product.repo';
 
 @Injectable()
-export class ProductService {
+export class ProductApplicationService {
   constructor(private readonly productRepo: ProductRepo) {}
 
   findProducts(): Product[] {

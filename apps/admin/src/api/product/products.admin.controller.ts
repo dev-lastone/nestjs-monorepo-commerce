@@ -17,17 +17,19 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { ProductService } from '@domain/product/product.service';
 import {
   CreateProductDto,
   UpdateProductDto,
 } from '@domain/product/product.dto';
+import { ProductApplicationService } from '@application/product/product.application.service';
 
 @ApiBearerAuth('jwt')
 @ApiTags('products')
 @Controller('products')
 export class ProductsAdminController {
-  constructor(private readonly productService: ProductService) {}
+  constructor(
+    private readonly productApplicationService: ProductApplicationService,
+  ) {}
 
   @Version('1')
   @Post()
@@ -36,7 +38,7 @@ export class ProductsAdminController {
     type: Product,
   })
   postProduct(@Body() dto: CreateProductDto): Product {
-    return this.productService.createProduct(dto);
+    return this.productApplicationService.createProduct(dto);
   }
 
   @Version('1')
@@ -45,7 +47,7 @@ export class ProductsAdminController {
     type: [Product],
   })
   getProducts(): Product[] {
-    return this.productService.findProducts();
+    return this.productApplicationService.findProducts();
   }
 
   @Version('1')
@@ -57,7 +59,7 @@ export class ProductsAdminController {
     @Param('id', new ParseIntPipe()) id: number,
     @Body() dto: UpdateProductDto,
   ): Product {
-    return this.productService.updateProduct(id, {
+    return this.productApplicationService.updateProduct(id, {
       name: dto.name,
       price: dto.price,
       stock: dto.stock,
@@ -68,6 +70,6 @@ export class ProductsAdminController {
   @Delete(':id')
   @HttpCode(204)
   deleteProduct(@Param('id', new ParseIntPipe()) id: number) {
-    this.productService.deleteProduct(id);
+    this.productApplicationService.deleteProduct(id);
   }
 }

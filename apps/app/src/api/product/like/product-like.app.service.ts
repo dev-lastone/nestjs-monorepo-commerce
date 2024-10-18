@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ProductLikeAppDto } from './product-like.app.dto';
-import { ProductService } from '@domain/product/product.service';
+import { ProductApplicationService } from '@application/product/product.application.service';
 
 @Injectable()
 export class ProductLikeAppService {
@@ -11,10 +11,12 @@ export class ProductLikeAppService {
     },
   ];
 
-  constructor(private readonly productService: ProductService) {}
+  constructor(
+    private readonly productApplicationService: ProductApplicationService,
+  ) {}
 
   postProductLike(dto: ProductLikeAppDto) {
-    this.productService.checkExistentProduct(dto.productId);
+    this.productApplicationService.checkExistentProduct(dto.productId);
 
     const productLike = this.#productLikes.find((productLike) => {
       return (
@@ -33,7 +35,7 @@ export class ProductLikeAppService {
   }
 
   deleteProductLike(dto: ProductLikeAppDto) {
-    this.productService.checkExistentProduct(dto.productId);
+    this.productApplicationService.checkExistentProduct(dto.productId);
 
     const productLikeIndex = this.#productLikes.findIndex((productLike) => {
       return (
