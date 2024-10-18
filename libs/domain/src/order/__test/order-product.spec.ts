@@ -3,7 +3,7 @@ import {
   OrderProductStatus,
 } from '@domain/domain/order/order-product';
 import { productStub1 } from '@domain/domain/product/__stub/product.stub';
-import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
+import { ERROR_MESSAGES } from '@common/constant/error-messages';
 
 describe('OrderProduct', () => {
   it('constructor', () => {

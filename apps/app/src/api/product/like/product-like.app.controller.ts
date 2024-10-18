@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ProductLikeAppService } from './product-like.app.service';
-import { UserId } from '@common/common/decorator/user-id.decorator';
+import { UserId } from '@common/decorator/user-id.decorator';
 
 @ApiBearerAuth('jwt')
 @ApiTags('product')

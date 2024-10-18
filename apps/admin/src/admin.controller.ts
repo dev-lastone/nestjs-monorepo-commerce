@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { AdminService } from './admin.service';
-import { Public } from '@common/common/decorator/public.decorator';
+import { Public } from '@common/decorator/public.decorator';
 import { ApiOkResponse } from '@nestjs/swagger';
 
 @Controller()

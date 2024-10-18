@@ -1,6 +1,6 @@
 import { ConfigModule } from '@nestjs/config';
 import { join } from 'path';
-import { validateEnv } from '@common/common/config/env.validation';
+import { validateEnv } from '@common/config/env.validation';
 
 export function configModule() {
   return ConfigModule.forRoot({
