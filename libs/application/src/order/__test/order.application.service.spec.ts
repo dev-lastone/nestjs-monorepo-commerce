@@ -5,20 +5,20 @@ import {
   orderProductStub,
   orderProductWithOrderAndProductStub,
 } from '@domain/domain/order/__stub/order-product.stub';
-import { OrderService } from '@domain/domain/order/order.service';
 import { appUserStub } from '@domain/domain/app-user/__stub/app-user.stub';
 import { UserPointService } from '@domain/domain/app-user/point/user-point.service';
 import { NON_EXISTENT_ID } from '@common/common/constant/constants';
 import { ForbiddenException, NotFoundException } from '@nestjs/common';
+import { OrderApplicationService } from '@application/application/order/order.application.service';
 
-describe('OrderService', () => {
-  let orderService: OrderService;
+describe('OrderApplicationService', () => {
+  let orderApplicationService: OrderApplicationService;
   let orderRepo: OrderRepo;
 
   beforeEach(async () => {
     const testingModule = await Test.createTestingModule({
       providers: [
-        OrderService,
+        OrderApplicationService,
         UserPointService,
         {
           provide: OrderRepo,
@@ -33,7 +33,7 @@ describe('OrderService', () => {
       ],
     }).compile();
 
-    orderService = testingModule.get(OrderService);
+    orderApplicationService = testingModule.get(OrderApplicationService);
     orderRepo = testingModule.get(OrderRepo);
   });
 
@@ -42,14 +42,16 @@ describe('OrderService', () => {
       jest.spyOn(orderRepo, 'findOneProductById').mockReturnValue(undefined);
 
       expect(() =>
-        orderService.orderProductDeliver(NON_EXISTENT_ID),
+        orderApplicationService.orderProductDeliver(NON_EXISTENT_ID),
       ).toThrowError(new NotFoundException());
     });
 
     it('성공', () => {
       orderProductStub.status = OrderProductStatus.ORDERED;
 
-      const result = orderService.orderProductDeliver(orderProductStub.id);
+      const result = orderApplicationService.orderProductDeliver(
+        orderProductStub.id,
+      );
 
       expect(orderRepo.findOneProductById).toBeCalledWith(1);
       expect(orderRepo.saveProduct).toBeCalled();
@@ -67,7 +69,7 @@ describe('OrderService', () => {
         .mockReturnValue(undefined);
 
       expect(() =>
-        orderService.orderProductConfirm({
+        orderApplicationService.orderProductConfirm({
           id: NON_EXISTENT_ID,
           userId: appUserStub.id,
         }),
@@ -76,7 +78,7 @@ describe('OrderService', () => {
 
     it('403', () => {
       expect(() =>
-        orderService.orderProductConfirm({
+        orderApplicationService.orderProductConfirm({
           id: orderProductStub.id,
           userId: NON_EXISTENT_ID,
         }),
@@ -86,7 +88,7 @@ describe('OrderService', () => {
     it('성공', () => {
       orderProductStub.status = OrderProductStatus.DELIVERED;
 
-      const result = orderService.orderProductConfirm({
+      const result = orderApplicationService.orderProductConfirm({
         id: orderProductStub.id,
         userId: appUserStub.id,
       });
