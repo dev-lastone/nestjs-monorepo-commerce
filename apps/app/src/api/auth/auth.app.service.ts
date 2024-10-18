@@ -4,10 +4,10 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { PostAuthAppRequestDto, PostAuthSignUpAppReqDto } from './auth.app.dto';
-import { AuthService } from '@domain/domain/auth/auth.service';
+import { AuthService } from '@domain/auth/auth.service';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
-import { AppUser } from '@domain/domain/app-user/app-user';
-import { AppUserRepo } from '@domain/domain/app-user/app-user.repo';
+import { AppUser } from '@domain/app-user/app-user';
+import { AppUserRepo } from '@domain/app-user/app-user.repo';
 
 @Injectable()
 export class AuthAppService {

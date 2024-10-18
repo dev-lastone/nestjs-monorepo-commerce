@@ -1,12 +1,12 @@
 import { Test } from '@nestjs/testing';
-import { OrderProductStatus } from '@domain/domain/order/order-product';
-import { OrderRepo } from '@domain/domain/order/order.repo';
+import { OrderProductStatus } from '@domain/order/order-product';
+import { OrderRepo } from '@domain/order/order.repo';
 import {
   orderProductStub,
   orderProductWithOrderAndProductStub,
-} from '@domain/domain/order/__stub/order-product.stub';
-import { appUserStub } from '@domain/domain/app-user/__stub/app-user.stub';
-import { UserPointService } from '@domain/domain/app-user/point/user-point.service';
+} from '@domain/order/__stub/order-product.stub';
+import { appUserStub } from '@domain/app-user/__stub/app-user.stub';
+import { UserPointService } from '@domain/app-user/point/user-point.service';
 import { NON_EXISTENT_ID } from '@common/constant/constants';
 import { ForbiddenException, NotFoundException } from '@nestjs/common';
 import { OrderApplicationService } from '@application/order/order.application.service';

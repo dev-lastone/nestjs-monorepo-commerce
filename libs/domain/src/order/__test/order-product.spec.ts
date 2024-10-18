@@ -1,8 +1,5 @@
-import {
-  OrderProduct,
-  OrderProductStatus,
-} from '@domain/domain/order/order-product';
-import { productStub1 } from '@domain/domain/product/__stub/product.stub';
+import { OrderProduct, OrderProductStatus } from '@domain/order/order-product';
+import { productStub1 } from '@domain/product/__stub/product.stub';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 
 describe('OrderProduct', () => {

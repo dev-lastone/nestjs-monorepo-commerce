@@ -1,16 +1,16 @@
 import { Test } from '@nestjs/testing';
-import { ProductService } from '@domain/domain/product/product.service';
+import { ProductService } from '@domain/product/product.service';
 import { NON_EXISTENT_ID } from '@common/constant/constants';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
-import { ProductRepo } from '@domain/domain/product/product.repo';
+import { ProductRepo } from '@domain/product/product.repo';
 import {
   productsStub,
   productStub1,
-} from '@domain/domain/product/__stub/product.stub';
+} from '@domain/product/__stub/product.stub';
 import {
   CreateProductDto,
   UpdateProductDto,
-} from '@domain/domain/product/product.dto';
+} from '@domain/product/product.dto';
 
 describe('ProductService', () => {
   let productService: ProductService;

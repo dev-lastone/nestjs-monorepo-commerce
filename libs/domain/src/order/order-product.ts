@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Product } from '@domain/domain/product/product';
+import { Product } from '@domain/product/product';
 import { BadRequestException } from '@nestjs/common';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
-import { Order } from '@domain/domain/order/order';
+import { Order } from '@domain/order/order';
 
 export enum OrderProductStatus {
   ORDERED = 'ordered',

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { GetOrdersResDto } from './orders.admin.dto';
-import { OrderRepo } from '@domain/domain/order/order.repo';
+import { OrderRepo } from '@domain/order/order.repo';
 
 @Injectable()
 export class OrdersAdminService {

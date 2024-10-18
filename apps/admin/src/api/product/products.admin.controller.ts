@@ -10,18 +10,18 @@ import {
   Put,
   Version,
 } from '@nestjs/common';
-import { Product } from '@domain/domain/product/product';
+import { Product } from '@domain/product/product';
 import {
   ApiBearerAuth,
   ApiOkResponse,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { ProductService } from '@domain/domain/product/product.service';
+import { ProductService } from '@domain/product/product.service';
 import {
   CreateProductDto,
   UpdateProductDto,
-} from '@domain/domain/product/product.dto';
+} from '@domain/product/product.dto';
 
 @ApiBearerAuth('jwt')
 @ApiTags('products')

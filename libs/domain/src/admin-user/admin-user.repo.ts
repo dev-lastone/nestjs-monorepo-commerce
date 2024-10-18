@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { AdminUser } from '@domain/domain/admin-user/admin-user';
-import { adminUserStub } from '@domain/domain/admin-user/__stub/admin-user.stub';
+import { AdminUser } from '@domain/admin-user/admin-user';
+import { adminUserStub } from '@domain/admin-user/__stub/admin-user.stub';
 
 @Injectable()
 export class AdminUserRepo {

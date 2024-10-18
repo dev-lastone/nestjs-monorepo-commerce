@@ -1,9 +1,9 @@
-import { Order } from '@domain/domain/order/order';
+import { Order } from '@domain/order/order';
 import { Injectable } from '@nestjs/common';
-import { orderStub } from '@domain/domain/order/__stub/order.stub';
-import { OrderProduct } from '@domain/domain/order/order-product';
-import { orderProductStub } from '@domain/domain/order/__stub/order-product.stub';
-import { productStub1 } from '@domain/domain/product/__stub/product.stub';
+import { orderStub } from '@domain/order/__stub/order.stub';
+import { OrderProduct } from '@domain/order/order-product';
+import { orderProductStub } from '@domain/order/__stub/order-product.stub';
+import { productStub1 } from '@domain/product/__stub/product.stub';
 
 // repo 자체가 stub
 @Injectable()
