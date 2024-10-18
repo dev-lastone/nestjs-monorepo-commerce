@@ -1,5 +1,4 @@
 import { Test } from '@nestjs/testing';
-import { ProductService } from '@domain/product/product.service';
 import { NON_EXISTENT_ID } from '@common/constant/constants';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { ProductRepo } from '@domain/product/product.repo';
@@ -11,16 +10,17 @@ import {
   CreateProductDto,
   UpdateProductDto,
 } from '@domain/product/product.dto';
+import { ProductApplicationService } from '@application/product/product.application.service';
 
-describe('ProductService', () => {
-  let productService: ProductService;
+describe('ProductApplicationService', () => {
+  let productApplicationService: ProductApplicationService;
 
   beforeEach(async () => {
     const testingModule = await Test.createTestingModule({
-      providers: [ProductService, ProductRepo],
+      providers: [ProductApplicationService, ProductRepo],
     }).compile();
 
-    productService = testingModule.get(ProductService);
+    productApplicationService = testingModule.get(ProductApplicationService);
   });
 
   it('createProduct', () => {
@@ -29,14 +29,14 @@ describe('ProductService', () => {
     createProductDto.price = 20000;
     createProductDto.stock = 20;
 
-    expect(productService.createProduct(createProductDto)).toEqual({
+    expect(productApplicationService.createProduct(createProductDto)).toEqual({
       id: 3,
       ...createProductDto,
     });
   });
 
   it('findProducts', () => {
-    expect(productService.findProducts()).toEqual(productsStub);
+    expect(productApplicationService.findProducts()).toEqual(productsStub);
   });
 
   describe('updateProduct', () => {
@@ -46,13 +46,18 @@ describe('ProductService', () => {
 
     it(ERROR_MESSAGES.ProductNotFound, () => {
       expect(() =>
-        productService.updateProduct(NON_EXISTENT_ID, updateProductDto),
+        productApplicationService.updateProduct(
+          NON_EXISTENT_ID,
+          updateProductDto,
+        ),
       ).toThrow(ERROR_MESSAGES.ProductNotFound);
     });
 
     it('성공', () => {
       const id = 3;
-      expect(productService.updateProduct(id, updateProductDto)).toEqual({
+      expect(
+        productApplicationService.updateProduct(id, updateProductDto),
+      ).toEqual({
         id,
         ...updateProductDto,
       });
@@ -61,29 +66,29 @@ describe('ProductService', () => {
 
   describe('deleteProduct', () => {
     it(ERROR_MESSAGES.ProductNotFound, () => {
-      expect(() => productService.deleteProduct(NON_EXISTENT_ID)).toThrow(
-        ERROR_MESSAGES.ProductNotFound,
-      );
+      expect(() =>
+        productApplicationService.deleteProduct(NON_EXISTENT_ID),
+      ).toThrow(ERROR_MESSAGES.ProductNotFound);
     });
 
     it('성공', () => {
-      productService.deleteProduct(3);
+      productApplicationService.deleteProduct(3);
 
-      expect(productService.findProducts()).toEqual(productsStub);
+      expect(productApplicationService.findProducts()).toEqual(productsStub);
     });
   });
 
   describe('checkExistentProduct', () => {
     it('실패', () => {
       expect(() =>
-        productService.checkExistentProduct(NON_EXISTENT_ID),
+        productApplicationService.checkExistentProduct(NON_EXISTENT_ID),
       ).toThrow(ERROR_MESSAGES.ProductNotFound);
     });
 
     it('성공', () => {
-      expect(productService.checkExistentProduct(productStub1.id)).toBe(
-        productStub1,
-      );
+      expect(
+        productApplicationService.checkExistentProduct(productStub1.id),
+      ).toBe(productStub1);
     });
   });
 });

@@ -5,18 +5,18 @@ import {
 } from '@domain/product/__stub/product.stub';
 import { OrderProductStatus } from '@domain/order/order-product';
 import { orderStub } from '@domain/order/__stub/order.stub';
-import { ProductModule } from '@domain/product/product.module';
 import { OrderModule } from '@domain/order/order.module';
 import { ForbiddenException } from '@nestjs/common';
 import { OrdersAppService } from '../../orders/orders.app.service';
 import { UserAddressModule } from '../../../../domain/user/address/user-address.module';
+import { ProductApplicationModule } from '@application/product/product.application.module';
 
 describe('OrdersAppService', () => {
   let ordersAppService: OrdersAppService;
 
   beforeEach(async () => {
     const testingModule = await Test.createTestingModule({
-      imports: [ProductModule, OrderModule, UserAddressModule],
+      imports: [ProductApplicationModule, OrderModule, UserAddressModule],
       providers: [OrdersAppService],
     }).compile();
 
