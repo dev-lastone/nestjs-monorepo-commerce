@@ -1,21 +1,21 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PostOrdersAppReqDto } from './orders.app.dto';
-import { ProductService } from '@domain/product/product.service';
 import { Order } from '@domain/order/order';
 import { OrderRepo } from '@domain/order/order.repo';
 import { UserAddressRepo } from '../../../domain/user/address/user-address.repo';
+import { ProductApplicationService } from '@application/product/product.application.service';
 
 @Injectable()
 export class OrdersAppService {
   constructor(
-    private readonly productService: ProductService,
+    private readonly productApplicationService: ProductApplicationService,
     private readonly orderRepo: OrderRepo,
     private readonly userAddressRepo: UserAddressRepo,
   ) {}
 
   postOrder(userId: number, dto: PostOrdersAppReqDto): Order {
     const products = dto.productIds.map((id) => {
-      return this.productService.findOneProduct(id);
+      return this.productApplicationService.findOneProduct(id);
     });
 
     const userAddress = this.userAddressRepo.findOneById(dto.userAddressId);

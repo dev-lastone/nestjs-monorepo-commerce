@@ -5,18 +5,18 @@ import {
   UpdateProductDto,
 } from '@domain/product/product.dto';
 import { productsStub } from '@domain/product/__stub/product.stub';
-import { ProductService } from '@domain/product/product.service';
+import { ProductApplicationService } from '@application/product/product.application.service';
 
 describe('ProductsAdminController', () => {
   let productsAdminController: ProductsAdminController;
-  let productService: ProductService;
+  let productApplicationService: ProductApplicationService;
 
   beforeEach(async () => {
     const testingModule = await Test.createTestingModule({
       controllers: [ProductsAdminController],
       providers: [
         {
-          provide: ProductService,
+          provide: ProductApplicationService,
           useValue: {
             createProduct: jest.fn(),
             findProducts: jest.fn().mockReturnValue(productsStub),
@@ -28,7 +28,7 @@ describe('ProductsAdminController', () => {
     }).compile();
 
     productsAdminController = testingModule.get(ProductsAdminController);
-    productService = testingModule.get(ProductService);
+    productApplicationService = testingModule.get(ProductApplicationService);
   });
 
   it('post', () => {
@@ -39,13 +39,15 @@ describe('ProductsAdminController', () => {
 
     productsAdminController.postProduct(createProductDto);
 
-    expect(productService.createProduct).toBeCalledWith(createProductDto);
+    expect(productApplicationService.createProduct).toBeCalledWith(
+      createProductDto,
+    );
   });
 
   it('get', () => {
     productsAdminController.getProducts();
 
-    expect(productService.findProducts).toBeCalled();
+    expect(productApplicationService.findProducts).toBeCalled();
   });
 
   it('put', () => {
@@ -55,12 +57,15 @@ describe('ProductsAdminController', () => {
 
     productsAdminController.putProduct(3, updateProductDto);
 
-    expect(productService.updateProduct).toBeCalledWith(3, updateProductDto);
+    expect(productApplicationService.updateProduct).toBeCalledWith(
+      3,
+      updateProductDto,
+    );
   });
 
   it('delete', () => {
     productsAdminController.deleteProduct(3);
 
-    expect(productService.deleteProduct).toBeCalledWith(3);
+    expect(productApplicationService.deleteProduct).toBeCalledWith(3);
   });
 });
