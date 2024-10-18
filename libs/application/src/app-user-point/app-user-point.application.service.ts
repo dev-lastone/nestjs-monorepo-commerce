@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { UserPoint, UserPointHistoryAction } from './user-point';
-import { userPointStubs } from './__stub/user-point.stub';
+import {
+  UserPoint,
+  UserPointHistoryAction,
+} from '@domain/app-user/point/user-point';
+import { userPointStubs } from '@domain/app-user/point/__stub/user-point.stub';
 
 @Injectable()
-export class UserPointService {
+export class AppUserPointApplicationService {
   #userPoints: UserPoint[] = userPointStubs;
 
   savePoint(

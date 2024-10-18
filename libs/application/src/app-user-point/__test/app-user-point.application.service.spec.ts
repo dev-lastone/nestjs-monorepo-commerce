@@ -1,12 +1,12 @@
-import { UserPointService } from '../user-point.service';
-import { UserPointHistoryAction } from '../user-point';
+import { AppUserPointApplicationService } from '@application/app-user-point/app-user-point.application.service';
+import { UserPointHistoryAction } from '@domain/app-user/point/user-point';
 
 describe('UserPointService', () => {
-  const userPointService = new UserPointService();
+  const appUserPointApplicationService = new AppUserPointApplicationService();
 
   describe('savePoint', () => {
     it('성공', () => {
-      const userPoint = userPointService.savePoint(
+      const userPoint = appUserPointApplicationService.savePoint(
         1,
         1000,
         UserPointHistoryAction.ORDER_PRODUCT,
@@ -26,7 +26,7 @@ describe('UserPointService', () => {
     });
 
     it('성공 - 신규 생성', () => {
-      const userPoint = userPointService.savePoint(
+      const userPoint = appUserPointApplicationService.savePoint(
         2,
         1000,
         UserPointHistoryAction.ORDER_PRODUCT,
@@ -47,14 +47,14 @@ describe('UserPointService', () => {
   });
 
   it('usePoint', () => {
-    const test = userPointService.savePoint(
+    const test = appUserPointApplicationService.savePoint(
       3,
       1000,
       UserPointHistoryAction.ORDER_PRODUCT,
       5,
     );
 
-    const userPoint = userPointService.usePoint(
+    const userPoint = appUserPointApplicationService.usePoint(
       3,
       1000,
       UserPointHistoryAction.ORDER,

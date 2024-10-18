@@ -6,10 +6,10 @@ import {
   orderProductWithOrderAndProductStub,
 } from '@domain/order/__stub/order-product.stub';
 import { appUserStub } from '@domain/app-user/__stub/app-user.stub';
-import { UserPointService } from '@domain/app-user/point/user-point.service';
 import { NON_EXISTENT_ID } from '@common/constant/constants';
 import { ForbiddenException, NotFoundException } from '@nestjs/common';
 import { OrderApplicationService } from '@application/order/order.application.service';
+import { AppUserPointApplicationService } from '@application/app-user-point/app-user-point.application.service';
 
 describe('OrderApplicationService', () => {
   let orderApplicationService: OrderApplicationService;
@@ -19,7 +19,7 @@ describe('OrderApplicationService', () => {
     const testingModule = await Test.createTestingModule({
       providers: [
         OrderApplicationService,
-        UserPointService,
+        AppUserPointApplicationService,
         {
           provide: OrderRepo,
           useValue: {
