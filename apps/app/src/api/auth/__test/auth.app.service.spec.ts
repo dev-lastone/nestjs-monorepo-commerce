@@ -1,6 +1,5 @@
 import { Test } from '@nestjs/testing';
 import { UnauthorizedException } from '@nestjs/common';
-import { AuthService } from '@domain/auth/auth.service';
 import { AuthAppService } from '../auth.app.service';
 import {
   PostAuthAppRequestDto,
@@ -12,10 +11,11 @@ import {
   invalidAppUserStub,
 } from '@domain/app-user/__stub/app-user.stub';
 import { AppUserRepo } from '@domain/app-user/app-user.repo';
+import { AuthApplicationService } from '@application/auth/auth.application.service';
 
 describe('AuthAppService', () => {
   let authAppService: AuthAppService;
-  let authService: AuthService;
+  let authApplicationService: AuthApplicationService;
 
   beforeEach(async () => {
     const testingModule = await Test.createTestingModule({
@@ -23,7 +23,7 @@ describe('AuthAppService', () => {
         AuthAppService,
         AppUserRepo,
         {
-          provide: AuthService,
+          provide: AuthApplicationService,
           useValue: {
             createToken: jest.fn(),
           },
@@ -32,7 +32,7 @@ describe('AuthAppService', () => {
     }).compile();
 
     authAppService = testingModule.get(AuthAppService);
-    authService = testingModule.get(AuthService);
+    authApplicationService = testingModule.get(AuthApplicationService);
   });
 
   describe('signUp', () => {
@@ -55,7 +55,9 @@ describe('AuthAppService', () => {
       postAuthAdminRequestDto.password = appUserStub.password;
       postAuthAdminRequestDto.passwordConfirm = appUserStub.password;
 
-      jest.spyOn(authService, 'createToken').mockReturnValue('mockToken');
+      jest
+        .spyOn(authApplicationService, 'createToken')
+        .mockReturnValue('mockToken');
 
       const result = authAppService.signUp(postAuthAdminRequestDto);
 
@@ -89,7 +91,9 @@ describe('AuthAppService', () => {
       postAuthAdminRequestDto.email = appUserStub.email;
       postAuthAdminRequestDto.password = appUserStub.password;
 
-      jest.spyOn(authService, 'createToken').mockReturnValue('mockToken');
+      jest
+        .spyOn(authApplicationService, 'createToken')
+        .mockReturnValue('mockToken');
 
       const result = authAppService.signIn(postAuthAdminRequestDto);
 

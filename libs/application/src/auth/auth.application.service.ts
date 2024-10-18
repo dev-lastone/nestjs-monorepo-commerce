@@ -5,7 +5,7 @@ import { AdminUser } from '@domain/admin-user/admin-user';
 import { AppUser } from '@domain/app-user/app-user';
 
 @Injectable()
-export class AuthService {
+export class AuthApplicationService {
   constructor(private readonly configService: ConfigService) {}
 
   createToken(user: AdminUser | AppUser) {
