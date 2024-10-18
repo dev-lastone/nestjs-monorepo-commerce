@@ -1,18 +1,18 @@
-import { AuthService } from '@domain/auth/auth.service';
 import { ConfigService } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
 import * as jwt from 'jsonwebtoken';
 import { AdminUser } from '@domain/admin-user/admin-user';
 import { adminUserStub } from '@domain/admin-user/__stub/admin-user.stub';
+import { AuthApplicationService } from '@application/auth/auth.application.service';
 
 describe('AuthService', () => {
-  let authService: AuthService;
+  let authApplicationService: AuthApplicationService;
   let configService: ConfigService;
 
   beforeEach(async () => {
     const testingModule = await Test.createTestingModule({
       providers: [
-        AuthService,
+        AuthApplicationService,
         {
           provide: ConfigService,
           useValue: {
@@ -22,7 +22,7 @@ describe('AuthService', () => {
       ],
     }).compile();
 
-    authService = testingModule.get(AuthService);
+    authApplicationService = testingModule.get(AuthApplicationService);
     configService = testingModule.get(ConfigService);
   });
 
@@ -40,7 +40,7 @@ describe('AuthService', () => {
     user.id = adminUserStub.id;
     user.name = adminUserStub.name;
     user.email = adminUserStub.email;
-    const result = authService.createToken(user);
+    const result = authApplicationService.createToken(user);
 
     expect(jwt.sign).toHaveBeenCalledWith(
       { sub: user.id, email: user.email, name: user.name },

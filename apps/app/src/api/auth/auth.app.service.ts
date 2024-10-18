@@ -4,15 +4,15 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { PostAuthAppRequestDto, PostAuthSignUpAppReqDto } from './auth.app.dto';
-import { AuthService } from '@domain/auth/auth.service';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { AppUser } from '@domain/app-user/app-user';
 import { AppUserRepo } from '@domain/app-user/app-user.repo';
+import { AuthApplicationService } from '@application/auth/auth.application.service';
 
 @Injectable()
 export class AuthAppService {
   constructor(
-    private readonly authService: AuthService,
+    private readonly authApplicationService: AuthApplicationService,
     private readonly appUserRepo: AppUserRepo,
   ) {}
 
@@ -28,7 +28,7 @@ export class AuthAppService {
 
     this.appUserRepo.save(user);
 
-    return this.authService.createToken(user);
+    return this.authApplicationService.createToken(user);
   }
 
   signIn(dto: PostAuthAppRequestDto) {
@@ -40,6 +40,6 @@ export class AuthAppService {
       throw new UnauthorizedException();
     }
 
-    return this.authService.createToken(user);
+    return this.authApplicationService.createToken(user);
   }
 }
