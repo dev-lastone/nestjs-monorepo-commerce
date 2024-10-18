@@ -4,9 +4,9 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
+import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { PostUserAddressRequestDto } from './user-addresses.app.dto';
-import { USER_ADDRESS_MAX_LENGTH } from '@common/common/constant/constants';
+import { USER_ADDRESS_MAX_LENGTH } from '@common/constant/constants';
 import { UserAddress } from '../../../domain/user/address/user-address';
 import { UserAddressRepo } from '../../../domain/user/address/user-address.repo';
 

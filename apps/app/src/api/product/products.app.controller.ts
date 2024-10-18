@@ -2,7 +2,7 @@ import { Controller, Get, Version } from '@nestjs/common';
 import { Product } from '@domain/domain/product/product';
 import { ApiTags } from '@nestjs/swagger';
 import { ProductService } from '@domain/domain/product/product.service';
-import { Public } from '@common/common/decorator/public.decorator';
+import { Public } from '@common/decorator/public.decorator';
 
 @ApiTags('products')
 @Controller('products')

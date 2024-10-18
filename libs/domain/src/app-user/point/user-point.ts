@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
+import { ERROR_MESSAGES } from '@common/constant/error-messages';
 
 /*
 	UserPoint // 총 포인트

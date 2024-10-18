@@ -7,7 +7,7 @@ import {
 } from '@domain/domain/order/__stub/order-product.stub';
 import { appUserStub } from '@domain/domain/app-user/__stub/app-user.stub';
 import { UserPointService } from '@domain/domain/app-user/point/user-point.service';
-import { NON_EXISTENT_ID } from '@common/common/constant/constants';
+import { NON_EXISTENT_ID } from '@common/constant/constants';
 import { ForbiddenException, NotFoundException } from '@nestjs/common';
 import { OrderApplicationService } from '@application/order/order.application.service';
 

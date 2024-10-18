@@ -1,4 +1,4 @@
-import { UserId } from '@common/common/decorator/user-id.decorator';
+import { UserId } from '@common/decorator/user-id.decorator';
 import { ROUTE_ARGS_METADATA } from '@nestjs/common/constants';
 import { ExecutionContext } from '@nestjs/common';
 
