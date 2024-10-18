@@ -4,13 +4,13 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { OrderRepo } from '@domain/order/order.repo';
-import { UserPointService } from '@domain/app-user/point/user-point.service';
 import { UserPointHistoryAction } from '@domain/app-user/point/user-point';
+import { AppUserPointApplicationService } from '@application/app-user-point/app-user-point.application.service';
 
 @Injectable()
 export class OrderApplicationService {
   constructor(
-    private readonly userPointService: UserPointService,
+    private readonly appUserPointApplicationService: AppUserPointApplicationService,
 
     private readonly orderRepo: OrderRepo,
   ) {}
@@ -45,7 +45,7 @@ export class OrderApplicationService {
 
     orderProduct.confirm();
 
-    this.userPointService.savePoint(
+    this.appUserPointApplicationService.savePoint(
       userId,
       orderProduct.product.price * 0.01,
       UserPointHistoryAction.ORDER_PRODUCT,
