@@ -1,6 +1,6 @@
 import { Test } from '@nestjs/testing';
-import { orderStub } from '@domain/domain/order/__stub/order.stub';
-import { OrderRepo } from '@domain/domain/order/order.repo';
+import { orderStub } from '@domain/order/__stub/order.stub';
+import { OrderRepo } from '@domain/order/order.repo';
 import { OrdersAdminService } from '../../orders/orders.admin.service';
 
 describe('OrdersAdminService', () => {

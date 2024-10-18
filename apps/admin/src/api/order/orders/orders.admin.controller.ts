@@ -1,6 +1,6 @@
 import { Controller, Get, Param, ParseIntPipe, Version } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { Order } from '@domain/domain/order/order';
+import { Order } from '@domain/order/order';
 import { OrdersAdminService } from './orders.admin.service';
 import { GetOrdersResDto } from './orders.admin.dto';
 

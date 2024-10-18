@@ -1,8 +1,8 @@
 import { Test } from '@nestjs/testing';
 import { UserCartsAppController } from '../../carts/user-carts.app.controller';
 import { UserCartService } from '../../../../domain/user/cart/user-cart.service';
-import { productStub1 } from '@domain/domain/product/__stub/product.stub';
-import { appUserStub } from '@domain/domain/app-user/__stub/app-user.stub';
+import { productStub1 } from '@domain/product/__stub/product.stub';
+import { appUserStub } from '@domain/app-user/__stub/app-user.stub';
 import { userCartStub } from '../../../../domain/user/cart/__stub/user-cart.stub';
 
 describe('UserCartsAppController', () => {

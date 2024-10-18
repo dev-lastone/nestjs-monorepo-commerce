@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ProductLikeAppDto } from './product-like.app.dto';
-import { ProductService } from '@domain/domain/product/product.service';
+import { ProductService } from '@domain/product/product.service';
 
 @Injectable()
 export class ProductLikeAppService {

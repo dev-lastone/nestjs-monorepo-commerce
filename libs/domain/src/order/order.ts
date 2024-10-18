@@ -1,7 +1,7 @@
 import { OrderProduct } from './order-product';
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
-import { Product } from '@domain/domain/product/product';
+import { Product } from '@domain/product/product';
 import { UserAddress } from '../../../../apps/app/src/domain/user/address/user-address';
 
 export class Order {

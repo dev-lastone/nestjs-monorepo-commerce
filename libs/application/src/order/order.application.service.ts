@@ -3,9 +3,9 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { OrderRepo } from '@domain/domain/order/order.repo';
-import { UserPointService } from '@domain/domain/app-user/point/user-point.service';
-import { UserPointHistoryAction } from '@domain/domain/app-user/point/user-point';
+import { OrderRepo } from '@domain/order/order.repo';
+import { UserPointService } from '@domain/app-user/point/user-point.service';
+import { UserPointHistoryAction } from '@domain/app-user/point/user-point';
 
 @Injectable()
 export class OrderApplicationService {

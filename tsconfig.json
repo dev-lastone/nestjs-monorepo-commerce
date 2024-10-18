@@ -18,10 +18,10 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@domain/domain": [
+      "@domain": [
         "libs/domain/src"
       ],
-      "@domain/domain/*": [
+      "@domain/*": [
         "libs/domain/src/*"
       ],
       "@common": [
