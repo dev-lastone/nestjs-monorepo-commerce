@@ -8,7 +8,7 @@ import { UserPointService } from '@domain/domain/app-user/point/user-point.servi
 import { UserPointHistoryAction } from '@domain/domain/app-user/point/user-point';
 
 @Injectable()
-export class OrderService {
+export class OrderApplicationService {
   constructor(
     private readonly userPointService: UserPointService,
 
