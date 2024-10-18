@@ -30,10 +30,10 @@
       "@common/common/*": [
         "libs/common/src/*"
       ],
-      "@application/application": [
+      "@application": [
         "libs/application/src"
       ],
-      "@application/application/*": [
+      "@application/*": [
         "libs/application/src/*"
       ]
     }
