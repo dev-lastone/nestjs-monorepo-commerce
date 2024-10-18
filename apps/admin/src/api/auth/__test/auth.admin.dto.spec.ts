@@ -1,6 +1,6 @@
 import { PostAuthAdminRequestDto } from '../auth.admin.dto';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
-import { adminUserStub } from '@domain/domain/admin-user/__stub/admin-user.stub';
+import { adminUserStub } from '@domain/admin-user/__stub/admin-user.stub';
 
 describe('AuthAdminDto', () => {
   const validationPipe = new ValidationPipe();

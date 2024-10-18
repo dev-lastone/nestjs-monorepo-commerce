@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { Product } from '@domain/domain/product/product';
-import { productsStub } from '@domain/domain/product/__stub/product.stub';
+import { Product } from '@domain/product/product';
+import { productsStub } from '@domain/product/__stub/product.stub';
 
 @Injectable()
 export class ProductRepo {

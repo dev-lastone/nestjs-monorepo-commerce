@@ -2,12 +2,12 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthAdminService } from '../auth.admin.service';
 import { PostAuthAdminRequestDto } from '../auth.admin.dto';
 import { UnauthorizedException } from '@nestjs/common';
-import { AuthService } from '@domain/domain/auth/auth.service';
+import { AuthService } from '@domain/auth/auth.service';
 import {
   adminUserStub,
   invalidAdminUserStub,
-} from '@domain/domain/admin-user/__stub/admin-user.stub';
-import { AdminUserRepo } from '@domain/domain/admin-user/admin-user.repo';
+} from '@domain/admin-user/__stub/admin-user.stub';
+import { AdminUserRepo } from '@domain/admin-user/admin-user.repo';
 
 describe('AuthAdminService', () => {
   let authAdminService: AuthAdminService;

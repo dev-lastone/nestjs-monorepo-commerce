@@ -1,5 +1,5 @@
 import { Test } from '@nestjs/testing';
-import { orderStub } from '@domain/domain/order/__stub/order.stub';
+import { orderStub } from '@domain/order/__stub/order.stub';
 import { OrdersAdminController } from '../../orders/orders.admin.controller';
 import { OrdersAdminService } from '../../orders/orders.admin.service';
 

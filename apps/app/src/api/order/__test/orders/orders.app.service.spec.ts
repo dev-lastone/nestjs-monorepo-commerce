@@ -2,11 +2,11 @@ import { Test } from '@nestjs/testing';
 import {
   productStub1,
   productStub2,
-} from '@domain/domain/product/__stub/product.stub';
-import { OrderProductStatus } from '@domain/domain/order/order-product';
-import { orderStub } from '@domain/domain/order/__stub/order.stub';
-import { ProductModule } from '@domain/domain/product/product.module';
-import { OrderModule } from '@domain/domain/order/order.module';
+} from '@domain/product/__stub/product.stub';
+import { OrderProductStatus } from '@domain/order/order-product';
+import { orderStub } from '@domain/order/__stub/order.stub';
+import { ProductModule } from '@domain/product/product.module';
+import { OrderModule } from '@domain/order/order.module';
 import { ForbiddenException } from '@nestjs/common';
 import { OrdersAppService } from '../../orders/orders.app.service';
 import { UserAddressModule } from '../../../../domain/user/address/user-address.module';

@@ -1,5 +1,5 @@
 import { Test } from '@nestjs/testing';
-import { ProductService } from '@domain/domain/product/product.service';
+import { ProductService } from '@domain/product/product.service';
 import { ProductLikeAppService } from '../../like/product-like.app.service';
 import { ProductLikeAppDto } from '../../like/product-like.app.dto';
 

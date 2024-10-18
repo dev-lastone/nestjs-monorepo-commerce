@@ -1,11 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Product } from '@domain/domain/product/product';
+import { Product } from '@domain/product/product';
 import {
   CreateProductDto,
   UpdateProductDto,
-} from '@domain/domain/product/product.dto';
+} from '@domain/product/product.dto';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
-import { ProductRepo } from '@domain/domain/product/product.repo';
+import { ProductRepo } from '@domain/product/product.repo';
 
 @Injectable()
 export class ProductService {
