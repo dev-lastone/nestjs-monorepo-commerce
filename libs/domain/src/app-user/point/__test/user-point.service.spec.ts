@@ -1,6 +1,5 @@
 import { UserPointService } from '../user-point.service';
 import { UserPointHistoryAction } from '../user-point';
-import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
 
 describe('UserPointService', () => {
   const userPointService = new UserPointService();

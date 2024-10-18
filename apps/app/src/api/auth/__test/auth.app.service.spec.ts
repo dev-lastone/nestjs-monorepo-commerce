@@ -6,7 +6,7 @@ import {
   PostAuthAppRequestDto,
   PostAuthSignUpAppReqDto,
 } from '../auth.app.dto';
-import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
+import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import {
   appUserStub,
   invalidAppUserStub,

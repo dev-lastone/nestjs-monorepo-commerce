@@ -1,6 +1,6 @@
 import { Test } from '@nestjs/testing';
-import { NON_EXISTENT_ID } from '@common/common/constant/constants';
-import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
+import { NON_EXISTENT_ID } from '@common/constant/constants';
+import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { UserAddressesAppService } from '../../addresses/user-addresses.app.service';
 import { userAddressStub } from '../../../../domain/user/address/__stub/user-address.stub';
 import { UserAddressModule } from '../../../../domain/user/address/user-address.module';

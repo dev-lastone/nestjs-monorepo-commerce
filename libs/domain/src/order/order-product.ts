@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Product } from '@domain/domain/product/product';
 import { BadRequestException } from '@nestjs/common';
-import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
+import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { Order } from '@domain/domain/order/order';
 
 export enum OrderProductStatus {

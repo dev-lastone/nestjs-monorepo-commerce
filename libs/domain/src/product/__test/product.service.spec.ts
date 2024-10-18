@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
 import { ProductService } from '@domain/domain/product/product.service';
-import { NON_EXISTENT_ID } from '@common/common/constant/constants';
-import { ERROR_MESSAGES } from '@common/common/constant/error-messages';
+import { NON_EXISTENT_ID } from '@common/constant/constants';
+import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { ProductRepo } from '@domain/domain/product/product.repo';
 import {
   productsStub,

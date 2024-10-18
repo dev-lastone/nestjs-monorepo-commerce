@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserAddressesAppService } from './user-addresses.app.service';
-import { UserId } from '@common/common/decorator/user-id.decorator';
+import { UserId } from '@common/decorator/user-id.decorator';
 import {
   PostUserAddressRequestDto,
   PutUserAddressRequestDto,

@@ -1,7 +1,7 @@
 import { Controller, Param, ParseIntPipe, Post, Version } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Order } from '@domain/domain/order/order';
-import { UserId } from '@common/common/decorator/user-id.decorator';
+import { UserId } from '@common/decorator/user-id.decorator';
 import { OrderApplicationService } from '@application/order/order.application.service';
 
 @ApiBearerAuth('jwt')

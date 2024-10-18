@@ -1,4 +1,4 @@
-import { USER_ADDRESS_MAX_LENGTH } from '@common/common/constant/constants';
+import { USER_ADDRESS_MAX_LENGTH } from '@common/constant/constants';
 
 export const ERROR_MESSAGES = {
   ProductNotFound: 'Product not found',
