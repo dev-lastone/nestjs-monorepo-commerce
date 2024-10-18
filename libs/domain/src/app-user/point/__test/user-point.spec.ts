@@ -1,16 +1,16 @@
-import { UserPoint, UserPointHistoryAction } from '../user-point';
+import { AppUserPoint, AppUserPointHistoryAction } from '../app-user-point';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 
 describe('UserPoint', () => {
   it('save', () => {
-    const userPoint = new UserPoint(1);
+    const userPoint = new AppUserPoint(1);
 
     expect(
-      userPoint.save(1000, UserPointHistoryAction.ORDER_PRODUCT, 1),
+      userPoint.save(1000, AppUserPointHistoryAction.ORDER_PRODUCT, 1),
     ).toEqual({
       userId: 1,
       id: 1,
-      action: UserPointHistoryAction.ORDER_PRODUCT,
+      action: AppUserPointHistoryAction.ORDER_PRODUCT,
       actionId: 1,
       point: 1000,
       remainingPoint: 1000,
@@ -24,24 +24,24 @@ describe('UserPoint', () => {
 
   describe('use', () => {
     it(ERROR_MESSAGES.NotEnoughPoints, () => {
-      const userPoint = new UserPoint(1);
-      userPoint.save(1000, UserPointHistoryAction.ORDER_PRODUCT, 1);
+      const userPoint = new AppUserPoint(1);
+      userPoint.save(1000, AppUserPointHistoryAction.ORDER_PRODUCT, 1);
 
       expect(() =>
-        userPoint.use(1001, UserPointHistoryAction.ORDER, 1),
+        userPoint.use(1001, AppUserPointHistoryAction.ORDER, 1),
       ).toThrowError(ERROR_MESSAGES.NotEnoughPoints);
     });
 
     it('성공 - 단일 사용', () => {
-      const userPoint = new UserPoint(1);
-      userPoint.save(1000, UserPointHistoryAction.ORDER_PRODUCT, 1);
+      const userPoint = new AppUserPoint(1);
+      userPoint.save(1000, AppUserPointHistoryAction.ORDER_PRODUCT, 1);
 
-      expect(userPoint.use(1000, UserPointHistoryAction.ORDER, 1)).toEqual({
+      expect(userPoint.use(1000, AppUserPointHistoryAction.ORDER, 1)).toEqual({
         userId: 1,
         id: 2,
         point: 1000,
         remainingPoint: 0,
-        action: UserPointHistoryAction.ORDER,
+        action: AppUserPointHistoryAction.ORDER,
         actionId: 1,
         consumptions: [
           {
@@ -54,16 +54,16 @@ describe('UserPoint', () => {
     });
 
     it('성공 - 다중 사용', () => {
-      const userPoint = new UserPoint(1);
-      userPoint.save(1000, UserPointHistoryAction.ORDER_PRODUCT, 1);
-      userPoint.save(1000, UserPointHistoryAction.ORDER_PRODUCT, 2);
+      const userPoint = new AppUserPoint(1);
+      userPoint.save(1000, AppUserPointHistoryAction.ORDER_PRODUCT, 1);
+      userPoint.save(1000, AppUserPointHistoryAction.ORDER_PRODUCT, 2);
 
-      expect(userPoint.use(1500, UserPointHistoryAction.ORDER, 1)).toEqual({
+      expect(userPoint.use(1500, AppUserPointHistoryAction.ORDER, 1)).toEqual({
         userId: 1,
         id: 3,
         point: 1500,
         remainingPoint: 500,
-        action: UserPointHistoryAction.ORDER,
+        action: AppUserPointHistoryAction.ORDER,
         actionId: 1,
         consumptions: [
           {

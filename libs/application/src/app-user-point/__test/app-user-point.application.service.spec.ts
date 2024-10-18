@@ -1,5 +1,5 @@
 import { AppUserPointApplicationService } from '@application/app-user-point/app-user-point.application.service';
-import { UserPointHistoryAction } from '@domain/app-user/point/user-point';
+import { AppUserPointHistoryAction } from '@domain/app-user/point/app-user-point';
 
 describe('UserPointService', () => {
   const appUserPointApplicationService = new AppUserPointApplicationService();
@@ -9,7 +9,7 @@ describe('UserPointService', () => {
       const userPoint = appUserPointApplicationService.savePoint(
         1,
         1000,
-        UserPointHistoryAction.ORDER_PRODUCT,
+        AppUserPointHistoryAction.ORDER_PRODUCT,
         3,
       );
       expect(userPoint).toEqual({
@@ -19,7 +19,7 @@ describe('UserPointService', () => {
           id: 3,
           point: 1000,
           remainingPoint: 3000,
-          action: UserPointHistoryAction.ORDER_PRODUCT,
+          action: AppUserPointHistoryAction.ORDER_PRODUCT,
           actionId: 3,
         },
       });
@@ -29,7 +29,7 @@ describe('UserPointService', () => {
       const userPoint = appUserPointApplicationService.savePoint(
         2,
         1000,
-        UserPointHistoryAction.ORDER_PRODUCT,
+        AppUserPointHistoryAction.ORDER_PRODUCT,
         4,
       );
       expect(userPoint).toEqual({
@@ -39,7 +39,7 @@ describe('UserPointService', () => {
           id: 1,
           point: 1000,
           remainingPoint: 1000,
-          action: UserPointHistoryAction.ORDER_PRODUCT,
+          action: AppUserPointHistoryAction.ORDER_PRODUCT,
           actionId: 4,
         },
       });
@@ -50,14 +50,14 @@ describe('UserPointService', () => {
     const test = appUserPointApplicationService.savePoint(
       3,
       1000,
-      UserPointHistoryAction.ORDER_PRODUCT,
+      AppUserPointHistoryAction.ORDER_PRODUCT,
       5,
     );
 
     const userPoint = appUserPointApplicationService.usePoint(
       3,
       1000,
-      UserPointHistoryAction.ORDER,
+      AppUserPointHistoryAction.ORDER,
       1,
     );
     expect(userPoint).toEqual({
@@ -67,7 +67,7 @@ describe('UserPointService', () => {
         id: 2,
         point: 1000,
         remainingPoint: 0,
-        action: UserPointHistoryAction.ORDER,
+        action: AppUserPointHistoryAction.ORDER,
         actionId: 1,
       },
     });

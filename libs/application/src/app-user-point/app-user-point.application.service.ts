@@ -1,18 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import {
-  UserPoint,
-  UserPointHistoryAction,
-} from '@domain/app-user/point/user-point';
+  AppUserPoint,
+  AppUserPointHistoryAction,
+} from '@domain/app-user/point/app-user-point';
 import { userPointStubs } from '@domain/app-user/point/__stub/user-point.stub';
 
 @Injectable()
 export class AppUserPointApplicationService {
-  #userPoints: UserPoint[] = userPointStubs;
+  #userPoints: AppUserPoint[] = userPointStubs;
 
   savePoint(
     userId: number,
     point: number,
-    action: UserPointHistoryAction,
+    action: AppUserPointHistoryAction,
     actionId: number,
   ) {
     const userPoint = this.#getUserPoint(userId);
@@ -34,7 +34,7 @@ export class AppUserPointApplicationService {
   usePoint(
     userId: number,
     point: number,
-    action: UserPointHistoryAction,
+    action: AppUserPointHistoryAction,
     actionId: number,
   ) {
     const userPoint = this.#getUserPoint(userId);
@@ -62,7 +62,7 @@ export class AppUserPointApplicationService {
       return userPoint;
     }
 
-    const newUserPoint = new UserPoint(userId);
+    const newUserPoint = new AppUserPoint(userId);
     this.#userPoints.push(newUserPoint);
     return newUserPoint;
   }
