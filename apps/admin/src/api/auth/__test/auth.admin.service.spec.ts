@@ -2,16 +2,16 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthAdminService } from '../auth.admin.service';
 import { PostAuthAdminRequestDto } from '../auth.admin.dto';
 import { UnauthorizedException } from '@nestjs/common';
-import { AuthService } from '@domain/auth/auth.service';
 import {
   adminUserStub,
   invalidAdminUserStub,
 } from '@domain/admin-user/__stub/admin-user.stub';
 import { AdminUserRepo } from '@domain/admin-user/admin-user.repo';
+import { AuthApplicationService } from '@application/auth/auth.application.service';
 
 describe('AuthAdminService', () => {
   let authAdminService: AuthAdminService;
-  let authService: AuthService;
+  let authApplicationService: AuthApplicationService;
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
@@ -19,7 +19,7 @@ describe('AuthAdminService', () => {
         AuthAdminService,
         AdminUserRepo,
         {
-          provide: AuthService,
+          provide: AuthApplicationService,
           useValue: {
             createToken: jest.fn(),
           },
@@ -28,7 +28,7 @@ describe('AuthAdminService', () => {
     }).compile();
 
     authAdminService = app.get(AuthAdminService);
-    authService = app.get(AuthService);
+    authApplicationService = app.get(AuthApplicationService);
   });
 
   describe('signIn', () => {
@@ -57,7 +57,9 @@ describe('AuthAdminService', () => {
       postAuthAdminRequestDto.email = adminUserStub.email;
       postAuthAdminRequestDto.password = adminUserStub.password;
 
-      jest.spyOn(authService, 'createToken').mockReturnValue('mockToken');
+      jest
+        .spyOn(authApplicationService, 'createToken')
+        .mockReturnValue('mockToken');
 
       const result = authAdminService.signIn(postAuthAdminRequestDto);
 

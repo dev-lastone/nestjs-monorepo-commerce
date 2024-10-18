@@ -1,12 +1,12 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PostAuthAdminRequestDto } from './auth.admin.dto';
-import { AuthService } from '@domain/auth/auth.service';
 import { AdminUserRepo } from '@domain/admin-user/admin-user.repo';
+import { AuthApplicationService } from '@application/auth/auth.application.service';
 
 @Injectable()
 export class AuthAdminService {
   constructor(
-    private readonly authService: AuthService,
+    private readonly authApplicationService: AuthApplicationService,
     private readonly adminUserRepo: AdminUserRepo,
   ) {}
 
@@ -19,6 +19,6 @@ export class AuthAdminService {
       throw new UnauthorizedException();
     }
 
-    return this.authService.createToken(user);
+    return this.authApplicationService.createToken(user);
   }
 }
