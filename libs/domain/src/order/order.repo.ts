@@ -4,8 +4,8 @@ import { orderStub } from '@domain/order/__stub/order.stub';
 import { OrderProduct } from '@domain/order/order-product';
 import { orderProductStub } from '@domain/order/__stub/order-product.stub';
 import { productStub1 } from '@domain/product/__stub/product.stub';
+import { OrderProductReview } from '@domain/order/order-product-review';
 
-// repo 자체가 stub
 @Injectable()
 export class OrderRepo {
   #id = 2;
@@ -31,6 +31,11 @@ export class OrderRepo {
     return product;
   }
 
+  saveProductReview(orderProductReview: OrderProductReview) {
+    orderProductReview.id = 1;
+    return orderProductReview;
+  }
+
   find() {
     return this.#orders;
   }
@@ -51,6 +56,13 @@ export class OrderRepo {
 
   // TODO order confirm 전용 find 예정
   findOneOrderProductWishOrderAndProduct(id: number) {
+    const orderProduct = orderProductStub;
+    orderProduct.order = orderStub;
+    orderProduct.product = productStub1;
+    return orderProduct;
+  }
+
+  findOneWishOrderProductReview(id: number) {
     const orderProduct = orderProductStub;
     orderProduct.order = orderStub;
     orderProduct.product = productStub1;

@@ -10,4 +10,6 @@ export const ERROR_MESSAGES = {
   NotEnoughPoints: 'Not enough points.',
   AlreadyBeenDelivered: 'Already been delivered.',
   NotDeliveryStatus: 'Not delivery status.',
+  NotConfirmStatus: 'Not confirm status.',
+  AlreadyReviewed: 'Already reviewed.',
 };
