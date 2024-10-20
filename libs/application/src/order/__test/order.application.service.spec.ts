@@ -28,6 +28,10 @@ describe('OrderApplicationService', () => {
             findOneOrderProductWishOrderAndProduct: jest
               .fn()
               .mockReturnValue(orderProductWithOrderAndProductStub),
+            findOneWishOrderProductReview: jest
+              .fn()
+              .mockReturnValue(orderProductWithOrderAndProductStub),
+            saveProductReview: jest.fn(),
           },
         },
       ],
@@ -100,6 +104,53 @@ describe('OrderApplicationService', () => {
       expect(result).toEqual({
         ...orderProductStub,
         status: OrderProductStatus.CONFIRMED,
+      });
+    });
+  });
+
+  describe('createOrderProductReview', () => {
+    it('404', () => {
+      jest
+        .spyOn(orderRepo, 'findOneWishOrderProductReview')
+        .mockReturnValue(undefined);
+
+      expect(() =>
+        orderApplicationService.createOrderProductReview({
+          orderProductId: NON_EXISTENT_ID,
+          userId: appUserStub.id,
+          score: 5,
+          description: '내용',
+        }),
+      ).toThrowError(new NotFoundException());
+    });
+
+    it('403', () => {
+      expect(() =>
+        orderApplicationService.createOrderProductReview({
+          orderProductId: orderProductStub.id,
+          userId: NON_EXISTENT_ID,
+          score: 5,
+          description: '내용',
+        }),
+      ).toThrowError(new ForbiddenException());
+    });
+
+    it('성공', () => {
+      orderProductStub.status = OrderProductStatus.CONFIRMED;
+      const dto = {
+        orderProductId: orderProductStub.id,
+        userId: appUserStub.id,
+        score: 5,
+        description: '내용',
+      };
+      const result = orderApplicationService.createOrderProductReview(dto);
+
+      expect(orderRepo.findOneWishOrderProductReview).toBeCalledWith(1);
+      expect(orderRepo.saveProductReview).toBeCalled();
+      expect(result).toEqual({
+        orderProductId: dto.orderProductId,
+        score: dto.score,
+        description: dto.description,
       });
     });
   });
