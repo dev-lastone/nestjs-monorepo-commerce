@@ -1,6 +1,7 @@
 import { OrderProduct, OrderProductStatus } from '@domain/order/order-product';
 import { productStub1 } from '@domain/product/__stub/product.stub';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
+import { orderProductStub } from '@domain/order/__stub/order-product.stub';
 
 describe('OrderProduct', () => {
   it('constructor', () => {
@@ -45,6 +46,33 @@ describe('OrderProduct', () => {
       orderProduct.status = OrderProductStatus.DELIVERED;
       orderProduct.confirm();
       expect(orderProduct.status).toBe(OrderProductStatus.CONFIRMED);
+    });
+  });
+
+  describe('createReview', () => {
+    it(ERROR_MESSAGES.NotConfirmStatus, () => {
+      expect(() =>
+        orderProductStub.createReview({ score: 5, description: '리뷰 내용' }),
+      ).toThrowError(ERROR_MESSAGES.NotConfirmStatus);
+    });
+
+    it('성공', () => {
+      orderProductStub.status = OrderProductStatus.CONFIRMED;
+      expect(
+        orderProductStub.createReview({ score: 5, description: '리뷰 내용' }),
+      ).toEqual({
+        orderProductId: orderProductStub.id,
+        score: 5,
+        description: '리뷰 내용',
+      });
+    });
+
+    it(ERROR_MESSAGES.AlreadyReviewed, () => {
+      orderProductStub.status = OrderProductStatus.CONFIRMED;
+      orderProductStub.review = { id: 1 } as any;
+      expect(() =>
+        orderProductStub.createReview({ score: 5, description: '리뷰 내용' }),
+      ).toThrowError(ERROR_MESSAGES.AlreadyReviewed);
     });
   });
 });
