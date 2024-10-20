@@ -25,4 +25,14 @@ export class OrderProductReview {
   })
   @IsNotEmpty()
   description: string;
+
+  constructor(dto: {
+    orderProductId: number;
+    score: number;
+    description: string;
+  }) {
+    this.orderProductId = dto.orderProductId;
+    this.score = dto.score;
+    this.description = dto.description;
+  }
 }
