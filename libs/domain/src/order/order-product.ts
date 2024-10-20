@@ -4,7 +4,7 @@ import { BadRequestException } from '@nestjs/common';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { Order } from '@domain/order/order';
 import { OrderProductReview } from '@domain/order/order-product-review';
-import { CreateReviewDto } from '@domain/order/order.dto';
+import { PostOrderProductsReviewReqDto } from '../../../../apps/app/src/api/order/order-products/review/order-products-review.app.dto';
 
 export enum OrderProductStatus {
   ORDERED = 'ordered',
@@ -58,7 +58,7 @@ export class OrderProduct {
     this.status = OrderProductStatus.CONFIRMED;
   }
 
-  createReview(dto: CreateReviewDto) {
+  createReview(dto: PostOrderProductsReviewReqDto) {
     if (this.status !== OrderProductStatus.CONFIRMED) {
       throw new BadRequestException(ERROR_MESSAGES.NotConfirmStatus);
     }
@@ -66,7 +66,8 @@ export class OrderProduct {
       throw new BadRequestException(ERROR_MESSAGES.AlreadyReviewed);
     }
 
-    return new OrderProductReview(this.id, {
+    return new OrderProductReview({
+      orderProductId: this.id,
       score: dto.score,
       description: dto.description,
     });
