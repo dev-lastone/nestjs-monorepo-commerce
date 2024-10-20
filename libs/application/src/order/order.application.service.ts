@@ -76,6 +76,6 @@ export class OrderApplicationService {
 
     this.orderRepo.saveProductReview(orderProductReview);
 
-    return orderProduct;
+    return orderProductReview;
   }
 }
