@@ -6,8 +6,8 @@ import {
 import { PostAuthAppRequestDto, PostAuthSignUpAppReqDto } from './auth.app.dto';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { AppUser } from '@domain/app-user/app-user.entity';
-import { AppUserRepo } from '@domain/app-user/app-user.repo';
 import { AuthApplicationService } from '@application/auth/auth.application.service';
+import { AppUserRepo } from '@domain/app-user/app-user.repo';
 
 @Injectable()
 export class AuthAppService {
@@ -16,7 +16,7 @@ export class AuthAppService {
     private readonly appUserRepo: AppUserRepo,
   ) {}
 
-  signUp(dto: PostAuthSignUpAppReqDto) {
+  async signUp(dto: PostAuthSignUpAppReqDto) {
     if (dto.password !== dto.passwordConfirm) {
       throw new BadRequestException(ERROR_MESSAGES.PasswordConfirm);
     }
@@ -26,15 +26,15 @@ export class AuthAppService {
     user.email = dto.email;
     user.password = dto.password;
 
-    this.appUserRepo.save(user);
+    await this.appUserRepo.save(user);
 
     return this.authApplicationService.createToken(user);
   }
 
-  signIn(dto: PostAuthAppRequestDto) {
+  async signIn(dto: PostAuthAppRequestDto) {
     const { email, password } = dto;
 
-    const user = this.appUserRepo.findOneByEmail(email);
+    const user = await this.appUserRepo.findOneByEmail(email);
 
     if (!user || password !== user.password) {
       throw new UnauthorizedException();

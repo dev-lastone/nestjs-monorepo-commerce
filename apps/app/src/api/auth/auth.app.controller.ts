@@ -16,8 +16,8 @@ export class AuthAppController {
     status: 201,
     type: String,
   })
-  signUp(@Body() dto: PostAuthSignUpAppReqDto) {
-    return this.authAppService.signUp(dto);
+  async signUp(@Body() dto: PostAuthSignUpAppReqDto) {
+    return await this.authAppService.signUp(dto);
   }
 
   @Public()
@@ -27,7 +27,7 @@ export class AuthAppController {
     status: 201,
     type: String,
   })
-  signIn(@Body() dto: PostAuthAppRequestDto) {
-    return this.authAppService.signIn(dto);
+  async signIn(@Body() dto: PostAuthAppRequestDto) {
+    return await this.authAppService.signIn(dto);
   }
 }
