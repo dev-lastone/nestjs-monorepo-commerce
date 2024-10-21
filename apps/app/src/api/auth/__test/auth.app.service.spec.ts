@@ -10,22 +10,29 @@ import {
   appUserStub,
   invalidAppUserStub,
 } from '@domain/app-user/__stub/app-user.stub';
-import { AppUserRepo } from '@domain/app-user/app-user.repo';
 import { AuthApplicationService } from '@application/auth/auth.application.service';
+import { AppUserRepo } from '@domain/app-user/app-user.repo';
 
 describe('AuthAppService', () => {
   let authAppService: AuthAppService;
   let authApplicationService: AuthApplicationService;
+  let appUserRepo: AppUserRepo;
 
   beforeEach(async () => {
     const testingModule = await Test.createTestingModule({
       providers: [
         AuthAppService,
-        AppUserRepo,
         {
           provide: AuthApplicationService,
           useValue: {
             createToken: jest.fn(),
+          },
+        },
+        {
+          provide: AppUserRepo,
+          useValue: {
+            save: jest.fn(),
+            findOneByEmail: jest.fn(),
           },
         },
       ],
@@ -33,6 +40,7 @@ describe('AuthAppService', () => {
 
     authAppService = testingModule.get(AuthAppService);
     authApplicationService = testingModule.get(AuthApplicationService);
+    appUserRepo = testingModule.get(AppUserRepo);
   });
 
   describe('signUp', () => {
@@ -43,9 +51,9 @@ describe('AuthAppService', () => {
       postAuthAdminRequestDto.password = appUserStub.password;
       postAuthAdminRequestDto.passwordConfirm = invalidAppUserStub.password;
 
-      expect(() => authAppService.signUp(postAuthAdminRequestDto)).toThrow(
-        ERROR_MESSAGES.PasswordConfirm,
-      );
+      expect(
+        async () => await authAppService.signUp(postAuthAdminRequestDto),
+      ).rejects.toThrowError(ERROR_MESSAGES.PasswordConfirm);
     });
 
     it('성공', async () => {
@@ -59,7 +67,7 @@ describe('AuthAppService', () => {
         .spyOn(authApplicationService, 'createToken')
         .mockReturnValue('mockToken');
 
-      const result = authAppService.signUp(postAuthAdminRequestDto);
+      const result = await authAppService.signUp(postAuthAdminRequestDto);
 
       expect(result).toEqual('mockToken');
     });
@@ -71,9 +79,9 @@ describe('AuthAppService', () => {
       postAuthAppRequestDto.email = invalidAppUserStub.email;
       postAuthAppRequestDto.password = appUserStub.password;
 
-      expect(() => authAppService.signIn(postAuthAppRequestDto)).toThrow(
-        new UnauthorizedException(),
-      );
+      expect(
+        async () => await authAppService.signIn(postAuthAppRequestDto),
+      ).rejects.toThrowError(new UnauthorizedException());
     });
 
     it('잘못된 패스워드', async () => {
@@ -81,9 +89,9 @@ describe('AuthAppService', () => {
       postAuthAdminRequestDto.email = appUserStub.email;
       postAuthAdminRequestDto.password = invalidAppUserStub.password;
 
-      expect(() => authAppService.signIn(postAuthAdminRequestDto)).toThrow(
-        new UnauthorizedException(),
-      );
+      expect(
+        async () => await authAppService.signIn(postAuthAdminRequestDto),
+      ).rejects.toThrowError(new UnauthorizedException());
     });
 
     it('성공', async () => {
@@ -91,11 +99,13 @@ describe('AuthAppService', () => {
       postAuthAdminRequestDto.email = appUserStub.email;
       postAuthAdminRequestDto.password = appUserStub.password;
 
+      jest.spyOn(appUserRepo, 'findOneByEmail').mockResolvedValue(appUserStub);
+
       jest
         .spyOn(authApplicationService, 'createToken')
         .mockReturnValue('mockToken');
 
-      const result = authAppService.signIn(postAuthAdminRequestDto);
+      const result = await authAppService.signIn(postAuthAdminRequestDto);
 
       expect(result).toEqual('mockToken');
     });

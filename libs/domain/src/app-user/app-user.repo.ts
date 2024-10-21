@@ -1,18 +1,24 @@
 import { Injectable } from '@nestjs/common';
 import { AppUser } from '@domain/app-user/app-user.entity';
-import { appUserStub } from '@domain/app-user/__stub/app-user.stub';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class AppUserRepo {
-  #appUsers: AppUser[] = [appUserStub];
+  constructor(
+    @InjectRepository(AppUser)
+    private readonly appUserRepo: Repository<AppUser>,
+  ) {}
 
-  save(appUser: AppUser) {
-    appUser.id = this.#appUsers[this.#appUsers.length - 1].id + 1;
-    this.#appUsers.push(appUser);
-    return appUser;
+  async save(appUser: AppUser) {
+    return await this.appUserRepo.save(appUser);
   }
 
-  findOneByEmail(email: string) {
-    return this.#appUsers.find((user) => user.email === email);
+  async findOneByEmail(email: string) {
+    return await this.appUserRepo.findOne({
+      where: {
+        email,
+      },
+    });
   }
 }
