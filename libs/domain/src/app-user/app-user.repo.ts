@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { AppUser } from '@domain/app-user/app-user';
+import { AppUser } from '@domain/app-user/app-user.entity';
 import { appUserStub } from '@domain/app-user/__stub/app-user.stub';
 
 @Injectable()
