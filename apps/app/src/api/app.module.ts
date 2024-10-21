@@ -9,10 +9,21 @@ import { JwtAuthGuard } from '@common/guard/jwt.auth.guard';
 import { ProductLikeAppModule } from './product/like/product-like.app.module';
 import { UserAppModule } from './user/user.app.module';
 import { OrderAppModule } from './order/order.app.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { AppUser } from '@domain/app-user/app-user.entity';
 
 @Module({
   imports: [
     configModule(),
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: process.env.DB_HOST,
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_DATABASE,
+      entities: [AppUser],
+      synchronize: true,
+    }),
     AuthAppModule,
     OrderAppModule,
     UserAppModule,
