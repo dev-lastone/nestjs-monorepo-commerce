@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { PostAuthAppRequestDto, PostAuthSignUpAppReqDto } from './auth.app.dto';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
-import { AppUser } from '@domain/app-user/app-user';
+import { AppUser } from '@domain/app-user/app-user.entity';
 import { AppUserRepo } from '@domain/app-user/app-user.repo';
 import { AuthApplicationService } from '@application/auth/auth.application.service';
 

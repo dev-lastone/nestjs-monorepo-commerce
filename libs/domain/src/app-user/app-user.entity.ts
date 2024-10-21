@@ -1,7 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { Entity, PrimaryGeneratedColumn } from 'typeorm';
 
+@Entity('user', { schema: 'app' })
 export class AppUser {
+  @PrimaryGeneratedColumn()
   id: number;
   @ApiProperty({ default: '홍길동' })
   @IsNotEmpty()
