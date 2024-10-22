@@ -14,9 +14,11 @@ export class OrdersAppService {
   ) {}
 
   async postOrder(userId: number, dto: PostOrdersAppReqDto) {
-    const products = dto.productIds.map((id) => {
-      return this.productApplicationService.findOneProduct(id);
-    });
+    const products = await Promise.all(
+      dto.productIds.map(async (id) => {
+        return await this.productApplicationService.findOneProduct(id);
+      }),
+    );
 
     const userAddress = await this.userAddressRepo.findOneById(
       dto.userAddressId,
@@ -28,7 +30,7 @@ export class OrdersAppService {
 
     const order = new Order(userAddress, products);
 
-    return this.orderRepo.save(order);
+    return await this.orderRepo.save(order);
   }
 
   async getOrders(userId: number) {

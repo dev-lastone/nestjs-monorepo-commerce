@@ -11,42 +11,42 @@ import { ProductRepo } from '@domain/product/product.repo';
 export class ProductApplicationService {
   constructor(private readonly productRepo: ProductRepo) {}
 
-  findProducts(): Product[] {
-    return this.productRepo.find();
+  async findProducts() {
+    return await this.productRepo.find();
   }
 
-  findOneProduct(id: number): Product {
-    return this.checkExistentProduct(id);
+  async findOneProduct(id: number) {
+    return await this.checkExistentProduct(id);
   }
 
-  createProduct(dto: CreateProductDto): Product {
+  async createProduct(dto: CreateProductDto) {
     const product = new Product({
       ...dto,
     });
 
-    return this.productRepo.save(product);
+    return await this.productRepo.save(product);
   }
 
-  updateProduct(id: number, dto: UpdateProductDto): Product {
-    const product = this.checkExistentProduct(id);
+  async updateProduct(id: number, dto: UpdateProductDto) {
+    const product = await this.checkExistentProduct(id);
 
     product.name = dto.name;
     product.price = dto.price;
     product.stock = dto.stock;
 
-    this.productRepo.save(product);
+    await this.productRepo.save(product);
 
     return product;
   }
 
-  deleteProduct(id: number) {
-    this.checkExistentProduct(id);
+  async deleteProduct(id: number) {
+    await this.checkExistentProduct(id);
 
-    this.productRepo.delete(id);
+    await this.productRepo.delete(id);
   }
 
-  checkExistentProduct(id: number): Product {
-    const product = this.productRepo.findOneById(id);
+  async checkExistentProduct(id: number) {
+    const product = await this.productRepo.findOneById(id);
 
     if (!product) {
       throw new NotFoundException(ERROR_MESSAGES.ProductNotFound);

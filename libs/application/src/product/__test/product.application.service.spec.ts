@@ -17,26 +17,46 @@ describe('ProductApplicationService', () => {
 
   beforeEach(async () => {
     const testingModule = await Test.createTestingModule({
-      providers: [ProductApplicationService, ProductRepo],
+      providers: [
+        ProductApplicationService,
+        {
+          provide: ProductRepo,
+          useValue: {
+            find: jest.fn().mockResolvedValue(productsStub),
+            findOneById: jest.fn().mockImplementation((id) => {
+              if (id === NON_EXISTENT_ID) return undefined;
+              return productStub1;
+            }),
+            save: jest.fn().mockImplementation((product) => ({
+              id: 3,
+              ...product,
+            })),
+            delete: jest.fn(),
+          },
+        },
+      ],
     }).compile();
 
     productApplicationService = testingModule.get(ProductApplicationService);
   });
 
-  it('createProduct', () => {
+  it('createProduct', async () => {
     const createProductDto = new CreateProductDto();
     createProductDto.name = 'test2';
     createProductDto.price = 20000;
     createProductDto.stock = 20;
 
-    expect(productApplicationService.createProduct(createProductDto)).toEqual({
+    const result =
+      await productApplicationService.createProduct(createProductDto);
+    expect(result).toEqual({
       id: 3,
       ...createProductDto,
     });
   });
 
-  it('findProducts', () => {
-    expect(productApplicationService.findProducts()).toEqual(productsStub);
+  it('findProducts', async () => {
+    const result = await productApplicationService.findProducts();
+    expect(result).toEqual(productsStub);
   });
 
   describe('updateProduct', () => {
@@ -45,50 +65,57 @@ describe('ProductApplicationService', () => {
     updateProductDto.price = 15000;
 
     it(ERROR_MESSAGES.ProductNotFound, () => {
-      expect(() =>
-        productApplicationService.updateProduct(
-          NON_EXISTENT_ID,
-          updateProductDto,
-        ),
-      ).toThrow(ERROR_MESSAGES.ProductNotFound);
+      expect(
+        async () =>
+          await productApplicationService.updateProduct(
+            NON_EXISTENT_ID,
+            updateProductDto,
+          ),
+      ).rejects.toThrow(ERROR_MESSAGES.ProductNotFound);
     });
 
-    it('성공', () => {
-      const id = 3;
-      expect(
-        productApplicationService.updateProduct(id, updateProductDto),
-      ).toEqual({
+    it('성공', async () => {
+      const id = 1;
+      const result = await productApplicationService.updateProduct(
         id,
-        ...updateProductDto,
+        updateProductDto,
+      );
+      expect(result).toEqual({
+        id,
+        name: updateProductDto.name,
+        price: updateProductDto.price,
       });
     });
   });
 
   describe('deleteProduct', () => {
     it(ERROR_MESSAGES.ProductNotFound, () => {
-      expect(() =>
-        productApplicationService.deleteProduct(NON_EXISTENT_ID),
-      ).toThrow(ERROR_MESSAGES.ProductNotFound);
+      expect(
+        async () =>
+          await productApplicationService.deleteProduct(NON_EXISTENT_ID),
+      ).rejects.toThrow(ERROR_MESSAGES.ProductNotFound);
     });
 
-    it('성공', () => {
-      productApplicationService.deleteProduct(3);
+    it('성공', async () => {
+      await productApplicationService.deleteProduct(3);
+      const result = await productApplicationService.findProducts();
 
-      expect(productApplicationService.findProducts()).toEqual(productsStub);
+      expect(result).toEqual(productsStub);
     });
   });
 
   describe('checkExistentProduct', () => {
     it('실패', () => {
-      expect(() =>
+      expect(async () =>
         productApplicationService.checkExistentProduct(NON_EXISTENT_ID),
-      ).toThrow(ERROR_MESSAGES.ProductNotFound);
+      ).rejects.toThrow(ERROR_MESSAGES.ProductNotFound);
     });
 
-    it('성공', () => {
-      expect(
-        productApplicationService.checkExistentProduct(productStub1.id),
-      ).toBe(productStub1);
+    it('성공', async () => {
+      const result = await productApplicationService.checkExistentProduct(
+        productStub1.id,
+      );
+      expect(result).toBe(productStub1);
     });
   });
 });

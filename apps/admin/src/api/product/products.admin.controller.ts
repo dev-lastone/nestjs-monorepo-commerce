@@ -37,8 +37,8 @@ export class ProductsAdminController {
     status: 201,
     type: Product,
   })
-  postProduct(@Body() dto: CreateProductDto): Product {
-    return this.productApplicationService.createProduct(dto);
+  async postProduct(@Body() dto: CreateProductDto) {
+    return await this.productApplicationService.createProduct(dto);
   }
 
   @Version('1')
@@ -46,8 +46,8 @@ export class ProductsAdminController {
   @ApiOkResponse({
     type: [Product],
   })
-  getProducts(): Product[] {
-    return this.productApplicationService.findProducts();
+  async getProducts() {
+    return await this.productApplicationService.findProducts();
   }
 
   @Version('1')
@@ -55,11 +55,11 @@ export class ProductsAdminController {
   @ApiOkResponse({
     type: Product,
   })
-  putProduct(
+  async putProduct(
     @Param('id', new ParseIntPipe()) id: number,
     @Body() dto: UpdateProductDto,
-  ): Product {
-    return this.productApplicationService.updateProduct(id, {
+  ) {
+    return await this.productApplicationService.updateProduct(id, {
       name: dto.name,
       price: dto.price,
       stock: dto.stock,
@@ -69,7 +69,7 @@ export class ProductsAdminController {
   @Version('1')
   @Delete(':id')
   @HttpCode(204)
-  deleteProduct(@Param('id', new ParseIntPipe()) id: number) {
-    this.productApplicationService.deleteProduct(id);
+  async deleteProduct(@Param('id', new ParseIntPipe()) id: number) {
+    await this.productApplicationService.deleteProduct(id);
   }
 }
