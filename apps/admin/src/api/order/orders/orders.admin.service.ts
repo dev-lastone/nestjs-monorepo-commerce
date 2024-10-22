@@ -7,15 +7,16 @@ import { OrderRepo } from '@domain/order/order.repo';
 export class OrdersAdminService {
   constructor(private readonly orderRepo: OrderRepo) {}
 
-  getOrders() {
-    return this.orderRepo.find().map((order) => {
+  async getOrders() {
+    const list = await this.orderRepo.find();
+    return list.map((order) => {
       return plainToInstance(GetOrdersResDto, order, {
         excludeExtraneousValues: true,
       });
     });
   }
 
-  getOrder(id: number) {
-    return this.orderRepo.findOne(id);
+  async getOrder(id: number) {
+    return await this.orderRepo.findOne(id);
   }
 }

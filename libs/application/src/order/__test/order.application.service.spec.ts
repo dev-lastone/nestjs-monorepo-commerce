@@ -1,5 +1,5 @@
 import { Test } from '@nestjs/testing';
-import { OrderProductStatus } from '@domain/order/order-product';
+import { OrderProductStatus } from '@domain/order/order-product.entity';
 import { OrderRepo } from '@domain/order/order.repo';
 import {
   orderProductStub,
@@ -50,15 +50,16 @@ describe('OrderApplicationService', () => {
     it('not found', () => {
       jest.spyOn(orderRepo, 'findOneProductById').mockReturnValue(undefined);
 
-      expect(() =>
-        orderApplicationService.orderProductDeliver(NON_EXISTENT_ID),
-      ).toThrowError(new NotFoundException());
+      expect(
+        async () =>
+          await orderApplicationService.orderProductDeliver(NON_EXISTENT_ID),
+      ).rejects.toThrowError(new NotFoundException());
     });
 
-    it('성공', () => {
+    it('성공', async () => {
       orderProductStub.status = OrderProductStatus.ORDERED;
 
-      const result = orderApplicationService.orderProductDeliver(
+      const result = await orderApplicationService.orderProductDeliver(
         orderProductStub.id,
       );
 
@@ -77,27 +78,29 @@ describe('OrderApplicationService', () => {
         .spyOn(orderRepo, 'findOneOrderProductWishOrderAndProduct')
         .mockReturnValue(undefined);
 
-      expect(() =>
-        orderApplicationService.orderProductConfirm({
-          id: NON_EXISTENT_ID,
-          userId: appUserStub.id,
-        }),
-      ).toThrowError(new NotFoundException());
+      expect(
+        async () =>
+          await orderApplicationService.orderProductConfirm({
+            id: NON_EXISTENT_ID,
+            userId: appUserStub.id,
+          }),
+      ).rejects.toThrowError(new NotFoundException());
     });
 
     it('403', () => {
-      expect(() =>
-        orderApplicationService.orderProductConfirm({
-          id: orderProductStub.id,
-          userId: NON_EXISTENT_ID,
-        }),
-      ).toThrowError(new ForbiddenException());
+      expect(
+        async () =>
+          await orderApplicationService.orderProductConfirm({
+            id: orderProductStub.id,
+            userId: NON_EXISTENT_ID,
+          }),
+      ).rejects.toThrowError(new ForbiddenException());
     });
 
-    it('성공', () => {
+    it('성공', async () => {
       orderProductStub.status = OrderProductStatus.DELIVERED;
 
-      const result = orderApplicationService.orderProductConfirm({
+      const result = await orderApplicationService.orderProductConfirm({
         id: orderProductStub.id,
         userId: appUserStub.id,
       });
@@ -119,28 +122,30 @@ describe('OrderApplicationService', () => {
         .spyOn(orderRepo, 'findOneWishOrderProductReview')
         .mockReturnValue(undefined);
 
-      expect(() =>
-        orderApplicationService.createOrderProductReview({
-          orderProductId: NON_EXISTENT_ID,
-          userId: appUserStub.id,
-          score: 5,
-          description: '내용',
-        }),
-      ).toThrowError(new NotFoundException());
+      expect(
+        async () =>
+          await orderApplicationService.createOrderProductReview({
+            orderProductId: NON_EXISTENT_ID,
+            userId: appUserStub.id,
+            score: 5,
+            description: '내용',
+          }),
+      ).rejects.toThrowError(new NotFoundException());
     });
 
     it('403', () => {
-      expect(() =>
-        orderApplicationService.createOrderProductReview({
-          orderProductId: orderProductStub.id,
-          userId: NON_EXISTENT_ID,
-          score: 5,
-          description: '내용',
-        }),
-      ).toThrowError(new ForbiddenException());
+      expect(
+        async () =>
+          await orderApplicationService.createOrderProductReview({
+            orderProductId: orderProductStub.id,
+            userId: NON_EXISTENT_ID,
+            score: 5,
+            description: '내용',
+          }),
+      ).rejects.toThrowError(new ForbiddenException());
     });
 
-    it('성공', () => {
+    it('성공', async () => {
       orderProductStub.status = OrderProductStatus.CONFIRMED;
       const dto = {
         orderProductId: orderProductStub.id,
@@ -148,7 +153,8 @@ describe('OrderApplicationService', () => {
         score: 5,
         description: '내용',
       };
-      const result = orderApplicationService.createOrderProductReview(dto);
+      const result =
+        await orderApplicationService.createOrderProductReview(dto);
 
       expect(orderRepo.findOneWishOrderProductReview).toBeCalledWith(1);
       expect(orderRepo.saveProductReview).toBeCalled();

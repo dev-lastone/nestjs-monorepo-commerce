@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { UserId } from '@common/decorator/user-id.decorator';
-import { OrderProductReview } from '@domain/order/order-product-review';
+import { OrderProductReview } from '@domain/order/order-product-review.entity';
 import { PostOrderProductsReviewReqDto } from './order-products-review.app.dto';
 import { OrderApplicationService } from '@application/order/order.application.service';
 
