@@ -1,5 +1,5 @@
 import { PickType } from '@nestjs/swagger';
-import { Product } from '@domain/product/product';
+import { Product } from '@domain/product/product.entity';
 
 export class CreateProductDto extends PickType(Product, [
   'name',

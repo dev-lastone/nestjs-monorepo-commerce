@@ -10,7 +10,7 @@ import {
   Put,
   Version,
 } from '@nestjs/common';
-import { Product } from '@domain/product/product';
+import { Product } from '@domain/product/product.entity';
 import {
   ApiBearerAuth,
   ApiOkResponse,
