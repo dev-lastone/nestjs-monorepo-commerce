@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import {
   AppUserPoint,
   AppUserPointHistoryAction,
-} from '@domain/app-user/point/app-user-point';
+} from '@domain/app-user/point/app-user-point.entity';
 import { userPointStubs } from '@domain/app-user/point/__stub/user-point.stub';
 
 @Injectable()
