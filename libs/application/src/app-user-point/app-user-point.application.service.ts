@@ -3,20 +3,24 @@ import {
   AppUserPoint,
   AppUserPointHistoryAction,
 } from '@domain/app-user/point/app-user-point.entity';
-import { userPointStubs } from '@domain/app-user/point/__stub/user-point.stub';
+import { AppUserPointApplicationRepo } from '@application/app-user-point/app-user-point.application.repo';
 
 @Injectable()
 export class AppUserPointApplicationService {
-  #userPoints: AppUserPoint[] = userPointStubs;
+  constructor(
+    private readonly appUserPointApplicationRepo: AppUserPointApplicationRepo,
+  ) {}
 
-  savePoint(
+  async savePoint(
     userId: number,
     point: number,
     action: AppUserPointHistoryAction,
     actionId: number,
   ) {
-    const userPoint = this.#getUserPoint(userId);
+    const userPoint = await this.#getUserPoint(userId);
     const history = userPoint.save(point, action, actionId);
+
+    await this.appUserPointApplicationRepo.save(userPoint);
 
     return {
       point: userPoint.point,
@@ -31,20 +35,21 @@ export class AppUserPointApplicationService {
     };
   }
 
-  usePoint(
+  async usePoint(
     userId: number,
     point: number,
     action: AppUserPointHistoryAction,
     actionId: number,
   ) {
-    const userPoint = this.#getUserPoint(userId);
+    const userPoint = await this.#getUserPoint(userId);
+
     const history = userPoint.use(point, action, actionId);
 
     return {
       point: userPoint.point,
       history: {
-        userId: history.userId,
         id: history.id,
+        userId: history.userId,
         point: history.point,
         remainingPoint: history.remainingPoint,
         action: history.action,
@@ -53,17 +58,15 @@ export class AppUserPointApplicationService {
     };
   }
 
-  #getUserPoint(userId: number) {
-    const userPoint = this.#userPoints.find(
-      (userPoint) => userPoint.userId === userId,
-    );
+  async #getUserPoint(userId: number) {
+    const userPoint = this.appUserPointApplicationRepo.findOneByUserId(userId);
 
     if (userPoint) {
       return userPoint;
     }
 
     const newUserPoint = new AppUserPoint(userId);
-    this.#userPoints.push(newUserPoint);
+    await this.appUserPointApplicationRepo.save(newUserPoint);
     return newUserPoint;
   }
 }

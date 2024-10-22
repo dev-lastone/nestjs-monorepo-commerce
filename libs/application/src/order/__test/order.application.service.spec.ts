@@ -19,7 +19,6 @@ describe('OrderApplicationService', () => {
     const testingModule = await Test.createTestingModule({
       providers: [
         OrderApplicationService,
-        AppUserPointApplicationService,
         {
           provide: OrderRepo,
           useValue: {
@@ -32,6 +31,12 @@ describe('OrderApplicationService', () => {
               .fn()
               .mockReturnValue(orderProductWithOrderAndProductStub),
             saveProductReview: jest.fn(),
+          },
+        },
+        {
+          provide: AppUserPointApplicationService,
+          useValue: {
+            savePoint: jest.fn(),
           },
         },
       ],
