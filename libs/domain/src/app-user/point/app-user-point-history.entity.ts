@@ -1,13 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { AppUserPointHistoryAction } from '@domain/app-user/point/app-user-point.entity';
-import { Entity } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { AppUserPointStorage } from '@domain/app-user/point/app-user-point-storage.entity';
 import { AppUserPointConsumption } from '@domain/app-user/point/app-user-point-consumption.entity';
 
 @Entity('user_point_history', { schema: 'app' })
 export class AppUserPointHistory {
-  userId: number;
+  @PrimaryGeneratedColumn()
   id: number;
+  userId: number;
   @ApiProperty({
     example: 1000,
   })
