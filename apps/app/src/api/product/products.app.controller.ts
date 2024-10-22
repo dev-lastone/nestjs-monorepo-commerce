@@ -1,5 +1,5 @@
 import { Controller, Get, Version } from '@nestjs/common';
-import { Product } from '@domain/product/product';
+import { Product } from '@domain/product/product.entity';
 import { ApiTags } from '@nestjs/swagger';
 import { Public } from '@common/decorator/public.decorator';
 import { ProductApplicationService } from '@application/product/product.application.service';
