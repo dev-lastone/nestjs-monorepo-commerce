@@ -3,7 +3,7 @@ import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { AppUserPointHistory } from '@domain/app-user/point/app-user-point-history.entity';
 import { AppUserPointStorage } from '@domain/app-user/point/app-user-point-storage.entity';
 import { AppUserPointConsumption } from '@domain/app-user/point/app-user-point-consumption.entity';
-import { Entity } from 'typeorm';
+import { Entity, PrimaryColumn } from 'typeorm';
 
 /*
 	AppUserPoint // 총 포인트
@@ -45,6 +45,7 @@ export enum AppUserPointHistoryAction {
 
 @Entity('user_point', { schema: 'app' })
 export class AppUserPoint {
+  @PrimaryColumn()
   userId: number;
   @ApiProperty({
     example: 1000,
