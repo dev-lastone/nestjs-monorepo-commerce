@@ -6,22 +6,28 @@ import {
   adminUserStub,
   invalidAdminUserStub,
 } from '@domain/admin-user/__stub/admin-user.stub';
-import { AdminUserRepo } from '@domain/admin-user/admin-user.repo';
 import { AuthApplicationService } from '@application/auth/auth.application.service';
+import { AdminUserRepo } from '@domain/admin-user/admin-user.repo';
 
 describe('AuthAdminService', () => {
   let authAdminService: AuthAdminService;
   let authApplicationService: AuthApplicationService;
+  let adminUserRepo: AdminUserRepo;
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
       providers: [
         AuthAdminService,
-        AdminUserRepo,
         {
           provide: AuthApplicationService,
           useValue: {
             createToken: jest.fn(),
+          },
+        },
+        {
+          provide: AdminUserRepo,
+          useValue: {
+            findOneByEmail: jest.fn(),
           },
         },
       ],
@@ -29,6 +35,7 @@ describe('AuthAdminService', () => {
 
     authAdminService = app.get(AuthAdminService);
     authApplicationService = app.get(AuthApplicationService);
+    adminUserRepo = app.get(AdminUserRepo);
   });
 
   describe('signIn', () => {
@@ -37,9 +44,9 @@ describe('AuthAdminService', () => {
       postAuthAdminRequestDto.email = invalidAdminUserStub.email;
       postAuthAdminRequestDto.password = adminUserStub.password;
 
-      expect(() => authAdminService.signIn(postAuthAdminRequestDto)).toThrow(
-        new UnauthorizedException(),
-      );
+      expect(
+        async () => await authAdminService.signIn(postAuthAdminRequestDto),
+      ).rejects.toThrow(new UnauthorizedException());
     });
 
     it('잘못된 패스워드', async () => {
@@ -47,9 +54,9 @@ describe('AuthAdminService', () => {
       postAuthAdminRequestDto.email = adminUserStub.email;
       postAuthAdminRequestDto.password = invalidAdminUserStub.password;
 
-      expect(() => authAdminService.signIn(postAuthAdminRequestDto)).toThrow(
-        new UnauthorizedException(),
-      );
+      expect(async () =>
+        authAdminService.signIn(postAuthAdminRequestDto),
+      ).rejects.toThrow(new UnauthorizedException());
     });
 
     it('성공', async () => {
@@ -58,10 +65,14 @@ describe('AuthAdminService', () => {
       postAuthAdminRequestDto.password = adminUserStub.password;
 
       jest
+        .spyOn(adminUserRepo, 'findOneByEmail')
+        .mockResolvedValue(adminUserStub);
+
+      jest
         .spyOn(authApplicationService, 'createToken')
         .mockReturnValue('mockToken');
 
-      const result = authAdminService.signIn(postAuthAdminRequestDto);
+      const result = await authAdminService.signIn(postAuthAdminRequestDto);
 
       expect(result).toEqual('mockToken');
     });
