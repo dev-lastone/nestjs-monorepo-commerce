@@ -1,5 +1,4 @@
 import { Controller, Get, Version } from '@nestjs/common';
-import { Product } from '@domain/product/product.entity';
 import { ApiTags } from '@nestjs/swagger';
 import { Public } from '@common/decorator/public.decorator';
 import { ProductApplicationService } from '@application/product/product.application.service';
@@ -14,7 +13,7 @@ export class ProductsAppController {
   @Public()
   @Version('1')
   @Get()
-  getProducts(): Product[] {
-    return this.productApplicationService.findProducts();
+  async getProducts() {
+    return await this.productApplicationService.findProducts();
   }
 }
