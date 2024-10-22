@@ -1,5 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
+import { AppUserPointHistory } from '@domain/app-user/point/app-user-point-history.entity';
+import { AppUserPointStorage } from '@domain/app-user/point/app-user-point-storage.entity';
+import { AppUserPointConsumption } from '@domain/app-user/point/app-user-point-consumption.entity';
+import { Entity } from 'typeorm';
 
 /*
 	AppUserPoint // 총 포인트
@@ -39,6 +43,7 @@ export enum AppUserPointHistoryAction {
   ORDER = 'order',
 }
 
+@Entity('user_point', { schema: 'app' })
 export class AppUserPoint {
   userId: number;
   @ApiProperty({
@@ -127,42 +132,4 @@ export class AppUserPoint {
 
     return history;
   }
-}
-
-export class AppUserPointHistory {
-  userId: number;
-  id: number;
-  @ApiProperty({
-    example: 1000,
-  })
-  point: number;
-  @ApiProperty({
-    example: 2000,
-    description: '해당 시점 잔여 포인트',
-  })
-  remainingPoint: number;
-  @ApiProperty({
-    enum: AppUserPointHistoryAction,
-  })
-  action: AppUserPointHistoryAction;
-  @ApiProperty({
-    example: 1,
-  })
-  actionId: number;
-  // createdAt: Date;
-  storage?: AppUserPointStorage;
-  consumptions?: AppUserPointConsumption[];
-}
-
-export class AppUserPointStorage {
-  id: number;
-  userPointHistoryId: number;
-  point: number;
-  // expirationAt: Date;
-}
-
-export class AppUserPointConsumption {
-  userPointHistoryId: number;
-  userPointStorageId: number;
-  point: number;
 }

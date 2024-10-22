@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { OrderRepo } from '@domain/order/order.repo';
-import { AppUserPointHistoryAction } from '@domain/app-user/point/app-user-point';
+import { AppUserPointHistoryAction } from '@domain/app-user/point/app-user-point.entity';
 import { AppUserPointApplicationService } from '@application/app-user-point/app-user-point.application.service';
 import { CreateOrderProductReviewDto } from '@application/order/order.application.dto';
 

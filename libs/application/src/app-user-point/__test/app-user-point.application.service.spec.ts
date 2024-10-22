@@ -1,5 +1,5 @@
 import { AppUserPointApplicationService } from '@application/app-user-point/app-user-point.application.service';
-import { AppUserPointHistoryAction } from '@domain/app-user/point/app-user-point';
+import { AppUserPointHistoryAction } from '@domain/app-user/point/app-user-point.entity';
 
 describe('UserPointService', () => {
   const appUserPointApplicationService = new AppUserPointApplicationService();
