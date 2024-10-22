@@ -8,10 +8,21 @@ import { AuthAdminModule } from './api/auth/auth.admin.module';
 import { ProductsAdminModule } from './api/product/products.admin.module';
 import { OrdersAdminModule } from './api/order/orders/orders.admin.module';
 import { OrderProductsAdminModule } from './api/order/order-products/order-products.admin.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { AdminUser } from '@domain/admin-user/admin-user.entity';
 
 @Module({
   imports: [
     configModule(),
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: process.env.DB_HOST,
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_DATABASE,
+      entities: [AdminUser],
+      synchronize: true,
+    }),
     AuthAdminModule,
     ProductsAdminModule,
     OrdersAdminModule,
