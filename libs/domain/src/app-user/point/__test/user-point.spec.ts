@@ -1,4 +1,7 @@
-import { AppUserPoint, AppUserPointHistoryAction } from '../app-user-point';
+import {
+  AppUserPoint,
+  AppUserPointHistoryAction,
+} from '../app-user-point.entity';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 
 describe('UserPoint', () => {
