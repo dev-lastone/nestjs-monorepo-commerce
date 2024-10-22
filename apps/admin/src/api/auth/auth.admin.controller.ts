@@ -16,7 +16,7 @@ export class AuthAdminController {
     status: 201,
     type: String,
   })
-  signIn(@Body() dto: PostAuthAdminRequestDto) {
-    return this.authAdminService.signIn(dto);
+  async signIn(@Body() dto: PostAuthAdminRequestDto) {
+    return await this.authAdminService.signIn(dto);
   }
 }

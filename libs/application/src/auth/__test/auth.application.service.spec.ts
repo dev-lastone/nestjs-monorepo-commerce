@@ -1,7 +1,7 @@
 import { ConfigService } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
 import * as jwt from 'jsonwebtoken';
-import { AdminUser } from '@domain/admin-user/admin-user';
+import { AdminUser } from '@domain/admin-user/admin-user.entity';
 import { adminUserStub } from '@domain/admin-user/__stub/admin-user.stub';
 import { AuthApplicationService } from '@application/auth/auth.application.service';
 

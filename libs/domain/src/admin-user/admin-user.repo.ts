@@ -1,12 +1,20 @@
 import { Injectable } from '@nestjs/common';
-import { AdminUser } from '@domain/admin-user/admin-user';
-import { adminUserStub } from '@domain/admin-user/__stub/admin-user.stub';
+import { AdminUser } from '@domain/admin-user/admin-user.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class AdminUserRepo {
-  #adminUsers: AdminUser[] = [adminUserStub];
+  constructor(
+    @InjectRepository(AdminUser)
+    private readonly adminUserRepo: Repository<AdminUser>,
+  ) {}
 
   findOneByEmail(email: string) {
-    return this.#adminUsers.find((user) => user.email === email);
+    return this.adminUserRepo.findOne({
+      where: {
+        email,
+      },
+    });
   }
 }
