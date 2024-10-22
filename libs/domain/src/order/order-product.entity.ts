@@ -2,9 +2,10 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Product } from '@domain/product/product';
 import { BadRequestException } from '@nestjs/common';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
-import { Order } from '@domain/order/order';
-import { OrderProductReview } from '@domain/order/order-product-review';
+import { Order } from '@domain/order/order.entity';
+import { OrderProductReview } from '@domain/order/order-product-review.entity';
 import { PostOrderProductsReviewReqDto } from '../../../../apps/app/src/api/order/order-products/review/order-products-review.app.dto';
+import { Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 export enum OrderProductStatus {
   ORDERED = 'ordered',
@@ -13,7 +14,9 @@ export enum OrderProductStatus {
   CONFIRMED = 'confirmed',
 }
 
+@Entity('order_product', { schema: 'app' })
 export class OrderProduct {
+  @PrimaryGeneratedColumn()
   @ApiProperty({
     example: 1,
   })

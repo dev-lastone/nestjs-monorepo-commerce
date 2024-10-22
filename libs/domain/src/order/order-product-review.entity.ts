@@ -1,7 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsNumber } from 'class-validator';
+import { Entity, PrimaryGeneratedColumn } from 'typeorm';
 
+@Entity('order_product_review', { schema: 'app' })
 export class OrderProductReview {
+  @PrimaryGeneratedColumn()
   @ApiProperty({
     example: 1,
   })

@@ -16,8 +16,8 @@ export class OrderApplicationService {
     private readonly orderRepo: OrderRepo,
   ) {}
 
-  orderProductDeliver(id: number) {
-    const orderProduct = this.orderRepo.findOneProductById(id);
+  async orderProductDeliver(id: number) {
+    const orderProduct = await this.orderRepo.findOneProductById(id);
 
     if (!orderProduct) {
       throw new NotFoundException();
@@ -25,16 +25,16 @@ export class OrderApplicationService {
 
     orderProduct.deliver();
 
-    this.orderRepo.saveProduct(orderProduct);
+    await this.orderRepo.saveProduct(orderProduct);
 
     return orderProduct;
   }
 
-  orderProductConfirm(dto: { id: number; userId: number }) {
+  async orderProductConfirm(dto: { id: number; userId: number }) {
     const { id, userId } = dto;
 
     const orderProduct =
-      this.orderRepo.findOneOrderProductWishOrderAndProduct(id);
+      await this.orderRepo.findOneOrderProductWishOrderAndProduct(id);
 
     if (!orderProduct) {
       throw new NotFoundException();
@@ -46,20 +46,20 @@ export class OrderApplicationService {
 
     orderProduct.confirm();
 
-    this.appUserPointApplicationService.savePoint(
+    await this.appUserPointApplicationService.savePoint(
       userId,
       orderProduct.product.price * 0.01,
       AppUserPointHistoryAction.ORDER_PRODUCT,
       orderProduct.id,
     );
 
-    this.orderRepo.saveProduct(orderProduct);
+    await this.orderRepo.saveProduct(orderProduct);
 
     return orderProduct;
   }
 
-  createOrderProductReview(dto: CreateOrderProductReviewDto) {
-    const orderProduct = this.orderRepo.findOneWishOrderProductReview(
+  async createOrderProductReview(dto: CreateOrderProductReviewDto) {
+    const orderProduct = await this.orderRepo.findOneWishOrderProductReview(
       dto.orderProductId,
     );
     if (!orderProduct) {
@@ -74,7 +74,7 @@ export class OrderApplicationService {
       description: dto.description,
     });
 
-    this.orderRepo.saveProductReview(orderProductReview);
+    await this.orderRepo.saveProductReview(orderProductReview);
 
     return orderProductReview;
   }

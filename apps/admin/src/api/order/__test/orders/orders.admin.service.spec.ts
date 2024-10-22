@@ -8,14 +8,24 @@ describe('OrdersAdminService', () => {
 
   beforeEach(async () => {
     const testingModule = await Test.createTestingModule({
-      providers: [OrdersAdminService, OrderRepo],
+      providers: [
+        OrdersAdminService,
+        {
+          provide: OrderRepo,
+          useValue: {
+            find: jest.fn().mockReturnValue([orderStub]),
+            findOne: jest.fn().mockReturnValue(orderStub),
+          },
+        },
+      ],
     }).compile();
 
     ordersAdminService = testingModule.get(OrdersAdminService);
   });
 
-  it('getOrders', () => {
-    expect(ordersAdminService.getOrders()).toEqual([
+  it('getOrders', async () => {
+    const result = await ordersAdminService.getOrders();
+    expect(result).toEqual([
       {
         id: orderStub.id,
         userId: orderStub.userId,
@@ -25,7 +35,8 @@ describe('OrdersAdminService', () => {
     ]);
   });
 
-  it('getOrder', () => {
-    expect(ordersAdminService.getOrder(orderStub.id)).toEqual(orderStub);
+  it('getOrder', async () => {
+    const result = await ordersAdminService.getOrder(orderStub.id);
+    expect(result).toEqual(orderStub);
   });
 });

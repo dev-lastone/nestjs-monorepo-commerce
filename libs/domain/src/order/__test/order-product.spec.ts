@@ -1,4 +1,7 @@
-import { OrderProduct, OrderProductStatus } from '@domain/order/order-product';
+import {
+  OrderProduct,
+  OrderProductStatus,
+} from '@domain/order/order-product.entity';
 import { productStub1 } from '@domain/product/__stub/product.stub';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { orderProductStub } from '@domain/order/__stub/order-product.stub';

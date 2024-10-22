@@ -1,6 +1,6 @@
 import { Controller, Param, ParseIntPipe, Post, Version } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { Order } from '@domain/order/order';
+import { Order } from '@domain/order/order.entity';
 import { UserId } from '@common/decorator/user-id.decorator';
 import { OrderApplicationService } from '@application/order/order.application.service';
 

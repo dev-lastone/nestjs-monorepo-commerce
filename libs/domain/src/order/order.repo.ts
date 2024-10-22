@@ -1,71 +1,79 @@
-import { Order } from '@domain/order/order';
+import { Order } from '@domain/order/order.entity';
 import { Injectable } from '@nestjs/common';
-import { orderStub } from '@domain/order/__stub/order.stub';
-import { OrderProduct } from '@domain/order/order-product';
-import { orderProductStub } from '@domain/order/__stub/order-product.stub';
-import { productStub1 } from '@domain/product/__stub/product.stub';
-import { OrderProductReview } from '@domain/order/order-product-review';
+import { OrderProduct } from '@domain/order/order-product.entity';
+import { OrderProductReview } from '@domain/order/order-product-review.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class OrderRepo {
-  #id = 2;
-  #productId = 2;
-  #orders: Order[] = [orderStub];
+  constructor(
+    @InjectRepository(Order)
+    private readonly orderRepo: Repository<Order>,
 
-  save(order: Order) {
-    order.id = this.#id++;
-    order.products.forEach((product) => {
-      product.orderId = order.id;
-      product.id = this.#productId++;
+    @InjectRepository(OrderProduct)
+    private readonly orderProductRepo: Repository<OrderProduct>,
+
+    @InjectRepository(OrderProductReview)
+    private readonly orderProductReviewRepo: Repository<OrderProductReview>,
+  ) {}
+
+  async save(order: Order) {
+    return await this.orderRepo.save(order);
+  }
+
+  async saveProduct(orderProduct: OrderProduct) {
+    return await this.orderProductRepo.save(orderProduct);
+  }
+
+  async saveProductReview(orderProductReview: OrderProductReview) {
+    return await this.orderProductReviewRepo.save(orderProductReview);
+  }
+
+  async find() {
+    return await this.orderRepo.find();
+  }
+
+  async findOne(id: number) {
+    return await this.orderRepo.findOne({
+      where: {
+        id,
+      },
     });
-    this.#orders.push(order);
-
-    return order;
   }
 
-  saveProduct(orderProduct: OrderProduct) {
-    const product = this.findOneProductById(orderProduct.id);
-
-    product.status = orderProduct.status;
-
-    return product;
+  async findByUserId(userId: number) {
+    return await this.orderRepo.find({
+      where: {
+        userId,
+      },
+    });
   }
 
-  saveProductReview(orderProductReview: OrderProductReview) {
-    orderProductReview.id = 1;
-    return orderProductReview;
-  }
-
-  find() {
-    return this.#orders;
-  }
-
-  findOne(id: number) {
-    return this.#orders.find((order) => order.id === id);
-  }
-
-  findByUserId(userId: number) {
-    return this.#orders.filter((order) => order.userId === userId);
-  }
-
-  findOneProductById(id: number) {
-    return this.#orders
-      .flatMap((order) => order.products)
-      .find((product) => product.id === id);
+  async findOneProductById(id: number) {
+    return await this.orderProductRepo.findOne({
+      where: {
+        id,
+      },
+    });
   }
 
   // TODO order confirm 전용 find 예정
-  findOneOrderProductWishOrderAndProduct(id: number) {
-    const orderProduct = orderProductStub;
-    orderProduct.order = orderStub;
-    orderProduct.product = productStub1;
-    return orderProduct;
+  async findOneOrderProductWishOrderAndProduct(id: number) {
+    return await this.orderProductRepo.findOne({
+      relations: ['order', 'product'],
+      where: {
+        id,
+      },
+    });
   }
 
-  findOneWishOrderProductReview(id: number) {
-    const orderProduct = orderProductStub;
-    orderProduct.order = orderStub;
-    orderProduct.product = productStub1;
-    return orderProduct;
+  async findOneWishOrderProductReview(id: number) {
+    return await this.orderProductRepo.findOne({
+      relations: ['product', 'orderProductReview'],
+      where: {
+        id,
+      },
+    });
   }
 }

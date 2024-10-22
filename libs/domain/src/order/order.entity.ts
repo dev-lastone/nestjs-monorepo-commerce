@@ -1,10 +1,13 @@
-import { OrderProduct } from './order-product';
+import { OrderProduct } from './order-product.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import { Product } from '@domain/product/product';
 import { UserAddress } from '../../../../apps/app/src/domain/user/address/user-address';
+import { Entity, PrimaryGeneratedColumn } from 'typeorm';
 
+@Entity('order', { schema: 'app' })
 export class Order {
+  @PrimaryGeneratedColumn()
   @ApiProperty({
     example: 1,
   })
