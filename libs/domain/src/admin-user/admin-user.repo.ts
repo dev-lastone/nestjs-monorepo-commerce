@@ -10,10 +10,10 @@ export class AdminUserRepo {
     private readonly adminUserRepo: Repository<AdminUser>,
   ) {}
 
-  findOneByEmail(email: string) {
+  findOne(partial: Partial<AdminUser>) {
     return this.adminUserRepo.findOne({
       where: {
-        email,
+        ...partial,
       },
     });
   }
