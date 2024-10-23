@@ -24,7 +24,7 @@ import * as path from 'path';
         path.join(__dirname, '../../../libs/domain/src/**/*.entity.js'), // domain
       ],
       synchronize: true,
-      logging: true,
+      logging: process.env.NODE_ENV !== 'test',
     }),
     AuthAdminModule,
     ProductsAdminModule,
