@@ -9,7 +9,7 @@ import { ProductsAdminModule } from './api/product/products.admin.module';
 import { OrdersAdminModule } from './api/order/orders/orders.admin.module';
 import { OrderProductsAdminModule } from './api/order/order-products/order-products.admin.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AdminUser } from '@domain/admin-user/admin-user.entity';
+import * as path from 'path';
 
 @Module({
   imports: [
@@ -20,7 +20,9 @@ import { AdminUser } from '@domain/admin-user/admin-user.entity';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [AdminUser],
+      entities: [
+        path.join(__dirname, '../../../libs/domain/src/**/*.entity.js'), // domain
+      ],
       synchronize: true,
       logging: true,
     }),
