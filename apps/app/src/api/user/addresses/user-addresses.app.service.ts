@@ -7,48 +7,46 @@ import {
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { PostUserAddressRequestDto } from './user-addresses.app.dto';
 import { USER_ADDRESS_MAX_LENGTH } from '@common/constant/constants';
-import { UserAddress } from '../../../domain/user/address/user-address';
+import { UserAddress } from '../../../domain/user/address/user-address.entity';
 import { UserAddressRepo } from '../../../domain/user/address/user-address.repo';
 
 @Injectable()
 export class UserAddressesAppService {
   constructor(private readonly userAddressRepo: UserAddressRepo) {}
 
-  postUserAddress(userId: number, dto: PostUserAddressRequestDto) {
-    const userAddresses = this.userAddressRepo.findByUserId(userId);
+  async postUserAddress(userId: number, dto: PostUserAddressRequestDto) {
+    const userAddresses = await this.userAddressRepo.findByUserId(userId);
 
-    if (userAddresses.length >= USER_ADDRESS_MAX_LENGTH) {
+    if (userAddresses?.length >= USER_ADDRESS_MAX_LENGTH) {
       throw new NotFoundException(ERROR_MESSAGES.UserAddressMaxLength);
     }
 
     if (dto.isDefault) {
-      userAddresses.forEach((userAddress) => {
+      userAddresses?.forEach((userAddress) => {
         userAddress.isDefault = false;
       });
     } else {
-      if (!userAddresses.some((userAddress) => userAddress.isDefault)) {
+      if (!userAddresses?.some((userAddress) => userAddress.isDefault)) {
         throw new BadRequestException(
           ERROR_MESSAGES.UserAddressDefaultRequired,
         );
       }
     }
 
-    const userAddress = new UserAddress({
+    const userAddress = UserAddress.create({
       userId,
       ...dto,
     });
 
-    this.userAddressRepo.save(userAddress);
-
-    return userAddress;
+    return await this.userAddressRepo.save(userAddress);
   }
 
-  getUserAddresses(userId: number) {
-    return this.userAddressRepo.findByUserId(userId);
+  async getUserAddresses(userId: number) {
+    return await this.userAddressRepo.findByUserId(userId);
   }
 
-  putUserAddress(dto: UserAddress) {
-    const userAddress = this.userAddressRepo.findOneById(dto.id);
+  async putUserAddress(dto: UserAddress) {
+    const userAddress = await this.userAddressRepo.findOneById(dto.id);
 
     if (!userAddress) {
       throw new NotFoundException(ERROR_MESSAGES.UserAddressNotFound);
@@ -58,13 +56,11 @@ export class UserAddressesAppService {
     userAddress.address = dto.address;
     userAddress.isDefault = dto.isDefault;
 
-    this.userAddressRepo.save(userAddress);
-
-    return userAddress;
+    return await this.userAddressRepo.save(userAddress);
   }
 
-  deleteUserAddress(userId: number, id: number) {
-    const userAddress = this.userAddressRepo.findOneById(id);
+  async deleteUserAddress(userId: number, id: number) {
+    const userAddress = await this.userAddressRepo.findOneById(id);
 
     if (!userAddress) {
       throw new NotFoundException(ERROR_MESSAGES.UserAddressNotFound);
@@ -74,6 +70,6 @@ export class UserAddressesAppService {
       throw new ForbiddenException();
     }
 
-    this.userAddressRepo.delete(id);
+    await this.userAddressRepo.delete(id);
   }
 }

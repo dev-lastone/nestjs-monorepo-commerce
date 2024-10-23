@@ -2,7 +2,7 @@ import { OrderProduct } from './order-product.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import { Product } from '@domain/product/product.entity';
-import { UserAddress } from '../../../../apps/app/src/domain/user/address/user-address';
+import { UserAddress } from '../../../../apps/app/src/domain/user/address/user-address.entity';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('order', { schema: 'app' })
