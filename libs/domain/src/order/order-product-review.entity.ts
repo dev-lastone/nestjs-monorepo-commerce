@@ -29,13 +29,16 @@ export class OrderProductReview {
   @IsNotEmpty()
   description: string;
 
-  constructor(dto: {
+  static create(dto: {
     orderProductId: number;
     score: number;
     description: string;
   }) {
-    this.orderProductId = dto.orderProductId;
-    this.score = dto.score;
-    this.description = dto.description;
+    const orderProductReview = new OrderProductReview();
+    orderProductReview.orderProductId = dto.orderProductId;
+    orderProductReview.score = dto.score;
+    orderProductReview.description = dto.description;
+
+    return orderProductReview;
   }
 }
