@@ -59,6 +59,11 @@ describe('ProductApplicationService', () => {
     expect(result).toEqual(productsStub);
   });
 
+  it('findOneProduct', async () => {
+    const result = await productApplicationService.findOneProduct(1);
+    expect(result).toEqual(productStub1);
+  });
+
   describe('updateProduct', () => {
     const updateProductDto = new UpdateProductDto();
     updateProductDto.name = '상품2';
