@@ -1,23 +1,34 @@
 import { Test } from '@nestjs/testing';
-import { NON_EXISTENT_ID } from '@common/constant/constants';
+import { NON_EXISTENT_ID, SUCCESS } from '@common/constant/constants';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { UserAddressesAppService } from '../../addresses/user-addresses.app.service';
 import { userAddressStub } from '../../../../domain/user/address/__stub/user-address.stub';
-import { UserAddressModule } from '../../../../domain/user/address/user-address.module';
 import { UserAddressRepo } from '../../../../domain/user/address/user-address.repo';
 import { ForbiddenException } from '@nestjs/common';
 
 describe('UserAddressesAppService', () => {
   const userId = userAddressStub.userId;
   let userAddressesService: UserAddressesAppService;
+  let userAddressRepo: UserAddressRepo;
 
   beforeEach(async () => {
     const testingModule = await Test.createTestingModule({
-      imports: [UserAddressModule],
-      providers: [UserAddressesAppService, UserAddressRepo],
+      providers: [
+        UserAddressesAppService,
+        {
+          provide: UserAddressRepo,
+          useValue: {
+            findByUserId: jest.fn(),
+            save: jest.fn(),
+            findOneById: jest.fn(),
+            delete: jest.fn(),
+          },
+        },
+      ],
     }).compile();
 
     userAddressesService = testingModule.get(UserAddressesAppService);
+    userAddressRepo = testingModule.get(UserAddressRepo);
   });
 
   describe('post', () => {
@@ -31,15 +42,22 @@ describe('UserAddressesAppService', () => {
       const userId = 2;
 
       it(ERROR_MESSAGES.UserAddressDefaultRequired, () => {
-        expect(() => userAddressesService.postUserAddress(userId, dto)).toThrow(
-          ERROR_MESSAGES.UserAddressDefaultRequired,
-        );
+        expect(() =>
+          userAddressesService.postUserAddress(userId, dto),
+        ).rejects.toThrow(ERROR_MESSAGES.UserAddressDefaultRequired);
       });
 
-      it('성공', () => {
+      it(SUCCESS, async () => {
         dto.isDefault = true;
 
-        expect(userAddressesService.postUserAddress(userId, dto)).toEqual({
+        jest.spyOn(userAddressRepo, 'save').mockResolvedValue({
+          id: 2,
+          userId,
+          ...dto,
+        });
+
+        const result = await userAddressesService.postUserAddress(userId, dto);
+        expect(result).toEqual({
           id: 2,
           userId,
           ...dto,
@@ -48,18 +66,36 @@ describe('UserAddressesAppService', () => {
     });
 
     describe('추가 생성', () => {
-      it('isDefault false', () => {
-        expect(userAddressesService.postUserAddress(userId, dto)).toEqual({
+      it('isDefault false', async () => {
+        jest
+          .spyOn(userAddressRepo, 'findByUserId')
+          .mockResolvedValue([userAddressStub]);
+        jest.spyOn(userAddressRepo, 'save').mockResolvedValue({
+          id: 2,
+          userId,
+          ...dto,
+        });
+
+        const result = await userAddressesService.postUserAddress(userId, dto);
+
+        expect(result).toEqual({
           id: 2,
           userId,
           ...dto,
         });
       });
 
-      it('isDefault true', () => {
+      it('isDefault true', async () => {
         dto.isDefault = true;
 
-        expect(userAddressesService.postUserAddress(userId, dto)).toEqual({
+        jest.spyOn(userAddressRepo, 'save').mockResolvedValue({
+          id: 2,
+          userId,
+          ...dto,
+        });
+
+        const result = await userAddressesService.postUserAddress(userId, dto);
+        expect(result).toEqual({
           id: 2,
           userId,
           ...dto,
@@ -68,20 +104,25 @@ describe('UserAddressesAppService', () => {
     });
 
     it(ERROR_MESSAGES.UserAddressMaxLength, () => {
-      for (let i = 0; i < 9; i++) {
-        userAddressesService.postUserAddress(userId, dto);
-      }
+      jest
+        .spyOn(userAddressRepo, 'findByUserId')
+        .mockResolvedValue(new Array(10).fill(userAddressStub));
 
-      expect(() => userAddressesService.postUserAddress(userId, dto)).toThrow(
-        ERROR_MESSAGES.UserAddressMaxLength,
-      );
+      expect(() =>
+        userAddressesService.postUserAddress(userId, dto),
+      ).rejects.toThrow(ERROR_MESSAGES.UserAddressMaxLength);
     });
   });
 
-  it('get', () => {
-    expect(
-      userAddressesService.getUserAddresses(userAddressStub.userId),
-    ).toEqual([userAddressStub]);
+  it('get', async () => {
+    jest
+      .spyOn(userAddressRepo, 'findByUserId')
+      .mockResolvedValue([userAddressStub]);
+
+    const result = await userAddressesService.getUserAddresses(
+      userAddressStub.userId,
+    );
+    expect(result).toEqual([userAddressStub]);
   });
 
   describe('put', () => {
@@ -91,12 +132,24 @@ describe('UserAddressesAppService', () => {
       isDefault: false,
     };
 
-    it('성공', () => {
+    it(SUCCESS, async () => {
       const id = userAddressStub.id;
 
-      expect(
-        userAddressesService.putUserAddress({ userId, id, ...dto }),
-      ).toEqual({
+      jest
+        .spyOn(userAddressRepo, 'findOneById')
+        .mockResolvedValue(userAddressStub);
+      jest.spyOn(userAddressRepo, 'save').mockResolvedValue({
+        userId,
+        id,
+        ...dto,
+      });
+
+      const result = await userAddressesService.putUserAddress({
+        userId,
+        id,
+        ...dto,
+      });
+      expect(result).toEqual({
         userId,
         id,
         ...dto,
@@ -110,7 +163,7 @@ describe('UserAddressesAppService', () => {
           userId: NON_EXISTENT_ID,
           ...dto,
         }),
-      ).toThrow(ERROR_MESSAGES.UserAddressNotFound);
+      ).rejects.toThrow(ERROR_MESSAGES.UserAddressNotFound);
     });
 
     it(ERROR_MESSAGES.UserAddressNotFound, () => {
@@ -120,7 +173,7 @@ describe('UserAddressesAppService', () => {
           userId,
           ...dto,
         }),
-      ).toThrow(ERROR_MESSAGES.UserAddressNotFound);
+      ).rejects.toThrow(ERROR_MESSAGES.UserAddressNotFound);
     });
   });
 
@@ -128,21 +181,29 @@ describe('UserAddressesAppService', () => {
     it(ERROR_MESSAGES.UserAddressNotFound, () => {
       expect(() =>
         userAddressesService.deleteUserAddress(userId, NON_EXISTENT_ID),
-      ).toThrow(ERROR_MESSAGES.UserAddressNotFound);
+      ).rejects.toThrow(ERROR_MESSAGES.UserAddressNotFound);
     });
 
     it('403', () => {
+      jest
+        .spyOn(userAddressRepo, 'findOneById')
+        .mockResolvedValue(userAddressStub);
+
       expect(() =>
         userAddressesService.deleteUserAddress(2, userAddressStub.id),
-      ).toThrowError(new ForbiddenException());
+      ).rejects.toThrow(new ForbiddenException());
     });
 
-    it('성공', () => {
+    it('성공', async () => {
       const id = userAddressStub.id;
 
-      expect(
-        userAddressesService.deleteUserAddress(userId, id),
-      ).toBeUndefined();
+      jest
+        .spyOn(userAddressRepo, 'findOneById')
+        .mockResolvedValue(userAddressStub);
+
+      const result = await userAddressesService.deleteUserAddress(userId, id);
+
+      expect(result).toBeUndefined();
     });
   });
 });

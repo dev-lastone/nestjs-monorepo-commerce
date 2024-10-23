@@ -15,6 +15,7 @@ import { AppUserPointHistory } from '@domain/app-user/point/app-user-point-histo
 import { AppUserPointStorage } from '@domain/app-user/point/app-user-point-storage.entity';
 import { AppUserPoint } from '@domain/app-user/point/app-user-point.entity';
 import { AppUserPointConsumption } from '@domain/app-user/point/app-user-point-consumption.entity';
+import { UserAddress } from '../domain/user/address/user-address.entity';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { AppUserPointConsumption } from '@domain/app-user/point/app-user-point-c
         AppUserPointHistory,
         AppUserPointStorage,
         AppUserPointConsumption,
+        UserAddress,
       ],
       synchronize: true,
     }),
