@@ -1,4 +1,4 @@
-import { OrderProduct } from './order-product.entity';
+import { OrderProduct } from '@domain/order/order-product.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import { Product } from '@domain/product/product.entity';
@@ -43,7 +43,7 @@ export class Order {
     order.zipcode = userAddress.zipcode;
     order.address = userAddress.address;
     order.products = products.map((product) => {
-      return new OrderProduct(product);
+      return OrderProduct.create(product);
     });
 
     return order;

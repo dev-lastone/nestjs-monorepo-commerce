@@ -40,11 +40,14 @@ export class OrderProduct {
   product: Product;
   review: OrderProductReview;
 
-  constructor(product: Product) {
-    this.productId = product.id;
-    this.name = product.name;
-    this.price = product.price;
-    this.status = OrderProductStatus.ORDERED;
+  static create(product: Product) {
+    const orderProduct = new OrderProduct();
+    orderProduct.productId = product.id;
+    orderProduct.name = product.name;
+    orderProduct.price = product.price;
+    orderProduct.status = OrderProductStatus.ORDERED;
+
+    return orderProduct;
   }
 
   deliver() {
