@@ -72,7 +72,7 @@ export class OrderProduct {
       throw new BadRequestException(ERROR_MESSAGES.AlreadyReviewed);
     }
 
-    return new OrderProductReview({
+    return OrderProductReview.create({
       orderProductId: this.id,
       score: dto.score,
       description: dto.description,
