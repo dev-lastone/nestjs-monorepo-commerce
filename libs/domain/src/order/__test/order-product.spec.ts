@@ -8,7 +8,7 @@ import { orderProductStub } from '@domain/order/__stub/order-product.stub';
 
 describe('OrderProduct', () => {
   it('constructor', () => {
-    const orderProduct = new OrderProduct(productStub1);
+    const orderProduct = OrderProduct.create(productStub1);
     expect(orderProduct).toEqual({
       productId: productStub1.id,
       name: productStub1.name,
@@ -19,7 +19,7 @@ describe('OrderProduct', () => {
 
   describe('deliver', () => {
     it(ERROR_MESSAGES.AlreadyBeenDelivered, () => {
-      const orderProduct = new OrderProduct(productStub1);
+      const orderProduct = OrderProduct.create(productStub1);
       orderProduct.status = OrderProductStatus.DELIVERED;
 
       expect(() => orderProduct.deliver()).toThrowError(
@@ -28,7 +28,7 @@ describe('OrderProduct', () => {
     });
 
     it('성공', () => {
-      const orderProduct = new OrderProduct(productStub1);
+      const orderProduct = OrderProduct.create(productStub1);
       orderProduct.status = OrderProductStatus.ORDERED;
       orderProduct.deliver();
       expect(orderProduct.status).toBe(OrderProductStatus.ON_DELIVERY);
@@ -37,7 +37,7 @@ describe('OrderProduct', () => {
 
   describe('confirm', () => {
     it(ERROR_MESSAGES.NotDeliveryStatus, () => {
-      const orderProduct = new OrderProduct(productStub1);
+      const orderProduct = OrderProduct.create(productStub1);
       orderProduct.status = OrderProductStatus.ON_DELIVERY;
       expect(() => orderProduct.confirm()).toThrowError(
         ERROR_MESSAGES.NotDeliveryStatus,
@@ -45,7 +45,7 @@ describe('OrderProduct', () => {
     });
 
     it('성공', () => {
-      const orderProduct = new OrderProduct(productStub1);
+      const orderProduct = OrderProduct.create(productStub1);
       orderProduct.status = OrderProductStatus.DELIVERED;
       orderProduct.confirm();
       expect(orderProduct.status).toBe(OrderProductStatus.CONFIRMED);

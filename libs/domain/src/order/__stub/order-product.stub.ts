@@ -2,7 +2,7 @@ import { productStub1 } from '@domain/product/__stub/product.stub';
 import { OrderProduct } from '@domain/order/order-product.entity';
 import { orderStub } from '@domain/order/__stub/order.stub';
 
-const orderProduct = new OrderProduct(productStub1);
+const orderProduct = OrderProduct.create(productStub1);
 orderProduct.id = 1;
 
 export const orderProductStub = orderProduct;
