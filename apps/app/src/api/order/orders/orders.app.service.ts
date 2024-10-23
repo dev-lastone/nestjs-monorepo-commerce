@@ -28,7 +28,7 @@ export class OrdersAppService {
       throw new ForbiddenException();
     }
 
-    const order = new Order(userAddress, products);
+    const order = Order.create(userAddress, products);
 
     return await this.orderRepo.save(order);
   }
