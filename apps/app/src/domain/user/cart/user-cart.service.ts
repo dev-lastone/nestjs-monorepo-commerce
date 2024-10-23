@@ -1,37 +1,32 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
-import { UserCart } from './user-cart';
+import { UserCart } from './user-cart.entity';
 import {
   CreateUserCartDto,
   DeleteUserCartDto,
   UpdateUserCartDto,
 } from './user-cart.dto';
-import { userCartStub } from './__stub/user-cart.stub';
+import { UserCartRepo } from './user-cart.repo';
 
 @Injectable()
 export class UserCartService {
-  #userCarts: UserCart[] = [userCartStub];
+  constructor(private readonly userCartRepo: UserCartRepo) {}
 
-  createUserCart(dto: CreateUserCartDto) {
+  async createUserCart(dto: CreateUserCartDto) {
     const userCart = new UserCart();
     userCart.userId = dto.userId;
-    userCart.id = this.#userCarts.length + 1;
     userCart.productId = dto.productId;
     userCart.count = dto.count;
 
-    this.#userCarts.push(userCart);
-
-    return userCart;
+    return await this.userCartRepo.save(userCart);
   }
 
-  getUserCarts(userId: number) {
-    return this.#userCarts.filter((userCart) => userCart.userId === userId);
+  async getUserCarts(userId: number) {
+    return await this.userCartRepo.findByUserId(userId);
   }
 
-  putUserCart(dto: UpdateUserCartDto) {
-    const userCart = this.#userCarts.find(
-      (userCart) => userCart.id === dto.id && userCart.userId === dto.userId,
-    );
+  async putUserCart(dto: UpdateUserCartDto) {
+    const userCart = await this.userCartRepo.findOneById(dto.id);
 
     if (!userCart) {
       throw new NotFoundException(ERROR_MESSAGES.UserCartNotFound);
@@ -39,12 +34,10 @@ export class UserCartService {
 
     userCart.count = dto.count;
 
-    return userCart;
+    return await this.userCartRepo.save(userCart);
   }
 
-  deleteUserCart(dto: DeleteUserCartDto) {
-    this.#userCarts = this.#userCarts.filter(
-      (userCart) => userCart.userId !== dto.userId || userCart.id !== dto.id,
-    );
+  async deleteUserCart(dto: DeleteUserCartDto) {
+    return await this.userCartRepo.delete(dto.id);
   }
 }

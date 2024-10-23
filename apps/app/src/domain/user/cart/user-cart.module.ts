@@ -1,8 +1,12 @@
 import { Module } from '@nestjs/common';
 import { UserCartService } from './user-cart.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserCart } from './user-cart.entity';
+import { UserCartRepo } from './user-cart.repo';
 
 @Module({
-  providers: [UserCartService],
+  imports: [TypeOrmModule.forFeature([UserCart])],
+  providers: [UserCartService, UserCartRepo],
   exports: [UserCartService],
 })
 export class UserCartModule {}
