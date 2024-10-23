@@ -11,7 +11,7 @@ export class AuthAdminController {
 
   @Public()
   @Version('1')
-  @Post()
+  @Post('signIn')
   @ApiResponse({
     status: 201,
     type: String,
