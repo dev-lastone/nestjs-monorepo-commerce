@@ -7,7 +7,7 @@ export function configModule() {
     isGlobal: true,
     validate: validateEnv,
     envFilePath: [
-      join(__dirname, '../../../.env'), // build
+      join(__dirname, '../../../../../../../.env'), // build
       join(__dirname, '../../../../.env'), // test
     ],
   });
