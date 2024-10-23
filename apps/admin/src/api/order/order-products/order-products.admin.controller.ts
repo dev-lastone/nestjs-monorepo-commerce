@@ -16,7 +16,7 @@ export class OrderProductsAdminController {
   @ApiOkResponse({
     type: Order,
   })
-  postOrderProductDeliver(@Param('id', new ParseIntPipe()) id: number) {
-    return this.orderApplicationService.orderProductDeliver(id);
+  async postOrderProductDeliver(@Param('id', new ParseIntPipe()) id: number) {
+    return await this.orderApplicationService.orderProductDeliver(id);
   }
 }
