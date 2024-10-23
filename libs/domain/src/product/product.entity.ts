@@ -1,9 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsNumber } from 'class-validator';
-import { Entity } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('product', { schema: 'app' })
 export class Product {
+  @PrimaryGeneratedColumn()
   @ApiProperty({
     example: 1,
   })
@@ -14,18 +15,21 @@ export class Product {
     example: '상품명',
   })
   @IsNotEmpty()
+  @Column({ name: 'name', type: 'varchar', length: 200 })
   name: string;
   @ApiProperty({
     example: 10000,
   })
   @IsNumber()
   @IsNotEmpty()
+  @Column('int', { name: 'price' })
   price: number;
   @ApiProperty({
     example: 10,
   })
   @IsNumber()
   @IsNotEmpty()
+  @Column('int', { name: 'stock' })
   stock: number;
 
   static create(dto: { name: string; price: number; stock: number }) {
