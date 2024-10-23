@@ -14,7 +14,9 @@ export class AuthAdminService {
   async signIn(dto: PostAuthAdminRequestDto) {
     const { email, password } = dto;
 
-    const user = await this.adminUserRepo.findOneByEmail(email);
+    const user = await this.adminUserRepo.findOne({
+      email,
+    });
 
     if (!user || password !== user.password) {
       throw new UnauthorizedException(ERROR_MESSAGES.InvalidSignIn);
