@@ -37,12 +37,15 @@ export class Order {
   @Expose()
   products: OrderProduct[];
 
-  constructor(userAddress: UserAddress, products: Product[]) {
-    this.userId = userAddress.userId;
-    this.zipcode = userAddress.zipcode;
-    this.address = userAddress.address;
-    this.products = products.map((product) => {
+  static create(userAddress: UserAddress, products: Product[]) {
+    const order = new Order();
+    order.userId = userAddress.userId;
+    order.zipcode = userAddress.zipcode;
+    order.address = userAddress.address;
+    order.products = products.map((product) => {
       return new OrderProduct(product);
     });
+
+    return order;
   }
 }
