@@ -12,4 +12,5 @@ export const ERROR_MESSAGES = {
   NotDeliveryStatus: 'Not delivery status.',
   NotConfirmStatus: 'Not confirm status.',
   AlreadyReviewed: 'Already reviewed.',
+  InvalidSignIn: 'Invalid email or password',
 };
