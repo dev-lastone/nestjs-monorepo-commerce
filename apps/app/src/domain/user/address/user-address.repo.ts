@@ -1,36 +1,36 @@
 import { Injectable } from '@nestjs/common';
-import { UserAddress } from './user-address';
-import { userAddressStub } from './__stub/user-address.stub';
+import { UserAddress } from './user-address.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class UserAddressRepo {
-  #userAddresses: UserAddress[] = [{ ...userAddressStub }];
+  constructor(
+    @InjectRepository(UserAddress)
+    private readonly userAddressRepo: Repository<UserAddress>,
+  ) {}
 
-  save(userAddress: UserAddress) {
-    if (userAddress.id) {
-      const index = this.#userAddresses.findIndex(
-        (address) => address.id === userAddress.id,
-      );
-      this.#userAddresses[index] = userAddress;
-    } else {
-      userAddress.id =
-        this.#userAddresses[this.#userAddresses.length - 1].id + 1;
-      this.#userAddresses.push(userAddress);
-    }
-
-    return userAddress;
+  async save(userAddress: UserAddress) {
+    return await this.userAddressRepo.save(userAddress);
   }
 
-  delete(id: number) {
-    const index = this.#userAddresses.findIndex((address) => address.id === id);
-    this.#userAddresses.splice(index, 1);
+  async delete(id: number) {
+    return await this.userAddressRepo.delete(id);
   }
 
-  findByUserId(userId: number) {
-    return this.#userAddresses.filter((address) => address.userId === userId);
+  async findByUserId(userId: number) {
+    return await this.userAddressRepo.find({
+      where: {
+        userId,
+      },
+    });
   }
 
-  findOneById(id: number) {
-    return this.#userAddresses.find((address) => address.id === id);
+  async findOneById(id: number) {
+    return await this.userAddressRepo.findOne({
+      where: {
+        id,
+      },
+    });
   }
 }

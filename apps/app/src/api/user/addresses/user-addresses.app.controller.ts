@@ -17,7 +17,7 @@ import {
   PostUserAddressRequestDto,
   PutUserAddressRequestDto,
 } from './user-addresses.app.dto';
-import { UserAddress } from '../../../domain/user/address/user-address';
+import { UserAddress } from '../../../domain/user/address/user-address.entity';
 
 @ApiBearerAuth('jwt')
 @ApiTags('user')
@@ -31,17 +31,17 @@ export class UserAddressesAppController {
     status: 201,
     type: UserAddress,
   })
-  postUserAddress(
+  async postUserAddress(
     @UserId() userId: number,
     @Body() dto: PostUserAddressRequestDto,
   ) {
-    return this.userAppService.postUserAddress(userId, dto);
+    return await this.userAppService.postUserAddress(userId, dto);
   }
 
   @Version('1')
   @Get()
-  getUserAddresses(@UserId() userId: number) {
-    return this.userAppService.getUserAddresses(userId);
+  async getUserAddresses(@UserId() userId: number) {
+    return await this.userAppService.getUserAddresses(userId);
   }
 
   @Version('1')
@@ -49,12 +49,12 @@ export class UserAddressesAppController {
   @ApiResponse({
     type: UserAddress,
   })
-  putUserAddress(
+  async putUserAddress(
     @UserId() userId: number,
     @Param('id', new ParseIntPipe()) id: number,
     @Body() dto: PutUserAddressRequestDto,
   ) {
-    return this.userAppService.putUserAddress({
+    return await this.userAppService.putUserAddress({
       id,
       userId,
       ...dto,
@@ -64,10 +64,10 @@ export class UserAddressesAppController {
   @Version('1')
   @Delete(':id')
   @HttpCode(204)
-  deleteUserAddress(
+  async deleteUserAddress(
     @UserId() userId: number,
     @Param('id', new ParseIntPipe()) id: number,
   ) {
-    return this.userAppService.deleteUserAddress(userId, id);
+    return await this.userAppService.deleteUserAddress(userId, id);
   }
 }
