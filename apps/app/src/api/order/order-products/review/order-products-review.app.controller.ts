@@ -25,12 +25,12 @@ export class OrderProductsReviewAppController {
   @ApiOkResponse({
     type: OrderProductReview,
   })
-  postOrderProductsReview(
+  async postOrderProductsReview(
     @UserId() userId: number,
     @Param('orderProductId', new ParseIntPipe()) orderProductId: number,
     @Body() dto: PostOrderProductsReviewReqDto,
   ) {
-    return this.orderApplicationService.createOrderProductReview({
+    return await this.orderApplicationService.createOrderProductReview({
       userId,
       orderProductId,
       ...dto,
