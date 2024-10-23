@@ -22,6 +22,7 @@ import { AdminUser } from '@domain/admin-user/admin-user.entity';
       database: process.env.DB_DATABASE,
       entities: [AdminUser],
       synchronize: true,
+      logging: true,
     }),
     AuthAdminModule,
     ProductsAdminModule,
