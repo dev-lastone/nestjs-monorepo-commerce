@@ -26,7 +26,7 @@ describe('AuthAdminService', () => {
         {
           provide: AdminUserRepo,
           useValue: {
-            findOneByEmail: jest.fn(),
+            findOne: jest.fn(),
           },
         },
       ],
@@ -57,9 +57,7 @@ describe('AuthAdminService', () => {
     });
 
     it('201', () => {
-      jest
-        .spyOn(adminUserRepo, 'findOneByEmail')
-        .mockResolvedValue(adminUserStub);
+      jest.spyOn(adminUserRepo, 'findOne').mockResolvedValue(adminUserStub);
 
       jest
         .spyOn(authApplicationService, 'createToken')
