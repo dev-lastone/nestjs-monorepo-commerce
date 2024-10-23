@@ -20,7 +20,7 @@ export class ProductApplicationService {
   }
 
   async createProduct(dto: CreateProductDto) {
-    const product = new Product({
+    const product = Product.create({
       ...dto,
     });
 

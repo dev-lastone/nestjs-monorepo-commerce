@@ -28,9 +28,12 @@ export class Product {
   @IsNotEmpty()
   stock: number;
 
-  constructor(dto: { name: string; price: number; stock: number }) {
-    this.name = dto.name;
-    this.price = dto.price;
-    this.stock = dto.stock;
+  static create(dto: { name: string; price: number; stock: number }) {
+    const product = new Product();
+    product.name = dto.name;
+    product.price = dto.price;
+    product.stock = dto.stock;
+
+    return product;
   }
 }
