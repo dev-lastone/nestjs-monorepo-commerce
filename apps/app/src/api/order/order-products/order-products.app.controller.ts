@@ -17,10 +17,13 @@ export class OrderProductsAppController {
   @ApiOkResponse({
     type: Order,
   })
-  postOrderProductConfirm(
+  async postOrderProductConfirm(
     @UserId() userId: number,
     @Param('id', new ParseIntPipe()) id: number,
   ) {
-    return this.orderApplicationService.orderProductConfirm({ id, userId });
+    return await this.orderApplicationService.orderProductConfirm({
+      id,
+      userId,
+    });
   }
 }
