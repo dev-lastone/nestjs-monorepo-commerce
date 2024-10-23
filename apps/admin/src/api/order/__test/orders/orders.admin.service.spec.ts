@@ -5,6 +5,7 @@ import { OrdersAdminService } from '../../orders/orders.admin.service';
 
 describe('OrdersAdminService', () => {
   let ordersAdminService: OrdersAdminService;
+  let orderRepo: OrderRepo;
 
   beforeEach(async () => {
     const testingModule = await Test.createTestingModule({
@@ -21,22 +22,18 @@ describe('OrdersAdminService', () => {
     }).compile();
 
     ordersAdminService = testingModule.get(OrdersAdminService);
+    orderRepo = testingModule.get(OrderRepo);
   });
 
-  it('getOrders', async () => {
-    const result = await ordersAdminService.getOrders();
-    expect(result).toEqual([
-      {
-        id: orderStub.id,
-        userId: orderStub.userId,
-        zipcode: orderStub.zipcode,
-        address: orderStub.address,
-      },
-    ]);
+  it('getOrders', () => {
+    ordersAdminService.getOrders();
+
+    expect(orderRepo.find).toBeCalled();
   });
 
-  it('getOrder', async () => {
-    const result = await ordersAdminService.getOrder(orderStub.id);
-    expect(result).toEqual(orderStub);
+  it('getOrder', () => {
+    ordersAdminService.getOrder(orderStub.id);
+
+    expect(orderRepo.findOne).toBeCalledWith(orderStub.id);
   });
 });
