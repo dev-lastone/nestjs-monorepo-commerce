@@ -1,13 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthAdminService } from '../auth.admin.service';
-import { PostAuthAdminRequestDto } from '../auth.admin.dto';
-import { UnauthorizedException } from '@nestjs/common';
 import {
   adminUserStub,
   invalidAdminUserStub,
 } from '@domain/admin-user/__stub/admin-user.stub';
 import { AuthApplicationService } from '@application/auth/auth.application.service';
 import { AdminUserRepo } from '@domain/admin-user/admin-user.repo';
+import { ERROR_MESSAGES } from '@common/constant/error-messages';
 
 describe('AuthAdminService', () => {
   let authAdminService: AuthAdminService;
@@ -39,31 +38,25 @@ describe('AuthAdminService', () => {
   });
 
   describe('signIn', () => {
-    it('잘못된 이메일', async () => {
-      const postAuthAdminRequestDto = new PostAuthAdminRequestDto();
-      postAuthAdminRequestDto.email = invalidAdminUserStub.email;
-      postAuthAdminRequestDto.password = adminUserStub.password;
-
-      expect(
-        async () => await authAdminService.signIn(postAuthAdminRequestDto),
-      ).rejects.toThrow(new UnauthorizedException());
+    it(ERROR_MESSAGES.InvalidSignIn + ' - email', () => {
+      expect(() =>
+        authAdminService.signIn({
+          email: invalidAdminUserStub.email,
+          password: adminUserStub.password,
+        }),
+      ).rejects.toThrow(ERROR_MESSAGES.InvalidSignIn);
     });
 
-    it('잘못된 패스워드', async () => {
-      const postAuthAdminRequestDto = new PostAuthAdminRequestDto();
-      postAuthAdminRequestDto.email = adminUserStub.email;
-      postAuthAdminRequestDto.password = invalidAdminUserStub.password;
-
-      expect(async () =>
-        authAdminService.signIn(postAuthAdminRequestDto),
-      ).rejects.toThrow(new UnauthorizedException());
+    it(ERROR_MESSAGES.InvalidSignIn + ' - password', () => {
+      expect(() =>
+        authAdminService.signIn({
+          email: adminUserStub.email,
+          password: invalidAdminUserStub.password,
+        }),
+      ).rejects.toThrow(ERROR_MESSAGES.InvalidSignIn);
     });
 
-    it('성공', async () => {
-      const postAuthAdminRequestDto = new PostAuthAdminRequestDto();
-      postAuthAdminRequestDto.email = adminUserStub.email;
-      postAuthAdminRequestDto.password = adminUserStub.password;
-
+    it('201', () => {
       jest
         .spyOn(adminUserRepo, 'findOneByEmail')
         .mockResolvedValue(adminUserStub);
@@ -72,9 +65,12 @@ describe('AuthAdminService', () => {
         .spyOn(authApplicationService, 'createToken')
         .mockReturnValue('mockToken');
 
-      const result = await authAdminService.signIn(postAuthAdminRequestDto);
-
-      expect(result).toEqual('mockToken');
+      expect(
+        authAdminService.signIn({
+          email: adminUserStub.email,
+          password: adminUserStub.password,
+        }),
+      ).resolves.toEqual('mockToken');
     });
   });
 });

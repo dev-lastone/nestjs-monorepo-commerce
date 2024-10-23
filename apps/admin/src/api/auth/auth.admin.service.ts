@@ -2,6 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PostAuthAdminRequestDto } from './auth.admin.dto';
 import { AdminUserRepo } from '@domain/admin-user/admin-user.repo';
 import { AuthApplicationService } from '@application/auth/auth.application.service';
+import { ERROR_MESSAGES } from '@common/constant/error-messages';
 
 @Injectable()
 export class AuthAdminService {
@@ -16,7 +17,7 @@ export class AuthAdminService {
     const user = await this.adminUserRepo.findOneByEmail(email);
 
     if (!user || password !== user.password) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException(ERROR_MESSAGES.InvalidSignIn);
     }
 
     return this.authApplicationService.createToken(user);
