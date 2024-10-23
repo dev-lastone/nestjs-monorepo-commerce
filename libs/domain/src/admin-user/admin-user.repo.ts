@@ -10,8 +10,8 @@ export class AdminUserRepo {
     private readonly adminUserRepo: Repository<AdminUser>,
   ) {}
 
-  findOne(partial: Partial<AdminUser>) {
-    return this.adminUserRepo.findOne({
+  async findOne(partial: Partial<AdminUser>) {
+    return await this.adminUserRepo.findOne({
       where: {
         ...partial,
       },
