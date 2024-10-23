@@ -37,7 +37,7 @@ export class AuthAppService {
     const user = await this.appUserRepo.findOneByEmail(email);
 
     if (!user || password !== user.password) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException(ERROR_MESSAGES.InvalidSignIn);
     }
 
     return this.authApplicationService.createToken(user);
