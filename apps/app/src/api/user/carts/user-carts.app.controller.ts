@@ -16,7 +16,7 @@ import {
   PutUserCartsAppReqDto,
 } from './user-carts.app.dto';
 import { UserId } from '@common/decorator/user-id.decorator';
-import { UserCart } from '../../../domain/user/cart/user-cart';
+import { UserCart } from '../../../domain/user/cart/user-cart.entity';
 import { UserCartService } from '../../../domain/user/cart/user-cart.service';
 import { DeleteUserCartDto } from '../../../domain/user/cart/user-cart.dto';
 
