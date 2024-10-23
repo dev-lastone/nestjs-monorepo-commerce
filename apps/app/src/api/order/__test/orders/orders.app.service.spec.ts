@@ -73,12 +73,11 @@ describe('OrdersAppService', () => {
 
   describe('postOrder', () => {
     it('403', () => {
-      expect(
-        async () =>
-          await ordersAppService.postOrder(2, {
-            userAddressId: 1,
-            productIds: [1, 2],
-          }),
+      expect(() =>
+        ordersAppService.postOrder(2, {
+          userAddressId: 1,
+          productIds: [1, 2],
+        }),
       ).rejects.toThrowError(new ForbiddenException());
     });
 

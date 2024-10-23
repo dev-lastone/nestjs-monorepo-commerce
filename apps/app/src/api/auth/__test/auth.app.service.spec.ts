@@ -13,7 +13,6 @@ import { AuthApplicationService } from '@application/auth/auth.application.servi
 import { AppUserRepo } from '@domain/app-user/app-user.repo';
 import { SUCCESS } from '@common/constant/constants';
 
-// TODO 의존성만 테스트 하도록
 describe('AuthAppService', () => {
   let authAppService: AuthAppService;
   let appUserRepo: AppUserRepo;
