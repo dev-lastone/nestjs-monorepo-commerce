@@ -5,6 +5,7 @@ import { appUserStub } from '@domain/app-user/__stub/app-user.stub';
 import { UserCartService } from '../user-cart.service';
 import { userCartStub } from '../__stub/user-cart.stub';
 import { UserCartRepo } from '../user-cart.repo';
+import { UserCart } from '../user-cart.entity';
 
 describe('UserCartService', () => {
   let userCartService: UserCartService;
@@ -33,11 +34,15 @@ describe('UserCartService', () => {
   it('createUserCart', async () => {
     const dto = { productId: productStub1.id, count: 1 };
 
+    const userCart = UserCart.create({
+      userId: userCartStub.userId,
+      productId: userCartStub.productId,
+      count: dto.count,
+    });
+
     jest.spyOn(userCartRepo, 'save').mockResolvedValue({
       id: 2,
-      userId: appUserStub.id,
-      productId: dto.productId,
-      count: dto.count,
+      ...userCart,
     });
 
     const result = await userCartService.createUserCart({
@@ -71,11 +76,15 @@ describe('UserCartService', () => {
     it('성공', async () => {
       const dto = { count: 2 };
 
-      jest.spyOn(userCartRepo, 'save').mockResolvedValue({
-        id: userCartStub.id,
+      const userCart = UserCart.create({
         userId: userCartStub.userId,
         productId: userCartStub.productId,
         count: dto.count,
+      });
+
+      jest.spyOn(userCartRepo, 'save').mockResolvedValue({
+        id: userCartStub.id,
+        ...userCart,
       });
 
       const result = await userCartService.putUserCart({
