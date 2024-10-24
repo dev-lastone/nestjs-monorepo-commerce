@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsNumber } from 'class-validator';
-import { Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { OrderProduct } from '@domain/order/order-product.entity';
 
 @Entity('order_product_review', { schema: 'app' })
 export class OrderProductReview {
@@ -28,6 +29,10 @@ export class OrderProductReview {
   })
   @IsNotEmpty()
   description: string;
+
+  @OneToOne(() => OrderProduct, (orderProduct) => orderProduct.review)
+  @JoinColumn({ name: 'order_product_id', referencedColumnName: 'id' })
+  orderProduct: OrderProduct;
 
   static create(dto: {
     orderProductId: number;
