@@ -40,7 +40,10 @@ export class OrderProduct {
   @JoinColumn({ name: 'order_id', referencedColumnName: 'id' })
   order: Order;
 
+  @ManyToOne(() => Product, (product) => product.orderProducts)
+  @JoinColumn({ name: 'product_id', referencedColumnName: 'id' })
   product: Product;
+
   review: OrderProductReview;
 
   static create(product: Product) {
