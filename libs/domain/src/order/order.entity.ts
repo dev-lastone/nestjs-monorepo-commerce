@@ -3,7 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import { Product } from '@domain/product/product.entity';
 import { UserAddress } from '../../../../apps/app/src/domain/user/address/user-address.entity';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('order', { schema: 'app' })
 export class Order {
@@ -35,6 +35,7 @@ export class Order {
     type: [OrderProduct],
   })
   @Expose()
+  @OneToMany(() => OrderProduct, (orderProduct) => orderProduct.order)
   products: OrderProduct[];
 
   static create(userAddress: UserAddress, products: Product[]) {
