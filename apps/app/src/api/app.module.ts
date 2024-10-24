@@ -9,12 +9,13 @@ import { JwtAuthGuard } from '@common/guard/jwt.auth.guard';
 import { ProductLikeAppModule } from './product/like/product-like.app.module';
 import { UserAppModule } from './user/user.app.module';
 import { OrderAppModule } from './order/order.app.module';
-import { TypeOrmSettingModule } from '@common/setting/type-orm.setting.module';
+import { AppName, typeOrmSetting } from '@common/setting/type-orm.setting';
 
 @Module({
   imports: [
     configModule(),
-    TypeOrmSettingModule,
+    typeOrmSetting(AppName.APP),
+
     AuthAppModule,
     OrderAppModule,
     UserAppModule,

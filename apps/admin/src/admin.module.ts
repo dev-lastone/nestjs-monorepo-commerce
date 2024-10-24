@@ -8,12 +8,13 @@ import { AuthAdminModule } from './api/auth/auth.admin.module';
 import { ProductsAdminModule } from './api/product/products.admin.module';
 import { OrdersAdminModule } from './api/order/orders/orders.admin.module';
 import { OrderProductsAdminModule } from './api/order/order-products/order-products.admin.module';
-import { TypeOrmSettingModule } from '@common/setting/type-orm.setting.module';
+import { AppName, typeOrmSetting } from '@common/setting/type-orm.setting';
 
 @Module({
   imports: [
     configModule(),
-    TypeOrmSettingModule,
+    typeOrmSetting(AppName.ADMIN),
+
     AuthAdminModule,
     ProductsAdminModule,
     OrdersAdminModule,
