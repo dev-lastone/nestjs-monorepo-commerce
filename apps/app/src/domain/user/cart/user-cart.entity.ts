@@ -1,5 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { AppUser } from '@domain/app-user/app-user.entity';
 
 @Entity('user_cart', { schema: 'app' })
 export class UserCart {
@@ -17,4 +24,16 @@ export class UserCart {
   })
   @Column('int', { name: 'count' })
   count: number;
+
+  @ManyToOne(() => AppUser, (user) => user.carts)
+  @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
+  user: AppUser;
+
+  static create(dto: { userId: number; productId: number; count: number }) {
+    const userCart = new UserCart();
+    userCart.userId = dto.userId;
+    userCart.productId = dto.productId;
+    userCart.count = dto.count;
+    return userCart;
+  }
 }

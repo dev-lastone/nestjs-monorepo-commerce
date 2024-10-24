@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { UserAddress } from '../../../../apps/app/src/domain/user/address/user-address.entity';
+import { UserCart } from '../../../../apps/app/src/domain/user/cart/user-cart.entity';
 
 @Entity('user', { schema: 'app' })
 export class AppUser {
@@ -24,6 +25,9 @@ export class AppUser {
 
   @OneToMany(() => UserAddress, (userAddress) => userAddress.user)
   addresses: UserAddress[];
+
+  @OneToMany(() => UserCart, (userCart) => userCart.user)
+  carts: UserCart[];
 
   static create(dto: { name: string; email: string; password: string }) {
     const user = new AppUser();
