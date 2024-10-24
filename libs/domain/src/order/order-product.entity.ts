@@ -5,7 +5,7 @@ import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { Order } from '@domain/order/order.entity';
 import { OrderProductReview } from '@domain/order/order-product-review.entity';
 import { PostOrderProductsReviewReqDto } from '../../../../apps/app/src/api/order/order-products/review/order-products-review.app.dto';
-import { Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 export enum OrderProductStatus {
   ORDERED = 'ordered',
@@ -36,7 +36,10 @@ export class OrderProduct {
   price: number;
   status: OrderProductStatus;
 
+  @ManyToOne(() => Order, (order) => order.products)
+  @JoinColumn({ name: 'order_id', referencedColumnName: 'id' })
   order: Order;
+
   product: Product;
   review: OrderProductReview;
 
