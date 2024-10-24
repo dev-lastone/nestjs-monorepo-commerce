@@ -51,14 +51,9 @@ $ pnpm run test:cov
 - [ ] 포인트 만료
 - [ ] 배송 상태 변경
 
-### external
-- [ ] guard (api-key)
-
 ### etc
 - [x] swagger
-- [x] ~~pr test~~
-- [x] ~~pr test coverage~~
 - [x] pr sonar-cloud
-- [ ] typeorm
+- [x] typeorm
 - [ ] integration test
 - [ ] e2e scenario test
