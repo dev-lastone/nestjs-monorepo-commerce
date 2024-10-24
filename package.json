@@ -75,7 +75,8 @@
     "coveragePathIgnorePatterns": [
       "main.ts",
       "common/src/setting/*",
-      ".repo.ts$"
+      ".repo.ts$",
+      "/node_modules/"
     ],
     "collectCoverageFrom": [
       "**/*.(t|j)s"
