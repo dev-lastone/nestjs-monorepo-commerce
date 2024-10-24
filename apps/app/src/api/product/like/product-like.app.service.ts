@@ -3,6 +3,7 @@ import { ProductLikeAppDto } from './product-like.app.dto';
 import { ProductApplicationService } from '@application/product/product.application.service';
 import { ProductLikeRepo } from '../../../domain/product/like/product-like.repo';
 import { ProductLike } from '../../../domain/product/like/product-like.entity';
+import { ERROR_MESSAGES } from '@common/constant/error-messages';
 
 @Injectable()
 export class ProductLikeAppService {
@@ -20,7 +21,7 @@ export class ProductLikeAppService {
     });
 
     if (productLike) {
-      throw new BadRequestException('Product already liked');
+      throw new BadRequestException(ERROR_MESSAGES.ProductAlreadyLiked);
     }
 
     await this.productLikeRepo.save(ProductLike.create(dto));
@@ -37,7 +38,7 @@ export class ProductLikeAppService {
     });
 
     if (!productLike) {
-      throw new BadRequestException('Product not liked');
+      throw new BadRequestException(ERROR_MESSAGES.ProductNotLiked);
     }
 
     await this.productLikeRepo.delete(productLike.id);

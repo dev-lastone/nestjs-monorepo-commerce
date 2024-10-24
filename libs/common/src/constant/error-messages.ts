@@ -13,4 +13,6 @@ export const ERROR_MESSAGES = {
   NotConfirmStatus: 'Not confirm status.',
   AlreadyReviewed: 'Already reviewed.',
   InvalidSignIn: 'Invalid email or password',
+  ProductAlreadyLiked: 'Product already liked',
+  ProductNotLiked: 'Product not liked',
 };
