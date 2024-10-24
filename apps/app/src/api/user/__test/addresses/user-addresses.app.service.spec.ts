@@ -5,6 +5,7 @@ import { UserAddressesAppService } from '../../addresses/user-addresses.app.serv
 import { userAddressStub } from '../../../../domain/user/address/__stub/user-address.stub';
 import { UserAddressRepo } from '../../../../domain/user/address/user-address.repo';
 import { ForbiddenException } from '@nestjs/common';
+import { UserAddress } from '../../../../domain/user/address/user-address.entity';
 
 describe('UserAddressesAppService', () => {
   const userId = userAddressStub.userId;
@@ -50,11 +51,13 @@ describe('UserAddressesAppService', () => {
       it(SUCCESS, async () => {
         dto.isDefault = true;
 
-        jest.spyOn(userAddressRepo, 'save').mockResolvedValue({
-          id: 2,
+        const userAddress = UserAddress.create({
           userId,
           ...dto,
         });
+        userAddress.id = 2;
+
+        jest.spyOn(userAddressRepo, 'save').mockResolvedValue(userAddress);
 
         const result = await userAddressesService.postUserAddress(userId, dto);
         expect(result).toEqual({
@@ -70,10 +73,15 @@ describe('UserAddressesAppService', () => {
         jest
           .spyOn(userAddressRepo, 'findByUserId')
           .mockResolvedValue([userAddressStub]);
-        jest.spyOn(userAddressRepo, 'save').mockResolvedValue({
-          id: 2,
+
+        const userAddress = UserAddress.create({
           userId,
           ...dto,
+        });
+
+        jest.spyOn(userAddressRepo, 'save').mockResolvedValue({
+          id: 2,
+          ...userAddress,
         });
 
         const result = await userAddressesService.postUserAddress(userId, dto);
@@ -88,10 +96,14 @@ describe('UserAddressesAppService', () => {
       it('isDefault true', async () => {
         dto.isDefault = true;
 
-        jest.spyOn(userAddressRepo, 'save').mockResolvedValue({
-          id: 2,
+        const userAddress = UserAddress.create({
           userId,
           ...dto,
+        });
+
+        jest.spyOn(userAddressRepo, 'save').mockResolvedValue({
+          id: 2,
+          ...userAddress,
         });
 
         const result = await userAddressesService.postUserAddress(userId, dto);
@@ -138,41 +150,29 @@ describe('UserAddressesAppService', () => {
       jest
         .spyOn(userAddressRepo, 'findOneById')
         .mockResolvedValue(userAddressStub);
-      jest.spyOn(userAddressRepo, 'save').mockResolvedValue({
-        userId,
-        id,
-        ...dto,
-      });
+      jest.spyOn(userAddressRepo, 'save').mockResolvedValue(userAddressStub);
 
-      const result = await userAddressesService.putUserAddress({
-        userId,
-        id,
-        ...dto,
-      });
+      const result = await userAddressesService.putUserAddress(id, userId, dto);
       expect(result).toEqual({
-        userId,
         id,
+        userId,
         ...dto,
       });
     });
 
     it(ERROR_MESSAGES.UserAddressNotFound, () => {
       expect(() =>
-        userAddressesService.putUserAddress({
-          id: NON_EXISTENT_ID,
-          userId: NON_EXISTENT_ID,
-          ...dto,
-        }),
+        userAddressesService.putUserAddress(
+          NON_EXISTENT_ID,
+          NON_EXISTENT_ID,
+          dto,
+        ),
       ).rejects.toThrow(ERROR_MESSAGES.UserAddressNotFound);
     });
 
     it(ERROR_MESSAGES.UserAddressNotFound, () => {
       expect(() =>
-        userAddressesService.putUserAddress({
-          id: NON_EXISTENT_ID,
-          userId,
-          ...dto,
-        }),
+        userAddressesService.putUserAddress(NON_EXISTENT_ID, userId, dto),
       ).rejects.toThrow(ERROR_MESSAGES.UserAddressNotFound);
     });
   });

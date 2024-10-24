@@ -5,7 +5,10 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
-import { PostUserAddressRequestDto } from './user-addresses.app.dto';
+import {
+  PostUserAddressRequestDto,
+  PutUserAddressRequestDto,
+} from './user-addresses.app.dto';
 import { USER_ADDRESS_MAX_LENGTH } from '@common/constant/constants';
 import { UserAddress } from '../../../domain/user/address/user-address.entity';
 import { UserAddressRepo } from '../../../domain/user/address/user-address.repo';
@@ -45,8 +48,12 @@ export class UserAddressesAppService {
     return await this.userAddressRepo.findByUserId(userId);
   }
 
-  async putUserAddress(dto: UserAddress) {
-    const userAddress = await this.userAddressRepo.findOneById(dto.id);
+  async putUserAddress(
+    id: number,
+    userId: number,
+    dto: PutUserAddressRequestDto,
+  ) {
+    const userAddress = await this.userAddressRepo.findOneById(id);
 
     if (!userAddress) {
       throw new NotFoundException(ERROR_MESSAGES.UserAddressNotFound);

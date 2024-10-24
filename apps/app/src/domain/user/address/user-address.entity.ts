@@ -1,13 +1,17 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsBoolean, IsNotEmpty, IsString } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { ICreateUserAddress } from './user-address.dto';
+import { AppUser } from '@domain/app-user/app-user.entity';
 
 @Entity('user_address', { schema: 'app' })
 export class UserAddress {
-  @ApiProperty({
-    example: 1,
-  })
   @PrimaryGeneratedColumn()
   id: number;
   @ApiProperty({
@@ -34,6 +38,10 @@ export class UserAddress {
   @IsBoolean()
   @Column({ name: 'is_default', type: 'boolean' })
   isDefault: boolean;
+
+  @ManyToOne(() => AppUser, (user) => user.addresses)
+  @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
+  user: AppUser;
 
   static create(dto: ICreateUserAddress) {
     const userAddress = new UserAddress();
