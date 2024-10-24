@@ -40,6 +40,15 @@ describe('AuthAdminGuard', () => {
     );
   });
 
+  it('공개된 경로', async () => {
+    const mockExecutionContext = createMockExecutionContext(null);
+
+    jest.spyOn(Reflector.prototype, 'getAllAndOverride').mockReturnValue(true);
+
+    const result = jwtAuthGuard.canActivate(mockExecutionContext);
+    expect(result).toBe(true);
+  });
+
   function createMockExecutionContext(token: string | null): ExecutionContext {
     return {
       switchToHttp: () => ({
