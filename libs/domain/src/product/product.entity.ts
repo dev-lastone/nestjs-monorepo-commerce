@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsNumber } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { ProductLike } from '../../../../apps/app/src/domain/product/like/product-like.entity';
 
 @Entity('product', { schema: 'app' })
 export class Product {
@@ -31,6 +32,9 @@ export class Product {
   @IsNotEmpty()
   @Column('int', { name: 'stock' })
   stock: number;
+
+  @OneToMany(() => ProductLike, (productLike) => productLike.product)
+  likes: ProductLike[];
 
   static create(dto: { name: string; price: number; stock: number }) {
     const product = new Product();
