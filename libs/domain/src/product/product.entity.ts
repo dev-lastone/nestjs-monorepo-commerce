@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsNumber } from 'class-validator';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ProductLike } from '../../../../apps/app/src/domain/product/like/product-like.entity';
+import { OrderProduct } from '@domain/order/order-product.entity';
 
 @Entity('product', { schema: 'app' })
 export class Product {
@@ -35,6 +36,9 @@ export class Product {
 
   @OneToMany(() => ProductLike, (productLike) => productLike.product)
   likes: ProductLike[];
+
+  @OneToMany(() => OrderProduct, (orderProduct) => orderProduct.product)
+  orderProducts: OrderProduct[];
 
   static create(dto: { name: string; price: number; stock: number }) {
     const product = new Product();
