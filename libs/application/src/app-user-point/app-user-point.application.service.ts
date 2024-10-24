@@ -59,7 +59,8 @@ export class AppUserPointApplicationService {
   }
 
   async #getUserPoint(userId: number) {
-    const userPoint = this.appUserPointApplicationRepo.findOneByUserId(userId);
+    const userPoint =
+      await this.appUserPointApplicationRepo.findOneByUserId(userId);
 
     if (userPoint) {
       return userPoint;
