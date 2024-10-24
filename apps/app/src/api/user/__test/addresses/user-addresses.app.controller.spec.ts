@@ -62,11 +62,11 @@ describe('UserAddressesAppController', () => {
 
     userAddressesAppController.putUserAddress(userId, id, dto);
 
-    expect(userAddressesAppService.putUserAddress).toHaveBeenCalledWith({
+    expect(userAddressesAppService.putUserAddress).toHaveBeenCalledWith(
       id,
       userId,
-      ...dto,
-    });
+      dto,
+    );
   });
 
   it('deleteUserAddresses', () => {

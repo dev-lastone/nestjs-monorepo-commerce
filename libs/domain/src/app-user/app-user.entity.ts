@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { UserAddress } from '../../../../apps/app/src/domain/user/address/user-address.entity';
 
 @Entity('user', { schema: 'app' })
 export class AppUser {
@@ -20,4 +21,15 @@ export class AppUser {
   @IsNotEmpty()
   @Column({ name: 'password', type: 'varchar', length: 50 })
   password: string;
+
+  @OneToMany(() => UserAddress, (userAddress) => userAddress.user)
+  addresses: UserAddress[];
+
+  static create(dto: { name: string; email: string; password: string }) {
+    const user = new AppUser();
+    user.name = dto.name;
+    user.email = dto.email;
+    user.password = dto.password;
+    return user;
+  }
 }

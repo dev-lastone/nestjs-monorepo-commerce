@@ -54,11 +54,7 @@ export class UserAddressesAppController {
     @Param('id', new ParseIntPipe()) id: number,
     @Body() dto: PutUserAddressRequestDto,
   ) {
-    return await this.userAppService.putUserAddress({
-      id,
-      userId,
-      ...dto,
-    });
+    return await this.userAppService.putUserAddress(id, userId, dto);
   }
 
   @Version('1')
