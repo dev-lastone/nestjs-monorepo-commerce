@@ -2,10 +2,15 @@ import { Test } from '@nestjs/testing';
 import { ProductLikeAppService } from '../../like/product-like.app.service';
 import { ProductLikeAppDto } from '../../like/product-like.app.dto';
 import { ProductApplicationService } from '@application/product/product.application.service';
+import { ProductLikeRepo } from '../../../../domain/product/like/product-like.repo';
+import { ProductLike } from '../../../../domain/product/like/product-like.entity';
+import { ERROR_MESSAGES } from '@common/constant/error-messages';
+import { SUCCESS } from '@common/constant/constants';
 
 describe('ProductLikeAppService', () => {
   let productLikeAppService: ProductLikeAppService;
   let productApplicationService: ProductApplicationService;
+  let productLikeRepo: ProductLikeRepo;
 
   beforeEach(async () => {
     const testingModule = await Test.createTestingModule({
@@ -17,33 +22,45 @@ describe('ProductLikeAppService', () => {
             checkExistentProduct: jest.fn(),
           },
         },
+        {
+          provide: ProductLikeRepo,
+          useValue: {
+            findOne: jest.fn(),
+            save: jest.fn(),
+            delete: jest.fn(),
+          },
+        },
       ],
     }).compile();
 
     productLikeAppService = testingModule.get(ProductLikeAppService);
     productApplicationService = testingModule.get(ProductApplicationService);
+    productLikeRepo = testingModule.get(ProductLikeRepo);
   });
 
   describe('postProductLike', () => {
-    it('이미 좋아요', () => {
+    it(ERROR_MESSAGES.ProductAlreadyLiked, () => {
       const dto = new ProductLikeAppDto();
       dto.productId = 1;
       dto.userId = 1;
 
-      expect(() => productLikeAppService.postProductLike(dto)).toThrow(
-        'Product already liked',
+      const productLike = ProductLike.create(dto);
+      jest.spyOn(productLikeRepo, 'findOne').mockResolvedValue(productLike);
+
+      expect(() => productLikeAppService.postProductLike(dto)).rejects.toThrow(
+        ERROR_MESSAGES.ProductAlreadyLiked,
       );
       expect(
         productApplicationService.checkExistentProduct,
       ).toHaveBeenCalledWith(dto.productId);
     });
 
-    it('성공', () => {
+    it(SUCCESS, async () => {
       const dto = new ProductLikeAppDto();
       dto.productId = 1;
       dto.userId = 2;
 
-      const result = productLikeAppService.postProductLike(dto);
+      const result = await productLikeAppService.postProductLike(dto);
 
       expect(
         productApplicationService.checkExistentProduct,
@@ -53,25 +70,28 @@ describe('ProductLikeAppService', () => {
   });
 
   describe('deleteProductLike', () => {
-    it('좋아요 정보 없음.', () => {
+    it(ERROR_MESSAGES.ProductNotLiked, () => {
       const dto = new ProductLikeAppDto();
       dto.productId = 1;
       dto.userId = 2;
 
-      expect(() => productLikeAppService.deleteProductLike(dto)).toThrow(
-        'Product not liked',
-      );
+      expect(() =>
+        productLikeAppService.deleteProductLike(dto),
+      ).rejects.toThrow(ERROR_MESSAGES.ProductNotLiked);
       expect(
         productApplicationService.checkExistentProduct,
       ).toHaveBeenCalledWith(dto.productId);
     });
 
-    it('성공', () => {
+    it(SUCCESS, async () => {
       const dto = new ProductLikeAppDto();
       dto.productId = 1;
       dto.userId = 1;
 
-      const result = productLikeAppService.deleteProductLike(dto);
+      const productLike = ProductLike.create(dto);
+      jest.spyOn(productLikeRepo, 'findOne').mockResolvedValue(productLike);
+
+      const result = await productLikeAppService.deleteProductLike(dto);
 
       expect(
         productApplicationService.checkExistentProduct,
