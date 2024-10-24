@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('user_cart', { schema: 'user' })
+@Entity('user_cart', { schema: 'app' })
 export class UserCart {
   @PrimaryGeneratedColumn()
   id: number;
