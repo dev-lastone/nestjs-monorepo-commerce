@@ -30,7 +30,9 @@ export class AppUser {
   @Column({ name: 'password', type: 'varchar', length: 50 })
   password: string;
 
-  @OneToOne(() => AppUserPoint, (userPoint) => userPoint.user)
+  @OneToOne(() => AppUserPoint, (userPoint) => userPoint.user, {
+    cascade: true,
+  })
   point: AppUserPoint;
 
   @OneToMany(() => UserAddress, (userAddress) => userAddress.user)
@@ -44,6 +46,7 @@ export class AppUser {
     user.name = dto.name;
     user.email = dto.email;
     user.password = dto.password;
+    user.point = AppUserPoint.create(user);
     return user;
   }
 }

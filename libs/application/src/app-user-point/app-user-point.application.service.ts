@@ -1,8 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import {
-  AppUserPoint,
-  AppUserPointHistoryAction,
-} from '@domain/app-user/point/app-user-point.entity';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { AppUserPointHistoryAction } from '@domain/app-user/point/app-user-point.entity';
 import { AppUserPointApplicationRepo } from '@application/app-user-point/app-user-point.application.repo';
 
 @Injectable()
@@ -62,12 +59,10 @@ export class AppUserPointApplicationService {
     const userPoint =
       await this.appUserPointApplicationRepo.findOneByUserId(userId);
 
-    if (userPoint) {
-      return userPoint;
+    if (!userPoint) {
+      throw new NotFoundException();
     }
 
-    const newUserPoint = new AppUserPoint(userId);
-    await this.appUserPointApplicationRepo.save(newUserPoint);
-    return newUserPoint;
+    return userPoint;
   }
 }
