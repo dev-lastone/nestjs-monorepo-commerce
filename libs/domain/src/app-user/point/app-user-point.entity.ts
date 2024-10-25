@@ -3,7 +3,7 @@ import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { AppUserPointHistory } from '@domain/app-user/point/app-user-point-history.entity';
 import { AppUserPointStorage } from '@domain/app-user/point/app-user-point-storage.entity';
 import { AppUserPointConsumption } from '@domain/app-user/point/app-user-point-consumption.entity';
-import { Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
 import { AppUser } from '@domain/app-user/app-user.entity';
 
 /*
@@ -51,6 +51,7 @@ export class AppUserPoint {
   @ApiProperty({
     example: 1000,
   })
+  @Column('int', { name: 'point', default: 0 })
   point: number;
 
   @OneToOne(() => AppUser, (user) => user.point)
@@ -59,10 +60,12 @@ export class AppUserPoint {
 
   histories: AppUserPointHistory[];
 
-  constructor(userId: number) {
-    this.userId = userId;
-    this.point = 0;
-    this.histories = [];
+  static create(user: AppUser) {
+    const appUserPoint = new AppUserPoint();
+    appUserPoint.user = user;
+    appUserPoint.point = 0;
+    appUserPoint.histories = [];
+    return appUserPoint;
   }
 
   // TODO storage 만료일 기준으로 정렬
