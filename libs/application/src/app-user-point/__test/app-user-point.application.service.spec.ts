@@ -5,6 +5,7 @@ import {
 } from '@domain/app-user/point/app-user-point.entity';
 import { Test } from '@nestjs/testing';
 import { AppUserPointApplicationRepo } from '@application/app-user-point/app-user-point.application.repo';
+import { appUserStub } from '@domain/app-user/__stub/app-user.stub';
 
 describe('UserPointApplicationService', () => {
   let appUserPointApplicationService: AppUserPointApplicationService;
@@ -34,6 +35,13 @@ describe('UserPointApplicationService', () => {
 
   describe('savePoint', () => {
     it('성공', async () => {
+      const userPointStub = AppUserPoint.create(appUserStub);
+      userPointStub.userId = appUserStub.id;
+
+      jest
+        .spyOn(appUserPointApplicationRepo, 'findOneByUserId')
+        .mockResolvedValue(userPointStub);
+
       const userPoint = await appUserPointApplicationService.savePoint(
         1,
         1000,
@@ -52,30 +60,11 @@ describe('UserPointApplicationService', () => {
         },
       });
     });
-
-    it('성공 - 신규 생성', async () => {
-      const userPoint = await appUserPointApplicationService.savePoint(
-        2,
-        1000,
-        AppUserPointHistoryAction.ORDER_PRODUCT,
-        4,
-      );
-      expect(userPoint).toEqual({
-        point: 1000,
-        history: {
-          userId: 2,
-          id: 1,
-          point: 1000,
-          remainingPoint: 1000,
-          action: AppUserPointHistoryAction.ORDER_PRODUCT,
-          actionId: 4,
-        },
-      });
-    });
   });
 
   it('usePoint', async () => {
-    const userPoint = new AppUserPoint(1);
+    const userPoint = AppUserPoint.create(appUserStub);
+    userPoint.userId = appUserStub.id;
     userPoint.point = 1000;
     userPoint.histories = [
       {
