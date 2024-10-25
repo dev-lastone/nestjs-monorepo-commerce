@@ -6,6 +6,7 @@ import {
 import { Test } from '@nestjs/testing';
 import { AppUserPointApplicationRepo } from '@application/app-user-point/app-user-point.application.repo';
 import { appUserStub } from '@domain/app-user/__stub/app-user.stub';
+import { NotFoundException } from '@nestjs/common';
 
 describe('UserPointApplicationService', () => {
   let appUserPointApplicationService: AppUserPointApplicationService;
@@ -34,6 +35,17 @@ describe('UserPointApplicationService', () => {
   });
 
   describe('savePoint', () => {
+    it('404', () => {
+      expect(() =>
+        appUserPointApplicationService.savePoint(
+          1,
+          1000,
+          AppUserPointHistoryAction.ORDER_PRODUCT,
+          3,
+        ),
+      ).rejects.toThrowError(new NotFoundException());
+    });
+
     it('성공', async () => {
       const userPointStub = AppUserPoint.create(appUserStub);
       userPointStub.userId = appUserStub.id;
