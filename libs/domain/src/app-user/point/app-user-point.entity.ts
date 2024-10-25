@@ -3,7 +3,8 @@ import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { AppUserPointHistory } from '@domain/app-user/point/app-user-point-history.entity';
 import { AppUserPointStorage } from '@domain/app-user/point/app-user-point-storage.entity';
 import { AppUserPointConsumption } from '@domain/app-user/point/app-user-point-consumption.entity';
-import { Entity, PrimaryColumn } from 'typeorm';
+import { Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
+import { AppUser } from '@domain/app-user/app-user.entity';
 
 /*
 	AppUserPoint // 총 포인트
@@ -51,6 +52,11 @@ export class AppUserPoint {
     example: 1000,
   })
   point: number;
+
+  @OneToOne(() => AppUser, (user) => user.point)
+  @JoinColumn({ name: 'userId', referencedColumnName: 'id' })
+  user: AppUser;
+
   histories: AppUserPointHistory[];
 
   constructor(userId: number) {
