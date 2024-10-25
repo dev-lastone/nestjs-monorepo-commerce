@@ -1,8 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { UserAddress } from '../../../../apps/app/src/domain/user/address/user-address.entity';
 import { UserCart } from '../../../../apps/app/src/domain/user/cart/user-cart.entity';
+import { AppUserPoint } from '@domain/app-user/point/app-user-point.entity';
 
 @Entity('user', { schema: 'app' })
 export class AppUser {
@@ -22,6 +29,9 @@ export class AppUser {
   @IsNotEmpty()
   @Column({ name: 'password', type: 'varchar', length: 50 })
   password: string;
+
+  @OneToOne(() => AppUserPoint, (userPoint) => userPoint.user)
+  point: AppUserPoint;
 
   @OneToMany(() => UserAddress, (userAddress) => userAddress.user)
   addresses: UserAddress[];
