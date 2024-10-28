@@ -196,6 +196,20 @@ describe('UserAddressesAppService', () => {
         }),
       ).rejects.toThrow(ERROR_MESSAGES.UserAddressNotFound);
     });
+
+    it('403', () => {
+      jest
+        .spyOn(userAddressRepo, 'findOneById')
+        .mockResolvedValue(userAddressStub);
+
+      expect(() =>
+        userAddressesService.putUserAddress({
+          id: userAddressStub.id,
+          userId: 2,
+          ...dto,
+        }),
+      ).rejects.toThrow(new ForbiddenException());
+    });
   });
 
   describe('delete', () => {
