@@ -22,6 +22,7 @@ export class AuthAppService {
     }
 
     const user = AppUser.create(dto);
+    user.password = await AppUser.hashPassword(dto.password);
 
     await this.appUserRepo.save(user);
 
@@ -33,7 +34,9 @@ export class AuthAppService {
 
     const user = await this.appUserRepo.findOneByEmail(email);
 
-    if (!user || password !== user.password) {
+    const isPasswordValid = await user.compare(password, user.password);
+
+    if (!user || !isPasswordValid) {
       throw new UnauthorizedException(ERROR_MESSAGES.InvalidSignIn);
     }
 

@@ -10,24 +10,32 @@ import {
 import { UserAddress } from '../../../../apps/app/src/domain/user/address/user-address.entity';
 import { UserCart } from '../../../../apps/app/src/domain/user/cart/user-cart.entity';
 import { AppUserPoint } from '@domain/app-user/point/app-user-point.entity';
+import { compareSync, genSaltSync, hashSync } from 'bcrypt';
 
 @Entity('user', { schema: 'app' })
 export class AppUser {
   @PrimaryGeneratedColumn()
   id: number;
+
   @ApiProperty({ default: '홍길동' })
   @IsNotEmpty()
   @IsString()
   @Column({ name: 'name', type: 'varchar', length: 30 })
   name: string;
+
   @ApiProperty({ default: 'test@test.com' })
   @IsEmail()
   @IsNotEmpty()
   @Column({ name: 'email', type: 'varchar', length: 100 })
   email: string;
+
   @ApiProperty({ default: '1234' })
   @IsNotEmpty()
-  @Column({ name: 'password', type: 'varchar', length: 50 })
+  @Column({
+    name: 'password',
+    type: 'varchar',
+    length: 100,
+  })
   password: string;
 
   @OneToOne(() => AppUserPoint, (userPoint) => userPoint.user, {
@@ -45,8 +53,17 @@ export class AppUser {
     const user = new AppUser();
     user.name = dto.name;
     user.email = dto.email;
-    user.password = dto.password;
+    // user.password = await this.hashPassword(dto.password); TODO
     user.point = AppUserPoint.create(user);
     return user;
+  }
+
+  static async hashPassword(password: string) {
+    const salt = await genSaltSync();
+    return await hashSync(password, salt);
+  }
+
+  async compare(password: string, hashedPassword: string) {
+    return await compareSync(password, hashedPassword);
   }
 }
