@@ -1,14 +1,28 @@
-import { PickType } from '@nestjs/swagger';
-import { UserAddress } from '../../../domain/user/address/user-address.entity';
+import { Address } from '../../../domain/user/address/address';
+import { IsBoolean, IsNotEmpty, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
 
-export class PostUserAddressRequestDto extends PickType(UserAddress, [
-  'zipcode',
-  'address',
-  'isDefault',
-] as const) {}
+export class PostUserAddressRequestDto {
+  @ApiProperty()
+  @IsBoolean()
+  @IsNotEmpty()
+  isDefault: boolean;
 
-export class PutUserAddressRequestDto extends PickType(UserAddress, [
-  'zipcode',
-  'address',
-  'isDefault',
-] as const) {}
+  @ApiProperty()
+  @ValidateNested()
+  @Type(() => Address)
+  address: Address;
+}
+
+export class PutUserAddressRequestDto {
+  @ApiProperty()
+  @IsBoolean()
+  @IsNotEmpty()
+  isDefault: boolean;
+
+  @ApiProperty()
+  @ValidateNested()
+  @Type(() => Address)
+  address: Address;
+}
