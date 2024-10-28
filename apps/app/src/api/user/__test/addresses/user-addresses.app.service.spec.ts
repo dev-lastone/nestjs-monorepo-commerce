@@ -34,9 +34,11 @@ describe('UserAddressesAppService', () => {
 
   describe('post', () => {
     const dto = {
-      zipcode: '01235',
-      address: '서울시 강남구 신사동 *********',
       isDefault: false,
+      address: {
+        zipcode: '01235',
+        address: '서울시 강남구 신사동 *********',
+      },
     };
 
     describe('신규 생성', () => {
@@ -44,7 +46,7 @@ describe('UserAddressesAppService', () => {
 
       it(ERROR_MESSAGES.UserAddressDefaultRequired, () => {
         expect(() =>
-          userAddressesService.postUserAddress(userId, dto),
+          userAddressesService.postUserAddress({ userId, ...dto }),
         ).rejects.toThrow(ERROR_MESSAGES.UserAddressDefaultRequired);
       });
 
@@ -59,7 +61,10 @@ describe('UserAddressesAppService', () => {
 
         jest.spyOn(userAddressRepo, 'save').mockResolvedValue(userAddress);
 
-        const result = await userAddressesService.postUserAddress(userId, dto);
+        const result = await userAddressesService.postUserAddress({
+          userId,
+          ...dto,
+        });
         expect(result).toEqual({
           id: 2,
           userId,
@@ -84,7 +89,10 @@ describe('UserAddressesAppService', () => {
           ...userAddress,
         });
 
-        const result = await userAddressesService.postUserAddress(userId, dto);
+        const result = await userAddressesService.postUserAddress({
+          userId,
+          ...dto,
+        });
 
         expect(result).toEqual({
           id: 2,
@@ -106,7 +114,10 @@ describe('UserAddressesAppService', () => {
           ...userAddress,
         });
 
-        const result = await userAddressesService.postUserAddress(userId, dto);
+        const result = await userAddressesService.postUserAddress({
+          userId,
+          ...dto,
+        });
         expect(result).toEqual({
           id: 2,
           userId,
@@ -121,7 +132,7 @@ describe('UserAddressesAppService', () => {
         .mockResolvedValue(new Array(10).fill(userAddressStub));
 
       expect(() =>
-        userAddressesService.postUserAddress(userId, dto),
+        userAddressesService.postUserAddress({ userId, ...dto }),
       ).rejects.toThrow(ERROR_MESSAGES.UserAddressMaxLength);
     });
   });
@@ -139,9 +150,11 @@ describe('UserAddressesAppService', () => {
 
   describe('put', () => {
     const dto = {
-      zipcode: '55555',
-      address: '서울시 강남구 양재동 *********',
       isDefault: false,
+      address: {
+        zipcode: '55555',
+        address: '서울시 강남구 양재동 *********',
+      },
     };
 
     it(SUCCESS, async () => {
@@ -152,7 +165,11 @@ describe('UserAddressesAppService', () => {
         .mockResolvedValue(userAddressStub);
       jest.spyOn(userAddressRepo, 'save').mockResolvedValue(userAddressStub);
 
-      const result = await userAddressesService.putUserAddress(id, userId, dto);
+      const result = await userAddressesService.putUserAddress({
+        id,
+        userId,
+        ...dto,
+      });
       expect(result).toEqual({
         id,
         userId,
@@ -162,17 +179,21 @@ describe('UserAddressesAppService', () => {
 
     it(ERROR_MESSAGES.UserAddressNotFound, () => {
       expect(() =>
-        userAddressesService.putUserAddress(
-          NON_EXISTENT_ID,
-          NON_EXISTENT_ID,
-          dto,
-        ),
+        userAddressesService.putUserAddress({
+          id: NON_EXISTENT_ID,
+          userId: NON_EXISTENT_ID,
+          ...dto,
+        }),
       ).rejects.toThrow(ERROR_MESSAGES.UserAddressNotFound);
     });
 
     it(ERROR_MESSAGES.UserAddressNotFound, () => {
       expect(() =>
-        userAddressesService.putUserAddress(NON_EXISTENT_ID, userId, dto),
+        userAddressesService.putUserAddress({
+          id: NON_EXISTENT_ID,
+          userId,
+          ...dto,
+        }),
       ).rejects.toThrow(ERROR_MESSAGES.UserAddressNotFound);
     });
   });

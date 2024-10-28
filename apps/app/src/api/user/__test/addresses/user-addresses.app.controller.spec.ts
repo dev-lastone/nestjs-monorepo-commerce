@@ -30,17 +30,19 @@ describe('UserAddressesAppController', () => {
   it('postUserAddresses', () => {
     const userId = 2;
     const dto = {
-      zipcode: '01235',
-      address: '서울시 강남구 신사동 *********',
       isDefault: true,
+      address: {
+        zipcode: '01235',
+        address: '서울시 강남구 신사동 *********',
+      },
     };
 
     userAddressesAppController.postUserAddress(userId, dto);
 
-    expect(userAddressesAppService.postUserAddress).toHaveBeenCalledWith(
+    expect(userAddressesAppService.postUserAddress).toHaveBeenCalledWith({
       userId,
-      dto,
-    );
+      ...dto,
+    });
   });
 
   it('getUserAddresses', () => {
@@ -55,18 +57,20 @@ describe('UserAddressesAppController', () => {
     const id = userAddressStub.id;
     const userId = userAddressStub.userId;
     const dto = {
-      zipcode: '55555',
-      address: '서울시 강남구 양재동 *********',
       isDefault: false,
+      address: {
+        zipcode: '55555',
+        address: '서울시 강남구 양재동 *********',
+      },
     };
 
     userAddressesAppController.putUserAddress(userId, id, dto);
 
-    expect(userAddressesAppService.putUserAddress).toHaveBeenCalledWith(
+    expect(userAddressesAppService.putUserAddress).toHaveBeenCalledWith({
       id,
       userId,
-      dto,
-    );
+      ...dto,
+    });
   });
 
   it('deleteUserAddresses', () => {
