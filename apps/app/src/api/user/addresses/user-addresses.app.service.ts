@@ -17,8 +17,8 @@ import { UserAddressRepo } from '../../../domain/user/address/user-address.repo'
 export class UserAddressesAppService {
   constructor(private readonly userAddressRepo: UserAddressRepo) {}
 
-  async postUserAddress(userId: number, dto: PostUserAddressRequestDto) {
-    const userAddresses = await this.userAddressRepo.findByUserId(userId);
+  async postUserAddress(dto: { userId: number } & PostUserAddressRequestDto) {
+    const userAddresses = await this.userAddressRepo.findByUserId(dto.userId);
 
     if (userAddresses?.length >= USER_ADDRESS_MAX_LENGTH) {
       throw new NotFoundException(ERROR_MESSAGES.UserAddressMaxLength);
@@ -37,7 +37,7 @@ export class UserAddressesAppService {
     }
 
     const userAddress = UserAddress.create({
-      userId,
+      userId: dto.userId,
       ...dto,
     });
 
