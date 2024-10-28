@@ -13,10 +13,7 @@ import {
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserAddressesAppService } from './user-addresses.app.service';
 import { UserId } from '@common/decorator/user-id.decorator';
-import {
-  PostUserAddressRequestDto,
-  PutUserAddressRequestDto,
-} from './user-addresses.app.dto';
+import { UserAddressRequestDto } from './user-addresses.app.dto';
 import { UserAddress } from '../../../domain/user/address/user-address.entity';
 
 @ApiBearerAuth('jwt')
@@ -33,7 +30,7 @@ export class UserAddressesAppController {
   })
   async postUserAddress(
     @UserId() userId: number,
-    @Body() dto: PostUserAddressRequestDto,
+    @Body() dto: UserAddressRequestDto,
   ) {
     return await this.userAppService.postUserAddress({ userId, ...dto });
   }
@@ -56,7 +53,7 @@ export class UserAddressesAppController {
   async putUserAddress(
     @UserId() userId: number,
     @Param('id', new ParseIntPipe()) id: number,
-    @Body() dto: PutUserAddressRequestDto,
+    @Body() dto: UserAddressRequestDto,
   ) {
     return await this.userAppService.putUserAddress({ id, userId, ...dto });
   }
