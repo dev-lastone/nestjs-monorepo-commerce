@@ -4,6 +4,7 @@ import { Expose } from 'class-transformer';
 import { Product } from '@domain/product/product.entity';
 import { UserAddress } from '../../../../apps/app/src/domain/user/address/user-address.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Address } from '../../../../apps/app/src/domain/user/address/address';
 
 @Entity('order', { schema: 'app' })
 export class Order {
@@ -23,14 +24,8 @@ export class Order {
     example: '01234',
   })
   @Expose()
-  @Column({ type: 'varchar', length: 5 })
-  zipcode: string;
-  @ApiProperty({
-    example: '서울시 강남구 역삼동 *********',
-  })
-  @Expose()
-  @Column({ type: 'varchar', length: 200 })
-  address: string;
+  @Column(() => Address)
+  address: Address;
   @ApiProperty({
     type: [OrderProduct],
   })
@@ -41,7 +36,6 @@ export class Order {
   static create(userAddress: UserAddress, products: Product[]) {
     const order = new Order();
     order.userId = userAddress.userId;
-    order.zipcode = userAddress.zipcode;
     order.address = userAddress.address;
     order.products = products.map((product) => {
       return OrderProduct.create(product);
