@@ -40,6 +40,10 @@ export class UserAddressesAppController {
 
   @Version('1')
   @Get()
+  @ApiResponse({
+    type: UserAddress,
+    isArray: true,
+  })
   async getUserAddresses(@UserId() userId: number) {
     return await this.userAppService.getUserAddresses(userId);
   }
