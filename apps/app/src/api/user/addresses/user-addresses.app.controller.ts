@@ -35,7 +35,7 @@ export class UserAddressesAppController {
     @UserId() userId: number,
     @Body() dto: PostUserAddressRequestDto,
   ) {
-    return await this.userAppService.postUserAddress(userId, dto);
+    return await this.userAppService.postUserAddress({ userId, ...dto });
   }
 
   @Version('1')
