@@ -34,9 +34,13 @@ export class AuthAppService {
 
     const user = await this.appUserRepo.findOneByEmail(email);
 
+    if (!user) {
+      throw new UnauthorizedException(ERROR_MESSAGES.InvalidSignIn);
+    }
+
     const isPasswordValid = await user.compare(password, user.password);
 
-    if (!user || !isPasswordValid) {
+    if (!isPasswordValid) {
       throw new UnauthorizedException(ERROR_MESSAGES.InvalidSignIn);
     }
 
