@@ -49,17 +49,18 @@ export class UserAddressesAppService {
   }
 
   async putUserAddress(
-    id: number,
-    userId: number,
-    dto: PutUserAddressRequestDto,
+    dto: {
+      id: number;
+      userId: number;
+    } & PutUserAddressRequestDto,
   ) {
-    const userAddress = await this.userAddressRepo.findOneById(id);
+    const userAddress = await this.userAddressRepo.findOneById(dto.id);
 
     if (!userAddress) {
       throw new NotFoundException(ERROR_MESSAGES.UserAddressNotFound);
     }
 
-    if (userAddress.userId !== userId) {
+    if (userAddress.userId !== dto.userId) {
       throw new ForbiddenException();
     }
 
