@@ -12,6 +12,9 @@ import { Address } from './address';
 
 @Entity('user_address', { schema: 'app' })
 export class UserAddress {
+  @ApiProperty({
+    example: 1,
+  })
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -27,6 +30,7 @@ export class UserAddress {
   @Column({ name: 'is_default', type: 'boolean' })
   isDefault: boolean;
 
+  @ApiProperty()
   @Column(() => Address)
   address: Address;
 
