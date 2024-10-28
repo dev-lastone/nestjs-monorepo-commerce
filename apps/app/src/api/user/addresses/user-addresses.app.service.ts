@@ -59,7 +59,10 @@ export class UserAddressesAppService {
       throw new NotFoundException(ERROR_MESSAGES.UserAddressNotFound);
     }
 
-    userAddress.zipcode = dto.zipcode;
+    if (userAddress.userId !== userId) {
+      throw new ForbiddenException();
+    }
+
     userAddress.address = dto.address;
     userAddress.isDefault = dto.isDefault;
 

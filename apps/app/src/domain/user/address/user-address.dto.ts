@@ -1,6 +1,7 @@
+import { Address } from './address';
+
 export interface ICreateUserAddress {
   userId: number;
-  zipcode: string;
-  address: string;
   isDefault: boolean;
+  address: Address;
 }
