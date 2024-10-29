@@ -37,11 +37,7 @@ export class AuthAppService {
       throw new UnauthorizedException(ERROR_MESSAGES.InvalidSignIn);
     }
 
-    const isPasswordValid = await user.compare(password, user.password);
-
-    if (!isPasswordValid) {
-      throw new UnauthorizedException(ERROR_MESSAGES.InvalidSignIn);
-    }
+    await user.compare(password, user.password);
 
     return this.authApplicationService.createToken(user);
   }

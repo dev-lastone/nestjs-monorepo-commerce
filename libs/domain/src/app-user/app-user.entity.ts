@@ -11,6 +11,8 @@ import { UserAddress } from '../../../../apps/app/src/domain/user/address/user-a
 import { UserCart } from '../../../../apps/app/src/domain/user/cart/user-cart.entity';
 import { AppUserPoint } from '@domain/app-user/point/app-user-point.entity';
 import { compareSync, genSaltSync, hashSync } from 'bcrypt';
+import { UnauthorizedException } from '@nestjs/common';
+import { ERROR_MESSAGES } from '@common/constant/error-messages';
 
 @Entity('user', { schema: 'app' })
 export class AppUser {
@@ -64,6 +66,9 @@ export class AppUser {
   }
 
   async compare(password: string, hashedPassword: string) {
-    return await compareSync(password, hashedPassword);
+    const isPasswordValid = await compareSync(password, hashedPassword);
+    if (!isPasswordValid) {
+      throw new UnauthorizedException(ERROR_MESSAGES.InvalidSignIn);
+    }
   }
 }
