@@ -55,9 +55,18 @@ export class AppUser {
     const user = new AppUser();
     user.name = dto.name;
     user.email = dto.email;
-    user.password = await this.hashPassword(dto.password);
+    user.password = await this.setPassword(dto.password);
     user.point = AppUserPoint.create(user);
     return user;
+  }
+
+  private static async setPassword(password: string) {
+    if (password.length < 8) {
+      throw new Error('Password must be at least 8 characters long');
+    }
+    // TODO 최대값
+    // TODO 특문 조합 룰 추가
+    return await this.hashPassword(password);
   }
 
   private static async hashPassword(password: string) {
