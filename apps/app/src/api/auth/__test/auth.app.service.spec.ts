@@ -12,6 +12,7 @@ import {
 import { AuthApplicationService } from '@application/auth/auth.application.service';
 import { AppUserRepo } from '@domain/app-user/app-user.repo';
 import { SUCCESS } from '@common/constant/constants';
+import { UnauthorizedException } from '@nestjs/common';
 
 describe('AuthAppService', () => {
   let authAppService: AuthAppService;
@@ -70,8 +71,6 @@ describe('AuthAppService', () => {
       postAuthAppRequestDto.email = invalidAppUserStub.email;
       postAuthAppRequestDto.password = appUserStub.password;
 
-      jest.spyOn(appUserStub, 'compare').mockResolvedValue(true);
-
       expect(() =>
         authAppService.signIn(postAuthAppRequestDto),
       ).rejects.toThrowError(ERROR_MESSAGES.InvalidSignIn);
@@ -83,7 +82,11 @@ describe('AuthAppService', () => {
       postAuthAdminRequestDto.password = invalidAppUserStub.password;
 
       jest.spyOn(appUserRepo, 'findOneByEmail').mockResolvedValue(appUserStub);
-      jest.spyOn(appUserStub, 'compare').mockResolvedValue(false);
+      jest
+        .spyOn(appUserStub, 'compare')
+        .mockRejectedValue(
+          new UnauthorizedException(ERROR_MESSAGES.InvalidSignIn),
+        );
 
       expect(() =>
         authAppService.signIn(postAuthAdminRequestDto),
@@ -96,7 +99,7 @@ describe('AuthAppService', () => {
       postAuthAdminRequestDto.password = appUserStub.password;
 
       jest.spyOn(appUserRepo, 'findOneByEmail').mockResolvedValue(appUserStub);
-      jest.spyOn(appUserStub, 'compare').mockResolvedValue(true);
+      jest.spyOn(appUserStub, 'compare').mockResolvedValue();
 
       const result = await authAppService.signIn(postAuthAdminRequestDto);
 
