@@ -7,7 +7,9 @@ export class PostAuthSignUpAppReqDto extends PickType(AppUser, [
   'email',
   'password',
 ]) {
-  @ApiProperty()
+  @ApiProperty({
+    example: 'string1234',
+  })
   @IsNotEmpty()
   @IsString()
   passwordConfirm!: string;
