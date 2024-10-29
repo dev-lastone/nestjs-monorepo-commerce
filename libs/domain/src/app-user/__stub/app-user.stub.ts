@@ -1,10 +1,14 @@
 import { AppUser } from '@domain/app-user/app-user.entity';
 
-const appUser = AppUser.create({
+const appUser = {
   name: '홍길동',
   email: 'test@test.com',
   password: '1234',
-});
+
+  compare: async (password: string, hashedPassword: string) => {
+    return password === hashedPassword;
+  },
+} as AppUser;
 appUser.id = 1;
 export const appUserStub = appUser;
 
