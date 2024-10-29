@@ -3,7 +3,7 @@ import { AppUser } from '@domain/app-user/app-user.entity';
 const appUser = {
   name: '홍길동',
   email: 'test@test.com',
-  password: '1234',
+  password: 'string1234',
 
   compare: async (password: string) => {},
 } as AppUser;
