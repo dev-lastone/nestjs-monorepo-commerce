@@ -11,7 +11,7 @@ import { UserAddress } from '../../../../apps/app/src/domain/user/address/user-a
 import { UserCart } from '../../../../apps/app/src/domain/user/cart/user-cart.entity';
 import { AppUserPoint } from '@domain/app-user/point/app-user-point.entity';
 import { compareSync, genSaltSync, hashSync } from 'bcrypt';
-import { UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, UnauthorizedException } from '@nestjs/common';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 
 @Entity('user', { schema: 'app' })
@@ -31,7 +31,7 @@ export class AppUser {
   @Column({ name: 'email', type: 'varchar', length: 100 })
   email: string;
 
-  @ApiProperty({ default: '1234' })
+  @ApiProperty({ default: 'string1234' })
   @IsNotEmpty()
   @Column({
     name: 'password',
@@ -62,7 +62,9 @@ export class AppUser {
 
   private static async setPassword(password: string) {
     if (password.length < 8) {
-      throw new Error('Password must be at least 8 characters long');
+      throw new BadRequestException(
+        'Password must be at least 8 characters long',
+      );
     }
     // TODO 최대값
     // TODO 특문 조합 룰 추가
