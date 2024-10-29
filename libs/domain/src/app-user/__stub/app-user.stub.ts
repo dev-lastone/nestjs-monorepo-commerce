@@ -5,7 +5,7 @@ const appUser = {
   email: 'test@test.com',
   password: '1234',
 
-  compare: async (password: string, hashedPassword: string) => {},
+  compare: async (password: string) => {},
 } as AppUser;
 appUser.id = 1;
 export const appUserStub = appUser;

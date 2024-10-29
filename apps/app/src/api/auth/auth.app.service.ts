@@ -37,7 +37,7 @@ export class AuthAppService {
       throw new UnauthorizedException(ERROR_MESSAGES.InvalidSignIn);
     }
 
-    await user.compare(password, user.password);
+    await user.compare(password);
 
     return this.authApplicationService.createToken(user);
   }

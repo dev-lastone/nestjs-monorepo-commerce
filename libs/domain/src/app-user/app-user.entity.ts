@@ -65,8 +65,8 @@ export class AppUser {
     return await hashSync(password, salt);
   }
 
-  async compare(password: string, hashedPassword: string) {
-    const isPasswordValid = await compareSync(password, hashedPassword);
+  async compare(password: string) {
+    const isPasswordValid = await compareSync(password, this.password);
     if (!isPasswordValid) {
       throw new UnauthorizedException(ERROR_MESSAGES.InvalidSignIn);
     }
