@@ -21,8 +21,7 @@ export class AuthAppService {
       throw new BadRequestException(ERROR_MESSAGES.PasswordConfirm);
     }
 
-    const user = AppUser.create(dto);
-    user.password = await AppUser.hashPassword(dto.password);
+    const user = await AppUser.create(dto);
 
     await this.appUserRepo.save(user);
 

@@ -12,7 +12,6 @@ import {
 import { AuthApplicationService } from '@application/auth/auth.application.service';
 import { AppUserRepo } from '@domain/app-user/app-user.repo';
 import { SUCCESS } from '@common/constant/constants';
-import { AppUser } from '@domain/app-user/app-user.entity';
 
 describe('AuthAppService', () => {
   let authAppService: AuthAppService;
@@ -59,13 +58,8 @@ describe('AuthAppService', () => {
     it(SUCCESS, async () => {
       postAuthAdminRequestDto.passwordConfirm = appUserStub.password;
 
-      const hashPasswordSpy = jest
-        .spyOn(AppUser, 'hashPassword')
-        .mockResolvedValue('hashedPassword');
-
       const result = await authAppService.signUp(postAuthAdminRequestDto);
 
-      expect(hashPasswordSpy).toHaveBeenCalledWith(appUserStub.password);
       expect(result).toEqual('mockToken');
     });
   });

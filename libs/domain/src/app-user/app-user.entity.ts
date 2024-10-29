@@ -49,16 +49,16 @@ export class AppUser {
   @OneToMany(() => UserCart, (userCart) => userCart.user)
   carts: UserCart[];
 
-  static create(dto: { name: string; email: string; password: string }) {
+  static async create(dto: { name: string; email: string; password: string }) {
     const user = new AppUser();
     user.name = dto.name;
     user.email = dto.email;
-    // user.password = await this.hashPassword(dto.password); TODO
+    user.password = await this.hashPassword(dto.password);
     user.point = AppUserPoint.create(user);
     return user;
   }
 
-  static async hashPassword(password: string) {
+  private static async hashPassword(password: string) {
     const salt = await genSaltSync();
     return await hashSync(password, salt);
   }
