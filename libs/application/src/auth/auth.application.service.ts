@@ -16,6 +16,6 @@ export class AuthApplicationService {
 
     return jwt.sign(payload, secret, {
       expiresIn,
-    });
+    }) as string;
   }
 }
