@@ -9,5 +9,9 @@ export function defaultSetting(app: INestApplication) {
     type: VersioningType.URI,
   });
 
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+    }),
+  );
 }
