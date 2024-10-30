@@ -11,7 +11,7 @@ export function defaultSetting(app: INestApplication) {
 
   app.useGlobalPipes(
     new ValidationPipe({
-      transform: true,
+      transform: true, // queryParam :type 자동, queryString @Type 필요. body 입력 그대로
     }),
   );
 }
