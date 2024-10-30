@@ -1,4 +1,4 @@
-import { Controller, Param, ParseIntPipe, Post, Version } from '@nestjs/common';
+import { Controller, Param, Post, Version } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Order } from '@domain/order/order.entity';
 import { UserId } from '@common/decorator/user-id.decorator';
@@ -19,7 +19,7 @@ export class OrderProductsAppController {
   })
   async postOrderProductConfirm(
     @UserId() userId: number,
-    @Param('id', new ParseIntPipe()) id: number,
+    @Param('id') id: number,
   ) {
     return await this.orderApplicationService.orderProductConfirm({
       id,

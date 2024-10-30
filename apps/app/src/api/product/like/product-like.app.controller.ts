@@ -1,11 +1,4 @@
-import {
-  Controller,
-  Delete,
-  Param,
-  ParseIntPipe,
-  Post,
-  Version,
-} from '@nestjs/common';
+import { Controller, Delete, Param, Post, Version } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ProductLikeAppService } from './product-like.app.service';
 import { UserId } from '@common/decorator/user-id.decorator';
@@ -20,7 +13,7 @@ export class ProductLikeAppController {
   @Post()
   postProductLike(
     @UserId() userId: number,
-    @Param('productId', new ParseIntPipe()) productId: number,
+    @Param('productId') productId: number,
   ) {
     return this.productLikeAppService.postProductLike({
       userId,
@@ -32,7 +25,7 @@ export class ProductLikeAppController {
   @Delete()
   deleteProductLike(
     @UserId() userId: number,
-    @Param('productId', new ParseIntPipe()) productId: number,
+    @Param('productId') productId: number,
   ) {
     return this.productLikeAppService.deleteProductLike({
       userId,

@@ -5,7 +5,6 @@ import {
   Get,
   HttpCode,
   Param,
-  ParseIntPipe,
   Post,
   Put,
   Version,
@@ -53,7 +52,7 @@ export class UserCartsAppController {
   })
   putUserCart(
     @UserId() userId: number,
-    @Param('id', new ParseIntPipe()) id: number,
+    @Param('id') id: number,
     @Body() dto: PutUserCartsAppReqDto,
   ) {
     return this.userCartService.putUserCart({
@@ -66,10 +65,7 @@ export class UserCartsAppController {
   @Version('1')
   @Delete(':id')
   @HttpCode(204)
-  deleteUserCart(
-    @UserId() userId: number,
-    @Param('id', new ParseIntPipe()) id: number,
-  ) {
+  deleteUserCart(@UserId() userId: number, @Param('id') id: number) {
     const dto = new DeleteUserCartDto();
     dto.userId = userId;
     dto.id = id;
