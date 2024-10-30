@@ -1,4 +1,4 @@
-import { Controller, Get, Param, ParseIntPipe, Version } from '@nestjs/common';
+import { Controller, Get, Param, Version } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Order } from '@domain/order/order.entity';
 import { OrdersAdminService } from './orders.admin.service';
@@ -25,7 +25,7 @@ export class OrdersAdminController {
   @ApiOkResponse({
     type: Order,
   })
-  getOrder(@Param('id', new ParseIntPipe()) id: number) {
+  getOrder(@Param('id') id: number) {
     return this.ordersAdminService.getOrder(id);
   }
 }

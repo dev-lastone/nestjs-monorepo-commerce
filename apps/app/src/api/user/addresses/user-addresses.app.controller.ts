@@ -5,7 +5,6 @@ import {
   Get,
   HttpCode,
   Param,
-  ParseIntPipe,
   Post,
   Put,
   Version,
@@ -52,7 +51,7 @@ export class UserAddressesAppController {
   })
   async putUserAddress(
     @UserId() userId: number,
-    @Param('id', new ParseIntPipe()) id: number,
+    @Param('id') id: number,
     @Body() dto: UserAddressRequestDto,
   ) {
     return await this.userAppService.putUserAddress({ id, userId, ...dto });
@@ -61,10 +60,7 @@ export class UserAddressesAppController {
   @Version('1')
   @Delete(':id')
   @HttpCode(204)
-  async deleteUserAddress(
-    @UserId() userId: number,
-    @Param('id', new ParseIntPipe()) id: number,
-  ) {
+  async deleteUserAddress(@UserId() userId: number, @Param('id') id: number) {
     return await this.userAppService.deleteUserAddress(userId, id);
   }
 }

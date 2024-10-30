@@ -1,4 +1,4 @@
-import { Controller, Param, ParseIntPipe, Post, Version } from '@nestjs/common';
+import { Controller, Param, Post, Version } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Order } from '@domain/order/order.entity';
 import { OrderApplicationService } from '@application/order/order.application.service';
@@ -16,7 +16,7 @@ export class OrderProductsAdminController {
   @ApiOkResponse({
     type: Order,
   })
-  async postOrderProductDeliver(@Param('id', new ParseIntPipe()) id: number) {
+  async postOrderProductDeliver(@Param('id') id: number) {
     return await this.orderApplicationService.orderProductDeliver(id);
   }
 }
