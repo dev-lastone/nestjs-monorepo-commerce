@@ -1,11 +1,4 @@
-import {
-  Body,
-  Controller,
-  Param,
-  ParseIntPipe,
-  Post,
-  Version,
-} from '@nestjs/common';
+import { Body, Controller, Param, Post, Version } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { UserId } from '@common/decorator/user-id.decorator';
 import { OrderProductReview } from '@domain/order/order-product-review.entity';
@@ -27,7 +20,7 @@ export class OrderProductsReviewAppController {
   })
   async postOrderProductsReview(
     @UserId() userId: number,
-    @Param('orderProductId', new ParseIntPipe()) orderProductId: number,
+    @Param('orderProductId') orderProductId: number,
     @Body() dto: PostOrderProductsReviewReqDto,
   ) {
     return await this.orderApplicationService.createOrderProductReview({

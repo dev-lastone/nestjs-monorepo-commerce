@@ -5,7 +5,6 @@ import {
   Get,
   HttpCode,
   Param,
-  ParseIntPipe,
   Post,
   Put,
   Version,
@@ -55,10 +54,7 @@ export class ProductsAdminController {
   @ApiOkResponse({
     type: Product,
   })
-  async putProduct(
-    @Param('id', new ParseIntPipe()) id: number,
-    @Body() dto: UpdateProductDto,
-  ) {
+  async putProduct(@Param('id') id: number, @Body() dto: UpdateProductDto) {
     return await this.productApplicationService.updateProduct(id, {
       name: dto.name,
       price: dto.price,
@@ -69,7 +65,7 @@ export class ProductsAdminController {
   @Version('1')
   @Delete(':id')
   @HttpCode(204)
-  async deleteProduct(@Param('id', new ParseIntPipe()) id: number) {
+  async deleteProduct(@Param('id') id: number) {
     await this.productApplicationService.deleteProduct(id);
   }
 }
