@@ -9,6 +9,22 @@ export class EnvVariables {
   @IsString()
   @IsNotEmpty()
   JWT_EXPIRES_IN: string;
+
+  @IsString()
+  @IsNotEmpty()
+  DB_HOST: string;
+
+  @IsString()
+  @IsNotEmpty()
+  DB_USERNAME: string;
+
+  @IsString()
+  @IsNotEmpty()
+  DB_PASSWORD: string;
+
+  @IsString()
+  @IsNotEmpty()
+  DB_DATABASE: string;
 }
 
 export function validateEnv(config: Record<string, unknown>): EnvVariables {
