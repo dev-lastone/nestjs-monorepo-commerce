@@ -13,7 +13,7 @@ import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserAddressesAppService } from './user-addresses.app.service';
 import { UserId } from '@common/decorator/user-id.decorator';
 import { UserAddressRequestDto } from './user-addresses.app.dto';
-import { UserAddress } from '../../../domain/user/address/user-address.entity';
+import { UserAddress } from '@domain/app-user/address/user-address.entity';
 
 @ApiBearerAuth('jwt')
 @ApiTags('user')

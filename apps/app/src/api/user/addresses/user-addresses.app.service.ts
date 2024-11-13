@@ -7,8 +7,8 @@ import {
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { UserAddressRequestDto } from './user-addresses.app.dto';
 import { USER_ADDRESS_MAX_LENGTH } from '@common/constant/constants';
-import { UserAddress } from '../../../domain/user/address/user-address.entity';
-import { UserAddressRepo } from '../../../domain/user/address/user-address.repo';
+import { UserAddressRepo } from '@domain/app-user/address/user-address.repo';
+import { UserAddress } from '@domain/app-user/address/user-address.entity';
 
 @Injectable()
 export class UserAddressesAppService {
