@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsNumber } from 'class-validator';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { ProductLike } from '../../../../apps/app/src/domain/product/like/product-like.entity';
 import { OrderProduct } from '@domain/order/order-product.entity';
+import { ProductLike } from '@domain/product/like/product-like.entity';
 
 @Entity('product', { schema: 'app' })
 export class Product {
