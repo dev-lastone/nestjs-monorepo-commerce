@@ -1,9 +1,9 @@
 import { Test } from '@nestjs/testing';
 import { UserCartsAppController } from '../../carts/user-carts.app.controller';
-import { UserCartService } from '../../../../domain/user/cart/user-cart.service';
 import { productStub1 } from '@domain/product/__stub/product.stub';
 import { appUserStub } from '@domain/app-user/__stub/app-user.stub';
-import { userCartStub } from '../../../../domain/user/cart/__stub/user-cart.stub';
+import { UserCartService } from '@domain/app-user/cart/user-cart.service';
+import { userCartStub } from '@domain/app-user/cart/__stub/user-cart.stub';
 
 describe('UserCartsAppController', () => {
   let userCartsAppController: UserCartsAppController;
