@@ -7,12 +7,12 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { UserCart } from '../../../../apps/app/src/domain/user/cart/user-cart.entity';
 import { AppUserPoint } from '@domain/app-user/point/app-user-point.entity';
 import { compareSync, genSaltSync, hashSync } from 'bcrypt';
 import { BadRequestException, UnauthorizedException } from '@nestjs/common';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { UserAddress } from '@domain/app-user/address/user-address.entity';
+import { UserCart } from '@domain/app-user/cart/user-cart.entity';
 
 @Entity('user', { schema: 'app' })
 export class AppUser {
