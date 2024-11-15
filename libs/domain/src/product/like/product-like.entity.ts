@@ -1,23 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { Product } from '@domain/product/product.entity';
+import { MyBaseEntity } from '@common/entity/my-base-entity';
 
 @Entity('product_like', { schema: 'app' })
-export class ProductLike {
-  @PrimaryGeneratedColumn()
-  id: number;
-  @Column('int', { name: 'user_id' })
+export class ProductLike extends MyBaseEntity {
+  @Column('bigint', { name: 'user_id' })
   userId: number;
   @ApiProperty({
     example: 1,
   })
-  @Column('int', { name: 'product_id' })
+  @Column('bigint', { name: 'product_id' })
   productId: number;
 
   @ManyToOne(() => Product, (product) => product.likes)

@@ -1,12 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsNotEmpty } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity } from 'typeorm';
+import { MyBaseEntity } from '@common/entity/my-base-entity';
 
 // TODO admin jwt 별도 발급시 admin domain 으로 이동 예정
 @Entity('user', { schema: 'admin' })
-export class AdminUser {
-  @PrimaryGeneratedColumn()
-  id: number;
+export class AdminUser extends MyBaseEntity {
   @Column({ name: 'name', type: 'varchar', length: 10 })
   name: string;
   @ApiProperty({ default: 'test@test.com' })

@@ -2,23 +2,18 @@ import { OrderProduct } from '@domain/order/order-product.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import { Product } from '@domain/product/product.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 import { UserAddress } from '@domain/app-user/address/user-address.entity';
 import { Address } from '@domain/_vo/address';
+import { MyBaseEntity } from '@common/entity/my-base-entity';
 
 @Entity('order', { schema: 'app' })
-export class Order {
-  @PrimaryGeneratedColumn()
+export class Order extends MyBaseEntity {
   @ApiProperty({
     example: 1,
   })
   @Expose()
-  id: number;
-  @ApiProperty({
-    example: 1,
-  })
-  @Expose()
-  @Column({ name: 'user_id', type: 'int' })
+  @Column({ name: 'user_id', type: 'bigint' })
   userId: number;
   @ApiProperty({
     example: '01234',

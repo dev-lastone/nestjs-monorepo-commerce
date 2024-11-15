@@ -1,24 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
-import {
-  Column,
-  Entity,
-  OneToMany,
-  OneToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, OneToMany, OneToOne } from 'typeorm';
 import { AppUserPoint } from '@domain/app-user/point/app-user-point.entity';
 import { compareSync, genSaltSync, hashSync } from 'bcrypt';
 import { BadRequestException, UnauthorizedException } from '@nestjs/common';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { UserAddress } from '@domain/app-user/address/user-address.entity';
 import { UserCart } from '@domain/app-user/cart/user-cart.entity';
+import { MyBaseEntity } from '@common/entity/my-base-entity';
 
 @Entity('user', { schema: 'app' })
-export class AppUser {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class AppUser extends MyBaseEntity {
   @ApiProperty({ default: '홍길동' })
   @IsNotEmpty()
   @IsString()

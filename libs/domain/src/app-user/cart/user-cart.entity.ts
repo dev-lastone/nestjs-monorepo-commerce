@@ -1,23 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { AppUser } from '@domain/app-user/app-user.entity';
+import { MyBaseEntity } from '@common/entity/my-base-entity';
 
 @Entity('user_cart', { schema: 'app' })
-export class UserCart {
-  @PrimaryGeneratedColumn()
-  id: number;
-  @Column('int', { name: 'user_id' })
+export class UserCart extends MyBaseEntity {
+  @Column('bigint', { name: 'user_id' })
   userId: number;
   @ApiProperty({
     example: 1,
   })
-  @Column('int', { name: 'product_id' })
+  @Column('bigint', { name: 'product_id' })
   productId: number;
   @ApiProperty({
     example: 1,
