@@ -1,9 +1,10 @@
 import { AppUser } from '@domain/app-user/app-user.entity';
 import { UserName } from '@domain/_vo/user-name';
+import { Email } from '@domain/_vo/email';
 
 const appUser = {
   name: UserName.create('홍길동'),
-  email: 'test@test.com',
+  email: Email.create('test@test.com'),
   password: 'string1234',
 
   compare: async (password: string) => {},
@@ -12,6 +13,6 @@ appUser.id = 1;
 export const appUserStub = appUser;
 
 export const invalidAppUserStub = {
-  email: 'invalid@test.come',
+  email: Email.create('invalid@test.come'),
   password: 'invalid',
 };
