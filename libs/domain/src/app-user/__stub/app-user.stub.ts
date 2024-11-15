@@ -1,7 +1,8 @@
 import { AppUser } from '@domain/app-user/app-user.entity';
+import { UserName } from '@domain/_vo/user-name';
 
 const appUser = {
-  name: '홍길동',
+  name: UserName.create('홍길동'),
   email: 'test@test.com',
   password: 'string1234',
 
