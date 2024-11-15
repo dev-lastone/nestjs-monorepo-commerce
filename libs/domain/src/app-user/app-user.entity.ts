@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { IsEmail, IsNotEmpty } from 'class-validator';
 import { Column, Entity, OneToMany, OneToOne } from 'typeorm';
 import { AppUserPoint } from '@domain/app-user/point/app-user-point.entity';
 import { compareSync, genSaltSync, hashSync } from 'bcrypt';
@@ -8,14 +8,17 @@ import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { UserAddress } from '@domain/app-user/address/user-address.entity';
 import { UserCart } from '@domain/app-user/cart/user-cart.entity';
 import { MyBaseEntity } from '@common/entity/my-base-entity';
+import { UserName } from '@domain/_vo/user-name';
 
 @Entity('user', { schema: 'app' })
 export class AppUser extends MyBaseEntity {
-  @ApiProperty({ default: '홍길동' })
-  @IsNotEmpty()
-  @IsString()
-  @Column({ name: 'name', type: 'varchar', length: 30 })
-  name: string;
+  // @ApiProperty({ default: '홍길동' })
+  // @IsNotEmpty()
+  // @IsString()
+  // @Column({ name: 'name', type: 'varchar', length: 30 })
+  // @ApiProperty({ type: UserName })
+  @Column(() => UserName, { prefix: false })
+  name: UserName;
 
   @ApiProperty({ default: 'test@test.com' })
   @IsEmail()
@@ -43,7 +46,11 @@ export class AppUser extends MyBaseEntity {
   @OneToMany(() => UserCart, (userCart) => userCart.user)
   carts: UserCart[];
 
-  static async create(dto: { name: string; email: string; password: string }) {
+  static async create(dto: {
+    name: UserName;
+    email: string;
+    password: string;
+  }) {
     const user = new AppUser();
     user.name = dto.name;
     user.email = dto.email;
