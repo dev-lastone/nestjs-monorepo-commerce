@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { AppUser } from '@domain/app-user/app-user.entity';
-import { Address } from './address';
+import { Address } from '@domain/_vo/address';
 
 @Entity('user_address', { schema: 'app' })
 export class UserAddress {

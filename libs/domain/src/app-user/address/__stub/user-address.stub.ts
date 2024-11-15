@@ -1,6 +1,6 @@
 import { appUserStub } from '@domain/app-user/__stub/app-user.stub';
 import { UserAddress } from '../user-address.entity';
-import { Address } from '../address';
+import { Address } from '@domain/_vo/address';
 
 const userAddress = UserAddress.create({
   userId: appUserStub.id,
