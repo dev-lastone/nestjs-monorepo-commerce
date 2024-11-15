@@ -1,9 +1,6 @@
 import { Body, Controller, Post, Version } from '@nestjs/common';
 import { AuthAppService } from './auth.app.service';
-import {
-  PostAuthAppRequestDto,
-  PostAuthSignUpAppReqDtoV1,
-} from './auth.app.dto';
+import { PostAuthAppRequestDto, PostAuthSignUpAppReqDto } from './auth.app.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Public } from '@common/decorator/public.decorator';
 
@@ -19,7 +16,7 @@ export class AuthAppController {
     status: 201,
     type: String,
   })
-  async signUp(@Body() dto: PostAuthSignUpAppReqDtoV1) {
+  async signUp(@Body() dto: PostAuthSignUpAppReqDto) {
     return await this.authAppService.signUp(dto);
   }
 

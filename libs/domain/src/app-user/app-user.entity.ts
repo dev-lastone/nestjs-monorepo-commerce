@@ -12,6 +12,7 @@ import { UserName } from '@domain/_vo/user-name';
 
 @Entity('user', { schema: 'app' })
 export class AppUser extends MyBaseEntity {
+  @ApiProperty()
   @Column(() => UserName, { prefix: false })
   name: UserName;
 

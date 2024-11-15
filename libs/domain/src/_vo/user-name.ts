@@ -5,17 +5,21 @@ import {
   Length,
   validateOrReject,
 } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class UserName {
+  @ApiProperty({
+    example: '홍길동',
+  })
   @IsNotEmpty()
   @IsString()
   @Length(2, 10)
   @Column({ name: 'name', type: 'varchar', length: 10 })
-  name: string;
+  value: string;
 
   static create(name: string) {
     const userName = new UserName();
-    userName.name = name;
+    userName.value = name;
 
     this.validate();
 

@@ -2,7 +2,7 @@ import { Test } from '@nestjs/testing';
 import { AuthAppController } from '../auth.app.controller';
 import {
   PostAuthAppRequestDto,
-  PostAuthSignUpAppReqDtoV1,
+  PostAuthSignUpAppReqDto,
 } from '../auth.app.dto';
 import { AuthAppService } from '../auth.app.service';
 import { UserName } from '@domain/_vo/user-name';
@@ -30,7 +30,7 @@ describe('AuthAppController', () => {
   });
 
   it('signUp', () => {
-    const postAuthAppRequestDto = new PostAuthSignUpAppReqDtoV1();
+    const postAuthAppRequestDto = new PostAuthSignUpAppReqDto();
     postAuthAppRequestDto.name = UserName.create('test');
     postAuthAppRequestDto.email = 'test@test.com';
     postAuthAppRequestDto.password = '1234';
