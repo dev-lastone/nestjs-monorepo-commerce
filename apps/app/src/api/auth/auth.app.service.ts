@@ -3,7 +3,10 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { PostAuthAppRequestDto, PostAuthSignUpAppReqDto } from './auth.app.dto';
+import {
+  PostAuthAppRequestDto,
+  PostAuthSignUpAppReqDtoV1,
+} from './auth.app.dto';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { AppUser } from '@domain/app-user/app-user.entity';
 import { AuthApplicationService } from '@application/auth/auth.application.service';
@@ -16,7 +19,7 @@ export class AuthAppService {
     private readonly appUserRepo: AppUserRepo,
   ) {}
 
-  async signUp(dto: PostAuthSignUpAppReqDto) {
+  async signUp(dto: PostAuthSignUpAppReqDtoV1) {
     if (dto.password !== dto.passwordConfirm) {
       throw new BadRequestException(ERROR_MESSAGES.PasswordConfirm);
     }
