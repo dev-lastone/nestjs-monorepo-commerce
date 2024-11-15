@@ -15,11 +15,14 @@ export class UserName {
   @IsString()
   @Length(2, 10)
   @Column({ name: 'name', type: 'varchar', length: 10 })
-  value: string;
+  private readonly value: string;
+
+  constructor(name: string) {
+    this.value = name;
+  }
 
   static create(name: string) {
-    const userName = new UserName();
-    userName.value = name;
+    const userName = new UserName(name);
 
     this.validate();
 
