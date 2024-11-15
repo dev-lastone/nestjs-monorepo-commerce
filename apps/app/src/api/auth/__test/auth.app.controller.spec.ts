@@ -7,6 +7,7 @@ import {
 import { AuthAppService } from '../auth.app.service';
 import { UserName } from '@domain/_vo/user-name';
 import { Email } from '@domain/_vo/email';
+import { UserPassword } from '@domain/_vo/user-password';
 
 describe('AuthAppController', () => {
   let authAppController: AuthAppController;
@@ -34,7 +35,7 @@ describe('AuthAppController', () => {
     const postAuthAppRequestDto = new PostAuthSignUpAppReqDto();
     postAuthAppRequestDto.name = UserName.create('test');
     postAuthAppRequestDto.email = Email.create('test@test.com');
-    postAuthAppRequestDto.password = '1234';
+    postAuthAppRequestDto.password = new UserPassword('1234');
 
     authAppController.signUp(postAuthAppRequestDto);
 
@@ -44,7 +45,7 @@ describe('AuthAppController', () => {
   it('signIn', () => {
     const postAuthAppRequestDto = new PostAuthAppRequestDto();
     postAuthAppRequestDto.email = Email.create('test@test.com');
-    postAuthAppRequestDto.password = '1234';
+    postAuthAppRequestDto.password = new UserPassword('1234');
 
     authAppController.signIn(postAuthAppRequestDto);
 

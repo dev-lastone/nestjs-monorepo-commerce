@@ -17,7 +17,7 @@ export class AuthAppService {
   ) {}
 
   async signUp(dto: PostAuthSignUpAppReqDto) {
-    if (dto.password !== dto.passwordConfirm) {
+    if (dto.password.getValue() !== dto.passwordConfirm.getValue()) {
       throw new BadRequestException(ERROR_MESSAGES.PasswordConfirm);
     }
 

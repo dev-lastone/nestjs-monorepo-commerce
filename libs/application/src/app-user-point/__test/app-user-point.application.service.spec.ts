@@ -47,7 +47,7 @@ describe('UserPointApplicationService', () => {
     });
 
     it('성공', async () => {
-      const userPointStub = AppUserPoint.create(appUserStub);
+      const userPointStub = AppUserPoint.create();
       userPointStub.userId = appUserStub.id;
 
       jest
@@ -75,7 +75,7 @@ describe('UserPointApplicationService', () => {
   });
 
   it('usePoint', async () => {
-    const userPoint = AppUserPoint.create(appUserStub);
+    const userPoint = AppUserPoint.create();
     userPoint.userId = appUserStub.id;
     userPoint.point = 1000;
     userPoint.histories = [
