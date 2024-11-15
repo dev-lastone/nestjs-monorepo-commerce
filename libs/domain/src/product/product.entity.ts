@@ -1,18 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsNumber } from 'class-validator';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 import { OrderProduct } from '@domain/order/order-product.entity';
 import { ProductLike } from '@domain/product/like/product-like.entity';
+import { MyBaseEntity } from '@common/entity/my-base-entity';
 
 @Entity('product', { schema: 'app' })
-export class Product {
-  @PrimaryGeneratedColumn()
-  @ApiProperty({
-    example: 1,
-  })
-  @IsNumber()
-  @IsNotEmpty()
-  id: number;
+export class Product extends MyBaseEntity {
   @ApiProperty({
     example: '상품명',
   })
