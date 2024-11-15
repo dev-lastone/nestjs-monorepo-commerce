@@ -60,9 +60,8 @@ export class AppUserPoint {
 
   histories: AppUserPointHistory[];
 
-  static create(user: AppUser) {
+  static create() {
     const appUserPoint = new AppUserPoint();
-    appUserPoint.user = user;
     appUserPoint.point = 0;
     appUserPoint.histories = [];
     return appUserPoint;

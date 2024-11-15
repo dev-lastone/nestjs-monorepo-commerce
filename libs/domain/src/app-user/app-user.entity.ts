@@ -1,15 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty } from 'class-validator';
 import { Column, Entity, OneToMany, OneToOne } from 'typeorm';
 import { AppUserPoint } from '@domain/app-user/point/app-user-point.entity';
-import { compareSync, genSaltSync, hashSync } from 'bcrypt';
-import { BadRequestException, UnauthorizedException } from '@nestjs/common';
+import { compareSync } from 'bcrypt';
+import { UnauthorizedException } from '@nestjs/common';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { UserAddress } from '@domain/app-user/address/user-address.entity';
 import { UserCart } from '@domain/app-user/cart/user-cart.entity';
 import { MyBaseEntity } from '@common/entity/my-base-entity';
 import { UserName } from '@domain/_vo/user-name';
 import { Email } from '@domain/_vo/email';
+import { UserPassword } from '@domain/_vo/user-password';
 
 @Entity('user', { schema: 'app' })
 export class AppUser extends MyBaseEntity {
@@ -21,14 +21,9 @@ export class AppUser extends MyBaseEntity {
   @Column(() => Email, { prefix: false })
   email: Email;
 
-  @ApiProperty({ default: 'string1234' })
-  @IsNotEmpty()
-  @Column({
-    name: 'password',
-    type: 'varchar',
-    length: 100,
-  })
-  password: string;
+  @ApiProperty()
+  @Column(() => UserPassword, { prefix: false })
+  password: UserPassword;
 
   @OneToOne(() => AppUserPoint, (userPoint) => userPoint.user, {
     cascade: true,
@@ -41,33 +36,24 @@ export class AppUser extends MyBaseEntity {
   @OneToMany(() => UserCart, (userCart) => userCart.user)
   carts: UserCart[];
 
-  static async create(dto: { name: UserName; email: Email; password: string }) {
+  static async create(dto: {
+    name: UserName;
+    email: Email;
+    password: UserPassword;
+  }) {
     const user = new AppUser();
     user.name = dto.name;
     user.email = dto.email;
-    user.password = await this.setPassword(dto.password);
-    user.point = AppUserPoint.create(user);
+    user.password = dto.password;
+    user.point = AppUserPoint.create();
     return user;
   }
 
-  private static async setPassword(password: string) {
-    if (password.length < 8) {
-      throw new BadRequestException(
-        'Password must be at least 8 characters long',
-      );
-    }
-    // TODO 최대값
-    // TODO 특문 조합 룰 추가
-    return await this.hashPassword(password);
-  }
-
-  private static async hashPassword(password: string) {
-    const salt = await genSaltSync();
-    return await hashSync(password, salt);
-  }
-
-  async compare(password: string) {
-    const isPasswordValid = await compareSync(password, this.password);
+  async compare(password: UserPassword) {
+    const isPasswordValid = await compareSync(
+      password.getValue(),
+      this.password.getValue(),
+    );
     if (!isPasswordValid) {
       throw new UnauthorizedException(ERROR_MESSAGES.InvalidSignIn);
     }

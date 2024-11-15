@@ -7,7 +7,7 @@ import { appUserStub } from '@domain/app-user/__stub/app-user.stub';
 
 describe('UserPoint', () => {
   it('save', () => {
-    const userPoint = AppUserPoint.create(appUserStub);
+    const userPoint = AppUserPoint.create();
     userPoint.userId = appUserStub.id;
 
     expect(
@@ -29,7 +29,7 @@ describe('UserPoint', () => {
 
   describe('use', () => {
     it(ERROR_MESSAGES.NotEnoughPoints, () => {
-      const userPoint = AppUserPoint.create(appUserStub);
+      const userPoint = AppUserPoint.create();
       userPoint.save(1000, AppUserPointHistoryAction.ORDER_PRODUCT, 1);
 
       expect(() =>
@@ -38,7 +38,7 @@ describe('UserPoint', () => {
     });
 
     it('성공 - 단일 사용', () => {
-      const userPoint = AppUserPoint.create(appUserStub);
+      const userPoint = AppUserPoint.create();
       userPoint.userId = appUserStub.id;
       userPoint.save(1000, AppUserPointHistoryAction.ORDER_PRODUCT, 1);
 
@@ -60,7 +60,7 @@ describe('UserPoint', () => {
     });
 
     it('성공 - 다중 사용', () => {
-      const userPoint = AppUserPoint.create(appUserStub);
+      const userPoint = AppUserPoint.create();
       userPoint.userId = appUserStub.id;
       userPoint.save(1000, AppUserPointHistoryAction.ORDER_PRODUCT, 1);
       userPoint.save(1000, AppUserPointHistoryAction.ORDER_PRODUCT, 2);

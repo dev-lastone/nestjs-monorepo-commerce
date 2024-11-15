@@ -6,16 +6,6 @@ import {
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 
 describe('AppUser', () => {
-  it('setPassword', () => {
-    expect(
-      AppUser.create({
-        name: appUserStub.name,
-        email: appUserStub.email,
-        password: invalidAppUserStub.password,
-      }),
-    ).rejects.toThrowError('Password must be at least 8 characters long');
-  });
-
   it('compare', async () => {
     const appUser = await AppUser.create({
       name: appUserStub.name,
