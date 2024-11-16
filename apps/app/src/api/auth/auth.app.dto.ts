@@ -1,27 +1,28 @@
 import { ApiProperty, PickType } from '@nestjs/swagger';
 import { AppUser } from '@domain/app-user/app-user.entity';
 import { UserPassword } from '@domain/_vo/user-password';
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import { UserName } from '@domain/_vo/user-name';
 import { Email } from '@domain/_vo/email';
-import { ValidateNested } from 'class-validator';
 
-export class PostAuthSignUpAppReqDto extends PickType(AppUser, [
-  'name',
-  'email',
-  'password',
-]) {
-  @ValidateNested()
-  @Type(() => UserName)
+export class PostAuthSignUpAppReqDto {
+  @ApiProperty({
+    example: '홍길동',
+  })
+  @Transform((v) => {
+    return UserName.create(v.value);
+  })
   name: UserName;
-  @ValidateNested()
+
+  @ApiProperty()
   @Type(() => Email)
   email: Email;
-  @ValidateNested()
+
+  @ApiProperty()
   @Type(() => UserPassword)
   password: UserPassword;
+
   @ApiProperty()
-  @ValidateNested()
   @Type(() => UserPassword)
   passwordConfirm!: UserPassword;
 }

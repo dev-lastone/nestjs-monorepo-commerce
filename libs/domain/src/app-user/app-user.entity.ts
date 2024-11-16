@@ -13,7 +13,7 @@ import { UserPassword } from '@domain/_vo/user-password';
 
 @Entity('user', { schema: 'app' })
 export class AppUser extends MyBaseEntity {
-  @ApiProperty()
+  // TODO @Column 말고 다른 방법으로 해결할 수 있는지 고민 transformer?
   @Column(() => UserName, { prefix: false })
   name: UserName;
 

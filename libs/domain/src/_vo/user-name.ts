@@ -1,16 +1,9 @@
 import { Column } from 'typeorm';
-import {
-  IsNotEmpty,
-  IsString,
-  Length,
-  validateOrReject,
-} from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsString, Length, validateSync } from 'class-validator';
+import { BadRequestException } from '@nestjs/common';
 
 export class UserName {
-  @ApiProperty({
-    example: '홍길동',
-  })
+  // TODO ApiProperty example 재활용 방법 고민
   @IsNotEmpty()
   @IsString()
   @Length(2, 10)
@@ -19,17 +12,15 @@ export class UserName {
 
   constructor(name: string) {
     this.value = name;
+
+    const errors = validateSync(this);
+    // TODO client 400 server 500
+    if (errors.length > 0) {
+      throw new BadRequestException();
+    }
   }
 
   static create(name: string) {
-    const userName = new UserName(name);
-
-    this.validate();
-
-    return userName;
-  }
-
-  static async validate() {
-    await validateOrReject(this);
+    return new UserName(name);
   }
 }
