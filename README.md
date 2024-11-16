@@ -64,6 +64,7 @@ vo 에 orm 과 swagger 를 다 명시하려했는데, 사용처가 다른데 동
 어차피 프론트에서 막을꺼니까.
 requestDTO 는 타입이랑 필수만 보장하자.
 값 검증은 비지니스 로직 코어에서만 하는걸로.
+=> client 요청 에러, 서버 에러 구분 필요 UserName vo TODO 추적
 
 entity 에 swagger 명시할지는 좀더 고민해보기
 entity pick type 사용여부도 좀더 고민해보기
