@@ -57,3 +57,13 @@ $ pnpm run test:cov
 - [x] typeorm
 - [ ] integration test
 - [ ] e2e scenario test
+
+VO request dto 에 적용안하기로 결정한 이유.
+vo 에 orm 과 swagger 를 다 명시하려했는데, 사용처가 다른데 동작이 겹쳐 역할 분담이 제대로 안됨.
+그럼 둘다 별도로 명시가 되어야 해서 결국 두번 작성해야함.
+어차피 프론트에서 막을꺼니까.
+requestDTO 는 타입이랑 필수만 보장하자.
+값 검증은 비지니스 로직 코어에서만 하는걸로.
+
+entity 에 swagger 명시할지는 좀더 고민해보기
+entity pick type 사용여부도 좀더 고민해보기
