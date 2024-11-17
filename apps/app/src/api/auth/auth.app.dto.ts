@@ -22,12 +22,20 @@ export class PostAuthSignUpAppReqDto {
   })
   email: Email;
 
-  @ApiProperty()
-  @Type(() => UserPassword)
+  @ApiProperty({
+    example: 'test@test.com',
+  })
+  @Transform((v) => {
+    return new Email(v.value, { httpStatus: 400 });
+  })
   password: UserPassword;
 
-  @ApiProperty()
-  @Type(() => UserPassword)
+  @ApiProperty({
+    example: 'string12345',
+  })
+  @Transform((v) => {
+    return new UserPassword(v.value, { httpStatus: 400 });
+  })
   passwordConfirm!: UserPassword;
 }
 
