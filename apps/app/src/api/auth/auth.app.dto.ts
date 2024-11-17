@@ -10,7 +10,7 @@ export class PostAuthSignUpAppReqDto {
     example: '홍길동',
   })
   @Transform((v) => {
-    return UserName.create(v.value);
+    return new UserName(v.value, { httpStatus: 400 });
   })
   name: UserName;
 
