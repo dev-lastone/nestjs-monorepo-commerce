@@ -1,25 +1,43 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Column, Entity, OneToMany, OneToOne } from 'typeorm';
 import { AppUserPoint } from '@domain/app-user/point/app-user-point.entity';
-import { compareSync } from 'bcrypt';
-import { UnauthorizedException } from '@nestjs/common';
-import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { UserAddress } from '@domain/app-user/address/user-address.entity';
 import { UserCart } from '@domain/app-user/cart/user-cart.entity';
 import { MyBaseEntity } from '@common/entity/my-base-entity';
-import { UserName } from '@domain/_vo/user-name';
-import { Email } from '@domain/_vo/email';
 import { UserPassword } from '@domain/_vo/user-password';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  Length,
+  validateSync,
+} from 'class-validator';
 
 @Entity('user', { schema: 'app' })
 export class AppUser extends MyBaseEntity {
-  // TODO @Column 말고 다른 방법으로 해결할 수 있는지 고민 transformer? => 값 검증이 안됨.
-  @Column(() => UserName, { prefix: false })
-  name: UserName;
+  @ApiProperty({
+    example: '홍길동',
+    description: '유저 이름',
+    type: String,
+    minLength: 2,
+    maxLength: 10,
+  })
+  @IsNotEmpty()
+  @IsString()
+  @Length(2, 10)
+  @Column({ name: 'name', type: 'varchar', length: 10 })
+  name: string;
 
-  @ApiProperty()
-  @Column(() => Email, { prefix: false })
-  email: Email;
+  @ApiProperty({
+    example: 'test@test.com',
+    description: '유저 이메일',
+    type: String,
+    format: 'email',
+  })
+  @IsEmail()
+  @IsNotEmpty()
+  @Column({ name: 'email', type: 'varchar', length: 100, unique: true })
+  email: string;
 
   @ApiProperty()
   @Column(() => UserPassword, { prefix: false })
@@ -37,8 +55,8 @@ export class AppUser extends MyBaseEntity {
   carts: UserCart[];
 
   static async create(dto: {
-    name: UserName;
-    email: Email;
+    name: string;
+    email: string;
     password: UserPassword;
   }) {
     const user = new AppUser();
@@ -46,16 +64,16 @@ export class AppUser extends MyBaseEntity {
     user.email = dto.email;
     user.password = dto.password;
     user.point = AppUserPoint.create();
-    return user;
-  }
 
-  async compare(password: UserPassword) {
-    const isPasswordValid = await compareSync(
-      password.getValue(),
-      this.password.getValue(),
-    );
-    if (!isPasswordValid) {
-      throw new UnauthorizedException(ERROR_MESSAGES.InvalidSignIn);
+    const errors = validateSync(this);
+    if (errors.length > 0) {
+      const errorConstraints = errors.map((error) => {
+        return error.constraints;
+      });
+
+      throw new Error(JSON.stringify(errorConstraints));
     }
+
+    return user;
   }
 }

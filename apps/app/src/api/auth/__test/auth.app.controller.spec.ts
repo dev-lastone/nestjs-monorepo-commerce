@@ -5,8 +5,6 @@ import {
   PostAuthSignUpAppReqDto,
 } from '../auth.app.dto';
 import { AuthAppService } from '../auth.app.service';
-import { UserName } from '@domain/_vo/user-name';
-import { Email } from '@domain/_vo/email';
 import { UserPassword } from '@domain/_vo/user-password';
 
 describe('AuthAppController', () => {
@@ -31,23 +29,23 @@ describe('AuthAppController', () => {
     authAppService = testingModule.get(AuthAppService);
   });
 
-  it('signUp', () => {
+  it('signUp', async () => {
     const postAuthAppRequestDto = new PostAuthSignUpAppReqDto();
-    postAuthAppRequestDto.name = UserName.create('test');
-    postAuthAppRequestDto.email = Email.create('test@test.com');
-    postAuthAppRequestDto.password = new UserPassword('string1234');
+    postAuthAppRequestDto.name = 'test';
+    postAuthAppRequestDto.email = 'test@test.com';
+    postAuthAppRequestDto.password = await UserPassword.create('string1234');
 
-    authAppController.signUp(postAuthAppRequestDto);
+    await authAppController.signUp(postAuthAppRequestDto);
 
     expect(authAppService.signUp).toBeCalledWith(postAuthAppRequestDto);
   });
 
-  it('signIn', () => {
+  it('signIn', async () => {
     const postAuthAppRequestDto = new PostAuthAppRequestDto();
-    postAuthAppRequestDto.email = Email.create('test@test.com');
-    postAuthAppRequestDto.password = new UserPassword('string1234');
+    postAuthAppRequestDto.email = 'test@test.com';
+    postAuthAppRequestDto.password = await UserPassword.create('string1234');
 
-    authAppController.signIn(postAuthAppRequestDto);
+    await authAppController.signIn(postAuthAppRequestDto);
 
     expect(authAppService.signIn).toBeCalledWith(postAuthAppRequestDto);
   });

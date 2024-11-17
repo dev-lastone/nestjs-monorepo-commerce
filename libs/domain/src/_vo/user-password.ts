@@ -1,15 +1,18 @@
 import { Column } from 'typeorm';
-import {
-  IsNotEmpty,
-  Length,
-  validateOrReject,
-  validateSync,
-} from 'class-validator';
-import { genSaltSync, hashSync } from 'bcrypt';
-import { BadRequestException, HttpStatus } from '@nestjs/common';
+import { IsNotEmpty, Length, validateSync } from 'class-validator';
+import { compareSync, genSaltSync, hashSync } from 'bcrypt';
+import { UnauthorizedException } from '@nestjs/common';
+import { ERROR_MESSAGES } from '@common/constant/error-messages';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class UserPassword {
   // TODO 특문 조합 룰 추가
+  @ApiProperty({
+    example: 'string1234',
+    description: '비밀번호',
+    minLength: 8,
+    maxLength: 20,
+  })
   @IsNotEmpty()
   @Length(8, 20)
   @Column({
@@ -19,13 +22,9 @@ export class UserPassword {
   })
   private value: string;
 
-  constructor(
-    value: string,
-    options?: {
-      httpStatus: HttpStatus;
-    },
-  ) {
-    this.value = value;
+  static async create(value: string) {
+    const password = new UserPassword();
+    password.value = value;
 
     const errors = validateSync(this);
     if (errors.length > 0) {
@@ -33,25 +32,20 @@ export class UserPassword {
         return error.constraints;
       });
 
-      if (options?.httpStatus === HttpStatus.BAD_REQUEST) {
-        throw new BadRequestException(errorConstraints);
-      } else {
-        throw new Error(JSON.stringify(errorConstraints));
-      }
+      throw new Error(JSON.stringify(errorConstraints));
     }
-  }
-
-  static async create(text: string) {
-    const password = new UserPassword(text);
 
     const salt = await genSaltSync();
-    password.value = await hashSync(password, salt);
+    password.value = await hashSync(password.value, salt);
 
     return password;
   }
 
-  static async validate() {
-    await validateOrReject(this);
+  async compare(password: UserPassword) {
+    const isPasswordValid = await compareSync(password.getValue(), this.value);
+    if (!isPasswordValid) {
+      throw new UnauthorizedException(ERROR_MESSAGES.InvalidSignIn);
+    }
   }
 
   getValue() {
