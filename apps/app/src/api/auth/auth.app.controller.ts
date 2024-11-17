@@ -28,6 +28,7 @@ export class AuthAppController {
     type: String,
   })
   async signIn(@Body() dto: PostAuthAppRequestDto) {
+    console.log(dto);
     return await this.authAppService.signIn(dto);
   }
 }

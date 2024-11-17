@@ -6,15 +6,11 @@ export class Email {
   @IsEmail()
   @IsNotEmpty()
   @Column({ name: 'email', type: 'varchar', length: 100, unique: true })
-  private readonly value: string;
+  private value: string;
 
-  constructor(
-    value: string,
-    options?: {
-      httpStatus: HttpStatus;
-    },
-  ) {
-    this.value = value;
+  static create(value: string, options?: { httpStatus: HttpStatus }) {
+    const email = new Email();
+    email.value = value;
 
     const errors = validateSync(this);
     if (errors.length > 0) {
@@ -22,15 +18,13 @@ export class Email {
         return error.constraints;
       });
 
-      if (options.httpStatus === HttpStatus.BAD_REQUEST) {
+      if (options?.httpStatus === HttpStatus.BAD_REQUEST) {
         throw new BadRequestException(errorConstraints);
       } else {
         throw new Error(JSON.stringify(errorConstraints));
       }
     }
-  }
 
-  static create(value: string) {
-    return new Email(value);
+    return email;
   }
 }

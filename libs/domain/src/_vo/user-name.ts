@@ -8,15 +8,17 @@ export class UserName {
   @IsString()
   @Length(2, 10)
   @Column({ name: 'name', type: 'varchar', length: 10 })
-  private readonly value: string;
+  private value: string;
 
-  constructor(
+  static create(
     name: string,
     options?: {
       httpStatus: HttpStatus;
     },
   ) {
-    this.value = name;
+    // return new UserName(name);
+    const userName = new UserName();
+    userName.value = name;
 
     const errors = validateSync(this);
     if (errors.length > 0) {
@@ -24,15 +26,13 @@ export class UserName {
         return error.constraints;
       });
 
-      if (options.httpStatus === HttpStatus.BAD_REQUEST) {
+      if (options?.httpStatus === HttpStatus.BAD_REQUEST) {
         throw new BadRequestException(errorConstraints);
       } else {
         throw new Error(JSON.stringify(errorConstraints));
       }
     }
-  }
 
-  static create(name: string) {
-    return new UserName(name);
+    return userName;
   }
 }
