@@ -1,6 +1,6 @@
 import { Column } from 'typeorm';
 import { IsNotEmpty, IsString, Length, validateSync } from 'class-validator';
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, HttpStatus } from '@nestjs/common';
 
 export class UserName {
   // TODO ApiProperty example 재활용 방법 고민
@@ -10,13 +10,25 @@ export class UserName {
   @Column({ name: 'name', type: 'varchar', length: 10 })
   private readonly value: string;
 
-  constructor(name: string) {
+  constructor(
+    name: string,
+    options?: {
+      httpStatus: HttpStatus;
+    },
+  ) {
     this.value = name;
 
     const errors = validateSync(this);
-    // TODO client 400 server 500
     if (errors.length > 0) {
-      throw new BadRequestException();
+      const errorConstraints = errors.map((error) => {
+        return error.constraints;
+      });
+
+      if (options.httpStatus === HttpStatus.BAD_REQUEST) {
+        throw new BadRequestException(errorConstraints);
+      } else {
+        throw new Error(JSON.stringify(errorConstraints));
+      }
     }
   }
 
