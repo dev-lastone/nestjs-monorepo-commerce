@@ -1,7 +1,6 @@
-import { ApiProperty, PickType } from '@nestjs/swagger';
-import { AppUser } from '@domain/app-user/app-user.entity';
+import { ApiProperty } from '@nestjs/swagger';
 import { UserPassword } from '@domain/_vo/user-password';
-import { Transform, Type } from 'class-transformer';
+import { Transform } from 'class-transformer';
 import { UserName } from '@domain/_vo/user-name';
 import { Email } from '@domain/_vo/email';
 
@@ -10,7 +9,7 @@ export class PostAuthSignUpAppReqDto {
     example: '홍길동',
   })
   @Transform((v) => {
-    return new UserName(v.value, { httpStatus: 400 });
+    return UserName.create(v.value, { httpStatus: 400 });
   })
   name: UserName;
 
@@ -18,31 +17,41 @@ export class PostAuthSignUpAppReqDto {
     example: 'test@test.com',
   })
   @Transform((v) => {
-    return new Email(v.value, { httpStatus: 400 });
+    return Email.create(v.value, { httpStatus: 400 });
   })
   email: Email;
 
   @ApiProperty({
-    example: 'test@test.com',
+    example: 'string1234',
   })
   @Transform((v) => {
-    return new Email(v.value, { httpStatus: 400 });
+    return UserPassword.create(v.value, { httpStatus: 400 });
   })
   password: UserPassword;
 
   @ApiProperty({
-    example: 'string12345',
+    example: 'string1234',
   })
   @Transform((v) => {
-    return new UserPassword(v.value, { httpStatus: 400 });
+    return UserPassword.create(v.value, { httpStatus: 400 });
   })
   passwordConfirm!: UserPassword;
 }
 
-export class PostAuthAppRequestDto extends PickType(AppUser, [
-  'email',
-  'password',
-]) {
-  @Type(() => UserPassword)
+export class PostAuthAppRequestDto {
+  @ApiProperty({
+    example: 'test@test.com',
+  })
+  @Transform((v) => {
+    return Email.create(v.value, { httpStatus: 400 });
+  })
+  email: Email;
+
+  @ApiProperty({
+    example: 'string1234',
+  })
+  @Transform(async (v) => {
+    return await UserPassword.create(v.value, { httpStatus: 400 });
+  })
   password: UserPassword;
 }

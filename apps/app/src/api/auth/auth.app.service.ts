@@ -31,15 +31,13 @@ export class AuthAppService {
   }
 
   async signIn(dto: PostAuthAppRequestDto) {
-    const { email, password } = dto;
-
-    const user = await this.appUserRepo.findOneByEmail(email);
+    const user = await this.appUserRepo.findOneByEmail(dto.email);
 
     if (!user) {
       throw new UnauthorizedException(ERROR_MESSAGES.InvalidSignIn);
     }
 
-    await user.compare(password);
+    await user.compare(dto.password);
 
     return this.authApplicationService.createToken(user);
   }
