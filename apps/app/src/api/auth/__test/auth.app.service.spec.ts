@@ -83,7 +83,7 @@ describe('AuthAppService', () => {
 
       jest.spyOn(appUserRepo, 'findOneByEmail').mockResolvedValue(appUserStub);
       jest
-        .spyOn(appUserStub, 'compare')
+        .spyOn(appUserStub.password, 'compare')
         .mockRejectedValue(
           new UnauthorizedException(ERROR_MESSAGES.InvalidSignIn),
         );
@@ -99,7 +99,7 @@ describe('AuthAppService', () => {
       postAuthAdminRequestDto.password = appUserStub.password;
 
       jest.spyOn(appUserRepo, 'findOneByEmail').mockResolvedValue(appUserStub);
-      jest.spyOn(appUserStub, 'compare').mockResolvedValue();
+      jest.spyOn(appUserStub.password, 'compare').mockResolvedValue();
 
       const result = await authAppService.signIn(postAuthAdminRequestDto);
 

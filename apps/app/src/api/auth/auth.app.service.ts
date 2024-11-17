@@ -37,7 +37,7 @@ export class AuthAppService {
       throw new UnauthorizedException(ERROR_MESSAGES.InvalidSignIn);
     }
 
-    await user.compare(dto.password);
+    await user.password.compare(dto.password);
 
     return this.authApplicationService.createToken(user);
   }
