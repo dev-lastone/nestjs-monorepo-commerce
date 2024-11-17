@@ -15,5 +15,5 @@ export const appUserStub = appUser;
 
 export const invalidAppUserStub = {
   email: Email.create('invalid@test.come'),
-  password: new UserPassword('invalid'),
+  password: new UserPassword('invalid1234'),
 };
