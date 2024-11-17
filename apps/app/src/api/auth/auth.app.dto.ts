@@ -14,8 +14,12 @@ export class PostAuthSignUpAppReqDto {
   })
   name: UserName;
 
-  @ApiProperty()
-  @Type(() => Email)
+  @ApiProperty({
+    example: 'test@test.com',
+  })
+  @Transform((v) => {
+    return new Email(v.value, { httpStatus: 400 });
+  })
   email: Email;
 
   @ApiProperty()
