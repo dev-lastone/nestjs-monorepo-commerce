@@ -19,7 +19,7 @@ export class AuthAppService {
   async signUp(dto: PostAuthSignUpAppReqDto) {
     // TODO 이메일 중복 체크
 
-    if (dto.password.getValue() !== dto.passwordConfirm.getValue()) {
+    if (dto.password !== dto.passwordConfirm) {
       throw new BadRequestException(ERROR_MESSAGES.PasswordConfirm);
     }
 
