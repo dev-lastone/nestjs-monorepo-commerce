@@ -39,7 +39,6 @@ export class AppUser extends MyBaseEntity {
   @Column({ name: 'email', type: 'varchar', length: 100, unique: true })
   email: string;
 
-  @ApiProperty()
   @Column(() => UserPassword, { prefix: false })
   password: UserPassword;
 
@@ -54,15 +53,11 @@ export class AppUser extends MyBaseEntity {
   @OneToMany(() => UserCart, (userCart) => userCart.user)
   carts: UserCart[];
 
-  static async create(dto: {
-    name: string;
-    email: string;
-    password: UserPassword;
-  }) {
+  static async create(dto: { name: string; email: string; password: string }) {
     const user = new AppUser();
     user.name = dto.name;
     user.email = dto.email;
-    user.password = dto.password;
+    user.password = await UserPassword.create(dto.password);
     user.point = AppUserPoint.create();
 
     const errors = validateSync(this);

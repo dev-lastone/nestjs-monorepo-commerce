@@ -5,7 +5,7 @@ const userPassword = {
   getValue() {
     return 'string1234';
   },
-  async compare(password: UserPassword) {},
+  async compare(password: string) {},
 } as UserPassword;
 
 const appUser = {
@@ -20,7 +20,7 @@ const invalidUserPassword = {
   getValue() {
     return 'invalid1234';
   },
-  async compare(password: UserPassword) {},
+  async compare(password: string) {},
 } as UserPassword;
 
 export const invalidAppUserStub = {
