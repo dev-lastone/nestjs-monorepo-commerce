@@ -42,28 +42,15 @@ describe('AuthAppService', () => {
     appUserRepo = testingModule.get(AppUserRepo);
   });
 
-  describe('signUp', () => {
+  it('signUp', async () => {
     const postAuthAdminRequestDto = new PostAuthSignUpAppReqDto();
     postAuthAdminRequestDto.name = appUserStub.name;
     postAuthAdminRequestDto.email = appUserStub.email;
     postAuthAdminRequestDto.password = appUserStub.password.getValue();
 
-    it(ERROR_MESSAGES.PasswordConfirm, () => {
-      postAuthAdminRequestDto.passwordConfirm =
-        invalidAppUserStub.password.getValue();
+    const result = await authAppService.signUp(postAuthAdminRequestDto);
 
-      expect(() =>
-        authAppService.signUp(postAuthAdminRequestDto),
-      ).rejects.toThrowError(ERROR_MESSAGES.PasswordConfirm);
-    });
-
-    it(SUCCESS, async () => {
-      postAuthAdminRequestDto.passwordConfirm = appUserStub.password.getValue();
-
-      const result = await authAppService.signUp(postAuthAdminRequestDto);
-
-      expect(result).toEqual('mockToken');
-    });
+    expect(result).toEqual('mockToken');
   });
 
   describe('signIn', () => {
