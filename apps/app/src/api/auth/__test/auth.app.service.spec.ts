@@ -42,15 +42,30 @@ describe('AuthAppService', () => {
     appUserRepo = testingModule.get(AppUserRepo);
   });
 
-  it('signUp', async () => {
-    const postAuthAdminRequestDto = new PostAuthSignUpAppReqDto();
-    postAuthAdminRequestDto.name = appUserStub.name;
-    postAuthAdminRequestDto.email = appUserStub.email;
-    postAuthAdminRequestDto.password = appUserStub.password.getValue();
+  describe('signUp', () => {
+    it(ERROR_MESSAGES.DuplicateEmail, () => {
+      const postAuthAdminRequestDto = new PostAuthSignUpAppReqDto();
+      postAuthAdminRequestDto.name = appUserStub.name;
+      postAuthAdminRequestDto.email = appUserStub.email;
+      postAuthAdminRequestDto.password = appUserStub.password.getValue();
 
-    const result = await authAppService.signUp(postAuthAdminRequestDto);
+      jest.spyOn(appUserRepo, 'findOneByEmail').mockResolvedValue(appUserStub);
 
-    expect(result).toEqual('mockToken');
+      expect(() =>
+        authAppService.signUp(postAuthAdminRequestDto),
+      ).rejects.toThrowError(ERROR_MESSAGES.DuplicateEmail);
+    });
+
+    it(SUCCESS, async () => {
+      const postAuthAdminRequestDto = new PostAuthSignUpAppReqDto();
+      postAuthAdminRequestDto.name = appUserStub.name;
+      postAuthAdminRequestDto.email = appUserStub.email;
+      postAuthAdminRequestDto.password = appUserStub.password.getValue();
+
+      const result = await authAppService.signUp(postAuthAdminRequestDto);
+
+      expect(result).toEqual('mockToken');
+    });
   });
 
   describe('signIn', () => {
