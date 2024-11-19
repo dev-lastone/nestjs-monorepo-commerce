@@ -17,16 +17,6 @@ export class PostAuthSignUpAppReqDto extends PickType(AppUser, [
   @IsNotEmpty()
   @Length(8, 20)
   password: string;
-
-  @ApiProperty({
-    example: 'string1234',
-    description: '비밀번호',
-    minLength: 8,
-    maxLength: 20,
-  })
-  @IsNotEmpty()
-  @Length(8, 20)
-  passwordConfirm: string;
 }
 
 export class PostAuthAppRequestDto extends PickType(AppUser, ['email']) {
