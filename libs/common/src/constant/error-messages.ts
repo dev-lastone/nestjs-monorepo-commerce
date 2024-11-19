@@ -15,4 +15,5 @@ export const ERROR_MESSAGES = {
   InvalidSignIn: 'Invalid email or password',
   ProductAlreadyLiked: 'Product already liked',
   ProductNotLiked: 'Product not liked',
+  DuplicateEmail: 'Email already exists',
 };
