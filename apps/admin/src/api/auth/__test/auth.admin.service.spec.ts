@@ -42,7 +42,7 @@ describe('AuthAdminService', () => {
       expect(() =>
         authAdminService.signIn({
           email: invalidAdminUserStub.email,
-          password: adminUserStub.password,
+          password: 'string1234',
         }),
       ).rejects.toThrow(ERROR_MESSAGES.InvalidSignIn);
     });
@@ -51,7 +51,7 @@ describe('AuthAdminService', () => {
       expect(() =>
         authAdminService.signIn({
           email: adminUserStub.email,
-          password: invalidAdminUserStub.password,
+          password: '1234',
         }),
       ).rejects.toThrow(ERROR_MESSAGES.InvalidSignIn);
     });
@@ -66,7 +66,7 @@ describe('AuthAdminService', () => {
       expect(
         authAdminService.signIn({
           email: adminUserStub.email,
-          password: adminUserStub.password,
+          password: 'string1234',
         }),
       ).resolves.toEqual('mockToken');
     });
