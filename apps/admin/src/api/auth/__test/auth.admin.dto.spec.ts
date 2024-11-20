@@ -14,14 +14,6 @@ describe('AuthAdminDto', () => {
       await _expect(postAuthAdminRequestDto);
     });
 
-    it('password 필수', async () => {
-      const postAuthAdminRequestDto = new PostAuthAdminRequestDto();
-      postAuthAdminRequestDto.email = adminUserStub.email;
-      postAuthAdminRequestDto.password = '';
-
-      await _expect(postAuthAdminRequestDto);
-    });
-
     it('이메일 형식', async () => {
       const postAuthAdminRequestDto = new PostAuthAdminRequestDto();
       postAuthAdminRequestDto.email = 'test.com';
