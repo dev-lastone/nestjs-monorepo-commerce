@@ -1,8 +1,13 @@
+import {
+  invalidUserPasswordStub,
+  userPasswordStub,
+} from '@domain/_vo/__stub/user-password.stub';
+
 export const adminUserStub = {
   id: 1,
   name: '홍길동',
   email: 'test@test.com',
-  password: '1234',
+  password: userPasswordStub,
   createdAt: new Date(),
   updatedAt: new Date(),
   deletedAt: null,
@@ -10,5 +15,5 @@ export const adminUserStub = {
 
 export const invalidAdminUserStub = {
   email: 'invalid@test.come',
-  password: 'invalid',
+  password: invalidUserPasswordStub,
 };
