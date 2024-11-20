@@ -17,4 +17,8 @@ export class AdminUserRepo {
       },
     });
   }
+
+  async save(adminUser: AdminUser) {
+    return await this.adminUserRepo.save(adminUser);
+  }
 }

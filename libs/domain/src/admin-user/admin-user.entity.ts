@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsString, Length } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  Length,
+  validateSync,
+} from 'class-validator';
 import { Column, Entity } from 'typeorm';
 import { MyBaseEntity } from '@common/entity/my-base-entity';
 import { UserPassword } from '@domain/_vo/user-password';
@@ -33,4 +39,22 @@ export class AdminUser extends MyBaseEntity {
 
   @Column(() => UserPassword, { prefix: false })
   password: UserPassword;
+
+  static async create(dto: { name: string; email: string; password: string }) {
+    const user = new AdminUser();
+    user.name = dto.name;
+    user.email = dto.email;
+    user.password = await UserPassword.create(dto.password);
+
+    const errors = validateSync(this);
+    if (errors.length > 0) {
+      const errorConstraints = errors.map((error) => {
+        return error.constraints;
+      });
+
+      throw new Error(JSON.stringify(errorConstraints));
+    }
+
+    return user;
+  }
 }
