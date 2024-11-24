@@ -7,7 +7,10 @@ import {
 import { AuthApplicationService } from '@application/auth/auth.application.service';
 import { AdminUserRepo } from '@domain/admin-user/admin-user.repo';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
-import { postAuthAdminSignUpReqDtoStub } from './auth.admin.dto.stub';
+import {
+  postAuthAdminSignUpReqDtoStub,
+  postAuthAppRequestDtoStub,
+} from './auth.admin.dto.stub';
 
 describe('AuthAdminService', () => {
   let authAdminService: AuthAdminService;
@@ -43,7 +46,7 @@ describe('AuthAdminService', () => {
       expect(() =>
         authAdminService.signIn({
           email: invalidAdminUserStub.email,
-          password: 'string1234',
+          password: postAuthAppRequestDtoStub.password,
         }),
       ).rejects.toThrow(ERROR_MESSAGES.InvalidSignIn);
     });

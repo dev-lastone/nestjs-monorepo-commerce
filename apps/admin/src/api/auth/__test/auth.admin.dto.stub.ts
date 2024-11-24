@@ -4,7 +4,7 @@ export const postAuthAdminSignUpReqDtoStub = {
   password: 'string1234',
 };
 
-export const postAuthAppRequestDto = {
+export const postAuthAppRequestDtoStub = {
   email: 'test@test.com',
   password: 'string1234',
 };
