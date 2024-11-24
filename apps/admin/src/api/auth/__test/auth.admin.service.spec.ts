@@ -1,13 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthAdminService } from '../auth.admin.service';
-import {
-  adminUserStub,
-  invalidAdminUserStub,
-} from '@domain/admin-user/__stub/admin-user.stub';
+import { adminUserStub } from '@domain/admin-user/__stub/admin-user.stub';
 import { AuthApplicationService } from '@application/auth/auth.application.service';
 import { AdminUserRepo } from '@domain/admin-user/admin-user.repo';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import {
+  invalidAdminUserStub,
   postAuthAdminSignUpReqDtoStub,
   postAuthAppRequestDtoStub,
 } from './auth.admin.dto.stub';
@@ -55,7 +53,7 @@ describe('AuthAdminService', () => {
       expect(() =>
         authAdminService.signIn({
           email: adminUserStub.user.email,
-          password: '1234',
+          password: invalidAdminUserStub.password,
         }),
       ).rejects.toThrow(ERROR_MESSAGES.InvalidSignIn);
     });
