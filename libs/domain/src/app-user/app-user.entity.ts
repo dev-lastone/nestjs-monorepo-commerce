@@ -10,7 +10,7 @@ import {
   IsNotEmpty,
   IsString,
   Length,
-  validateSync,
+  validateOrReject,
 } from 'class-validator';
 
 @Entity('user', { schema: 'app' })
@@ -60,14 +60,7 @@ export class AppUser extends MyBaseEntity {
     user.password = await UserPassword.create(dto.password);
     user.point = AppUserPoint.create();
 
-    const errors = validateSync(this);
-    if (errors.length > 0) {
-      const errorConstraints = errors.map((error) => {
-        return error.constraints;
-      });
-
-      throw new Error(JSON.stringify(errorConstraints));
-    }
+    await validateOrReject(user);
 
     return user;
   }
