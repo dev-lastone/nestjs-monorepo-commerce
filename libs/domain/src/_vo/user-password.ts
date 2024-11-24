@@ -1,20 +1,12 @@
 import { Column } from 'typeorm';
-import { IsNotEmpty, Length, validateOrReject } from 'class-validator';
+import { validateOrReject } from 'class-validator';
 import { compareSync, genSaltSync, hashSync } from 'bcrypt';
 import { UnauthorizedException } from '@nestjs/common';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
-import { ApiProperty } from '@nestjs/swagger';
+import { UserPasswordValidation } from '@common/decorator/user-password-validation.decorator';
 
 export class UserPassword {
-  // TODO 커스텀 데코레이터로 분리
-  @ApiProperty({
-    example: 'string1234',
-    description: '비밀번호',
-    minLength: 8,
-    maxLength: 20,
-  })
-  @IsNotEmpty()
-  @Length(8, 20)
+  @UserPasswordValidation()
   @Column({
     name: 'password',
     type: 'varchar',
