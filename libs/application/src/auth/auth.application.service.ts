@@ -12,7 +12,11 @@ export class AuthApplicationService {
     const secret = this.configService.get<string>('JWT_SECRET');
     const expiresIn = this.configService.get<string>('JWT_EXPIRES_IN');
 
-    const payload = { sub: user.id, email: user.email, name: user.name };
+    const payload = {
+      sub: user.id,
+      email: user.user.email,
+      name: user.user.name,
+    };
 
     return jwt.sign(payload, secret, {
       expiresIn,
