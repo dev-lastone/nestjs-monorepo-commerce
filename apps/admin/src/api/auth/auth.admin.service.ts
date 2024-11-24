@@ -20,7 +20,7 @@ export class AuthAdminService {
   ) {}
 
   async signUp(dto: PostAuthAdminSignUpReqDto) {
-    const dupUserEmail = await this.adminUserRepo.findOne({ email: dto.email });
+    const dupUserEmail = await this.adminUserRepo.findOneByEmail(dto.email);
     if (dupUserEmail) {
       throw new BadRequestException(ERROR_MESSAGES.DuplicateEmail);
     }
@@ -33,16 +33,14 @@ export class AuthAdminService {
   }
 
   async signIn(dto: PostAuthAdminRequestDto) {
-    const user = await this.adminUserRepo.findOne({
-      email: dto.email,
-    });
+    const adminUser = await this.adminUserRepo.findOneByEmail(dto.email);
 
-    if (!user) {
+    if (!adminUser) {
       throw new UnauthorizedException(ERROR_MESSAGES.InvalidSignIn);
     }
 
-    await user.password.compare(dto.password);
+    await adminUser.user.password.compare(dto.password);
 
-    return this.authApplicationService.createToken(user);
+    return this.authApplicationService.createToken(adminUser);
   }
 }

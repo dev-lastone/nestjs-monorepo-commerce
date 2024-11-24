@@ -1,8 +1,8 @@
 import { PickType } from '@nestjs/swagger';
-import { AdminUser } from '@domain/admin-user/admin-user.entity';
 import { UserPasswordValidation } from '@common/decorator/user-password-validation.decorator';
+import { User } from '@domain/_vo/user';
 
-export class PostAuthAdminSignUpReqDto extends PickType(AdminUser, [
+export class PostAuthAdminSignUpReqDto extends PickType(User, [
   'name',
   'email',
 ]) {
@@ -10,7 +10,7 @@ export class PostAuthAdminSignUpReqDto extends PickType(AdminUser, [
   password: string;
 }
 
-export class PostAuthAdminRequestDto extends PickType(AdminUser, ['email']) {
+export class PostAuthAdminRequestDto extends PickType(User, ['email']) {
   @UserPasswordValidation()
   password: string;
 }
