@@ -9,7 +9,7 @@ export const postAuthAppRequestDtoStub = {
   password: 'string1234',
 };
 
-export const invalidAdminUserStub = {
+export const invalidUserSignInDto = {
   email: 'invalid@test.come',
   password: '1234',
 };
