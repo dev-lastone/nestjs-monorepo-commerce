@@ -11,6 +11,7 @@ import { AppUserRepo } from '@domain/app-user/app-user.repo';
 import { SUCCESS } from '@common/constant/constants';
 import { UnauthorizedException } from '@nestjs/common';
 import {
+  invalidAdminUserStub,
   postAuthAdminSignUpReqDtoStub,
   postAuthAppRequestDtoStub,
 } from '../../../../../admin/src/api/auth/__test/auth.admin.dto.stub';
@@ -73,7 +74,7 @@ describe('AuthAppService', () => {
     it(ERROR_MESSAGES.InvalidSignIn + ' - password', () => {
       const postAuthAdminRequestDto = new PostAuthAppRequestDto();
       postAuthAdminRequestDto.email = postAuthAppRequestDtoStub.email;
-      postAuthAdminRequestDto.password = 'invalid';
+      postAuthAdminRequestDto.password = invalidAdminUserStub.password;
 
       jest.spyOn(appUserRepo, 'findOneByEmail').mockResolvedValue(appUserStub);
       jest
