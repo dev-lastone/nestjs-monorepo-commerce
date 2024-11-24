@@ -1,6 +1,6 @@
 import { invalidUserPasswordStub } from '@domain/_vo/__stub/user-password.stub';
 import { AdminUser } from '@domain/admin-user/admin-user.entity';
-import { userStub } from '@domain/app-user/__stub/app-user.stub';
+import { userStub } from '@domain/_vo/__stub/user.stub';
 
 export const adminUserStub = {
   id: 1,
