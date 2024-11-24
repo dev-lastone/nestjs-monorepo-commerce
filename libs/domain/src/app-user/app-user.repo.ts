@@ -17,7 +17,9 @@ export class AppUserRepo {
   async findOneByEmail(email: string) {
     return await this.appUserRepo.findOne({
       where: {
-        email,
+        user: {
+          email,
+        },
       },
     });
   }
