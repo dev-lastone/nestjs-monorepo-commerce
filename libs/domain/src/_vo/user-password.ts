@@ -40,9 +40,4 @@ export class UserPassword {
       throw new UnauthorizedException(ERROR_MESSAGES.InvalidSignIn);
     }
   }
-
-  // TODO 제거
-  getValue() {
-    return this.value;
-  }
 }

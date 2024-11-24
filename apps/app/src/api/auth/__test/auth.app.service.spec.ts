@@ -47,7 +47,7 @@ describe('AuthAppService', () => {
       const postAuthAdminRequestDto = new PostAuthSignUpAppReqDto();
       postAuthAdminRequestDto.name = appUserStub.name;
       postAuthAdminRequestDto.email = appUserStub.email;
-      postAuthAdminRequestDto.password = appUserStub.password.getValue();
+      postAuthAdminRequestDto.password = 'string1234';
 
       jest.spyOn(appUserRepo, 'findOneByEmail').mockResolvedValue(appUserStub);
 
@@ -60,7 +60,7 @@ describe('AuthAppService', () => {
       const postAuthAdminRequestDto = new PostAuthSignUpAppReqDto();
       postAuthAdminRequestDto.name = appUserStub.name;
       postAuthAdminRequestDto.email = appUserStub.email;
-      postAuthAdminRequestDto.password = appUserStub.password.getValue();
+      postAuthAdminRequestDto.password = 'string1234';
 
       const result = await authAppService.signUp(postAuthAdminRequestDto);
 
@@ -72,7 +72,7 @@ describe('AuthAppService', () => {
     it(ERROR_MESSAGES.InvalidSignIn + ' - email', () => {
       const postAuthAppRequestDto = new PostAuthAppRequestDto();
       postAuthAppRequestDto.email = invalidAppUserStub.email;
-      postAuthAppRequestDto.password = appUserStub.password.getValue();
+      postAuthAppRequestDto.password = 'string1234';
 
       expect(() =>
         authAppService.signIn(postAuthAppRequestDto),
@@ -82,7 +82,7 @@ describe('AuthAppService', () => {
     it(ERROR_MESSAGES.InvalidSignIn + ' - password', () => {
       const postAuthAdminRequestDto = new PostAuthAppRequestDto();
       postAuthAdminRequestDto.email = appUserStub.email;
-      postAuthAdminRequestDto.password = invalidAppUserStub.password.getValue();
+      postAuthAdminRequestDto.password = 'invalid';
 
       jest.spyOn(appUserRepo, 'findOneByEmail').mockResolvedValue(appUserStub);
       jest
@@ -99,7 +99,7 @@ describe('AuthAppService', () => {
     it(SUCCESS, async () => {
       const postAuthAdminRequestDto = new PostAuthAppRequestDto();
       postAuthAdminRequestDto.email = appUserStub.email;
-      postAuthAdminRequestDto.password = appUserStub.password.getValue();
+      postAuthAdminRequestDto.password = 'string1234';
 
       jest.spyOn(appUserRepo, 'findOneByEmail').mockResolvedValue(appUserStub);
       jest.spyOn(appUserStub.password, 'compare').mockResolvedValue();
