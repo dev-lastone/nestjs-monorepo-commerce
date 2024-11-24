@@ -3,12 +3,17 @@ import {
   invalidUserPasswordStub,
   userPasswordStub,
 } from '@domain/_vo/__stub/user-password.stub';
+import { User } from '@domain/_vo/user';
 
-const appUser = {
-  id: 1,
+export const userStub = {
   name: '홍길동',
   email: 'test@test.com',
   password: userPasswordStub,
+} as User;
+
+const appUser = {
+  id: 1,
+  user: userStub,
 } as AppUser;
 export const appUserStub = appUser;
 

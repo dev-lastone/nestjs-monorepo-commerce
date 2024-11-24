@@ -1,17 +1,14 @@
-import {
-  invalidUserPasswordStub,
-  userPasswordStub,
-} from '@domain/_vo/__stub/user-password.stub';
+import { invalidUserPasswordStub } from '@domain/_vo/__stub/user-password.stub';
+import { AdminUser } from '@domain/admin-user/admin-user.entity';
+import { userStub } from '@domain/app-user/__stub/app-user.stub';
 
 export const adminUserStub = {
   id: 1,
-  name: '홍길동',
-  email: 'test@test.com',
-  password: userPasswordStub,
+  user: userStub,
   createdAt: new Date(),
   updatedAt: new Date(),
   deletedAt: null,
-};
+} as AdminUser;
 
 export const invalidAdminUserStub = {
   email: 'invalid@test.come',

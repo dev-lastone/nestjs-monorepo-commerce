@@ -7,6 +7,7 @@ import {
 import { AuthApplicationService } from '@application/auth/auth.application.service';
 import { AdminUserRepo } from '@domain/admin-user/admin-user.repo';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
+import { postAuthAdminSignUpReqDtoStub } from './auth.admin.dto.stub';
 
 describe('AuthAdminService', () => {
   let authAdminService: AuthAdminService;
@@ -26,7 +27,7 @@ describe('AuthAdminService', () => {
         {
           provide: AdminUserRepo,
           useValue: {
-            findOne: jest.fn(),
+            findOneByEmail: jest.fn(),
           },
         },
       ],
@@ -50,24 +51,23 @@ describe('AuthAdminService', () => {
     it(ERROR_MESSAGES.InvalidSignIn + ' - password', () => {
       expect(() =>
         authAdminService.signIn({
-          email: adminUserStub.email,
+          email: adminUserStub.user.email,
           password: '1234',
         }),
       ).rejects.toThrow(ERROR_MESSAGES.InvalidSignIn);
     });
 
     it('201', () => {
-      jest.spyOn(adminUserRepo, 'findOne').mockResolvedValue(adminUserStub);
+      jest
+        .spyOn(adminUserRepo, 'findOneByEmail')
+        .mockResolvedValue(adminUserStub);
 
       jest
         .spyOn(authApplicationService, 'createToken')
         .mockReturnValue('mockToken');
 
       expect(
-        authAdminService.signIn({
-          email: adminUserStub.email,
-          password: 'string1234',
-        }),
+        authAdminService.signIn(postAuthAdminSignUpReqDtoStub),
       ).resolves.toEqual('mockToken');
     });
   });
