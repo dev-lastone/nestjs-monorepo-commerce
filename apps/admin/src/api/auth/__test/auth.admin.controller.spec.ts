@@ -3,7 +3,7 @@ import { AuthAdminController } from '../auth.admin.controller';
 import { AuthAdminService } from '../auth.admin.service';
 import {
   postAuthAdminSignUpReqDtoStub,
-  postAuthAppRequestDto,
+  postAuthAppRequestDtoStub,
 } from './auth.admin.dto.stub';
 
 describe('AuthAdminController', () => {
@@ -37,8 +37,8 @@ describe('AuthAdminController', () => {
   });
 
   it('signIn', () => {
-    authAdminController.signIn(postAuthAppRequestDto);
+    authAdminController.signIn(postAuthAppRequestDtoStub);
 
-    expect(authAdminService.signIn).toBeCalledWith(postAuthAppRequestDto);
+    expect(authAdminService.signIn).toBeCalledWith(postAuthAppRequestDtoStub);
   });
 });

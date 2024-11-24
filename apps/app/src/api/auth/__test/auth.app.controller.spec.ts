@@ -1,10 +1,10 @@
 import { Test } from '@nestjs/testing';
 import { AuthAppController } from '../auth.app.controller';
-import {
-  PostAuthAppRequestDto,
-  PostAuthSignUpAppReqDto,
-} from '../auth.app.dto';
 import { AuthAppService } from '../auth.app.service';
+import {
+  postAuthAdminSignUpReqDtoStub,
+  postAuthAppRequestDtoStub,
+} from '../../../../../admin/src/api/auth/__test/auth.admin.dto.stub';
 
 describe('AuthAppController', () => {
   let authAppController: AuthAppController;
@@ -29,23 +29,14 @@ describe('AuthAppController', () => {
   });
 
   it('signUp', async () => {
-    const postAuthAppRequestDto = new PostAuthSignUpAppReqDto();
-    postAuthAppRequestDto.name = 'test';
-    postAuthAppRequestDto.email = 'test@test.com';
-    postAuthAppRequestDto.password = 'string1234';
+    await authAppController.signUp(postAuthAdminSignUpReqDtoStub);
 
-    await authAppController.signUp(postAuthAppRequestDto);
-
-    expect(authAppService.signUp).toBeCalledWith(postAuthAppRequestDto);
+    expect(authAppService.signUp).toBeCalledWith(postAuthAdminSignUpReqDtoStub);
   });
 
   it('signIn', async () => {
-    const postAuthAppRequestDto = new PostAuthAppRequestDto();
-    postAuthAppRequestDto.email = 'test@test.com';
-    postAuthAppRequestDto.password = 'string1234';
+    await authAppController.signIn(postAuthAppRequestDtoStub);
 
-    await authAppController.signIn(postAuthAppRequestDto);
-
-    expect(authAppService.signIn).toBeCalledWith(postAuthAppRequestDto);
+    expect(authAppService.signIn).toBeCalledWith(postAuthAppRequestDtoStub);
   });
 });

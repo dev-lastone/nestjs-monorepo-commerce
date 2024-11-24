@@ -12,7 +12,7 @@ import { SUCCESS } from '@common/constant/constants';
 import { UnauthorizedException } from '@nestjs/common';
 import {
   postAuthAdminSignUpReqDtoStub,
-  postAuthAppRequestDto,
+  postAuthAppRequestDtoStub,
 } from '../../../../../admin/src/api/auth/__test/auth.admin.dto.stub';
 
 describe('AuthAppService', () => {
@@ -63,7 +63,7 @@ describe('AuthAppService', () => {
     it(ERROR_MESSAGES.InvalidSignIn + ' - email', () => {
       const postAuthAppRequestDto = new PostAuthAppRequestDto();
       postAuthAppRequestDto.email = invalidAppUserStub.email;
-      postAuthAppRequestDto.password = 'string1234';
+      postAuthAppRequestDto.password = postAuthAppRequestDtoStub.password;
 
       expect(() =>
         authAppService.signIn(postAuthAppRequestDto),
@@ -72,7 +72,7 @@ describe('AuthAppService', () => {
 
     it(ERROR_MESSAGES.InvalidSignIn + ' - password', () => {
       const postAuthAdminRequestDto = new PostAuthAppRequestDto();
-      postAuthAdminRequestDto.email = postAuthAppRequestDto.email;
+      postAuthAdminRequestDto.email = postAuthAppRequestDtoStub.email;
       postAuthAdminRequestDto.password = 'invalid';
 
       jest.spyOn(appUserRepo, 'findOneByEmail').mockResolvedValue(appUserStub);
@@ -91,7 +91,7 @@ describe('AuthAppService', () => {
       jest.spyOn(appUserRepo, 'findOneByEmail').mockResolvedValue(appUserStub);
       jest.spyOn(appUserStub.user.password, 'compare').mockResolvedValue();
 
-      const result = await authAppService.signIn(postAuthAppRequestDto);
+      const result = await authAppService.signIn(postAuthAppRequestDtoStub);
 
       expect(result).toEqual('mockToken');
     });
