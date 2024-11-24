@@ -1,10 +1,20 @@
 import { Column } from 'typeorm';
-import { validateSync } from 'class-validator';
+import { IsNotEmpty, Length, validateOrReject } from 'class-validator';
 import { compareSync, genSaltSync, hashSync } from 'bcrypt';
 import { UnauthorizedException } from '@nestjs/common';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class UserPassword {
+  // TODO 커스텀 데코레이터로 분리
+  @ApiProperty({
+    example: 'string1234',
+    description: '비밀번호',
+    minLength: 8,
+    maxLength: 20,
+  })
+  @IsNotEmpty()
+  @Length(8, 20)
   @Column({
     name: 'password',
     type: 'varchar',
@@ -16,14 +26,7 @@ export class UserPassword {
     const password = new UserPassword();
     password.value = value;
 
-    const errors = validateSync(this);
-    if (errors.length > 0) {
-      const errorConstraints = errors.map((error) => {
-        return error.constraints;
-      });
-
-      throw new Error(JSON.stringify(errorConstraints));
-    }
+    await validateOrReject(password);
 
     const salt = await genSaltSync();
     password.value = await hashSync(password.value, salt);
@@ -38,6 +41,7 @@ export class UserPassword {
     }
   }
 
+  // TODO 제거
   getValue() {
     return this.value;
   }
