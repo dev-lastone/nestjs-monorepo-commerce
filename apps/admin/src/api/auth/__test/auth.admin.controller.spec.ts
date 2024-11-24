@@ -2,10 +2,9 @@ import { Test } from '@nestjs/testing';
 import { AuthAdminController } from '../auth.admin.controller';
 import { AuthAdminService } from '../auth.admin.service';
 import {
-  PostAuthAdminRequestDto,
-  PostAuthAdminSignUpReqDto,
-} from '../auth.admin.dto';
-import { adminUserStub } from '@domain/admin-user/__stub/admin-user.stub';
+  postAuthAdminSignUpReqDtoStub,
+  postAuthAppRequestDto,
+} from './auth.admin.dto.stub';
 
 describe('AuthAdminController', () => {
   let authAdminController: AuthAdminController;
@@ -30,23 +29,16 @@ describe('AuthAdminController', () => {
   });
 
   it('signUp', async () => {
-    const dto = new PostAuthAdminSignUpReqDto();
-    dto.name = 'test';
-    dto.email = 'test@test.com';
-    dto.password = 'string1234';
+    await authAdminController.signUp(postAuthAdminSignUpReqDtoStub);
 
-    await authAdminController.signUp(dto);
-
-    expect(authAdminService.signUp).toBeCalledWith(dto);
+    expect(authAdminService.signUp).toBeCalledWith(
+      postAuthAdminSignUpReqDtoStub,
+    );
   });
 
   it('signIn', () => {
-    const postAuthAdminRequestDto = new PostAuthAdminRequestDto();
-    postAuthAdminRequestDto.email = adminUserStub.email;
-    postAuthAdminRequestDto.password = 'string1234';
+    authAdminController.signIn(postAuthAppRequestDto);
 
-    authAdminController.signIn(postAuthAdminRequestDto);
-
-    expect(authAdminService.signIn).toBeCalledWith(postAuthAdminRequestDto);
+    expect(authAdminService.signIn).toBeCalledWith(postAuthAppRequestDto);
   });
 });

@@ -12,8 +12,8 @@ describe('AuthAdminGuard', () => {
 
     jest.spyOn(jwt, 'verify').mockResolvedValue({
       sub: adminUserStub.id,
-      email: adminUserStub.email,
-      name: adminUserStub.name,
+      email: adminUserStub.user.email,
+      name: adminUserStub.user.name,
     });
 
     const result = jwtAuthGuard.canActivate(mockExecutionContext);

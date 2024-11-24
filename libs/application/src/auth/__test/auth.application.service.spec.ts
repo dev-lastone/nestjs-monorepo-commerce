@@ -2,8 +2,8 @@ import { ConfigService } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
 import * as jwt from 'jsonwebtoken';
 import { AdminUser } from '@domain/admin-user/admin-user.entity';
-import { adminUserStub } from '@domain/admin-user/__stub/admin-user.stub';
 import { AuthApplicationService } from '@application/auth/auth.application.service';
+import { postAuthAdminSignUpReqDtoStub } from '../../../../../apps/admin/src/api/auth/__test/auth.admin.dto.stub';
 
 describe('AuthService', () => {
   let authApplicationService: AuthApplicationService;
@@ -26,7 +26,7 @@ describe('AuthService', () => {
     configService = testingModule.get(ConfigService);
   });
 
-  it('createToken', () => {
+  it('createToken', async () => {
     jest.spyOn(configService, 'get').mockImplementation((key: string) => {
       if (key === 'JWT_SECRET') return 'test';
       if (key === 'JWT_EXPIRES_IN') return '60s';
@@ -36,14 +36,11 @@ describe('AuthService', () => {
 
     jest.spyOn(jwt, 'sign').mockReturnValue('mockToken');
 
-    const user = new AdminUser();
-    user.id = adminUserStub.id;
-    user.name = adminUserStub.name;
-    user.email = adminUserStub.email;
+    const user = await AdminUser.create(postAuthAdminSignUpReqDtoStub);
     const result = authApplicationService.createToken(user);
 
     expect(jwt.sign).toHaveBeenCalledWith(
-      { sub: user.id, email: user.email, name: user.name },
+      { sub: user.id, email: user.user.email, name: user.user.name },
       secret,
       {
         expiresIn,
