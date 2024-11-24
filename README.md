@@ -57,3 +57,8 @@ $ pnpm run test:cov
 - [x] typeorm
 - [ ] integration test
 - [ ] e2e scenario test
+
+refactor
+- [ ] entity 별도 구성
+- [ ] application module 구성
+- [ ] user 정의 상속
