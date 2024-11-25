@@ -8,7 +8,7 @@ import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { AppUser } from '@domain/app-user/app-user.entity';
 import { AuthApplicationService } from '@application/auth/auth.application.service';
 import { AppUserRepo } from '@application/app-user/app-user.repo';
-import { CreateUserDto } from '@domain/_dto/create-user.dto';
+import { CreateUserDto } from '@domain/_vo/dto/create-user.dto';
 
 @Injectable()
 export class AuthAppService {
