@@ -3,7 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import { Product } from '@domain/product/product.entity';
 import { Column, Entity, OneToMany } from 'typeorm';
-import { UserAddress } from '@domain/app-user/address/user-address.entity';
+import { UserAddress } from '@domain/app-user/user-address.entity';
 import { Address } from '@domain/_vo/address';
 import { MyBaseEntity } from '@common/entity/my-base-entity';
 
