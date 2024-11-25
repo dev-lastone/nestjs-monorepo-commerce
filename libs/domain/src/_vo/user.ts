@@ -8,7 +8,7 @@ import {
 } from 'class-validator';
 import { Column } from 'typeorm';
 import { UserPassword } from '@domain/_vo/user-password';
-import { CreateUserDto } from '@domain/_dto/create-user.dto';
+import { CreateUserDto } from '@domain/_vo/dto/create-user.dto';
 
 export class User {
   @ApiProperty({

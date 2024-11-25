@@ -8,7 +8,7 @@ import { AdminUserRepo } from '@application/admin-user/admin-user.repo';
 import { AuthApplicationService } from '@application/auth/auth.application.service';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { AdminUser } from '@domain/admin-user/admin-user.entity';
-import { CreateUserDto } from '@domain/_dto/create-user.dto';
+import { CreateUserDto } from '@domain/_vo/dto/create-user.dto';
 
 @Injectable()
 export class AuthAdminService {
