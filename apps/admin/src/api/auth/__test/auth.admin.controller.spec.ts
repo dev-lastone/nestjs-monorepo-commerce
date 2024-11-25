@@ -2,7 +2,7 @@ import { Test } from '@nestjs/testing';
 import { AuthAdminController } from '../auth.admin.controller';
 import { AuthAdminService } from '../auth.admin.service';
 import {
-  postAuthAdminSignUpReqDtoStub,
+  createUserDtoStub,
   postAuthAppRequestDtoStub,
 } from './auth.admin.dto.stub';
 
@@ -29,11 +29,9 @@ describe('AuthAdminController', () => {
   });
 
   it('signUp', async () => {
-    await authAdminController.signUp(postAuthAdminSignUpReqDtoStub);
+    await authAdminController.signUp(createUserDtoStub);
 
-    expect(authAdminService.signUp).toBeCalledWith(
-      postAuthAdminSignUpReqDtoStub,
-    );
+    expect(authAdminService.signUp).toBeCalledWith(createUserDtoStub);
   });
 
   it('signIn', () => {

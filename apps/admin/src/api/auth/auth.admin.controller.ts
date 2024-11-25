@@ -1,11 +1,9 @@
 import { Body, Controller, Post, Version } from '@nestjs/common';
 import { AuthAdminService } from './auth.admin.service';
-import {
-  PostAuthAdminRequestDto,
-  PostAuthAdminSignUpReqDto,
-} from './auth.admin.dto';
+import { PostAuthAdminRequestDto } from './auth.admin.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Public } from '@common/decorator/public.decorator';
+import { CreateUserDto } from '@domain/_dto/create-user.dto';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -19,7 +17,7 @@ export class AuthAdminController {
     status: 201,
     type: String,
   })
-  async signUp(@Body() dto: PostAuthAdminSignUpReqDto) {
+  async signUp(@Body() dto: CreateUserDto) {
     return await this.authAdminService.signUp(dto);
   }
 

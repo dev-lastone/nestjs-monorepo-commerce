@@ -5,8 +5,8 @@ import { AuthApplicationService } from '@application/auth/auth.application.servi
 import { AdminUserRepo } from '@domain/admin-user/admin-user.repo';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import {
+  createUserDtoStub,
   invalidUserSignInDto,
-  postAuthAdminSignUpReqDtoStub,
   postAuthAppRequestDtoStub,
 } from './auth.admin.dto.stub';
 
@@ -67,9 +67,9 @@ describe('AuthAdminService', () => {
         .spyOn(authApplicationService, 'createToken')
         .mockReturnValue('mockToken');
 
-      expect(
-        authAdminService.signIn(postAuthAdminSignUpReqDtoStub),
-      ).resolves.toEqual('mockToken');
+      expect(authAdminService.signIn(createUserDtoStub)).resolves.toEqual(
+        'mockToken',
+      );
     });
   });
 });

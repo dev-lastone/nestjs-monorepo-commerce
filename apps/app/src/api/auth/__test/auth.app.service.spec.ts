@@ -11,8 +11,8 @@ import { AppUserRepo } from '@domain/app-user/app-user.repo';
 import { SUCCESS } from '@common/constant/constants';
 import { UnauthorizedException } from '@nestjs/common';
 import {
+  createUserDtoStub,
   invalidUserSignInDto,
-  postAuthAdminSignUpReqDtoStub,
   postAuthAppRequestDtoStub,
 } from '../../../../../admin/src/api/auth/__test/auth.admin.dto.stub';
 
@@ -49,12 +49,12 @@ describe('AuthAppService', () => {
       jest.spyOn(appUserRepo, 'findOneByEmail').mockResolvedValue(appUserStub);
 
       expect(() =>
-        authAppService.signUp(postAuthAdminSignUpReqDtoStub),
+        authAppService.signUp(createUserDtoStub),
       ).rejects.toThrowError(ERROR_MESSAGES.DuplicateEmail);
     });
 
     it(SUCCESS, async () => {
-      const result = await authAppService.signUp(postAuthAdminSignUpReqDtoStub);
+      const result = await authAppService.signUp(createUserDtoStub);
 
       expect(result).toEqual('mockToken');
     });

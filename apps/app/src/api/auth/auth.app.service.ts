@@ -3,11 +3,12 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { PostAuthAppRequestDto, PostAuthSignUpAppReqDto } from './auth.app.dto';
+import { PostAuthAppRequestDto } from './auth.app.dto';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { AppUser } from '@domain/app-user/app-user.entity';
 import { AuthApplicationService } from '@application/auth/auth.application.service';
 import { AppUserRepo } from '@domain/app-user/app-user.repo';
+import { CreateUserDto } from '@domain/_dto/create-user.dto';
 
 @Injectable()
 export class AuthAppService {
@@ -16,7 +17,7 @@ export class AuthAppService {
     private readonly appUserRepo: AppUserRepo,
   ) {}
 
-  async signUp(dto: PostAuthSignUpAppReqDto) {
+  async signUp(dto: CreateUserDto) {
     const dupUserEmail = await this.appUserRepo.findOneByEmail(dto.email);
     if (dupUserEmail) {
       throw new BadRequestException(ERROR_MESSAGES.DuplicateEmail);
