@@ -3,7 +3,7 @@ import { PostOrdersAppReqDto } from './orders.app.dto';
 import { Order } from '@domain/order/order.entity';
 import { OrderRepo } from '@application/order/order.repo';
 import { ProductApplicationService } from '@application/product/product.application.service';
-import { UserAddressRepo } from '@domain/app-user/address/user-address.repo';
+import { UserAddressRepo } from '@application/app-user/address/user-address.repo';
 
 @Injectable()
 export class OrdersAppService {
