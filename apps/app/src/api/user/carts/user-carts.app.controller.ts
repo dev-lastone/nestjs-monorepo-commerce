@@ -16,8 +16,8 @@ import {
 } from './user-carts.app.dto';
 import { UserId } from '@common/decorator/user-id.decorator';
 import { UserCartService } from '@application/app-user/cart/user-cart.service';
-import { UserCart } from '@domain/app-user/cart/user-cart.entity';
-import { DeleteUserCartDto } from '@domain/app-user/cart/user-cart.dto';
+import { UserCart } from '@domain/app-user/user-cart.entity';
+import { DeleteUserCartDto } from '@domain/app-user/dto/user-cart.dto';
 
 @ApiBearerAuth('jwt')
 @ApiTags('user')

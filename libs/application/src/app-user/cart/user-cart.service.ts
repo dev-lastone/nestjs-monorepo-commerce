@@ -1,11 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
-import { UserCart } from '@domain/app-user/cart/user-cart.entity';
+import { UserCart } from '@domain/app-user/user-cart.entity';
 import {
   CreateUserCartDto,
   DeleteUserCartDto,
   UpdateUserCartDto,
-} from '@domain/app-user/cart/user-cart.dto';
+} from '@domain/app-user/dto/user-cart.dto';
 import { UserCartRepo } from './user-cart.repo';
 
 @Injectable()

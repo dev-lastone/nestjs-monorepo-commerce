@@ -3,7 +3,7 @@ import { ProductsAdminController } from '../products.admin.controller';
 import {
   CreateProductDto,
   UpdateProductDto,
-} from '@domain/product/product.dto';
+} from '@domain/product/dto/product.dto';
 import { productsStub } from '@domain/product/__stub/product.stub';
 import { ProductApplicationService } from '@application/product/product.application.service';
 

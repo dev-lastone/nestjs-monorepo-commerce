@@ -1,5 +1,5 @@
 import { PickType } from '@nestjs/swagger';
-import { UserCart } from './user-cart.entity';
+import { UserCart } from '../user-cart.entity';
 
 export class CreateUserCartDto extends PickType(UserCart, [
   'userId',
