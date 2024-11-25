@@ -7,7 +7,7 @@ import {
   invalidAppUserStub,
 } from '@domain/app-user/__stub/app-user.stub';
 import { AuthApplicationService } from '@application/auth/auth.application.service';
-import { AppUserRepo } from '@domain/app-user/app-user.repo';
+import { AppUserRepo } from '@application/app-user/app-user.repo';
 import { SUCCESS } from '@common/constant/constants';
 import { UnauthorizedException } from '@nestjs/common';
 import {
