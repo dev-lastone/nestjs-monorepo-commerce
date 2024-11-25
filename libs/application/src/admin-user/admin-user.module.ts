@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { AdminUserRepo } from '@domain/admin-user/admin-user.repo';
+import { AdminUserRepo } from '@application/admin-user/admin-user.repo';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AdminUser } from '@domain/admin-user/admin-user.entity';
 

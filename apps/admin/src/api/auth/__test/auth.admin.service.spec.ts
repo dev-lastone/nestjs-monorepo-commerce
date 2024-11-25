@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthAdminService } from '../auth.admin.service';
 import { adminUserStub } from '@domain/admin-user/__stub/admin-user.stub';
 import { AuthApplicationService } from '@application/auth/auth.application.service';
-import { AdminUserRepo } from '@domain/admin-user/admin-user.repo';
+import { AdminUserRepo } from '@application/admin-user/admin-user.repo';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import {
   createUserDtoStub,
