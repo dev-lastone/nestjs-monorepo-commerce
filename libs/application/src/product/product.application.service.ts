@@ -5,7 +5,7 @@ import {
   UpdateProductDto,
 } from '@domain/product/product.dto';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
-import { ProductRepo } from '@domain/product/product.repo';
+import { ProductRepo } from '@application/product/product.repo';
 
 @Injectable()
 export class ProductApplicationService {
