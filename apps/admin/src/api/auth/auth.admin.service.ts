@@ -3,14 +3,12 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import {
-  PostAuthAdminRequestDto,
-  PostAuthAdminSignUpReqDto,
-} from './auth.admin.dto';
+import { PostAuthAdminRequestDto } from './auth.admin.dto';
 import { AdminUserRepo } from '@domain/admin-user/admin-user.repo';
 import { AuthApplicationService } from '@application/auth/auth.application.service';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { AdminUser } from '@domain/admin-user/admin-user.entity';
+import { CreateUserDto } from '@domain/_dto/create-user.dto';
 
 @Injectable()
 export class AuthAdminService {
@@ -19,7 +17,7 @@ export class AuthAdminService {
     private readonly adminUserRepo: AdminUserRepo,
   ) {}
 
-  async signUp(dto: PostAuthAdminSignUpReqDto) {
+  async signUp(dto: CreateUserDto) {
     const dupUserEmail = await this.adminUserRepo.findOneByEmail(dto.email);
     if (dupUserEmail) {
       throw new BadRequestException(ERROR_MESSAGES.DuplicateEmail);

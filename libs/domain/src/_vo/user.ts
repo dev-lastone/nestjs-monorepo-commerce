@@ -8,6 +8,7 @@ import {
 } from 'class-validator';
 import { Column } from 'typeorm';
 import { UserPassword } from '@domain/_vo/user-password';
+import { CreateUserDto } from '@domain/_dto/create-user.dto';
 
 export class User {
   @ApiProperty({
@@ -37,7 +38,7 @@ export class User {
   @Column(() => UserPassword, { prefix: false })
   password: UserPassword;
 
-  static async create(dto: { name: string; email: string; password: string }) {
+  static async create(dto: CreateUserDto) {
     const user = new User();
     user.name = dto.name;
     user.email = dto.email;
