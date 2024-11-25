@@ -4,7 +4,7 @@ import { ProductLikeAppDto } from '../../like/product-like.app.dto';
 import { ProductApplicationService } from '@application/product/product.application.service';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { SUCCESS } from '@common/constant/constants';
-import { ProductLikeRepo } from '@domain/product/like/product-like.repo';
+import { ProductLikeRepo } from '@application/product/like/product-like.repo';
 import { ProductLike } from '@domain/product/like/product-like.entity';
 
 describe('ProductLikeAppService', () => {
