@@ -9,7 +9,7 @@ import { ForbiddenException } from '@nestjs/common';
 import { OrdersAppService } from '../../orders/orders.app.service';
 import { ProductApplicationService } from '@application/product/product.application.service';
 import { OrderRepo } from '@application/order/order.repo';
-import { UserAddressRepo } from '@domain/app-user/address/user-address.repo';
+import { UserAddressRepo } from '@application/app-user/address/user-address.repo';
 
 describe('OrdersAppService', () => {
   let ordersAppService: OrdersAppService;
