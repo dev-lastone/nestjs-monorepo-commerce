@@ -3,7 +3,7 @@ import { ProductLikeAppDto } from './product-like.app.dto';
 import { ProductApplicationService } from '@application/product/product.application.service';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { ProductLikeRepo } from '@application/product/like/product-like.repo';
-import { ProductLike } from '@domain/product/like/product-like.entity';
+import { ProductLike } from '@domain/product/product-like.entity';
 
 @Injectable()
 export class ProductLikeAppService {

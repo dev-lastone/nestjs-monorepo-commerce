@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsNumber } from 'class-validator';
 import { Column, Entity, OneToMany } from 'typeorm';
 import { OrderProduct } from '@domain/order/order-product.entity';
-import { ProductLike } from '@domain/product/like/product-like.entity';
+import { ProductLike } from '@domain/product/product-like.entity';
 import { MyBaseEntity } from '@common/entity/my-base-entity';
 
 @Entity('product', { schema: 'app' })
