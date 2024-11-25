@@ -4,7 +4,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { PostAuthAdminRequestDto } from './auth.admin.dto';
-import { AdminUserRepo } from '@domain/admin-user/admin-user.repo';
+import { AdminUserRepo } from '@application/admin-user/admin-user.repo';
 import { AuthApplicationService } from '@application/auth/auth.application.service';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { AdminUser } from '@domain/admin-user/admin-user.entity';
