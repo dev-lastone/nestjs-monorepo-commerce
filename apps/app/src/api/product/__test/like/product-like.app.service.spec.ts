@@ -5,7 +5,7 @@ import { ProductApplicationService } from '@application/product/product.applicat
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { SUCCESS } from '@common/constant/constants';
 import { ProductLikeRepo } from '@application/product/like/product-like.repo';
-import { ProductLike } from '@domain/product/like/product-like.entity';
+import { ProductLike } from '@domain/product/product-like.entity';
 
 describe('ProductLikeAppService', () => {
   let productLikeAppService: ProductLikeAppService;
