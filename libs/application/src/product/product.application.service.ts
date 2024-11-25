@@ -3,7 +3,7 @@ import { Product } from '@domain/product/product.entity';
 import {
   CreateProductDto,
   UpdateProductDto,
-} from '@domain/product/product.dto';
+} from '@domain/product/dto/product.dto';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { ProductRepo } from '@application/product/product.repo';
 

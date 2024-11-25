@@ -1,7 +1,7 @@
 import { Column, Entity, OneToMany, OneToOne } from 'typeorm';
 import { AppUserPoint } from '@domain/app-user/point/app-user-point.entity';
 import { UserAddress } from '@domain/app-user/user-address.entity';
-import { UserCart } from '@domain/app-user/cart/user-cart.entity';
+import { UserCart } from '@domain/app-user/user-cart.entity';
 import { MyBaseEntity } from '@common/entity/my-base-entity';
 import { User } from '@domain/_vo/user';
 import { CreateUserDto } from '@domain/_vo/dto/create-user.dto';

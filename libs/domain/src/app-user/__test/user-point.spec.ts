@@ -1,7 +1,7 @@
 import {
   AppUserPoint,
   AppUserPointHistoryAction,
-} from '../app-user-point.entity';
+} from '../point/app-user-point.entity';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { appUserStub } from '@domain/app-user/__stub/app-user.stub';
 

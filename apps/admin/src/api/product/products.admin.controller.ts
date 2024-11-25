@@ -19,7 +19,7 @@ import {
 import {
   CreateProductDto,
   UpdateProductDto,
-} from '@domain/product/product.dto';
+} from '@domain/product/dto/product.dto';
 import { ProductApplicationService } from '@application/product/product.application.service';
 
 @ApiBearerAuth('jwt')
