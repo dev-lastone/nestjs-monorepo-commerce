@@ -1,6 +1,6 @@
 import { Test } from '@nestjs/testing';
 import { OrderProductStatus } from '@domain/order/order-product.entity';
-import { OrderRepo } from '@domain/order/order.repo';
+import { OrderRepo } from '@application/order/order.repo';
 import {
   orderProductStub,
   orderProductWithOrderAndProductStub,

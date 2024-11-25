@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { OrdersAdminController } from './orders.admin.controller';
 import { OrdersAdminService } from './orders.admin.service';
-import { OrderModule } from '@domain/order/order.module';
+import { OrderApplicationModule } from '@application/order/order.application.module';
 
 @Module({
-  imports: [OrderModule],
+  imports: [OrderApplicationModule],
   controllers: [OrdersAdminController],
   providers: [OrdersAdminService],
 })
