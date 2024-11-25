@@ -1,7 +1,7 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PostOrdersAppReqDto } from './orders.app.dto';
 import { Order } from '@domain/order/order.entity';
-import { OrderRepo } from '@domain/order/order.repo';
+import { OrderRepo } from '@application/order/order.repo';
 import { ProductApplicationService } from '@application/product/product.application.service';
 import { UserAddressRepo } from '@domain/app-user/address/user-address.repo';
 
