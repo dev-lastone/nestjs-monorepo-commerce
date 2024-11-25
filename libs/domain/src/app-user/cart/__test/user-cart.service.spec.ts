@@ -3,7 +3,7 @@ import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { productStub1 } from '@domain/product/__stub/product.stub';
 import { appUserStub } from '@domain/app-user/__stub/app-user.stub';
 import { UserCartService } from '@application/app-user/cart/user-cart.service';
-import { userCartStub } from '../__stub/user-cart.stub';
+import { userCartStub } from '../../__stub/user-cart.stub';
 import { UserCartRepo } from '@application/app-user/cart/user-cart.repo';
 import { UserCart } from '../user-cart.entity';
 
