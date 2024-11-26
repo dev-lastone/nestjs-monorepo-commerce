@@ -1,6 +1,6 @@
 import { Test } from '@nestjs/testing';
-import { OrdersAppController } from '../../orders/orders.app.controller';
-import { OrdersAppService } from '../../orders/orders.app.service';
+import { OrdersAppController } from '../../../../src/api/order/orders/orders.app.controller';
+import { OrdersAppService } from '../../../../src/api/order/orders/orders.app.service';
 
 describe('OrdersAppController', () => {
   let ordersAppController: OrdersAppController;
