@@ -1,11 +1,11 @@
 import { Test } from '@nestjs/testing';
 import { NON_EXISTENT_ID, SUCCESS } from '@common/constant/constants';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
-import { UserAddressesAppService } from '../../addresses/user-addresses.app.service';
 import { ForbiddenException } from '@nestjs/common';
 import { userAddressStub } from '@domain/app-user/__stub/user-address.stub';
 import { UserAddressRepo } from '@application/app-user/address/user-address.repo';
 import { UserAddress } from '@domain/app-user/user-address.entity';
+import { UserAddressesAppService } from '../../../../src/api/user/addresses/user-addresses.app.service';
 
 describe('UserAddressesAppService', () => {
   const userId = userAddressStub.userId;

@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
-import { UserAddressesAppController } from '../../addresses/user-addresses.app.controller';
-import { UserAddressesAppService } from '../../addresses/user-addresses.app.service';
 import { userAddressStub } from '@domain/app-user/__stub/user-address.stub';
+import { UserAddressesAppController } from '../../../../src/api/user/addresses/user-addresses.app.controller';
+import { UserAddressesAppService } from '../../../../src/api/user/addresses/user-addresses.app.service';
 
 describe('UserAddressesAppController', () => {
   let userAddressesAppController: UserAddressesAppController;
