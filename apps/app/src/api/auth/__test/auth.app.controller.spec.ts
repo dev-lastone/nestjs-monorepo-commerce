@@ -4,7 +4,7 @@ import { AuthAppService } from '../auth.app.service';
 import {
   createUserDtoStub,
   postAuthAppRequestDtoStub,
-} from '../../../../../admin/src/api/auth/__test/auth.admin.dto.stub';
+} from '../../../../../admin/test/unit/auth/auth.admin.dto.stub';
 
 describe('AuthAppController', () => {
   let authAppController: AuthAppController;
