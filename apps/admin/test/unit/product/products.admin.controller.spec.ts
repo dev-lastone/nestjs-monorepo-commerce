@@ -3,9 +3,9 @@ import {
   CreateProductDto,
   UpdateProductDto,
 } from '@domain/product/dto/product.dto';
-import { productsStub } from '@domain/product/__stub/product.stub';
 import { ProductApplicationService } from '@application/product/product.application.service';
 import { ProductsAdminController } from '../../../src/api/product/products.admin.controller';
+import { productsStub } from '../../../../../libs/domain/test/product/_stub/product.stub';
 
 describe('ProductsAdminController', () => {
   let productsAdminController: ProductsAdminController;

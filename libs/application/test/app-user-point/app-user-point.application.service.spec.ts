@@ -5,8 +5,8 @@ import {
 } from '@domain/app-user/point/app-user-point.entity';
 import { Test } from '@nestjs/testing';
 import { AppUserPointApplicationRepo } from '@application/app-user-point/app-user-point.application.repo';
-import { appUserStub } from '@domain/app-user/__stub/app-user.stub';
 import { NotFoundException } from '@nestjs/common';
+import { appUserStub } from '../../../domain/test/app-user/_stub/app-user.stub';
 
 describe('UserPointApplicationService', () => {
   let appUserPointApplicationService: AppUserPointApplicationService;

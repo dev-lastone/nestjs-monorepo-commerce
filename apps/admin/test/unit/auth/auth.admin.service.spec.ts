@@ -1,5 +1,4 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { adminUserStub } from '@domain/admin-user/__stub/admin-user.stub';
 import { AuthApplicationService } from '@application/auth/auth.application.service';
 import { AdminUserRepo } from '@application/admin-user/admin-user.repo';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
@@ -9,6 +8,7 @@ import {
   postAuthAppRequestDtoStub,
 } from './auth.admin.dto.stub';
 import { AuthAdminService } from '../../../src/api/auth/auth.admin.service';
+import { adminUserStub } from '../../../../../libs/domain/test/admin-user/_stub/admin-user.stub';
 
 describe('AuthAdminService', () => {
   let authAdminService: AuthAdminService;

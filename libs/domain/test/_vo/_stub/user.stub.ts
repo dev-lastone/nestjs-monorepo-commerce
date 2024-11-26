@@ -1,4 +1,4 @@
-import { userPasswordStub } from '@domain/_vo/__stub/user-password.stub';
+import { userPasswordStub } from './user-password.stub';
 import { User } from '@domain/_vo/user';
 
 export const userStub = {

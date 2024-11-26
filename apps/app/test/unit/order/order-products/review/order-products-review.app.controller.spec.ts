@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
-import { appUserStub } from '@domain/app-user/__stub/app-user.stub';
 import { OrderApplicationService } from '@application/order/order.application.service';
 import { OrderProductsReviewAppController } from '../../../../../src/api/order/order-products/review/order-products-review.app.controller';
+import { appUserStub } from '../../../../../../../libs/domain/test/app-user/_stub/app-user.stub';
 
 describe('OrderProductsReviewAppController', () => {
   let orderProductsReviewAppController: OrderProductsReviewAppController;

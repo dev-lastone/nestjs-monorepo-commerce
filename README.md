@@ -59,4 +59,6 @@ $ pnpm run test:cov
 - [ ] e2e scenario test
 
 refactor
-- [ ] test 별도 구성
+- [x] test 별도 구성
+- [ ] test path alias 설정
+- [ ] test path 설정

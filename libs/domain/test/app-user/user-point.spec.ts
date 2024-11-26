@@ -1,9 +1,9 @@
+import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import {
   AppUserPoint,
   AppUserPointHistoryAction,
-} from '../point/app-user-point.entity';
-import { ERROR_MESSAGES } from '@common/constant/error-messages';
-import { appUserStub } from '@domain/app-user/__stub/app-user.stub';
+} from '@domain/app-user/point/app-user-point.entity';
+import { appUserStub } from './_stub/app-user.stub';
 
 describe('UserPoint', () => {
   it('save', () => {

@@ -1,6 +1,6 @@
 import { AppUser } from '@domain/app-user/app-user.entity';
-import { invalidUserPasswordStub } from '@domain/_vo/__stub/user-password.stub';
-import { userStub } from '@domain/_vo/__stub/user.stub';
+import { userStub } from '../../../test/_vo/_stub/user.stub';
+import { invalidUserPasswordStub } from '../../../test/_vo/_stub/user-password.stub';
 
 const appUser = {
   id: 1,
