@@ -1,6 +1,6 @@
-import { productStub1 } from '@domain/product/__stub/product.stub';
 import { OrderProduct } from '@domain/order/order-product.entity';
-import { orderStub } from '@domain/order/__stub/order.stub';
+import { productStub1 } from '../../product/_stub/product.stub';
+import { orderStub } from './order.stub';
 
 const orderProduct = OrderProduct.create(productStub1);
 orderProduct.id = 1;

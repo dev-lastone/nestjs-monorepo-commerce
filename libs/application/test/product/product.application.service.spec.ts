@@ -3,14 +3,14 @@ import { NON_EXISTENT_ID } from '@common/constant/constants';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { ProductRepo } from '@application/product/product.repo';
 import {
-  productsStub,
-  productStub1,
-} from '@domain/product/__stub/product.stub';
-import {
   CreateProductDto,
   UpdateProductDto,
 } from '@domain/product/dto/product.dto';
 import { ProductApplicationService } from '@application/product/product.application.service';
+import {
+  productsStub,
+  productStub1,
+} from '../../../domain/test/product/_stub/product.stub';
 
 describe('ProductApplicationService', () => {
   let productApplicationService: ProductApplicationService;

@@ -1,15 +1,15 @@
 import { Test } from '@nestjs/testing';
 import { OrderProductStatus } from '@domain/order/order-product.entity';
 import { OrderRepo } from '@application/order/order.repo';
-import {
-  orderProductStub,
-  orderProductWithOrderAndProductStub,
-} from '@domain/order/__stub/order-product.stub';
-import { appUserStub } from '@domain/app-user/__stub/app-user.stub';
 import { NON_EXISTENT_ID } from '@common/constant/constants';
 import { ForbiddenException, NotFoundException } from '@nestjs/common';
 import { OrderApplicationService } from '@application/order/order.application.service';
 import { AppUserPointApplicationService } from '@application/app-user-point/app-user-point.application.service';
+import {
+  orderProductStub,
+  orderProductWithOrderAndProductStub,
+} from '../../../domain/test/order/_stub/order-product.stub';
+import { appUserStub } from '../../../domain/test/app-user/_stub/app-user.stub';
 
 describe('OrderApplicationService', () => {
   let orderApplicationService: OrderApplicationService;

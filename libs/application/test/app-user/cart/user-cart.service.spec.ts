@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
-import { productStub1 } from '@domain/product/__stub/product.stub';
-import { appUserStub } from '@domain/app-user/__stub/app-user.stub';
 import { UserCartService } from '@application/app-user/cart/user-cart.service';
-import { userCartStub } from '@domain/app-user/__stub/user-cart.stub';
 import { UserCartRepo } from '@application/app-user/cart/user-cart.repo';
 import { UserCart } from '@domain/app-user/user-cart.entity';
+import { userCartStub } from '../../../../domain/test/app-user/_stub/user-cart.stub';
+import { appUserStub } from '../../../../domain/test/app-user/_stub/app-user.stub';
+import { productStub1 } from '../../../../domain/test/product/_stub/product.stub';
 
 describe('UserCartService', () => {
   let userCartService: UserCartService;

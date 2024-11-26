@@ -1,9 +1,5 @@
 import { Test } from '@nestjs/testing';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
-import {
-  appUserStub,
-  invalidAppUserStub,
-} from '@domain/app-user/__stub/app-user.stub';
 import { AuthApplicationService } from '@application/auth/auth.application.service';
 import { AppUserRepo } from '@application/app-user/app-user.repo';
 import { SUCCESS } from '@common/constant/constants';
@@ -15,6 +11,10 @@ import {
   postAuthAppRequestDtoStub,
 } from '../../../../admin/test/unit/auth/auth.admin.dto.stub';
 import { PostAuthAppRequestDto } from '../../../src/api/auth/auth.app.dto';
+import {
+  appUserStub,
+  invalidAppUserStub,
+} from '../../../../../libs/domain/test/app-user/_stub/app-user.stub';
 
 describe('AuthAppService', () => {
   let authAppService: AuthAppService;

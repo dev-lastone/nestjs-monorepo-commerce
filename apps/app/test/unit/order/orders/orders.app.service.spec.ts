@@ -1,15 +1,15 @@
 import { Test } from '@nestjs/testing';
-import {
-  productStub1,
-  productStub2,
-} from '@domain/product/__stub/product.stub';
 import { OrderProductStatus } from '@domain/order/order-product.entity';
-import { orderStub } from '@domain/order/__stub/order.stub';
 import { ForbiddenException } from '@nestjs/common';
 import { ProductApplicationService } from '@application/product/product.application.service';
 import { OrderRepo } from '@application/order/order.repo';
 import { UserAddressRepo } from '@application/app-user/address/user-address.repo';
 import { OrdersAppService } from '../../../../src/api/order/orders/orders.app.service';
+import {
+  productStub1,
+  productStub2,
+} from '../../../../../../libs/domain/test/product/_stub/product.stub';
+import { orderStub } from '../../../../../../libs/domain/test/order/_stub/order.stub';
 
 describe('OrdersAppService', () => {
   let ordersAppService: OrdersAppService;
