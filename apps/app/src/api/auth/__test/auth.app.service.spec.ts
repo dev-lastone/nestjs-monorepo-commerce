@@ -14,7 +14,7 @@ import {
   createUserDtoStub,
   invalidUserSignInDto,
   postAuthAppRequestDtoStub,
-} from '../../../../../admin/src/api/auth/__test/auth.admin.dto.stub';
+} from '../../../../../admin/test/unit/auth/auth.admin.dto.stub';
 
 describe('AuthAppService', () => {
   let authAppService: AuthAppService;
