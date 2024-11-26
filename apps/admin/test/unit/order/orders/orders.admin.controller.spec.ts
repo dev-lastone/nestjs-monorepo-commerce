@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
 import { orderStub } from '@domain/order/__stub/order.stub';
-import { OrdersAdminController } from '../../orders/orders.admin.controller';
-import { OrdersAdminService } from '../../orders/orders.admin.service';
+import { OrdersAdminController } from '../../../../src/api/order/orders/orders.admin.controller';
+import { OrdersAdminService } from '../../../../src/api/order/orders/orders.admin.service';
 
 describe('OrdersAdminController', () => {
   let ordersAdminController: OrdersAdminController;
