@@ -14,6 +14,8 @@ export class UserPassword {
   })
   private value: string;
 
+  getValue = () => this.value;
+
   static async create(value: string) {
     const password = new UserPassword();
     password.value = value;
