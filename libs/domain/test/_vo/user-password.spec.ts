@@ -5,7 +5,6 @@ describe('UserPassword', () => {
 
   it('create', async () => {
     const userPassword = await UserPassword.create(value);
-
     expect(userPassword).toBeInstanceOf(UserPassword);
     expect(userPassword.getValue()).not.toBe(value);
     expect(userPassword.getValue()).toHaveLength(60);
@@ -14,7 +13,7 @@ describe('UserPassword', () => {
   it('compare', async () => {
     const userPassword = await UserPassword.create(value);
 
-    await expect(userPassword.compare('string1234')).resolves.not.toThrow();
+    await expect(userPassword.compare(value)).resolves.not.toThrow();
     await expect(userPassword.compare('invalid')).rejects.toThrow();
   });
 });
