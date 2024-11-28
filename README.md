@@ -60,5 +60,5 @@ $ pnpm run test:cov
 
 refactor
 - [x] test 별도 구성
-- [ ] test path alias 설정
-- [ ] test path 설정
+- [x] test path 설정
+- [ ] entity create 실패 테스트
