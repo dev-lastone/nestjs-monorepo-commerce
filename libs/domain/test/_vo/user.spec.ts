@@ -4,10 +4,11 @@ import { UserPassword } from '@domain/_vo/user-password';
 
 describe('User', () => {
   it('create', async () => {
-    const dto = new CreateUserDto();
-    dto.name = '홍길동';
-    dto.email = 'test@test.com';
-    dto.password = 'string1234';
+    const dto: CreateUserDto = {
+      name: '홍길동',
+      email: 'test@test.com',
+      password: 'string1234',
+    };
 
     const mockUserPasswordCreate = jest.spyOn(UserPassword, 'create');
 
