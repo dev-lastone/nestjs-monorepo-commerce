@@ -13,6 +13,7 @@ describe('User', () => {
 
     const user = await User.create(dto);
 
+    expect(user).toBeInstanceOf(User);
     expect(user.name).toBe(dto.name);
     expect(user.email).toBe(dto.email);
     expect(mockUserPasswordCreate).toHaveBeenCalledWith(dto.password);
