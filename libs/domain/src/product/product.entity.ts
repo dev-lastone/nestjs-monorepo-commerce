@@ -4,6 +4,7 @@ import { Column, Entity, OneToMany } from 'typeorm';
 import { OrderProduct } from '@domain/order/order-product.entity';
 import { ProductLike } from '@domain/product/product-like.entity';
 import { MyBaseEntity } from '@common/entity/my-base-entity';
+import { CreateProductDto } from '@domain/product/dto/product.dto';
 
 @Entity('product', { schema: 'app' })
 export class Product extends MyBaseEntity {
@@ -34,7 +35,7 @@ export class Product extends MyBaseEntity {
   @OneToMany(() => OrderProduct, (orderProduct) => orderProduct.product)
   orderProducts: OrderProduct[];
 
-  static create(dto: { name: string; price: number; stock: number }) {
+  static create(dto: CreateProductDto) {
     const product = new Product();
     product.name = dto.name;
     product.price = dto.price;
