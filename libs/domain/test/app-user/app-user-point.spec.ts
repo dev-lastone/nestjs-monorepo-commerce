@@ -5,7 +5,14 @@ import {
 } from '@domain/app-user/point/app-user-point.entity';
 import { appUserStub } from './_stub/app-user.stub';
 
-describe('UserPoint', () => {
+describe('AppUserPoint', () => {
+  it('create', () => {
+    const userPoint = AppUserPoint.create();
+    expect(userPoint).toBeInstanceOf(AppUserPoint);
+    expect(userPoint.point).toBe(0);
+    expect(userPoint.histories.length).toBe(0);
+  });
+
   it('save', () => {
     const userPoint = AppUserPoint.create();
     userPoint.userId = appUserStub.id;
