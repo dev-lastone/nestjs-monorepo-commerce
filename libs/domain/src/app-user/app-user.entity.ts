@@ -5,6 +5,7 @@ import { UserCart } from '@domain/app-user/user-cart.entity';
 import { MyBaseEntity } from '@common/entity/my-base-entity';
 import { User } from '@domain/_vo/user';
 import { CreateUserDto } from '@domain/_vo/dto/create-user.dto';
+import { ProductLike } from '@domain/product/product-like.entity';
 
 @Entity('user', { schema: 'app' })
 export class AppUser extends MyBaseEntity {
@@ -21,6 +22,9 @@ export class AppUser extends MyBaseEntity {
 
   @OneToMany(() => UserCart, (userCart) => userCart.user)
   carts: UserCart[];
+
+  @OneToMany(() => ProductLike, (productLike) => productLike.user)
+  productLikes: ProductLike[];
 
   static async create(dto: CreateUserDto) {
     const appUser = new AppUser();

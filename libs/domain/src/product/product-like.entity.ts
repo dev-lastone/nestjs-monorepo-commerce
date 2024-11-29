@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { Product } from '@domain/product/product.entity';
 import { MyBaseEntity } from '@common/entity/my-base-entity';
+import { AppUser } from '@domain/app-user/app-user.entity';
 
 @Entity('product_like', { schema: 'app' })
 export class ProductLike extends MyBaseEntity {
@@ -12,6 +13,10 @@ export class ProductLike extends MyBaseEntity {
   })
   @Column('bigint', { name: 'product_id' })
   productId: number;
+
+  @ManyToOne(() => AppUser, (appUser) => appUser.productLikes)
+  @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
+  user: AppUser;
 
   @ManyToOne(() => Product, (product) => product.likes)
   @JoinColumn({ name: 'product_id', referencedColumnName: 'id' })
