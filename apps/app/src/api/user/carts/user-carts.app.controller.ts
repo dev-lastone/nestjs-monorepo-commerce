@@ -16,7 +16,7 @@ import {
 } from './user-carts.app.dto';
 import { UserId } from '@common/decorator/user-id.decorator';
 import { UserCartService } from '@application/app-user/cart/user-cart.service';
-import { UserCart } from '@domain/app-user/user-cart.entity';
+import { AppUserCart } from '@domain/app-user/app-user-cart.entity';
 import { DeleteUserCartDto } from '@domain/app-user/dto/user-cart.dto';
 
 @ApiBearerAuth('jwt')
@@ -29,7 +29,7 @@ export class UserCartsAppController {
   @Post()
   @ApiResponse({
     status: 201,
-    type: UserCart,
+    type: AppUserCart,
   })
   postUserCart(@UserId() userId: number, @Body() dto: PostUserCartsAppReqDto) {
     return this.userCartService.createUserCart({
@@ -48,7 +48,7 @@ export class UserCartsAppController {
   @Version('1')
   @Put(':id')
   @ApiResponse({
-    type: UserCart,
+    type: AppUserCart,
   })
   putUserCart(
     @UserId() userId: number,

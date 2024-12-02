@@ -1,19 +1,19 @@
 import { PickType } from '@nestjs/swagger';
-import { UserCart } from '../user-cart.entity';
+import { AppUserCart } from '../app-user-cart.entity';
 
-export class CreateUserCartDto extends PickType(UserCart, [
+export class CreateUserCartDto extends PickType(AppUserCart, [
   'userId',
   'productId',
   'count',
 ] as const) {}
 
-export class UpdateUserCartDto extends PickType(UserCart, [
+export class UpdateUserCartDto extends PickType(AppUserCart, [
   'userId',
   'id',
   'count',
 ] as const) {}
 
-export class DeleteUserCartDto extends PickType(UserCart, [
+export class DeleteUserCartDto extends PickType(AppUserCart, [
   'userId',
   'id',
 ] as const) {}

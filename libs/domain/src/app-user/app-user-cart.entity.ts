@@ -2,9 +2,10 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { AppUser } from '@domain/app-user/app-user.entity';
 import { MyBaseEntity } from '@common/entity/my-base-entity';
+import { CreateUserCartDto } from '@domain/app-user/dto/user-cart.dto';
 
 @Entity('user_cart', { schema: 'app' })
-export class UserCart extends MyBaseEntity {
+export class AppUserCart extends MyBaseEntity {
   @Column('bigint', { name: 'user_id' })
   userId: number;
   @ApiProperty({
@@ -22,8 +23,8 @@ export class UserCart extends MyBaseEntity {
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   user: AppUser;
 
-  static create(dto: { userId: number; productId: number; count: number }) {
-    const userCart = new UserCart();
+  static create(dto: CreateUserCartDto) {
+    const userCart = new AppUserCart();
     userCart.userId = dto.userId;
     userCart.productId = dto.productId;
     userCart.count = dto.count;
