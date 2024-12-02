@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserCart } from '@domain/app-user/user-cart.entity';
+import { AppUserCart } from '@domain/app-user/app-user-cart.entity';
 
 @Injectable()
 export class UserCartRepo {
   constructor(
-    @InjectRepository(UserCart)
-    private readonly userCartRepo: Repository<UserCart>,
+    @InjectRepository(AppUserCart)
+    private readonly userCartRepo: Repository<AppUserCart>,
   ) {}
 
-  async save(userCart: UserCart) {
+  async save(userCart: AppUserCart) {
     return await this.userCartRepo.save(userCart);
   }
 
