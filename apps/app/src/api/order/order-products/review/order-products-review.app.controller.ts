@@ -3,15 +3,13 @@ import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { UserId } from '@common/decorator/user-id.decorator';
 import { OrderProductReview } from '@domain/order/order-product-review.entity';
 import { PostOrderProductsReviewReqDto } from './order-products-review.app.dto';
-import { OrderApplicationService } from '@application/order/order.application.service';
+import { OrderService } from '@application/order/order.service';
 
 @ApiBearerAuth('jwt')
 @ApiTags('order')
 @Controller('order-products/:orderProductId/review')
 export class OrderProductsReviewAppController {
-  constructor(
-    private readonly orderApplicationService: OrderApplicationService,
-  ) {}
+  constructor(private readonly orderService: OrderService) {}
 
   @Version('1')
   @Post()
@@ -23,7 +21,7 @@ export class OrderProductsReviewAppController {
     @Param('orderProductId') orderProductId: number,
     @Body() dto: PostOrderProductsReviewReqDto,
   ) {
-    return await this.orderApplicationService.createOrderProductReview({
+    return await this.orderService.createOrderProductReview({
       userId,
       orderProductId,
       ...dto,

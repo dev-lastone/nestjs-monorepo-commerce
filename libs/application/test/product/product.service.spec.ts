@@ -6,19 +6,19 @@ import {
   CreateProductDto,
   UpdateProductDto,
 } from '@domain/product/dto/product.dto';
-import { ProductApplicationService } from '@application/product/product.application.service';
+import { ProductService } from '@application/product/product.service';
 import {
   productsStub,
   productStub1,
 } from '../../../domain/test/product/_stub/product.stub';
 
-describe('ProductApplicationService', () => {
-  let productApplicationService: ProductApplicationService;
+describe('productService', () => {
+  let productService: ProductService;
 
   beforeEach(async () => {
     const testingModule = await Test.createTestingModule({
       providers: [
-        ProductApplicationService,
+        ProductService,
         {
           provide: ProductRepo,
           useValue: {
@@ -37,7 +37,7 @@ describe('ProductApplicationService', () => {
       ],
     }).compile();
 
-    productApplicationService = testingModule.get(ProductApplicationService);
+    productService = testingModule.get(ProductService);
   });
 
   it('createProduct', async () => {
@@ -46,8 +46,7 @@ describe('ProductApplicationService', () => {
     createProductDto.price = 20000;
     createProductDto.stock = 20;
 
-    const result =
-      await productApplicationService.createProduct(createProductDto);
+    const result = await productService.createProduct(createProductDto);
     expect(result).toEqual({
       id: 3,
       ...createProductDto,
@@ -55,12 +54,12 @@ describe('ProductApplicationService', () => {
   });
 
   it('findProducts', async () => {
-    const result = await productApplicationService.findProducts();
+    const result = await productService.findProducts();
     expect(result).toEqual(productsStub);
   });
 
   it('findOneProduct', async () => {
-    const result = await productApplicationService.findOneProduct(1);
+    const result = await productService.findOneProduct(1);
     expect(result).toEqual(productStub1);
   });
 
@@ -72,19 +71,13 @@ describe('ProductApplicationService', () => {
     it(ERROR_MESSAGES.ProductNotFound, () => {
       expect(
         async () =>
-          await productApplicationService.updateProduct(
-            NON_EXISTENT_ID,
-            updateProductDto,
-          ),
+          await productService.updateProduct(NON_EXISTENT_ID, updateProductDto),
       ).rejects.toThrow(ERROR_MESSAGES.ProductNotFound);
     });
 
     it('성공', async () => {
       const id = 1;
-      const result = await productApplicationService.updateProduct(
-        id,
-        updateProductDto,
-      );
+      const result = await productService.updateProduct(id, updateProductDto);
       expect(result).toEqual({
         id,
         name: updateProductDto.name,
@@ -96,14 +89,13 @@ describe('ProductApplicationService', () => {
   describe('deleteProduct', () => {
     it(ERROR_MESSAGES.ProductNotFound, () => {
       expect(
-        async () =>
-          await productApplicationService.deleteProduct(NON_EXISTENT_ID),
+        async () => await productService.deleteProduct(NON_EXISTENT_ID),
       ).rejects.toThrow(ERROR_MESSAGES.ProductNotFound);
     });
 
     it('성공', async () => {
-      await productApplicationService.deleteProduct(3);
-      const result = await productApplicationService.findProducts();
+      await productService.deleteProduct(3);
+      const result = await productService.findProducts();
 
       expect(result).toEqual(productsStub);
     });
@@ -112,14 +104,12 @@ describe('ProductApplicationService', () => {
   describe('checkExistentProduct', () => {
     it('실패', () => {
       expect(async () =>
-        productApplicationService.checkExistentProduct(NON_EXISTENT_ID),
+        productService.checkExistentProduct(NON_EXISTENT_ID),
       ).rejects.toThrow(ERROR_MESSAGES.ProductNotFound);
     });
 
     it('성공', async () => {
-      const result = await productApplicationService.checkExistentProduct(
-        productStub1.id,
-      );
+      const result = await productService.checkExistentProduct(productStub1.id);
       expect(result).toBe(productStub1);
     });
   });

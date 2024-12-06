@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AuthApplicationService } from '@application/auth/auth.application.service';
+import { AuthService } from '@application/auth/auth.service';
 import { AdminUserRepo } from '@application/admin-user/admin-user.repo';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import {
@@ -12,7 +12,7 @@ import { adminUserStub } from '../../../../../libs/domain/test/admin-user/_stub/
 
 describe('AuthAdminService', () => {
   let authAdminService: AuthAdminService;
-  let authApplicationService: AuthApplicationService;
+  let authService: AuthService;
   let adminUserRepo: AdminUserRepo;
 
   beforeEach(async () => {
@@ -20,7 +20,7 @@ describe('AuthAdminService', () => {
       providers: [
         AuthAdminService,
         {
-          provide: AuthApplicationService,
+          provide: AuthService,
           useValue: {
             createToken: jest.fn(),
           },
@@ -35,7 +35,7 @@ describe('AuthAdminService', () => {
     }).compile();
 
     authAdminService = app.get(AuthAdminService);
-    authApplicationService = app.get(AuthApplicationService);
+    authService = app.get(AuthService);
     adminUserRepo = app.get(AdminUserRepo);
   });
 
@@ -63,9 +63,7 @@ describe('AuthAdminService', () => {
         .spyOn(adminUserRepo, 'findOneByEmail')
         .mockResolvedValue(adminUserStub);
 
-      jest
-        .spyOn(authApplicationService, 'createToken')
-        .mockReturnValue('mockToken');
+      jest.spyOn(authService, 'createToken').mockReturnValue('mockToken');
 
       expect(authAdminService.signIn(createUserDtoStub)).resolves.toEqual(
         'mockToken',

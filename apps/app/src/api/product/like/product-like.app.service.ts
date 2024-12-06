@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ProductLikeAppDto } from './product-like.app.dto';
-import { ProductApplicationService } from '@application/product/product.application.service';
+import { ProductService } from '@application/product/product.service';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { ProductLikeRepo } from '@application/product/like/product-like.repo';
 import { ProductLike } from '@domain/product/product-like.entity';
@@ -9,11 +9,11 @@ import { ProductLike } from '@domain/product/product-like.entity';
 export class ProductLikeAppService {
   constructor(
     private readonly productLikeRepo: ProductLikeRepo,
-    private readonly productApplicationService: ProductApplicationService,
+    private readonly productService: ProductService,
   ) {}
 
   async postProductLike(dto: ProductLikeAppDto) {
-    await this.productApplicationService.checkExistentProduct(dto.productId);
+    await this.productService.checkExistentProduct(dto.productId);
 
     const productLike = await this.productLikeRepo.findOne({
       userId: dto.userId,
@@ -30,7 +30,7 @@ export class ProductLikeAppService {
   }
 
   async deleteProductLike(dto: ProductLikeAppDto) {
-    await this.productApplicationService.checkExistentProduct(dto.productId);
+    await this.productService.checkExistentProduct(dto.productId);
 
     const productLike = await this.productLikeRepo.findOne({
       userId: dto.userId,

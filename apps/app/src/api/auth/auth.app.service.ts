@@ -6,14 +6,14 @@ import {
 import { PostAuthAppRequestDto } from './auth.app.dto';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { AppUser } from '@domain/app-user/app-user.entity';
-import { AuthApplicationService } from '@application/auth/auth.application.service';
+import { AuthService } from '@application/auth/auth.service';
 import { AppUserRepo } from '@application/app-user/app-user.repo';
 import { CreateUserDto } from '@domain/_vo/dto/create-user.dto';
 
 @Injectable()
 export class AuthAppService {
   constructor(
-    private readonly authApplicationService: AuthApplicationService,
+    private readonly authService: AuthService,
     private readonly appUserRepo: AppUserRepo,
   ) {}
 
@@ -27,7 +27,7 @@ export class AuthAppService {
 
     await this.appUserRepo.save(user);
 
-    return this.authApplicationService.createToken(user);
+    return this.authService.createToken(user);
   }
 
   async signIn(dto: PostAuthAppRequestDto) {
@@ -39,6 +39,6 @@ export class AuthAppService {
 
     await appUser.user.password.compare(dto.password);
 
-    return this.authApplicationService.createToken(appUser);
+    return this.authService.createToken(appUser);
   }
 }

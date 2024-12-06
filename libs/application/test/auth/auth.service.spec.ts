@@ -2,17 +2,17 @@ import { ConfigService } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
 import * as jwt from 'jsonwebtoken';
 import { AdminUser } from '@domain/admin-user/admin-user.entity';
-import { AuthApplicationService } from '@application/auth/auth.application.service';
+import { AuthService } from '@application/auth/auth.service';
 import { createUserDtoStub } from '../../../../apps/admin/test/unit/auth/auth.admin.dto.stub';
 
 describe('AuthService', () => {
-  let authApplicationService: AuthApplicationService;
+  let authService: AuthService;
   let configService: ConfigService;
 
   beforeEach(async () => {
     const testingModule = await Test.createTestingModule({
       providers: [
-        AuthApplicationService,
+        AuthService,
         {
           provide: ConfigService,
           useValue: {
@@ -22,7 +22,7 @@ describe('AuthService', () => {
       ],
     }).compile();
 
-    authApplicationService = testingModule.get(AuthApplicationService);
+    authService = testingModule.get(AuthService);
     configService = testingModule.get(ConfigService);
   });
 
@@ -37,7 +37,7 @@ describe('AuthService', () => {
     jest.spyOn(jwt, 'sign').mockReturnValue('mockToken');
 
     const user = await AdminUser.create(createUserDtoStub);
-    const result = authApplicationService.createToken(user);
+    const result = authService.createToken(user);
 
     expect(jwt.sign).toHaveBeenCalledWith(
       { sub: user.id, email: user.user.email, name: user.user.name },

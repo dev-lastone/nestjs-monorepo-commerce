@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { PostAuthAdminRequestDto } from './auth.admin.dto';
 import { AdminUserRepo } from '@application/admin-user/admin-user.repo';
-import { AuthApplicationService } from '@application/auth/auth.application.service';
+import { AuthService } from '@application/auth/auth.service';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { AdminUser } from '@domain/admin-user/admin-user.entity';
 import { CreateUserDto } from '@domain/_vo/dto/create-user.dto';
@@ -13,7 +13,7 @@ import { CreateUserDto } from '@domain/_vo/dto/create-user.dto';
 @Injectable()
 export class AuthAdminService {
   constructor(
-    private readonly authApplicationService: AuthApplicationService,
+    private readonly authService: AuthService,
     private readonly adminUserRepo: AdminUserRepo,
   ) {}
 
@@ -27,7 +27,7 @@ export class AuthAdminService {
 
     await this.adminUserRepo.save(user);
 
-    return this.authApplicationService.createToken(user);
+    return this.authService.createToken(user);
   }
 
   async signIn(dto: PostAuthAdminRequestDto) {
@@ -39,6 +39,6 @@ export class AuthAdminService {
 
     await adminUser.user.password.compare(dto.password);
 
-    return this.authApplicationService.createToken(adminUser);
+    return this.authService.createToken(adminUser);
   }
 }

@@ -5,13 +5,13 @@ import {
 } from '@nestjs/common';
 import { OrderRepo } from '@application/order/order.repo';
 import { AppUserPointHistoryAction } from '@domain/app-user/point/app-user-point.entity';
-import { AppUserPointApplicationService } from '@application/app-user-point/app-user-point.application.service';
-import { CreateOrderProductReviewDto } from '@application/order/order.application.dto';
+import { AppUserPointService } from '@application/app-user-point/app-user-point.service';
+import { CreateOrderProductReviewDto } from '@application/order/order.dto';
 
 @Injectable()
-export class OrderApplicationService {
+export class OrderService {
   constructor(
-    private readonly appUserPointApplicationService: AppUserPointApplicationService,
+    private readonly appUserPointService: AppUserPointService,
 
     private readonly orderRepo: OrderRepo,
   ) {}
@@ -46,7 +46,7 @@ export class OrderApplicationService {
 
     orderProduct.confirm();
 
-    await this.appUserPointApplicationService.savePoint(
+    await this.appUserPointService.savePoint(
       userId,
       orderProduct.product.price * 0.01,
       AppUserPointHistoryAction.ORDER_PRODUCT,

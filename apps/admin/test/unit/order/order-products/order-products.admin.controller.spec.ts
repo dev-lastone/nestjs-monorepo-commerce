@@ -1,17 +1,17 @@
 import { Test } from '@nestjs/testing';
-import { OrderApplicationService } from '@application/order/order.application.service';
+import { OrderService } from '@application/order/order.service';
 import { OrderProductsAdminController } from '../../../../src/api/order/order-products/order-products.admin.controller';
 
 describe('OrderProductsAdminController', () => {
   let orderProductsAdminController: OrderProductsAdminController;
-  let orderApplicationService: OrderApplicationService;
+  let orderService: OrderService;
 
   beforeEach(async () => {
     const testingModule = await Test.createTestingModule({
       controllers: [OrderProductsAdminController],
       providers: [
         {
-          provide: OrderApplicationService,
+          provide: OrderService,
           useValue: {
             orderProductDeliver: jest.fn(),
           },
@@ -22,7 +22,7 @@ describe('OrderProductsAdminController', () => {
     orderProductsAdminController = testingModule.get(
       OrderProductsAdminController,
     );
-    orderApplicationService = testingModule.get(OrderApplicationService);
+    orderService = testingModule.get(OrderService);
   });
 
   it('postOrderProductDeliver', () => {
@@ -30,6 +30,6 @@ describe('OrderProductsAdminController', () => {
 
     orderProductsAdminController.postOrderProductDeliver(id);
 
-    expect(orderApplicationService.orderProductDeliver).toBeCalledWith(id);
+    expect(orderService.orderProductDeliver).toBeCalledWith(id);
   });
 });

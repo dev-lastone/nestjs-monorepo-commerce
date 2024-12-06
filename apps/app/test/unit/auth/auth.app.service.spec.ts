@@ -1,6 +1,6 @@
 import { Test } from '@nestjs/testing';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
-import { AuthApplicationService } from '@application/auth/auth.application.service';
+import { AuthService } from '@application/auth/auth.service';
 import { AppUserRepo } from '@application/app-user/app-user.repo';
 import { SUCCESS } from '@common/constant/constants';
 import { UnauthorizedException } from '@nestjs/common';
@@ -25,7 +25,7 @@ describe('AuthAppService', () => {
       providers: [
         AuthAppService,
         {
-          provide: AuthApplicationService,
+          provide: AuthService,
           useValue: {
             createToken: jest.fn().mockReturnValue('mockToken'),
           },

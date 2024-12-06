@@ -1,16 +1,12 @@
 import { Module } from '@nestjs/common';
 import { OrdersAppController } from './orders.app.controller';
 import { OrdersAppService } from './orders.app.service';
-import { ProductApplicationModule } from '@application/product/product.application.module';
+import { ProductModule } from '@application/product/product.module';
 import { UserAddressModule } from '@application/app-user/address/user-address.module';
-import { OrderApplicationModule } from '@application/order/order.application.module';
+import { OrderModule } from '@application/order/order.module';
 
 @Module({
-  imports: [
-    ProductApplicationModule,
-    OrderApplicationModule,
-    UserAddressModule,
-  ],
+  imports: [ProductModule, OrderModule, UserAddressModule],
   controllers: [OrdersAppController],
   providers: [OrdersAppService],
 })

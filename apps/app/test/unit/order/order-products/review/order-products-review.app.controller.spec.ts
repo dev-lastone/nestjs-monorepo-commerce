@@ -1,18 +1,18 @@
 import { Test } from '@nestjs/testing';
-import { OrderApplicationService } from '@application/order/order.application.service';
+import { OrderService } from '@application/order/order.service';
 import { OrderProductsReviewAppController } from '../../../../../src/api/order/order-products/review/order-products-review.app.controller';
 import { appUserStub } from '../../../../../../../libs/domain/test/app-user/_stub/app-user.stub';
 
 describe('OrderProductsReviewAppController', () => {
   let orderProductsReviewAppController: OrderProductsReviewAppController;
-  let orderApplicationService: OrderApplicationService;
+  let orderService: OrderService;
 
   beforeEach(async () => {
     const testingModule = await Test.createTestingModule({
       controllers: [OrderProductsReviewAppController],
       providers: [
         {
-          provide: OrderApplicationService,
+          provide: OrderService,
           useValue: {
             createOrderProductReview: jest.fn(),
           },
@@ -23,7 +23,7 @@ describe('OrderProductsReviewAppController', () => {
     orderProductsReviewAppController = testingModule.get(
       OrderProductsReviewAppController,
     );
-    orderApplicationService = testingModule.get(OrderApplicationService);
+    orderService = testingModule.get(OrderService);
   });
 
   it('postOrderProductConfirm', () => {
@@ -36,7 +36,7 @@ describe('OrderProductsReviewAppController', () => {
       dto,
     );
 
-    expect(orderApplicationService.createOrderProductReview).toBeCalledWith({
+    expect(orderService.createOrderProductReview).toBeCalledWith({
       orderProductId: 1,
       userId: appUserStub.id,
       ...dto,
