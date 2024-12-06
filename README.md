@@ -61,4 +61,11 @@ $ pnpm run test:cov
 refactor
 - [x] test 별도 구성
 - [x] test path 설정
-- [ ] entity create 실패 테스트
+
+## Unit Test
+### class-validator
+데코레이터 사용하는 경우 라이브러리 보장으로 테스트 생략 
+
+vo UserPassword, envValidate 시도 맛보기 
+
+- 필요시 validateOrReject 로 사용되는 decorator 들 별도 테스트
