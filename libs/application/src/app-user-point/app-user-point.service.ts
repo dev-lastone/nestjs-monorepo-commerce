@@ -1,12 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { AppUserPointHistoryAction } from '@domain/app-user/point/app-user-point.entity';
-import { AppUserPointApplicationRepo } from '@application/app-user-point/app-user-point.application.repo';
+import { AppUserPointRepo } from '@application/app-user-point/app-user-point.repo';
 
 @Injectable()
-export class AppUserPointApplicationService {
-  constructor(
-    private readonly appUserPointApplicationRepo: AppUserPointApplicationRepo,
-  ) {}
+export class AppUserPointService {
+  constructor(private readonly appUserPointRepo: AppUserPointRepo) {}
 
   async savePoint(
     userId: number,
@@ -17,7 +15,7 @@ export class AppUserPointApplicationService {
     const userPoint = await this.#getUserPoint(userId);
     const history = userPoint.save(point, action, actionId);
 
-    await this.appUserPointApplicationRepo.save(userPoint);
+    await this.appUserPointRepo.save(userPoint);
 
     return {
       point: userPoint.point,
@@ -56,8 +54,7 @@ export class AppUserPointApplicationService {
   }
 
   async #getUserPoint(userId: number) {
-    const userPoint =
-      await this.appUserPointApplicationRepo.findOneByUserId(userId);
+    const userPoint = await this.appUserPointRepo.findOneByUserId(userId);
 
     if (!userPoint) {
       throw new NotFoundException();

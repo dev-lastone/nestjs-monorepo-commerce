@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ProductLikeAppController } from './product-like.app.controller';
 import { ProductLikeAppService } from './product-like.app.service';
-import { ProductApplicationModule } from '@application/product/product.application.module';
+import { ProductModule } from '@application/product/product.module';
 import { ProductLikeModule } from '@application/product/like/product-like.module';
 
 @Module({
-  imports: [ProductApplicationModule, ProductLikeModule],
+  imports: [ProductModule, ProductLikeModule],
   controllers: [ProductLikeAppController],
   providers: [ProductLikeAppService],
 })

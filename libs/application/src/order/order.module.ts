@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { OrderApplicationService } from '@application/order/order.application.service';
-import { AppUserPointApplicationModule } from '@application/app-user-point/app-user-point.application.module';
+import { OrderService } from '@application/order/order.service';
+import { AppUserPointModule } from '@application/app-user-point/app-user-point.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Order } from '@domain/order/order.entity';
 import { OrderProduct } from '@domain/order/order-product.entity';
@@ -10,9 +10,9 @@ import { OrderRepo } from '@application/order/order.repo';
 @Module({
   imports: [
     TypeOrmModule.forFeature([Order, OrderProduct, OrderProductReview]),
-    AppUserPointApplicationModule,
+    AppUserPointModule,
   ],
-  providers: [OrderApplicationService, OrderRepo],
-  exports: [OrderApplicationService, OrderRepo],
+  providers: [OrderService, OrderRepo],
+  exports: [OrderService, OrderRepo],
 })
-export class OrderApplicationModule {}
+export class OrderModule {}

@@ -1,23 +1,23 @@
-import { AppUserPointApplicationService } from '@application/app-user-point/app-user-point.application.service';
+import { AppUserPointService } from '@application/app-user-point/app-user-point.service';
 import {
   AppUserPoint,
   AppUserPointHistoryAction,
 } from '@domain/app-user/point/app-user-point.entity';
 import { Test } from '@nestjs/testing';
-import { AppUserPointApplicationRepo } from '@application/app-user-point/app-user-point.application.repo';
+import { AppUserPointRepo } from '@application/app-user-point/app-user-point.repo';
 import { NotFoundException } from '@nestjs/common';
 import { appUserStub } from '../../../domain/test/app-user/_stub/app-user.stub';
 
-describe('UserPointApplicationService', () => {
-  let appUserPointApplicationService: AppUserPointApplicationService;
-  let appUserPointApplicationRepo: AppUserPointApplicationRepo;
+describe('UserPointService', () => {
+  let appUserPointService: AppUserPointService;
+  let appUserPointRepo: AppUserPointRepo;
 
   beforeEach(async () => {
     const testingModule = await Test.createTestingModule({
       providers: [
-        AppUserPointApplicationService,
+        AppUserPointService,
         {
-          provide: AppUserPointApplicationRepo,
+          provide: AppUserPointRepo,
           useValue: {
             save: jest.fn(),
             findOneByUserId: jest.fn(),
@@ -26,18 +26,14 @@ describe('UserPointApplicationService', () => {
       ],
     }).compile();
 
-    appUserPointApplicationService = testingModule.get(
-      AppUserPointApplicationService,
-    );
-    appUserPointApplicationRepo = testingModule.get(
-      AppUserPointApplicationRepo,
-    );
+    appUserPointService = testingModule.get(AppUserPointService);
+    appUserPointRepo = testingModule.get(AppUserPointRepo);
   });
 
   describe('savePoint', () => {
     it('404', () => {
       expect(() =>
-        appUserPointApplicationService.savePoint(
+        appUserPointService.savePoint(
           1,
           1000,
           AppUserPointHistoryAction.ORDER_PRODUCT,
@@ -51,10 +47,10 @@ describe('UserPointApplicationService', () => {
       userPointStub.userId = appUserStub.id;
 
       jest
-        .spyOn(appUserPointApplicationRepo, 'findOneByUserId')
+        .spyOn(appUserPointRepo, 'findOneByUserId')
         .mockResolvedValue(userPointStub);
 
-      const userPoint = await appUserPointApplicationService.savePoint(
+      const userPoint = await appUserPointService.savePoint(
         1,
         1000,
         AppUserPointHistoryAction.ORDER_PRODUCT,
@@ -95,10 +91,10 @@ describe('UserPointApplicationService', () => {
     ];
 
     jest
-      .spyOn(appUserPointApplicationRepo, 'findOneByUserId')
+      .spyOn(appUserPointRepo, 'findOneByUserId')
       .mockResolvedValue(userPoint);
 
-    const result = await appUserPointApplicationService.usePoint(
+    const result = await appUserPointService.usePoint(
       1,
       1000,
       AppUserPointHistoryAction.ORDER,

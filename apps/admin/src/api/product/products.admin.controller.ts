@@ -20,15 +20,13 @@ import {
   CreateProductDto,
   UpdateProductDto,
 } from '@domain/product/dto/product.dto';
-import { ProductApplicationService } from '@application/product/product.application.service';
+import { ProductService } from '@application/product/product.service';
 
 @ApiBearerAuth('jwt')
 @ApiTags('products')
 @Controller('products')
 export class ProductsAdminController {
-  constructor(
-    private readonly productApplicationService: ProductApplicationService,
-  ) {}
+  constructor(private readonly productService: ProductService) {}
 
   @Version('1')
   @Post()
@@ -37,7 +35,7 @@ export class ProductsAdminController {
     type: Product,
   })
   async postProduct(@Body() dto: CreateProductDto) {
-    return await this.productApplicationService.createProduct(dto);
+    return await this.productService.createProduct(dto);
   }
 
   @Version('1')
@@ -46,7 +44,7 @@ export class ProductsAdminController {
     type: [Product],
   })
   async getProducts() {
-    return await this.productApplicationService.findProducts();
+    return await this.productService.findProducts();
   }
 
   @Version('1')
@@ -55,7 +53,7 @@ export class ProductsAdminController {
     type: Product,
   })
   async putProduct(@Param('id') id: number, @Body() dto: UpdateProductDto) {
-    return await this.productApplicationService.updateProduct(id, {
+    return await this.productService.updateProduct(id, {
       name: dto.name,
       price: dto.price,
       stock: dto.stock,
@@ -66,6 +64,6 @@ export class ProductsAdminController {
   @Delete(':id')
   @HttpCode(204)
   async deleteProduct(@Param('id') id: number) {
-    await this.productApplicationService.deleteProduct(id);
+    await this.productService.deleteProduct(id);
   }
 }

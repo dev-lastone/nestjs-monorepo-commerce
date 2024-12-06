@@ -1,5 +1,5 @@
 import { Test } from '@nestjs/testing';
-import { ProductApplicationService } from '@application/product/product.application.service';
+import { ProductService } from '@application/product/product.service';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { SUCCESS } from '@common/constant/constants';
 import { ProductLikeRepo } from '@application/product/like/product-like.repo';
@@ -9,7 +9,7 @@ import { ProductLikeAppDto } from '../../../../src/api/product/like/product-like
 
 describe('ProductLikeAppService', () => {
   let productLikeAppService: ProductLikeAppService;
-  let productApplicationService: ProductApplicationService;
+  let productService: ProductService;
   let productLikeRepo: ProductLikeRepo;
 
   beforeEach(async () => {
@@ -17,7 +17,7 @@ describe('ProductLikeAppService', () => {
       providers: [
         ProductLikeAppService,
         {
-          provide: ProductApplicationService,
+          provide: ProductService,
           useValue: {
             checkExistentProduct: jest.fn(),
           },
@@ -34,7 +34,7 @@ describe('ProductLikeAppService', () => {
     }).compile();
 
     productLikeAppService = testingModule.get(ProductLikeAppService);
-    productApplicationService = testingModule.get(ProductApplicationService);
+    productService = testingModule.get(ProductService);
     productLikeRepo = testingModule.get(ProductLikeRepo);
   });
 
@@ -50,9 +50,9 @@ describe('ProductLikeAppService', () => {
       expect(() => productLikeAppService.postProductLike(dto)).rejects.toThrow(
         ERROR_MESSAGES.ProductAlreadyLiked,
       );
-      expect(
-        productApplicationService.checkExistentProduct,
-      ).toHaveBeenCalledWith(dto.productId);
+      expect(productService.checkExistentProduct).toHaveBeenCalledWith(
+        dto.productId,
+      );
     });
 
     it(SUCCESS, async () => {
@@ -62,9 +62,9 @@ describe('ProductLikeAppService', () => {
 
       const result = await productLikeAppService.postProductLike(dto);
 
-      expect(
-        productApplicationService.checkExistentProduct,
-      ).toHaveBeenCalledWith(dto.productId);
+      expect(productService.checkExistentProduct).toHaveBeenCalledWith(
+        dto.productId,
+      );
       expect(result).toBe(true);
     });
   });
@@ -78,9 +78,9 @@ describe('ProductLikeAppService', () => {
       expect(() =>
         productLikeAppService.deleteProductLike(dto),
       ).rejects.toThrow(ERROR_MESSAGES.ProductNotLiked);
-      expect(
-        productApplicationService.checkExistentProduct,
-      ).toHaveBeenCalledWith(dto.productId);
+      expect(productService.checkExistentProduct).toHaveBeenCalledWith(
+        dto.productId,
+      );
     });
 
     it(SUCCESS, async () => {
@@ -93,9 +93,9 @@ describe('ProductLikeAppService', () => {
 
       const result = await productLikeAppService.deleteProductLike(dto);
 
-      expect(
-        productApplicationService.checkExistentProduct,
-      ).toHaveBeenCalledWith(dto.productId);
+      expect(productService.checkExistentProduct).toHaveBeenCalledWith(
+        dto.productId,
+      );
       expect(result).toBe(false);
     });
   });

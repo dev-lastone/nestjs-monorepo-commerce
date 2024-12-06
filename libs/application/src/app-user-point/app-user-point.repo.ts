@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { AppUserPoint } from '@domain/app-user/point/app-user-point.entity';
 
 @Injectable()
-export class AppUserPointApplicationRepo {
+export class AppUserPointRepo {
   constructor(
     @InjectRepository(AppUserPoint)
     private readonly appUserPointRepo: Repository<AppUserPoint>,

@@ -3,22 +3,22 @@ import { OrderProductStatus } from '@domain/order/order-product.entity';
 import { OrderRepo } from '@application/order/order.repo';
 import { NON_EXISTENT_ID } from '@common/constant/constants';
 import { ForbiddenException, NotFoundException } from '@nestjs/common';
-import { OrderApplicationService } from '@application/order/order.application.service';
-import { AppUserPointApplicationService } from '@application/app-user-point/app-user-point.application.service';
+import { OrderService } from '@application/order/order.service';
+import { AppUserPointService } from '@application/app-user-point/app-user-point.service';
 import {
   orderProductStub,
   orderProductWithOrderAndProductStub,
 } from '../../../domain/test/order/_stub/order-product.stub';
 import { appUserStub } from '../../../domain/test/app-user/_stub/app-user.stub';
 
-describe('OrderApplicationService', () => {
-  let orderApplicationService: OrderApplicationService;
+describe('OrderService', () => {
+  let orderService: OrderService;
   let orderRepo: OrderRepo;
 
   beforeEach(async () => {
     const testingModule = await Test.createTestingModule({
       providers: [
-        OrderApplicationService,
+        OrderService,
         {
           provide: OrderRepo,
           useValue: {
@@ -34,7 +34,7 @@ describe('OrderApplicationService', () => {
           },
         },
         {
-          provide: AppUserPointApplicationService,
+          provide: AppUserPointService,
           useValue: {
             savePoint: jest.fn(),
           },
@@ -42,7 +42,7 @@ describe('OrderApplicationService', () => {
       ],
     }).compile();
 
-    orderApplicationService = testingModule.get(OrderApplicationService);
+    orderService = testingModule.get(OrderService);
     orderRepo = testingModule.get(OrderRepo);
   });
 
@@ -51,15 +51,14 @@ describe('OrderApplicationService', () => {
       jest.spyOn(orderRepo, 'findOneProductById').mockReturnValue(undefined);
 
       expect(
-        async () =>
-          await orderApplicationService.orderProductDeliver(NON_EXISTENT_ID),
+        async () => await orderService.orderProductDeliver(NON_EXISTENT_ID),
       ).rejects.toThrowError(new NotFoundException());
     });
 
     it('성공', async () => {
       orderProductStub.status = OrderProductStatus.ORDERED;
 
-      const result = await orderApplicationService.orderProductDeliver(
+      const result = await orderService.orderProductDeliver(
         orderProductStub.id,
       );
 
@@ -80,7 +79,7 @@ describe('OrderApplicationService', () => {
 
       expect(
         async () =>
-          await orderApplicationService.orderProductConfirm({
+          await orderService.orderProductConfirm({
             id: NON_EXISTENT_ID,
             userId: appUserStub.id,
           }),
@@ -90,7 +89,7 @@ describe('OrderApplicationService', () => {
     it('403', () => {
       expect(
         async () =>
-          await orderApplicationService.orderProductConfirm({
+          await orderService.orderProductConfirm({
             id: orderProductStub.id,
             userId: NON_EXISTENT_ID,
           }),
@@ -100,7 +99,7 @@ describe('OrderApplicationService', () => {
     it('성공', async () => {
       orderProductStub.status = OrderProductStatus.DELIVERED;
 
-      const result = await orderApplicationService.orderProductConfirm({
+      const result = await orderService.orderProductConfirm({
         id: orderProductStub.id,
         userId: appUserStub.id,
       });
@@ -124,7 +123,7 @@ describe('OrderApplicationService', () => {
 
       expect(
         async () =>
-          await orderApplicationService.createOrderProductReview({
+          await orderService.createOrderProductReview({
             orderProductId: NON_EXISTENT_ID,
             userId: appUserStub.id,
             score: 5,
@@ -136,7 +135,7 @@ describe('OrderApplicationService', () => {
     it('403', () => {
       expect(
         async () =>
-          await orderApplicationService.createOrderProductReview({
+          await orderService.createOrderProductReview({
             orderProductId: orderProductStub.id,
             userId: NON_EXISTENT_ID,
             score: 5,
@@ -153,8 +152,7 @@ describe('OrderApplicationService', () => {
         score: 5,
         description: '내용',
       };
-      const result =
-        await orderApplicationService.createOrderProductReview(dto);
+      const result = await orderService.createOrderProductReview(dto);
 
       expect(orderRepo.findOneWishOrderProductReview).toBeCalledWith(1);
       expect(orderRepo.saveProductReview).toBeCalled();
