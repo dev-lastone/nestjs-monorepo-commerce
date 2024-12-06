@@ -58,10 +58,6 @@ $ pnpm run test:cov
 - [ ] integration test
 - [ ] e2e scenario test
 
-refactor
-- [x] test 별도 구성
-- [x] test path 설정
-
 ## Unit Test
 ### class-validator
 데코레이터 사용하는 경우 라이브러리 보장으로 테스트 생략 
