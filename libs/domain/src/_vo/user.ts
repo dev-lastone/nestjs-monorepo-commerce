@@ -9,10 +9,11 @@ import {
 import { Column } from 'typeorm';
 import { UserPassword } from '@domain/_vo/user-password';
 import { CreateUserDto } from '@domain/_vo/dto/create-user.dto';
+import { userEmail, userName } from '@common/constant/example';
 
 export class User {
   @ApiProperty({
-    example: '홍길동',
+    example: userName,
     description: '유저 이름',
     type: String,
     minLength: 2,
@@ -25,7 +26,7 @@ export class User {
   name: string;
 
   @ApiProperty({
-    example: 'test@test.com',
+    example: userEmail,
     description: '유저 이메일',
     type: String,
     format: 'email',
