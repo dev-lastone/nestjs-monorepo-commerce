@@ -3,7 +3,7 @@ import { Test } from '@nestjs/testing';
 import * as jwt from 'jsonwebtoken';
 import { AdminUser } from '@domain/admin-user/admin-user.entity';
 import { AuthService } from '@application/auth/auth.service';
-import { createUserDtoStub } from '../../../../apps/admin/test/unit/auth/auth.admin.dto.stub';
+import { createUserDtoStub } from '../../../domain/test/_vo/_stub/create-user.dto.stub';
 
 describe('AuthService', () => {
   let authService: AuthService;

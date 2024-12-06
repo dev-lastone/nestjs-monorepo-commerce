@@ -3,12 +3,12 @@ import { AuthService } from '@application/auth/auth.service';
 import { AdminUserRepo } from '@application/admin-user/admin-user.repo';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import {
-  createUserDtoStub,
   invalidUserSignInDto,
   postAuthAppRequestDtoStub,
 } from './auth.admin.dto.stub';
 import { AuthAdminService } from '../../../src/api/auth/auth.admin.service';
 import { adminUserStub } from '../../../../../libs/domain/test/admin-user/_stub/admin-user.stub';
+import { createUserDtoStub } from '../../../../../libs/domain/test/_vo/_stub/create-user.dto.stub';
 
 describe('AuthAdminService', () => {
   let authAdminService: AuthAdminService;

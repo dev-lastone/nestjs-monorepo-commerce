@@ -1,10 +1,8 @@
 import { Test } from '@nestjs/testing';
-import {
-  createUserDtoStub,
-  postAuthAppRequestDtoStub,
-} from './auth.admin.dto.stub';
+import { postAuthAppRequestDtoStub } from './auth.admin.dto.stub';
 import { AuthAdminController } from '../../../src/api/auth/auth.admin.controller';
 import { AuthAdminService } from '../../../src/api/auth/auth.admin.service';
+import { createUserDtoStub } from '../../../../../libs/domain/test/_vo/_stub/create-user.dto.stub';
 
 describe('AuthAdminController', () => {
   let authAdminController: AuthAdminController;
