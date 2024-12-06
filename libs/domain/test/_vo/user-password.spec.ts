@@ -1,7 +1,8 @@
 import { UserPassword } from '@domain/_vo/user-password';
+import { userPassword } from '@common/constant/example';
 
 describe('UserPassword', () => {
-  const validValue = 'string1234';
+  const validValue = userPassword;
 
   describe('create', () => {
     const shortValue = '1234567';
