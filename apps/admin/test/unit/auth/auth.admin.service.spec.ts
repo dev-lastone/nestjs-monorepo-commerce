@@ -4,7 +4,7 @@ import { AuthAdminService } from '../../../src/api/auth/auth.admin.service';
 import { adminUserStub } from '../../../../../libs/domain/test/admin-user/_stub/admin-user.stub';
 import { createUserDtoStub } from '../../../../../libs/domain/test/_vo/_stub/create-user.dto.stub';
 import { AdminUserService } from '@application/admin-user/admin-user.service';
-import { PostAuthAdminRequestDto } from '../../../src/api/auth/auth.admin.dto';
+import { signInUserDtoStub } from '../../../../../libs/domain/test/_vo/_stub/sign-in-user.dto.stub';
 
 describe('AuthAdminService', () => {
   let authAdminService: AuthAdminService;
@@ -48,14 +48,9 @@ describe('AuthAdminService', () => {
   it('signIn', async () => {
     jest.spyOn(adminUserService, 'signIn').mockResolvedValue(adminUserStub);
 
-    const dto: PostAuthAdminRequestDto = {
-      email: createUserDtoStub.email,
-      password: createUserDtoStub.password,
-    };
+    await authAdminService.signIn(signInUserDtoStub);
 
-    await authAdminService.signIn(dto);
-
-    expect(adminUserService.signIn).toBeCalledWith(dto);
+    expect(adminUserService.signIn).toBeCalledWith(signInUserDtoStub);
     expect(authService.createToken).toBeCalledWith(adminUserStub);
   });
 });

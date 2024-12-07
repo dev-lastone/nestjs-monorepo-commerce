@@ -3,8 +3,8 @@ import { AuthService } from '@application/auth/auth.service';
 import { AuthAppService } from '../../../src/api/auth/auth.app.service';
 import { createUserDtoStub } from '../../../../../libs/domain/test/_vo/_stub/create-user.dto.stub';
 import { AppUserService } from '@application/app-user/app-user.service';
-import { PostAuthAdminRequestDto } from '../../../../admin/src/api/auth/auth.admin.dto';
 import { appUserStub } from '../../../../../libs/domain/test/app-user/_stub/app-user.stub';
+import { signInUserDtoStub } from '../../../../../libs/domain/test/_vo/_stub/sign-in-user.dto.stub';
 
 describe('AuthAppService', () => {
   let authAppService: AuthAppService;
@@ -48,14 +48,9 @@ describe('AuthAppService', () => {
   it('signIn', async () => {
     jest.spyOn(appUserService, 'signIn').mockResolvedValue(appUserStub);
 
-    const dto: PostAuthAdminRequestDto = {
-      email: createUserDtoStub.email,
-      password: createUserDtoStub.password,
-    };
+    await authAppService.signIn(signInUserDtoStub);
 
-    await authAppService.signIn(dto);
-
-    expect(appUserService.signIn).toBeCalledWith(dto);
+    expect(appUserService.signIn).toBeCalledWith(signInUserDtoStub);
     expect(authService.createToken).toBeCalledWith(appUserStub);
   });
 });

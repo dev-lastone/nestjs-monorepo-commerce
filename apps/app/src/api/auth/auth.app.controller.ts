@@ -1,9 +1,9 @@
 import { Body, Controller, Post, Version } from '@nestjs/common';
 import { AuthAppService } from './auth.app.service';
-import { PostAuthAppRequestDto } from './auth.app.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Public } from '@common/decorator/public.decorator';
 import { CreateUserDto } from '@domain/_vo/dto/create-user.dto';
+import { SignInUserDto } from '@domain/_vo/dto/sign-in-user.dto';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -28,7 +28,7 @@ export class AuthAppController {
     status: 201,
     type: String,
   })
-  async signIn(@Body() dto: PostAuthAppRequestDto) {
+  async signIn(@Body() dto: SignInUserDto) {
     return await this.authAppService.signIn(dto);
   }
 }
