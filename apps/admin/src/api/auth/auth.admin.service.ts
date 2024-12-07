@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { PostAuthAdminRequestDto } from './auth.admin.dto';
 import { AuthService } from '@application/auth/auth.service';
 import { CreateUserDto } from '@domain/_vo/dto/create-user.dto';
 import { AdminUserService } from '@application/admin-user/admin-user.service';
+import { SignInUserDto } from '@domain/_vo/dto/sign-in-user.dto';
 
 @Injectable()
 export class AuthAdminService {
@@ -16,7 +16,7 @@ export class AuthAdminService {
     return this.authService.createToken(user);
   }
 
-  async signIn(dto: PostAuthAdminRequestDto) {
+  async signIn(dto: SignInUserDto) {
     const adminUser = await this.adminUserService.signIn(dto);
     return this.authService.createToken(adminUser);
   }

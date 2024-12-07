@@ -5,9 +5,9 @@ import {
 } from '@nestjs/common';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { CreateUserDto } from '@domain/_vo/dto/create-user.dto';
-import { PostAuthAdminRequestDto } from '../../../../apps/admin/src/api/auth/auth.admin.dto';
 import { AppUserRepo } from '@application/app-user/app-user.repo';
 import { AppUser } from '@domain/app-user/app-user.entity';
+import { SignInUserDto } from '@domain/_vo/dto/sign-in-user.dto';
 
 @Injectable()
 export class AppUserService {
@@ -24,7 +24,7 @@ export class AppUserService {
     return await this.appUserRepo.save(user);
   }
 
-  async signIn(dto: PostAuthAdminRequestDto) {
+  async signIn(dto: SignInUserDto) {
     const appUser = await this.appUserRepo.findOneByEmail(dto.email);
 
     if (!appUser) {

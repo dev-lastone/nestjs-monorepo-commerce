@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { PostAuthAppRequestDto } from './auth.app.dto';
 import { AuthService } from '@application/auth/auth.service';
 import { CreateUserDto } from '@domain/_vo/dto/create-user.dto';
 import { AppUserService } from '@application/app-user/app-user.service';
+import { SignInUserDto } from '@domain/_vo/dto/sign-in-user.dto';
 
 @Injectable()
 export class AuthAppService {
@@ -17,7 +17,7 @@ export class AuthAppService {
     return this.authService.createToken(user);
   }
 
-  async signIn(dto: PostAuthAppRequestDto) {
+  async signIn(dto: SignInUserDto) {
     const appUser = await this.appUserService.signIn(dto);
 
     return this.authService.createToken(appUser);

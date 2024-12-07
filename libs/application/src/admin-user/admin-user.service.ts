@@ -7,7 +7,7 @@ import { AdminUserRepo } from '@application/admin-user/admin-user.repo';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { AdminUser } from '@domain/admin-user/admin-user.entity';
 import { CreateUserDto } from '@domain/_vo/dto/create-user.dto';
-import { PostAuthAdminRequestDto } from '../../../../apps/admin/src/api/auth/auth.admin.dto';
+import { SignInUserDto } from '@domain/_vo/dto/sign-in-user.dto';
 
 @Injectable()
 export class AdminUserService {
@@ -24,7 +24,7 @@ export class AdminUserService {
     return await this.adminUserRepo.save(user);
   }
 
-  async signIn(dto: PostAuthAdminRequestDto) {
+  async signIn(dto: SignInUserDto) {
     const adminUser = await this.adminUserRepo.findOneByEmail(dto.email);
 
     if (!adminUser) {

@@ -1,8 +1,8 @@
 import { Test } from '@nestjs/testing';
-import { postAuthAppRequestDtoStub } from './auth.admin.dto.stub';
 import { AuthAdminController } from '../../../src/api/auth/auth.admin.controller';
 import { AuthAdminService } from '../../../src/api/auth/auth.admin.service';
 import { createUserDtoStub } from '../../../../../libs/domain/test/_vo/_stub/create-user.dto.stub';
+import { signInUserDtoStub } from '../../../../../libs/domain/test/_vo/_stub/sign-in-user.dto.stub';
 
 describe('AuthAdminController', () => {
   let authAdminController: AuthAdminController;
@@ -33,8 +33,8 @@ describe('AuthAdminController', () => {
   });
 
   it('signIn', () => {
-    authAdminController.signIn(postAuthAppRequestDtoStub);
+    authAdminController.signIn(signInUserDtoStub);
 
-    expect(authAdminService.signIn).toBeCalledWith(postAuthAppRequestDtoStub);
+    expect(authAdminService.signIn).toBeCalledWith(signInUserDtoStub);
   });
 });

@@ -4,8 +4,8 @@ import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { AdminUserService } from '@application/admin-user/admin-user.service';
 import { adminUserStub } from '../../../domain/test/admin-user/_stub/admin-user.stub';
 import { createUserDtoStub } from '../../../domain/test/_vo/_stub/create-user.dto.stub';
-import { postAuthAppRequestDtoStub } from '../../../../apps/admin/test/unit/auth/auth.admin.dto.stub';
 import { SUCCESS } from '@common/constant/constants';
+import { signInUserDtoStub } from '../../../domain/test/_vo/_stub/sign-in-user.dto.stub';
 
 describe('AdminUserService', () => {
   let adminUserService: AdminUserService;
@@ -41,7 +41,7 @@ describe('AdminUserService', () => {
       expect(() =>
         adminUserService.signIn({
           email: 'invalid@email.com',
-          password: postAuthAppRequestDtoStub.password,
+          password: signInUserDtoStub.password,
         }),
       ).rejects.toThrow(ERROR_MESSAGES.InvalidSignIn);
     });
@@ -61,13 +61,13 @@ describe('AdminUserService', () => {
         .mockResolvedValue(adminUserStub);
       jest.spyOn(adminUserStub.user.password, 'compare').mockResolvedValue();
 
-      await adminUserService.signIn(postAuthAppRequestDtoStub);
+      await adminUserService.signIn(signInUserDtoStub);
 
       expect(adminUserRepo.findOneByEmail).toBeCalledWith(
-        postAuthAppRequestDtoStub.email,
+        signInUserDtoStub.email,
       );
       expect(adminUserStub.user.password.compare).toBeCalledWith(
-        postAuthAppRequestDtoStub.password,
+        signInUserDtoStub.password,
       );
     });
   });
