@@ -9,11 +9,13 @@ import {
 import { AuthAdminService } from '../../../src/api/auth/auth.admin.service';
 import { adminUserStub } from '../../../../../libs/domain/test/admin-user/_stub/admin-user.stub';
 import { createUserDtoStub } from '../../../../../libs/domain/test/_vo/_stub/create-user.dto.stub';
+import { AdminUserService } from '@application/admin-user/admin-user.service';
 
 describe('AuthAdminService', () => {
   let authAdminService: AuthAdminService;
   let authService: AuthService;
   let adminUserRepo: AdminUserRepo;
+  let adminUserService: AdminUserService;
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
@@ -31,12 +33,28 @@ describe('AuthAdminService', () => {
             findOneByEmail: jest.fn(),
           },
         },
+        {
+          provide: AdminUserService,
+          useValue: {
+            signUp: jest.fn(),
+          },
+        },
       ],
     }).compile();
 
     authAdminService = app.get(AuthAdminService);
     authService = app.get(AuthService);
     adminUserRepo = app.get(AdminUserRepo);
+    adminUserService = app.get(AdminUserService);
+  });
+
+  it('signUp', async () => {
+    jest.spyOn(adminUserService, 'signUp').mockResolvedValue(adminUserStub);
+
+    await authAdminService.signUp(createUserDtoStub);
+
+    expect(adminUserService.signUp).toBeCalledWith(createUserDtoStub);
+    expect(authService.createToken).toBeCalledWith(adminUserStub);
   });
 
   describe('signIn', () => {
