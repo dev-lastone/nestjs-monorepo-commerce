@@ -1,4 +1,4 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
 import { AdminUserRepo } from '@application/admin-user/admin-user.repo';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { AdminUserService } from '@application/admin-user/admin-user.service';
@@ -12,7 +12,7 @@ describe('AdminUserService', () => {
   let adminUserRepo: AdminUserRepo;
 
   beforeEach(async () => {
-    const app: TestingModule = await Test.createTestingModule({
+    const testingModule = await Test.createTestingModule({
       providers: [
         AdminUserService,
         {
@@ -24,8 +24,8 @@ describe('AdminUserService', () => {
       ],
     }).compile();
 
-    adminUserService = app.get(AdminUserService);
-    adminUserRepo = app.get(AdminUserRepo);
+    adminUserService = testingModule.get(AdminUserService);
+    adminUserRepo = testingModule.get(AdminUserRepo);
   });
 
   it('signUp', async () => {
