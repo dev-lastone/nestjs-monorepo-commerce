@@ -1,20 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from '@application/auth/auth.service';
-import { AdminUserRepo } from '@application/admin-user/admin-user.repo';
-import { ERROR_MESSAGES } from '@common/constant/error-messages';
-import {
-  invalidUserSignInDto,
-  postAuthAppRequestDtoStub,
-} from './auth.admin.dto.stub';
 import { AuthAdminService } from '../../../src/api/auth/auth.admin.service';
 import { adminUserStub } from '../../../../../libs/domain/test/admin-user/_stub/admin-user.stub';
 import { createUserDtoStub } from '../../../../../libs/domain/test/_vo/_stub/create-user.dto.stub';
 import { AdminUserService } from '@application/admin-user/admin-user.service';
+import { PostAuthAdminRequestDto } from '../../../src/api/auth/auth.admin.dto';
 
 describe('AuthAdminService', () => {
   let authAdminService: AuthAdminService;
   let authService: AuthService;
-  let adminUserRepo: AdminUserRepo;
   let adminUserService: AdminUserService;
 
   beforeEach(async () => {
@@ -28,15 +22,10 @@ describe('AuthAdminService', () => {
           },
         },
         {
-          provide: AdminUserRepo,
-          useValue: {
-            findOneByEmail: jest.fn(),
-          },
-        },
-        {
           provide: AdminUserService,
           useValue: {
             signUp: jest.fn(),
+            signIn: jest.fn(),
           },
         },
       ],
@@ -44,7 +33,6 @@ describe('AuthAdminService', () => {
 
     authAdminService = app.get(AuthAdminService);
     authService = app.get(AuthService);
-    adminUserRepo = app.get(AdminUserRepo);
     adminUserService = app.get(AdminUserService);
   });
 
@@ -57,35 +45,17 @@ describe('AuthAdminService', () => {
     expect(authService.createToken).toBeCalledWith(adminUserStub);
   });
 
-  describe('signIn', () => {
-    it(ERROR_MESSAGES.InvalidSignIn + ' - email', () => {
-      expect(() =>
-        authAdminService.signIn({
-          email: invalidUserSignInDto.email,
-          password: postAuthAppRequestDtoStub.password,
-        }),
-      ).rejects.toThrow(ERROR_MESSAGES.InvalidSignIn);
-    });
+  it('signIn', async () => {
+    jest.spyOn(adminUserService, 'signIn').mockResolvedValue(adminUserStub);
 
-    it(ERROR_MESSAGES.InvalidSignIn + ' - password', () => {
-      expect(() =>
-        authAdminService.signIn({
-          email: adminUserStub.user.email,
-          password: invalidUserSignInDto.password,
-        }),
-      ).rejects.toThrow(ERROR_MESSAGES.InvalidSignIn);
-    });
+    const dto: PostAuthAdminRequestDto = {
+      email: createUserDtoStub.email,
+      password: createUserDtoStub.password,
+    };
 
-    it('201', () => {
-      jest
-        .spyOn(adminUserRepo, 'findOneByEmail')
-        .mockResolvedValue(adminUserStub);
+    await authAdminService.signIn(dto);
 
-      jest.spyOn(authService, 'createToken').mockReturnValue('mockToken');
-
-      expect(authAdminService.signIn(createUserDtoStub)).resolves.toEqual(
-        'mockToken',
-      );
-    });
+    expect(adminUserService.signIn).toBeCalledWith(dto);
+    expect(authService.createToken).toBeCalledWith(adminUserStub);
   });
 });
