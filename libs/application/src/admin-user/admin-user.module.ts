@@ -7,6 +7,6 @@ import { AdminUserService } from '@application/admin-user/admin-user.service';
 @Module({
   imports: [TypeOrmModule.forFeature([AdminUser])],
   providers: [AdminUserService, AdminUserRepo],
-  exports: [AdminUserService, AdminUserRepo],
+  exports: [AdminUserService],
 })
 export class AdminUserModule {}
