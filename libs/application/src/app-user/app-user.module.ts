@@ -7,6 +7,6 @@ import { AppUserService } from '@application/app-user/app-user.service';
 @Module({
   imports: [TypeOrmModule.forFeature([AppUser])],
   providers: [AppUserService, AppUserRepo],
-  exports: [AppUserService, AppUserRepo],
+  exports: [AppUserService],
 })
 export class AppUserModule {}
