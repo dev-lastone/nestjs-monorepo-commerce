@@ -1,4 +1,4 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
 import { AuthService } from '@application/auth/auth.service';
 import { AuthAdminService } from '../../../src/api/auth/auth.admin.service';
 import { userStub } from '../../../../../libs/domain/test/user/stub/user.stub';
@@ -12,7 +12,7 @@ describe('AuthAdminService', () => {
   let adminUserService: AdminUserService;
 
   beforeEach(async () => {
-    const app: TestingModule = await Test.createTestingModule({
+    const testingModule = await Test.createTestingModule({
       providers: [
         AuthAdminService,
         {
@@ -31,9 +31,9 @@ describe('AuthAdminService', () => {
       ],
     }).compile();
 
-    authAdminService = app.get(AuthAdminService);
-    authService = app.get(AuthService);
-    adminUserService = app.get(AdminUserService);
+    authAdminService = testingModule.get(AuthAdminService);
+    authService = testingModule.get(AuthService);
+    adminUserService = testingModule.get(AdminUserService);
   });
 
   it('signUp', async () => {
