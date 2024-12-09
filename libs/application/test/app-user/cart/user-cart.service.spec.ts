@@ -1,4 +1,4 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { AppUserCartService } from '@application/app-user/cart/app-user-cart.service';
 import { AppUserCartRepo } from '@application/app-user/cart/app-user-cart.repo';
@@ -12,7 +12,7 @@ describe('UserCartService', () => {
   let userCartRepo: AppUserCartRepo;
 
   beforeEach(async () => {
-    const app: TestingModule = await Test.createTestingModule({
+    const testingModule = await Test.createTestingModule({
       providers: [
         AppUserCartService,
         {
@@ -27,8 +27,8 @@ describe('UserCartService', () => {
       ],
     }).compile();
 
-    userCartService = app.get(AppUserCartService);
-    userCartRepo = app.get(AppUserCartRepo);
+    userCartService = testingModule.get(AppUserCartService);
+    userCartRepo = testingModule.get(AppUserCartRepo);
   });
 
   it('createUserCart', async () => {

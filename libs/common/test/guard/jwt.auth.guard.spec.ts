@@ -1,8 +1,8 @@
 import { ExecutionContext, UnauthorizedException } from '@nestjs/common';
-import { JwtAuthGuard } from '../jwt.auth.guard';
 import * as jwt from 'jsonwebtoken';
 import { Reflector } from '@nestjs/core';
-import { userStub } from '../../../../domain/test/user/stub/user.stub';
+import { JwtAuthGuard } from '@common/guard/jwt.auth.guard';
+import { userStub } from '../../../domain/test/user/stub/user.stub';
 
 describe('AuthAdminGuard', () => {
   const jwtAuthGuard = new JwtAuthGuard(new Reflector());
