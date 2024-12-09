@@ -26,6 +26,15 @@ $ pnpm run test
 $ pnpm run test:cov
 ```
 
+## 의존 규칙
+```
+- libs.domain <- libs.application <- api
+- libs.domain <- libs.application <- apps application <- api
+- libs.domain <- apps.domain <- apps.application <- api
+- apps.domain <- apps.application <- api
+```
+- 각 앱에 필요없는 부분에 의해서 배포 방지
+
 ## TODO
 ### admin
 - [x] product crud
