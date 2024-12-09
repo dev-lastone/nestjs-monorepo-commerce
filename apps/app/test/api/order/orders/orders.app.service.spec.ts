@@ -10,6 +10,7 @@ import {
   productStub2,
 } from '../../../../../../libs/domain/test/product/_stub/product.stub';
 import { orderStub } from '../../../../../../libs/domain/test/order/_stub/order.stub';
+import { OrdersAppRepo } from '../../../../src/api/order/orders/orders.app.repo';
 
 describe('OrdersAppService', () => {
   let ordersAppService: OrdersAppService;
@@ -62,6 +63,11 @@ describe('OrdersAppService', () => {
                 },
               ],
             }),
+          },
+        },
+        {
+          provide: OrdersAppRepo,
+          useValue: {
             findByUserId: jest.fn().mockReturnValue([orderStub]),
           },
         },

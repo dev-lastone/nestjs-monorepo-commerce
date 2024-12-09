@@ -4,13 +4,15 @@ import { Order } from '@domain/order/order.entity';
 import { OrderRepo } from '@application/order/order.repo';
 import { ProductService } from '@application/product/product.service';
 import { AppUserAddressRepo } from '@application/app-user/address/app-user-address.repo';
+import { OrdersAppRepo } from './orders.app.repo';
 
 @Injectable()
 export class OrdersAppService {
   constructor(
     private readonly productService: ProductService,
-    private readonly orderRepo: OrderRepo,
     private readonly userAddressRepo: AppUserAddressRepo,
+    private readonly orderRepo: OrderRepo,
+    private readonly ordersAppRepo: OrdersAppRepo,
   ) {}
 
   async postOrder(userId: number, dto: PostOrdersAppReqDto) {
@@ -34,6 +36,6 @@ export class OrdersAppService {
   }
 
   async getOrders(userId: number) {
-    return await this.orderRepo.findByUserId(userId);
+    return await this.ordersAppRepo.findByUserId(userId);
   }
 }
