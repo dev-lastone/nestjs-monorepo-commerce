@@ -3,7 +3,7 @@ import {
   AppUserPoint,
   AppUserPointHistoryAction,
 } from '@domain/app-user/point/app-user-point.entity';
-import { userStub } from '../_vo/_stub/user.stub';
+import { userStub } from '../user/stub/user.stub';
 
 describe('AppUserPoint', () => {
   it('create', () => {

@@ -1,6 +1,6 @@
-import { User } from '@domain/_vo/user';
 import { UserPassword } from '@domain/_vo/user-password';
-import { createUserDtoStub } from './_stub/create-user.dto.stub';
+import { User } from '@domain/user/user';
+import { createUserDtoStub } from './stub/dto/create-user.dto.stub';
 
 describe('User', () => {
   it('create', async () => {

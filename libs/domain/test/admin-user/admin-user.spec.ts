@@ -1,6 +1,6 @@
-import { User } from '@domain/_vo/user';
 import { AdminUser } from '@domain/admin-user/admin-user.entity';
-import { createUserDtoStub } from '../_vo/_stub/create-user.dto.stub';
+import { User } from '@domain/user/user';
+import { createUserDtoStub } from '../user/stub/dto/create-user.dto.stub';
 
 describe('AdminUser', () => {
   it('create', async () => {

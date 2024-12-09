@@ -6,8 +6,8 @@ import {
 import { AdminUserRepo } from '@application/admin-user/admin-user.repo';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { AdminUser } from '@domain/admin-user/admin-user.entity';
-import { CreateUserDto } from '@domain/_vo/dto/create-user.dto';
-import { SignInUserDto } from '@domain/_vo/dto/sign-in-user.dto';
+import { CreateUserDto } from '@domain/user/dto/create-user.dto';
+import { SignInUserDto } from '@domain/user/dto/sign-in-user.dto';
 
 @Injectable()
 export class AdminUserService {

@@ -1,12 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
-import { createUserDtoStub } from '../../../domain/test/_vo/_stub/create-user.dto.stub';
 import { SUCCESS } from '@common/constant/constants';
 import { AppUserService } from '@application/app-user/app-user.service';
 import { AppUserRepo } from '@application/app-user/app-user.repo';
-import { signInUserDtoStub } from '../../../domain/test/_vo/_stub/sign-in-user.dto.stub';
-import { userStub } from '../../../domain/test/_vo/_stub/user.stub';
 import { appUserStub } from '../../../domain/test/app-user/_stub/app-user.stub';
+import { createUserDtoStub } from '../../../domain/test/user/stub/dto/create-user.dto.stub';
+import { signInUserDtoStub } from '../../../domain/test/user/stub/dto/sign-in-user.dto.stub';
+import { userStub } from '../../../domain/test/user/stub/user.stub';
 
 describe('AppUserService', () => {
   let appUserService: AppUserService;

@@ -2,10 +2,10 @@ import { Test } from '@nestjs/testing';
 import { AdminUserRepo } from '@application/admin-user/admin-user.repo';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { AdminUserService } from '@application/admin-user/admin-user.service';
-import { createUserDtoStub } from '../../../domain/test/_vo/_stub/create-user.dto.stub';
 import { SUCCESS } from '@common/constant/constants';
-import { signInUserDtoStub } from '../../../domain/test/_vo/_stub/sign-in-user.dto.stub';
-import { userStub } from '../../../domain/test/_vo/_stub/user.stub';
+import { userStub } from '../../../domain/test/user/stub/user.stub';
+import { createUserDtoStub } from '../../../domain/test/user/stub/dto/create-user.dto.stub';
+import { signInUserDtoStub } from '../../../domain/test/user/stub/dto/sign-in-user.dto.stub';
 
 describe('AdminUserService', () => {
   let adminUserService: AdminUserService;

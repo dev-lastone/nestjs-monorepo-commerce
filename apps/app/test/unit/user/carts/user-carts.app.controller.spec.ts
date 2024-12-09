@@ -3,7 +3,7 @@ import { UserCartService } from '@application/app-user/cart/user-cart.service';
 import { UserCartsAppController } from '../../../../src/api/user/carts/user-carts.app.controller';
 import { productStub1 } from '../../../../../../libs/domain/test/product/_stub/product.stub';
 import { userCartStub } from '../../../../../../libs/domain/test/app-user/_stub/user-cart.stub';
-import { userStub } from '../../../../../../libs/domain/test/_vo/_stub/user.stub';
+import { userStub } from '../../../../../../libs/domain/test/user/stub/user.stub';
 
 describe('UserCartsAppController', () => {
   let userCartsAppController: UserCartsAppController;
