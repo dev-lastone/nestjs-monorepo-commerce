@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { UserAddressRepo } from './user-address.repo';
+import { AppUserAddressRepo } from './app-user-address.repo';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserAddress } from '@domain/app-user/user-address.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserAddress])],
-  providers: [UserAddressRepo],
-  exports: [UserAddressRepo],
+  providers: [AppUserAddressRepo],
+  exports: [AppUserAddressRepo],
 })
-export class UserAddressModule {}
+export class AppUserAddressModule {}

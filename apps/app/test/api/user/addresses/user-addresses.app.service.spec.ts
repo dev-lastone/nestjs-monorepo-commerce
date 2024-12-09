@@ -2,7 +2,7 @@ import { Test } from '@nestjs/testing';
 import { NON_EXISTENT_ID, SUCCESS } from '@common/constant/constants';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { ForbiddenException } from '@nestjs/common';
-import { UserAddressRepo } from '@application/app-user/address/user-address.repo';
+import { AppUserAddressRepo } from '@application/app-user/address/app-user-address.repo';
 import { UserAddress } from '@domain/app-user/user-address.entity';
 import { UserAddressesAppService } from '../../../../src/api/user/addresses/user-addresses.app.service';
 import { userAddressStub } from '../../../../../../libs/domain/test/app-user/_stub/user-address.stub';
@@ -10,14 +10,14 @@ import { userAddressStub } from '../../../../../../libs/domain/test/app-user/_st
 describe('UserAddressesAppService', () => {
   const userId = userAddressStub.userId;
   let userAddressesService: UserAddressesAppService;
-  let userAddressRepo: UserAddressRepo;
+  let userAddressRepo: AppUserAddressRepo;
 
   beforeEach(async () => {
     const testingModule = await Test.createTestingModule({
       providers: [
         UserAddressesAppService,
         {
-          provide: UserAddressRepo,
+          provide: AppUserAddressRepo,
           useValue: {
             findByUserId: jest.fn(),
             save: jest.fn(),
@@ -29,7 +29,7 @@ describe('UserAddressesAppService', () => {
     }).compile();
 
     userAddressesService = testingModule.get(UserAddressesAppService);
-    userAddressRepo = testingModule.get(UserAddressRepo);
+    userAddressRepo = testingModule.get(AppUserAddressRepo);
   });
 
   describe('post', () => {
