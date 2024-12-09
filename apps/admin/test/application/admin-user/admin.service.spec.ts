@@ -6,6 +6,7 @@ import { AdminUserRepo } from '../../../src/application/admin-user/admin-user.re
 import { userStub } from '../../../../../libs/domain/test/user/stub/user.stub';
 import { createUserDtoStub } from '../../../../../libs/domain/test/user/stub/dto/create-user.dto.stub';
 import { signInUserDtoStub } from '../../../../../libs/domain/test/user/stub/dto/sign-in-user.dto.stub';
+import { invalidPasswordStub } from '../../../../../libs/domain/test/_vo/_stub/user-password.stub';
 
 describe('AdminUserService', () => {
   let adminUserService: AdminUserService;
@@ -50,7 +51,7 @@ describe('AdminUserService', () => {
       expect(() =>
         adminUserService.signIn({
           email: userStub.email,
-          password: 'invalidPassword',
+          password: invalidPasswordStub,
         }),
       ).rejects.toThrow(ERROR_MESSAGES.InvalidSignIn);
     });
