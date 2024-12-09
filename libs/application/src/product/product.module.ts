@@ -7,6 +7,6 @@ import { ProductRepo } from '@application/product/product.repo';
 @Module({
   imports: [TypeOrmModule.forFeature([Product])],
   providers: [ProductService, ProductRepo],
-  exports: [ProductService, ProductRepo],
+  exports: [ProductService],
 })
 export class ProductModule {}
