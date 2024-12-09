@@ -1,18 +1,18 @@
 import { Test } from '@nestjs/testing';
-import { OrderRepo } from '@application/order/order.repo';
 import { OrdersAdminService } from '../../../../src/api/order/orders/orders.admin.service';
 import { orderStub } from '../../../../../../libs/domain/test/order/_stub/order.stub';
+import { OrdersAdminRepo } from '../../../../src/api/order/orders/orders.admin.repo';
 
 describe('OrdersAdminService', () => {
   let ordersAdminService: OrdersAdminService;
-  let orderRepo: OrderRepo;
+  let ordersAdminRepo: OrdersAdminRepo;
 
   beforeEach(async () => {
     const testingModule = await Test.createTestingModule({
       providers: [
         OrdersAdminService,
         {
-          provide: OrderRepo,
+          provide: OrdersAdminRepo,
           useValue: {
             find: jest.fn().mockReturnValue([orderStub]),
             findOne: jest.fn().mockReturnValue(orderStub),
@@ -22,18 +22,18 @@ describe('OrdersAdminService', () => {
     }).compile();
 
     ordersAdminService = testingModule.get(OrdersAdminService);
-    orderRepo = testingModule.get(OrderRepo);
+    ordersAdminRepo = testingModule.get(OrdersAdminRepo);
   });
 
   it('getOrders', () => {
     ordersAdminService.getOrders();
 
-    expect(orderRepo.find).toBeCalled();
+    expect(ordersAdminRepo.find).toBeCalled();
   });
 
   it('getOrder', () => {
     ordersAdminService.getOrder(orderStub.id);
 
-    expect(orderRepo.findOne).toBeCalledWith(orderStub.id);
+    expect(ordersAdminRepo.findOne).toBeCalledWith(orderStub.id);
   });
 });
