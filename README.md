@@ -32,6 +32,8 @@ $ pnpm run test:cov
 - libs.domain <- libs.application <- apps application <- api
 - libs.domain <- apps.domain <- apps.application <- api
 - apps.domain <- apps.application <- api
+
+- libs.common <- all(domain 로직이 아닌 공통)
 ```
 - 각 앱에 필요없는 부분에 의해서 배포 방지
 
