@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { AdminUserRepo } from '@application/admin-user/admin-user.repo';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AdminUser } from '@domain/admin-user/admin-user.entity';
-import { AdminUserService } from '@application/admin-user/admin-user.service';
+import { AdminUser } from '../../domain/admin-user/admin-user.entity';
+import { AdminUserRepo } from './admin-user.repo';
+import { AdminUserService } from './admin-user.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([AdminUser])],

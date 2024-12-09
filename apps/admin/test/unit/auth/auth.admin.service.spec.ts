@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from '@application/auth/auth.service';
 import { AuthAdminService } from '../../../src/api/auth/auth.admin.service';
-import { AdminUserService } from '@application/admin-user/admin-user.service';
 import { userStub } from '../../../../../libs/domain/test/user/stub/user.stub';
 import { createUserDtoStub } from '../../../../../libs/domain/test/user/stub/dto/create-user.dto.stub';
 import { signInUserDtoStub } from '../../../../../libs/domain/test/user/stub/dto/sign-in-user.dto.stub';
+import { AdminUserService } from '../../../src/application/admin-user/admin-user.service';
 
 describe('AuthAdminService', () => {
   let authAdminService: AuthAdminService;
