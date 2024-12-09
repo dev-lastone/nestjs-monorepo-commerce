@@ -15,8 +15,8 @@ describe('AuthAdminController', () => {
         {
           provide: AuthAdminService,
           useValue: {
-            signUp: jest.fn().mockResolvedValue('mockToken'),
-            signIn: jest.fn().mockResolvedValue('mockToken'),
+            signUp: jest.fn(),
+            signIn: jest.fn(),
           },
         },
       ],
