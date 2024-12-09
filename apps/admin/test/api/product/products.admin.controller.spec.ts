@@ -6,10 +6,12 @@ import {
 import { ProductService } from '@application/product/product.service';
 import { ProductsAdminController } from '../../../src/api/product/products.admin.controller';
 import { productsStub } from '../../../../../libs/domain/test/product/_stub/product.stub';
+import { ProductsAdminRepo } from '../../../src/api/product/products.admin.repo';
 
 describe('ProductsAdminController', () => {
   let productsAdminController: ProductsAdminController;
   let productService: ProductService;
+  let productsAdminRepo: ProductsAdminRepo;
 
   beforeEach(async () => {
     const testingModule = await Test.createTestingModule({
@@ -19,9 +21,14 @@ describe('ProductsAdminController', () => {
           provide: ProductService,
           useValue: {
             createProduct: jest.fn(),
-            findProducts: jest.fn().mockReturnValue(productsStub),
             updateProduct: jest.fn(),
             deleteProduct: jest.fn(),
+          },
+        },
+        {
+          provide: ProductsAdminRepo,
+          useValue: {
+            find: jest.fn().mockReturnValue(productsStub),
           },
         },
       ],
@@ -29,6 +36,7 @@ describe('ProductsAdminController', () => {
 
     productsAdminController = testingModule.get(ProductsAdminController);
     productService = testingModule.get(ProductService);
+    productsAdminRepo = testingModule.get(ProductsAdminRepo);
   });
 
   it('post', () => {
@@ -45,7 +53,7 @@ describe('ProductsAdminController', () => {
   it('get', () => {
     productsAdminController.getProducts();
 
-    expect(productService.findProducts).toBeCalled();
+    expect(productsAdminRepo.find).toBeCalled();
   });
 
   it('put', () => {

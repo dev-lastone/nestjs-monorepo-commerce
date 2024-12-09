@@ -21,12 +21,16 @@ import {
   UpdateProductDto,
 } from '@domain/product/dto/product.dto';
 import { ProductService } from '@application/product/product.service';
+import { ProductsAdminRepo } from './products.admin.repo';
 
 @ApiBearerAuth('jwt')
 @ApiTags('products')
 @Controller('products')
 export class ProductsAdminController {
-  constructor(private readonly productService: ProductService) {}
+  constructor(
+    private readonly productService: ProductService,
+    private readonly productsAdminRepo: ProductsAdminRepo,
+  ) {}
 
   @Version('1')
   @Post()
@@ -44,7 +48,7 @@ export class ProductsAdminController {
     type: [Product],
   })
   async getProducts() {
-    return await this.productService.findProducts();
+    return await this.productsAdminRepo.find();
   }
 
   @Version('1')
