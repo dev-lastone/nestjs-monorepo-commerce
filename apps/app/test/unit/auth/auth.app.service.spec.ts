@@ -1,11 +1,11 @@
 import { Test } from '@nestjs/testing';
 import { AuthService } from '@application/auth/auth.service';
 import { AuthAppService } from '../../../src/api/auth/auth.app.service';
-import { createUserDtoStub } from '../../../../../libs/domain/test/_vo/_stub/create-user.dto.stub';
 import { AppUserService } from '@application/app-user/app-user.service';
-import { signInUserDtoStub } from '../../../../../libs/domain/test/_vo/_stub/sign-in-user.dto.stub';
-import { userStub } from '../../../../../libs/domain/test/_vo/_stub/user.stub';
 import { appUserStub } from '../../../../../libs/domain/test/app-user/_stub/app-user.stub';
+import { createUserDtoStub } from '../../../../../libs/domain/test/user/stub/dto/create-user.dto.stub';
+import { userStub } from '../../../../../libs/domain/test/user/stub/user.stub';
+import { signInUserDtoStub } from '../../../../../libs/domain/test/user/stub/dto/sign-in-user.dto.stub';
 
 describe('AuthAppService', () => {
   let authAppService: AuthAppService;

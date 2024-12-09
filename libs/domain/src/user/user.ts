@@ -8,9 +8,9 @@ import {
 } from 'class-validator';
 import { Column } from 'typeorm';
 import { UserPassword } from '@domain/_vo/user-password';
-import { CreateUserDto } from '@domain/_vo/dto/create-user.dto';
 import { userEmail, userName } from '@common/constant/example';
 import { MyBaseEntity } from '@common/entity/my-base-entity';
+import { CreateUserDto } from '@domain/user/dto/create-user.dto';
 
 export class User extends MyBaseEntity {
   @ApiProperty({

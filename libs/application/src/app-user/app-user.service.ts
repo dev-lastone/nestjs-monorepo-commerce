@@ -4,10 +4,10 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
-import { CreateUserDto } from '@domain/_vo/dto/create-user.dto';
 import { AppUserRepo } from '@application/app-user/app-user.repo';
 import { AppUser } from '@domain/app-user/app-user.entity';
-import { SignInUserDto } from '@domain/_vo/dto/sign-in-user.dto';
+import { CreateUserDto } from '@domain/user/dto/create-user.dto';
+import { SignInUserDto } from '@domain/user/dto/sign-in-user.dto';
 
 @Injectable()
 export class AppUserService {

@@ -1,7 +1,7 @@
-import { User } from '@domain/_vo/user';
 import { AppUser } from '@domain/app-user/app-user.entity';
 import { AppUserPoint } from '@domain/app-user/point/app-user-point.entity';
-import { createUserDtoStub } from '../_vo/_stub/create-user.dto.stub';
+import { User } from '@domain/user/user';
+import { createUserDtoStub } from '../user/stub/dto/create-user.dto.stub';
 
 describe('AppUser', () => {
   it('create', async () => {

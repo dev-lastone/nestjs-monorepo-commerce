@@ -9,7 +9,7 @@ import {
   orderProductStub,
   orderProductWithOrderAndProductStub,
 } from '../../../domain/test/order/_stub/order-product.stub';
-import { userStub } from '../../../domain/test/_vo/_stub/user.stub';
+import { userStub } from '../../../domain/test/user/stub/user.stub';
 
 describe('OrderService', () => {
   let orderService: OrderService;
