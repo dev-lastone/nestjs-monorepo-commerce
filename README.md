@@ -38,14 +38,7 @@ $ pnpm run test:cov
 - 각 앱에 필요없는 부분에 의해서 배포 방지
 
 ## TODO
-### admin
-- [x] product crud
-- [x] signIn
-  - [x] jwt
-  - [x] guard
-
 ### app
-- [x] auth
 - [x] 상품 조회
 - [x] 상품 좋아요
 - [x] 유저 배송지 설정
@@ -63,9 +56,6 @@ $ pnpm run test:cov
 - [ ] 배송 상태 변경
 
 ### etc
-- [x] swagger
-- [x] pr sonar-cloud
-- [x] typeorm
 - [ ] integration test
 - [ ] e2e scenario test
 
