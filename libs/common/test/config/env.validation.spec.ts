@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { EnvVariables, validateEnv } from '../env.validation';
+import { EnvVariables, validateEnv } from '@common/config/env.validation';
 
 describe('env validation', () => {
   it('성공', () => {

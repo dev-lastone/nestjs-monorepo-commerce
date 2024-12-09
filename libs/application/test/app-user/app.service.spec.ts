@@ -1,4 +1,4 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { SUCCESS } from '@common/constant/constants';
 import { AppUserService } from '@application/app-user/app-user.service';
@@ -14,7 +14,7 @@ describe('AppUserService', () => {
   let appUserRepo: AppUserRepo;
 
   beforeEach(async () => {
-    const app: TestingModule = await Test.createTestingModule({
+    const testingModule = await Test.createTestingModule({
       providers: [
         AppUserService,
         {
@@ -26,8 +26,8 @@ describe('AppUserService', () => {
       ],
     }).compile();
 
-    appUserService = app.get(AppUserService);
-    appUserRepo = app.get(AppUserRepo);
+    appUserService = testingModule.get(AppUserService);
+    appUserRepo = testingModule.get(AppUserRepo);
   });
 
   it('signUp', async () => {
