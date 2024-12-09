@@ -13,9 +13,7 @@ export class AdminUserRepo {
   async findOneByEmail(email: string) {
     return await this.adminUserRepo.findOne({
       where: {
-        user: {
-          email,
-        },
+        email,
       },
     });
   }

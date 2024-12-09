@@ -31,7 +31,7 @@ export class AppUserService {
       throw new UnauthorizedException(ERROR_MESSAGES.InvalidSignIn);
     }
 
-    await appUser.user.password.compare(dto.password);
+    await appUser.password.compare(dto.password);
 
     return appUser;
   }

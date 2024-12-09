@@ -1,17 +1,13 @@
-import { Column, Entity, OneToMany, OneToOne } from 'typeorm';
+import { Entity, OneToMany, OneToOne } from 'typeorm';
 import { AppUserPoint } from '@domain/app-user/point/app-user-point.entity';
 import { UserAddress } from '@domain/app-user/user-address.entity';
 import { AppUserCart } from '@domain/app-user/app-user-cart.entity';
-import { MyBaseEntity } from '@common/entity/my-base-entity';
 import { User } from '@domain/_vo/user';
 import { CreateUserDto } from '@domain/_vo/dto/create-user.dto';
 import { ProductLike } from '@domain/product/product-like.entity';
 
 @Entity('user', { schema: 'app' })
-export class AppUser extends MyBaseEntity {
-  @Column(() => User, { prefix: false })
-  user: User;
-
+export class AppUser extends User {
   @OneToOne(() => AppUserPoint, (userPoint) => userPoint.user, {
     cascade: true,
   })
@@ -28,7 +24,7 @@ export class AppUser extends MyBaseEntity {
 
   static async create(dto: CreateUserDto) {
     const appUser = new AppUser();
-    appUser.user = await User.create(dto);
+    Object.assign(appUser, await User.create(dto));
     appUser.point = AppUserPoint.create();
     return appUser;
   }

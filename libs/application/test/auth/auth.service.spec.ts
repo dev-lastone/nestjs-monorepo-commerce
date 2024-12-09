@@ -40,7 +40,7 @@ describe('AuthService', () => {
     const result = authService.createToken(user);
 
     expect(jwt.sign).toHaveBeenCalledWith(
-      { sub: user.id, email: user.user.email, name: user.user.name },
+      { sub: user.id, email: user.email, name: user.name },
       secret,
       {
         expiresIn,

@@ -10,8 +10,9 @@ import { Column } from 'typeorm';
 import { UserPassword } from '@domain/_vo/user-password';
 import { CreateUserDto } from '@domain/_vo/dto/create-user.dto';
 import { userEmail, userName } from '@common/constant/example';
+import { MyBaseEntity } from '@common/entity/my-base-entity';
 
-export class User {
+export class User extends MyBaseEntity {
   @ApiProperty({
     example: userName,
     description: '유저 이름',

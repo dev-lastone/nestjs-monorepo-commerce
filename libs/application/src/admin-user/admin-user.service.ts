@@ -31,7 +31,7 @@ export class AdminUserService {
       throw new UnauthorizedException(ERROR_MESSAGES.InvalidSignIn);
     }
 
-    await adminUser.user.password.compare(dto.password);
+    await adminUser.password.compare(dto.password);
 
     return adminUser;
   }
