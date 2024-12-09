@@ -1,22 +1,22 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
-import { UserCartService } from '@application/app-user/cart/user-cart.service';
-import { UserCartRepo } from '@application/app-user/cart/user-cart.repo';
+import { AppUserCartService } from '@application/app-user/cart/app-user-cart.service';
+import { AppUserCartRepo } from '@application/app-user/cart/app-user-cart.repo';
 import { AppUserCart } from '@domain/app-user/app-user-cart.entity';
 import { userCartStub } from '../../../../domain/test/app-user/_stub/user-cart.stub';
 import { appUserStub } from '../../../../domain/test/app-user/_stub/app-user.stub';
 import { productStub1 } from '../../../../domain/test/product/_stub/product.stub';
 
 describe('UserCartService', () => {
-  let userCartService: UserCartService;
-  let userCartRepo: UserCartRepo;
+  let userCartService: AppUserCartService;
+  let userCartRepo: AppUserCartRepo;
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
       providers: [
-        UserCartService,
+        AppUserCartService,
         {
-          provide: UserCartRepo,
+          provide: AppUserCartRepo,
           useValue: {
             save: jest.fn(),
             findByUserId: jest.fn().mockResolvedValue([userCartStub]),
@@ -27,8 +27,8 @@ describe('UserCartService', () => {
       ],
     }).compile();
 
-    userCartService = app.get(UserCartService);
-    userCartRepo = app.get(UserCartRepo);
+    userCartService = app.get(AppUserCartService);
+    userCartRepo = app.get(AppUserCartRepo);
   });
 
   it('createUserCart', async () => {

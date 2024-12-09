@@ -3,7 +3,7 @@ import { OrderProductStatus } from '@domain/order/order-product.entity';
 import { ForbiddenException } from '@nestjs/common';
 import { ProductService } from '@application/product/product.service';
 import { OrderRepo } from '@application/order/order.repo';
-import { UserAddressRepo } from '@application/app-user/address/user-address.repo';
+import { AppUserAddressRepo } from '@application/app-user/address/app-user-address.repo';
 import { OrdersAppService } from '../../../../src/api/order/orders/orders.app.service';
 import {
   productStub1,
@@ -25,7 +25,7 @@ describe('OrdersAppService', () => {
           },
         },
         {
-          provide: UserAddressRepo,
+          provide: AppUserAddressRepo,
           useValue: {
             findOneById: jest.fn().mockReturnValue({
               id: 1,
