@@ -70,6 +70,15 @@ $ pnpm run test:cov
 - [ ] e2e scenario test
 
 ## Unit Test
+### 기본 규칙
+```
+domain -> application -> api service -> api controller
+- domain: 로직 테스트
+- application: 도메인, DB 호출 or 로직 테스트
+- api service: application service 호출 or 요청/반환 테스트
+- controller: api service 호출 or 요청/반환 테스트
+```
+
 ### class-validator
 데코레이터 사용하는 경우 라이브러리 보장으로 테스트 생략 
 
