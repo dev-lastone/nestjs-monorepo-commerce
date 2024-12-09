@@ -42,14 +42,6 @@ export class OrderRepo {
     });
   }
 
-  async findByUserId(userId: number) {
-    return await this.orderRepo.find({
-      where: {
-        userId,
-      },
-    });
-  }
-
   async findOneProductById(id: number) {
     return await this.orderProductRepo.findOne({
       where: {
