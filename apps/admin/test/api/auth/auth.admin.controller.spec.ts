@@ -26,8 +26,8 @@ describe('AuthAdminController', () => {
     authAdminService = testingModule.get(AuthAdminService);
   });
 
-  it('signUp', async () => {
-    await authAdminController.signUp(createUserDtoStub);
+  it('signUp', () => {
+    authAdminController.signUp(createUserDtoStub);
 
     expect(authAdminService.signUp).toBeCalledWith(createUserDtoStub);
   });
