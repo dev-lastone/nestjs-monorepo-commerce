@@ -1,31 +1,31 @@
 import { Test } from '@nestjs/testing';
-import { ProductService } from '@application/product/product.service';
 import { ProductsAppController } from '../../../src/api/product/products.app.controller';
+import { ProductsAppRepo } from '../../../src/api/product/products.app.repo';
 
 describe('ProductsAppController', () => {
   let productsAppController: ProductsAppController;
-  let productService: ProductService;
+  let productsAppRepo: ProductsAppRepo;
 
   beforeEach(async () => {
     const testingModule = await Test.createTestingModule({
       controllers: [ProductsAppController],
       providers: [
         {
-          provide: ProductService,
+          provide: ProductsAppRepo,
           useValue: {
-            findProducts: jest.fn(),
+            find: jest.fn(),
           },
         },
       ],
     }).compile();
 
     productsAppController = testingModule.get(ProductsAppController);
-    productService = testingModule.get(ProductService);
+    productsAppRepo = testingModule.get(ProductsAppRepo);
   });
 
   it('getProducts', () => {
     productsAppController.getProducts();
 
-    expect(productService.findProducts).toBeCalled();
+    expect(productsAppRepo.find).toBeCalled();
   });
 });
