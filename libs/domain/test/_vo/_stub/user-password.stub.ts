@@ -4,6 +4,4 @@ export const userPasswordStub = {
   async compare(password: string) {},
 } as UserPassword;
 
-export const invalidUserPasswordStub = {
-  async compare(password: string) {},
-} as UserPassword;
+export const invalidPasswordStub = 'invalidPassword';

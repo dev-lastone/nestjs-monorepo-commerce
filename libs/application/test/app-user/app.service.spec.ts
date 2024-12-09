@@ -7,6 +7,7 @@ import { appUserStub } from '../../../domain/test/app-user/_stub/app-user.stub';
 import { createUserDtoStub } from '../../../domain/test/user/stub/dto/create-user.dto.stub';
 import { signInUserDtoStub } from '../../../domain/test/user/stub/dto/sign-in-user.dto.stub';
 import { userStub } from '../../../domain/test/user/stub/user.stub';
+import { invalidPasswordStub } from '../../../domain/test/_vo/_stub/user-password.stub';
 
 describe('AppUserService', () => {
   let appUserService: AppUserService;
@@ -51,7 +52,7 @@ describe('AppUserService', () => {
       expect(() =>
         appUserService.signIn({
           email: userStub.email,
-          password: 'invalidPassword',
+          password: invalidPasswordStub,
         }),
       ).rejects.toThrow(ERROR_MESSAGES.InvalidSignIn);
     });
