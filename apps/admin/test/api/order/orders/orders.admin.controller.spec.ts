@@ -14,8 +14,8 @@ describe('OrdersAdminController', () => {
         {
           provide: OrdersAdminService,
           useValue: {
-            getOrders: jest.fn().mockReturnValue([orderStub]),
-            getOrder: jest.fn().mockReturnValue(orderStub),
+            getOrders: jest.fn(),
+            getOrder: jest.fn(),
           },
         },
       ],
