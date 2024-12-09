@@ -50,7 +50,7 @@ describe('AppUserService', () => {
     it(ERROR_MESSAGES.InvalidSignIn + ' - password', () => {
       expect(() =>
         appUserService.signIn({
-          email: adminUserStub.user.email,
+          email: adminUserStub.email,
           password: 'invalidPassword',
         }),
       ).rejects.toThrow(ERROR_MESSAGES.InvalidSignIn);
@@ -58,14 +58,14 @@ describe('AppUserService', () => {
 
     it(SUCCESS, async () => {
       jest.spyOn(appUserRepo, 'findOneByEmail').mockResolvedValue(appUserStub);
-      jest.spyOn(appUserStub.user.password, 'compare').mockResolvedValue();
+      jest.spyOn(appUserStub.password, 'compare').mockResolvedValue();
 
       await appUserService.signIn(signInUserDtoStub);
 
       expect(appUserRepo.findOneByEmail).toBeCalledWith(
         signInUserDtoStub.email,
       );
-      expect(adminUserStub.user.password.compare).toBeCalledWith(
+      expect(adminUserStub.password.compare).toBeCalledWith(
         signInUserDtoStub.password,
       );
     });
