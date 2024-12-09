@@ -3,7 +3,7 @@ import {
   AppUserPoint,
   AppUserPointHistoryAction,
 } from '@domain/app-user/point/app-user-point.entity';
-import { appUserStub } from './_stub/app-user.stub';
+import { userStub } from '../_vo/_stub/user.stub';
 
 describe('AppUserPoint', () => {
   it('create', () => {
@@ -15,7 +15,7 @@ describe('AppUserPoint', () => {
 
   it('save', () => {
     const userPoint = AppUserPoint.create();
-    userPoint.userId = appUserStub.id;
+    userPoint.userId = userStub.id;
 
     expect(
       userPoint.save(1000, AppUserPointHistoryAction.ORDER_PRODUCT, 1),
@@ -46,7 +46,7 @@ describe('AppUserPoint', () => {
 
     it('성공 - 단일 사용', () => {
       const userPoint = AppUserPoint.create();
-      userPoint.userId = appUserStub.id;
+      userPoint.userId = userStub.id;
       userPoint.save(1000, AppUserPointHistoryAction.ORDER_PRODUCT, 1);
 
       expect(userPoint.use(1000, AppUserPointHistoryAction.ORDER, 1)).toEqual({
@@ -68,7 +68,7 @@ describe('AppUserPoint', () => {
 
     it('성공 - 다중 사용', () => {
       const userPoint = AppUserPoint.create();
-      userPoint.userId = appUserStub.id;
+      userPoint.userId = userStub.id;
       userPoint.save(1000, AppUserPointHistoryAction.ORDER_PRODUCT, 1);
       userPoint.save(1000, AppUserPointHistoryAction.ORDER_PRODUCT, 2);
 

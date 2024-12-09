@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from '@application/auth/auth.service';
 import { AuthAdminService } from '../../../src/api/auth/auth.admin.service';
-import { adminUserStub } from '../../../../../libs/domain/test/admin-user/_stub/admin-user.stub';
 import { createUserDtoStub } from '../../../../../libs/domain/test/_vo/_stub/create-user.dto.stub';
 import { AdminUserService } from '@application/admin-user/admin-user.service';
 import { signInUserDtoStub } from '../../../../../libs/domain/test/_vo/_stub/sign-in-user.dto.stub';
+import { userStub } from '../../../../../libs/domain/test/_vo/_stub/user.stub';
 
 describe('AuthAdminService', () => {
   let authAdminService: AuthAdminService;
@@ -37,20 +37,20 @@ describe('AuthAdminService', () => {
   });
 
   it('signUp', async () => {
-    jest.spyOn(adminUserService, 'signUp').mockResolvedValue(adminUserStub);
+    jest.spyOn(adminUserService, 'signUp').mockResolvedValue(userStub);
 
     await authAdminService.signUp(createUserDtoStub);
 
     expect(adminUserService.signUp).toBeCalledWith(createUserDtoStub);
-    expect(authService.createToken).toBeCalledWith(adminUserStub);
+    expect(authService.createToken).toBeCalledWith(userStub);
   });
 
   it('signIn', async () => {
-    jest.spyOn(adminUserService, 'signIn').mockResolvedValue(adminUserStub);
+    jest.spyOn(adminUserService, 'signIn').mockResolvedValue(userStub);
 
     await authAdminService.signIn(signInUserDtoStub);
 
     expect(adminUserService.signIn).toBeCalledWith(signInUserDtoStub);
-    expect(authService.createToken).toBeCalledWith(adminUserStub);
+    expect(authService.createToken).toBeCalledWith(userStub);
   });
 });

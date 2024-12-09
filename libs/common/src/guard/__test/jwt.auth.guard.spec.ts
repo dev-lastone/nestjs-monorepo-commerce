@@ -2,7 +2,7 @@ import { ExecutionContext, UnauthorizedException } from '@nestjs/common';
 import { JwtAuthGuard } from '../jwt.auth.guard';
 import * as jwt from 'jsonwebtoken';
 import { Reflector } from '@nestjs/core';
-import { adminUserStub } from '../../../../domain/test/admin-user/_stub/admin-user.stub';
+import { userStub } from '../../../../domain/test/_vo/_stub/user.stub';
 
 describe('AuthAdminGuard', () => {
   const jwtAuthGuard = new JwtAuthGuard(new Reflector());
@@ -11,9 +11,9 @@ describe('AuthAdminGuard', () => {
     const mockExecutionContext = createMockExecutionContext('valid-token');
 
     jest.spyOn(jwt, 'verify').mockResolvedValue({
-      sub: adminUserStub.id,
-      email: adminUserStub.email,
-      name: adminUserStub.name,
+      sub: userStub.id,
+      email: userStub.email,
+      name: userStub.name,
     });
 
     const result = jwtAuthGuard.canActivate(mockExecutionContext);

@@ -1,7 +1,6 @@
-import { AppUser } from '@domain/app-user/app-user.entity';
 import { userStub } from '../../_vo/_stub/user.stub';
+import { AppUser } from '@domain/app-user/app-user.entity';
 
-const appUser = {
+export const appUserStub = {
   ...userStub,
 } as AppUser;
-export const appUserStub = appUser;
