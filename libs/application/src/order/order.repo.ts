@@ -30,18 +30,6 @@ export class OrderRepo {
     return await this.orderProductReviewRepo.save(orderProductReview);
   }
 
-  async find() {
-    return await this.orderRepo.find();
-  }
-
-  async findOne(id: number) {
-    return await this.orderRepo.findOne({
-      where: {
-        id,
-      },
-    });
-  }
-
   async findOneProductById(id: number) {
     return await this.orderProductRepo.findOne({
       where: {
