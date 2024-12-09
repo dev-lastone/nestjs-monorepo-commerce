@@ -3,8 +3,9 @@ import { AuthService } from '@application/auth/auth.service';
 import { AuthAppService } from '../../../src/api/auth/auth.app.service';
 import { createUserDtoStub } from '../../../../../libs/domain/test/_vo/_stub/create-user.dto.stub';
 import { AppUserService } from '@application/app-user/app-user.service';
-import { appUserStub } from '../../../../../libs/domain/test/app-user/_stub/app-user.stub';
 import { signInUserDtoStub } from '../../../../../libs/domain/test/_vo/_stub/sign-in-user.dto.stub';
+import { userStub } from '../../../../../libs/domain/test/_vo/_stub/user.stub';
+import { appUserStub } from '../../../../../libs/domain/test/app-user/_stub/app-user.stub';
 
 describe('AuthAppService', () => {
   let authAppService: AuthAppService;
@@ -42,7 +43,7 @@ describe('AuthAppService', () => {
     await authAppService.signUp(createUserDtoStub);
 
     expect(appUserService.signUp).toBeCalledWith(createUserDtoStub);
-    expect(authService.createToken).toBeCalledWith(appUserStub);
+    expect(authService.createToken).toBeCalledWith(userStub);
   });
 
   it('signIn', async () => {
@@ -51,6 +52,6 @@ describe('AuthAppService', () => {
     await authAppService.signIn(signInUserDtoStub);
 
     expect(appUserService.signIn).toBeCalledWith(signInUserDtoStub);
-    expect(authService.createToken).toBeCalledWith(appUserStub);
+    expect(authService.createToken).toBeCalledWith(userStub);
   });
 });

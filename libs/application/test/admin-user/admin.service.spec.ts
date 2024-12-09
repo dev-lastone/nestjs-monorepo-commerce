@@ -2,10 +2,10 @@ import { Test } from '@nestjs/testing';
 import { AdminUserRepo } from '@application/admin-user/admin-user.repo';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { AdminUserService } from '@application/admin-user/admin-user.service';
-import { adminUserStub } from '../../../domain/test/admin-user/_stub/admin-user.stub';
 import { createUserDtoStub } from '../../../domain/test/_vo/_stub/create-user.dto.stub';
 import { SUCCESS } from '@common/constant/constants';
 import { signInUserDtoStub } from '../../../domain/test/_vo/_stub/sign-in-user.dto.stub';
+import { userStub } from '../../../domain/test/_vo/_stub/user.stub';
 
 describe('AdminUserService', () => {
   let adminUserService: AdminUserService;
@@ -29,7 +29,7 @@ describe('AdminUserService', () => {
   });
 
   it('signUp', async () => {
-    jest.spyOn(adminUserService, 'signUp').mockResolvedValue(adminUserStub);
+    jest.spyOn(adminUserService, 'signUp').mockResolvedValue(userStub);
 
     await adminUserService.signUp(createUserDtoStub);
 
@@ -49,24 +49,22 @@ describe('AdminUserService', () => {
     it(ERROR_MESSAGES.InvalidSignIn + ' - password', () => {
       expect(() =>
         adminUserService.signIn({
-          email: adminUserStub.email,
+          email: userStub.email,
           password: 'invalidPassword',
         }),
       ).rejects.toThrow(ERROR_MESSAGES.InvalidSignIn);
     });
 
     it(SUCCESS, async () => {
-      jest
-        .spyOn(adminUserRepo, 'findOneByEmail')
-        .mockResolvedValue(adminUserStub);
-      jest.spyOn(adminUserStub.password, 'compare').mockResolvedValue();
+      jest.spyOn(adminUserRepo, 'findOneByEmail').mockResolvedValue(userStub);
+      jest.spyOn(userStub.password, 'compare').mockResolvedValue();
 
       await adminUserService.signIn(signInUserDtoStub);
 
       expect(adminUserRepo.findOneByEmail).toBeCalledWith(
         signInUserDtoStub.email,
       );
-      expect(adminUserStub.password.compare).toBeCalledWith(
+      expect(userStub.password.compare).toBeCalledWith(
         signInUserDtoStub.password,
       );
     });

@@ -1,12 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
-import { adminUserStub } from '../../../domain/test/admin-user/_stub/admin-user.stub';
 import { createUserDtoStub } from '../../../domain/test/_vo/_stub/create-user.dto.stub';
 import { SUCCESS } from '@common/constant/constants';
 import { AppUserService } from '@application/app-user/app-user.service';
 import { AppUserRepo } from '@application/app-user/app-user.repo';
-import { appUserStub } from '../../../domain/test/app-user/_stub/app-user.stub';
 import { signInUserDtoStub } from '../../../domain/test/_vo/_stub/sign-in-user.dto.stub';
+import { userStub } from '../../../domain/test/_vo/_stub/user.stub';
+import { appUserStub } from '../../../domain/test/app-user/_stub/app-user.stub';
 
 describe('AppUserService', () => {
   let appUserService: AppUserService;
@@ -50,7 +50,7 @@ describe('AppUserService', () => {
     it(ERROR_MESSAGES.InvalidSignIn + ' - password', () => {
       expect(() =>
         appUserService.signIn({
-          email: adminUserStub.email,
+          email: userStub.email,
           password: 'invalidPassword',
         }),
       ).rejects.toThrow(ERROR_MESSAGES.InvalidSignIn);
@@ -58,14 +58,14 @@ describe('AppUserService', () => {
 
     it(SUCCESS, async () => {
       jest.spyOn(appUserRepo, 'findOneByEmail').mockResolvedValue(appUserStub);
-      jest.spyOn(appUserStub.password, 'compare').mockResolvedValue();
+      jest.spyOn(userStub.password, 'compare').mockResolvedValue();
 
       await appUserService.signIn(signInUserDtoStub);
 
       expect(appUserRepo.findOneByEmail).toBeCalledWith(
         signInUserDtoStub.email,
       );
-      expect(adminUserStub.password.compare).toBeCalledWith(
+      expect(userStub.password.compare).toBeCalledWith(
         signInUserDtoStub.password,
       );
     });

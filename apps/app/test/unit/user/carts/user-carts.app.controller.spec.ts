@@ -2,8 +2,8 @@ import { Test } from '@nestjs/testing';
 import { UserCartService } from '@application/app-user/cart/user-cart.service';
 import { UserCartsAppController } from '../../../../src/api/user/carts/user-carts.app.controller';
 import { productStub1 } from '../../../../../../libs/domain/test/product/_stub/product.stub';
-import { appUserStub } from '../../../../../../libs/domain/test/app-user/_stub/app-user.stub';
 import { userCartStub } from '../../../../../../libs/domain/test/app-user/_stub/user-cart.stub';
+import { userStub } from '../../../../../../libs/domain/test/_vo/_stub/user.stub';
 
 describe('UserCartsAppController', () => {
   let userCartsAppController: UserCartsAppController;
@@ -32,19 +32,19 @@ describe('UserCartsAppController', () => {
   it('postUserCart', () => {
     const dto = { productId: productStub1.id, count: 1 };
 
-    userCartsAppController.postUserCart(appUserStub.id, dto);
+    userCartsAppController.postUserCart(userStub.id, dto);
 
     expect(userCartService.createUserCart).toBeCalledWith({
-      userId: appUserStub.id,
+      userId: userStub.id,
       productId: dto.productId,
       count: dto.count,
     });
   });
 
   it('getUserCarts', () => {
-    userCartsAppController.getUserCarts(appUserStub.id);
+    userCartsAppController.getUserCarts(userStub.id);
 
-    expect(userCartService.getUserCarts).toBeCalledWith(appUserStub.id);
+    expect(userCartService.getUserCarts).toBeCalledWith(userStub.id);
   });
 
   it('putUserCart', () => {

@@ -9,7 +9,7 @@ import {
   orderProductStub,
   orderProductWithOrderAndProductStub,
 } from '../../../domain/test/order/_stub/order-product.stub';
-import { appUserStub } from '../../../domain/test/app-user/_stub/app-user.stub';
+import { userStub } from '../../../domain/test/_vo/_stub/user.stub';
 
 describe('OrderService', () => {
   let orderService: OrderService;
@@ -81,7 +81,7 @@ describe('OrderService', () => {
         async () =>
           await orderService.orderProductConfirm({
             id: NON_EXISTENT_ID,
-            userId: appUserStub.id,
+            userId: userStub.id,
           }),
       ).rejects.toThrowError(new NotFoundException());
     });
@@ -101,7 +101,7 @@ describe('OrderService', () => {
 
       const result = await orderService.orderProductConfirm({
         id: orderProductStub.id,
-        userId: appUserStub.id,
+        userId: userStub.id,
       });
 
       expect(orderRepo.findOneOrderProductWishOrderAndProduct).toBeCalledWith(
@@ -125,7 +125,7 @@ describe('OrderService', () => {
         async () =>
           await orderService.createOrderProductReview({
             orderProductId: NON_EXISTENT_ID,
-            userId: appUserStub.id,
+            userId: userStub.id,
             score: 5,
             description: '내용',
           }),
@@ -148,7 +148,7 @@ describe('OrderService', () => {
       orderProductStub.status = OrderProductStatus.CONFIRMED;
       const dto = {
         orderProductId: orderProductStub.id,
-        userId: appUserStub.id,
+        userId: userStub.id,
         score: 5,
         description: '내용',
       };
