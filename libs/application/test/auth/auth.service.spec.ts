@@ -1,9 +1,9 @@
 import { ConfigService } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
 import * as jwt from 'jsonwebtoken';
-import { AdminUser } from '@domain/admin-user/admin-user.entity';
 import { AuthService } from '@application/auth/auth.service';
 import { createUserDtoStub } from '../../../domain/test/user/stub/dto/create-user.dto.stub';
+import { User } from '@domain/user/user';
 
 describe('AuthService', () => {
   let authService: AuthService;
@@ -36,7 +36,7 @@ describe('AuthService', () => {
 
     jest.spyOn(jwt, 'sign').mockReturnValue('mockToken');
 
-    const user = await AdminUser.create(createUserDtoStub);
+    const user = await User.create(createUserDtoStub);
     const result = authService.createToken(user);
 
     expect(jwt.sign).toHaveBeenCalledWith(

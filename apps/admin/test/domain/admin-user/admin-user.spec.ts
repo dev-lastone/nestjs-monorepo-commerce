@@ -1,6 +1,6 @@
-import { AdminUser } from '@domain/admin-user/admin-user.entity';
 import { User } from '@domain/user/user';
-import { createUserDtoStub } from '../user/stub/dto/create-user.dto.stub';
+import { AdminUser } from '../../../src/domain/admin-user/admin-user.entity';
+import { createUserDtoStub } from '../../../../../libs/domain/test/user/stub/dto/create-user.dto.stub';
 
 describe('AdminUser', () => {
   it('create', async () => {
