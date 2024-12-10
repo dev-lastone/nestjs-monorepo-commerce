@@ -1,4 +1,4 @@
-export class ProductLikeAppDto {
+export class ProductLikeDto {
   userId: number;
   productId: number;
 }

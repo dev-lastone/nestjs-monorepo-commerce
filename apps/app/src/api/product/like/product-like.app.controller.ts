@@ -1,13 +1,13 @@
 import { Controller, Delete, Param, Post, Version } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { ProductLikeAppService } from './product-like.app.service';
 import { UserId } from '@common/decorator/user-id.decorator';
+import { ProductLikeService } from '../../../application/product/like/product-like.service';
 
 @ApiBearerAuth('jwt')
 @ApiTags('product')
 @Controller('products/:productId/like')
 export class ProductLikeAppController {
-  constructor(private readonly productLikeAppService: ProductLikeAppService) {}
+  constructor(private readonly productLikeService: ProductLikeService) {}
 
   @Version('1')
   @Post()
@@ -15,7 +15,7 @@ export class ProductLikeAppController {
     @UserId() userId: number,
     @Param('productId') productId: number,
   ) {
-    return this.productLikeAppService.postProductLike({
+    return this.productLikeService.postProductLike({
       userId,
       productId,
     });
@@ -27,7 +27,7 @@ export class ProductLikeAppController {
     @UserId() userId: number,
     @Param('productId') productId: number,
   ) {
-    return this.productLikeAppService.deleteProductLike({
+    return this.productLikeService.deleteProductLike({
       userId,
       productId,
     });
