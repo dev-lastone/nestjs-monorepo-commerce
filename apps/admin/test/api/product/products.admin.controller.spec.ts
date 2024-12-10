@@ -3,40 +3,31 @@ import {
   CreateProductDto,
   UpdateProductDto,
 } from '@domain/product/dto/product.dto';
-import { ProductService } from '@application/product/product.service';
 import { ProductsAdminController } from '../../../src/api/product/products.admin.controller';
-import { productsStub } from '../../../../../libs/domain/test/product/_stub/product.stub';
-import { ProductsAdminRepo } from '../../../src/api/product/products.admin.repo';
+import { ProductsAdminService } from '../../../src/api/product/products.admin.service';
 
 describe('ProductsAdminController', () => {
   let productsAdminController: ProductsAdminController;
-  let productService: ProductService;
-  let productsAdminRepo: ProductsAdminRepo;
+  let productsAdminService: ProductsAdminService;
 
   beforeEach(async () => {
     const testingModule = await Test.createTestingModule({
       controllers: [ProductsAdminController],
       providers: [
         {
-          provide: ProductService,
+          provide: ProductsAdminService,
           useValue: {
-            createProduct: jest.fn(),
-            updateProduct: jest.fn(),
+            postProduct: jest.fn(),
+            getProducts: jest.fn(),
+            putProduct: jest.fn(),
             deleteProduct: jest.fn(),
-          },
-        },
-        {
-          provide: ProductsAdminRepo,
-          useValue: {
-            find: jest.fn().mockReturnValue(productsStub),
           },
         },
       ],
     }).compile();
 
     productsAdminController = testingModule.get(ProductsAdminController);
-    productService = testingModule.get(ProductService);
-    productsAdminRepo = testingModule.get(ProductsAdminRepo);
+    productsAdminService = testingModule.get(ProductsAdminService);
   });
 
   it('post', () => {
@@ -47,13 +38,13 @@ describe('ProductsAdminController', () => {
 
     productsAdminController.postProduct(createProductDto);
 
-    expect(productService.createProduct).toBeCalledWith(createProductDto);
+    expect(productsAdminService.postProduct).toBeCalledWith(createProductDto);
   });
 
   it('get', () => {
     productsAdminController.getProducts();
 
-    expect(productsAdminRepo.find).toBeCalled();
+    expect(productsAdminService.getProducts).toBeCalled();
   });
 
   it('put', () => {
@@ -63,12 +54,12 @@ describe('ProductsAdminController', () => {
 
     productsAdminController.putProduct(3, updateProductDto);
 
-    expect(productService.updateProduct).toBeCalledWith(3, updateProductDto);
+    expect(productsAdminService.putProduct).toBeCalledWith(3, updateProductDto);
   });
 
   it('delete', () => {
     productsAdminController.deleteProduct(3);
 
-    expect(productService.deleteProduct).toBeCalledWith(3);
+    expect(productsAdminService.deleteProduct).toBeCalledWith(3);
   });
 });
