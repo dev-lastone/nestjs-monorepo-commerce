@@ -13,6 +13,6 @@ import { OrderRepo } from '@application/order/order.repo';
     AppUserPointModule,
   ],
   providers: [OrderService, OrderRepo],
-  exports: [OrderService, OrderRepo],
+  exports: [OrderService],
 })
 export class OrderModule {}
