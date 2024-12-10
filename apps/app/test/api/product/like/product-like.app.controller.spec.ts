@@ -1,17 +1,17 @@
 import { Test } from '@nestjs/testing';
 import { ProductLikeAppController } from '../../../../src/api/product/like/product-like.app.controller';
-import { ProductLikeAppService } from '../../../../src/api/product/like/product-like.app.service';
+import { ProductLikeService } from '../../../../src/application/product/like/product-like.service';
 
 describe('ProductLikeController', () => {
   let productLikeAppController: ProductLikeAppController;
-  let productLikeAppService: ProductLikeAppService;
+  let productLikeService: ProductLikeService;
 
   beforeEach(async () => {
     const testingModule = await Test.createTestingModule({
       controllers: [ProductLikeAppController],
       providers: [
         {
-          provide: ProductLikeAppService,
+          provide: ProductLikeService,
           useValue: {
             postProductLike: jest.fn().mockReturnValue(true),
             deleteProductLike: jest.fn().mockReturnValue(false),
@@ -21,13 +21,13 @@ describe('ProductLikeController', () => {
     }).compile();
 
     productLikeAppController = testingModule.get(ProductLikeAppController);
-    productLikeAppService = testingModule.get(ProductLikeAppService);
+    productLikeService = testingModule.get(ProductLikeService);
   });
 
   it('post', () => {
     productLikeAppController.postProductLike(2, 1);
 
-    expect(productLikeAppService.postProductLike).toBeCalledWith({
+    expect(productLikeService.postProductLike).toBeCalledWith({
       userId: 2,
       productId: 1,
     });
@@ -36,7 +36,7 @@ describe('ProductLikeController', () => {
   it('delete', () => {
     productLikeAppController.deleteProductLike(1, 1);
 
-    expect(productLikeAppService.deleteProductLike).toBeCalledWith({
+    expect(productLikeService.deleteProductLike).toBeCalledWith({
       userId: 1,
       productId: 1,
     });
