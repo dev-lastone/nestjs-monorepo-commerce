@@ -16,12 +16,6 @@ export class OrdersAppService {
   ) {}
 
   async postOrder(userId: number, dto: PostOrdersAppReqDto) {
-    const products = await Promise.all(
-      dto.productIds.map(async (id) => {
-        return await this.productService.findOneProduct(id);
-      }),
-    );
-
     const userAddress = await this.userAddressRepo.findOneById(
       dto.userAddressId,
     );
@@ -29,6 +23,12 @@ export class OrdersAppService {
     if (userAddress.userId !== userId) {
       throw new ForbiddenException();
     }
+
+    const products = await Promise.all(
+      dto.productIds.map(async (id) => {
+        return await this.productService.findOneProduct(id);
+      }),
+    );
 
     const order = Order.create(userAddress, products);
 
