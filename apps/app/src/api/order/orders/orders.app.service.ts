@@ -1,17 +1,17 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PostOrdersAppReqDto } from './orders.app.dto';
-import { Order } from '@domain/order/order.entity';
-import { OrderRepo } from '@application/order/order.repo';
 import { ProductService } from '@application/product/product.service';
 import { AppUserAddressRepo } from '@application/app-user/address/app-user-address.repo';
 import { OrdersAppRepo } from './orders.app.repo';
+import { OrderService } from '@application/order/order.service';
 
 @Injectable()
 export class OrdersAppService {
   constructor(
     private readonly productService: ProductService,
+    private readonly orderService: OrderService,
+
     private readonly userAddressRepo: AppUserAddressRepo,
-    private readonly orderRepo: OrderRepo,
     private readonly ordersAppRepo: OrdersAppRepo,
   ) {}
 
@@ -30,9 +30,7 @@ export class OrdersAppService {
       }),
     );
 
-    const order = Order.create(userAddress, products);
-
-    return await this.orderRepo.save(order);
+    return await this.orderService.createOrder(userAddress, products);
   }
 
   async getOrders(userId: number) {

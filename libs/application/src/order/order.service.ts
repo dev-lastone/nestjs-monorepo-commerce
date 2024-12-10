@@ -7,6 +7,9 @@ import { OrderRepo } from '@application/order/order.repo';
 import { AppUserPointHistoryAction } from '@domain/app-user/point/app-user-point.entity';
 import { AppUserPointService } from '@application/app-user-point/app-user-point.service';
 import { CreateOrderProductReviewDto } from '@application/order/order.dto';
+import { Order } from '@domain/order/order.entity';
+import { UserAddress } from '@domain/app-user/user-address.entity';
+import { Product } from '@domain/product/product.entity';
 
 @Injectable()
 export class OrderService {
@@ -15,6 +18,12 @@ export class OrderService {
 
     private readonly orderRepo: OrderRepo,
   ) {}
+
+  async createOrder(userAddress: UserAddress, products: Product[]) {
+    const order = Order.create(userAddress, products);
+
+    return await this.orderRepo.save(order);
+  }
 
   async orderProductDeliver(id: number) {
     const orderProduct = await this.orderRepo.findOneProductById(id);
