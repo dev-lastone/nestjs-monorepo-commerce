@@ -3,7 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthAppModule } from './auth/auth.app.module';
 import { configModule } from '@common/setting/config';
-import { ProductsAppModule } from './product/products.app.module';
+import { ProductsAppModule } from './product/products/products.app.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from '@common/guard/jwt.auth.guard';
 import { ProductLikeAppModule } from './product/like/product-like.app.module';
