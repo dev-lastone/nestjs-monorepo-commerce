@@ -1,15 +1,15 @@
 import { Test } from '@nestjs/testing';
 import { OrderService } from '@application/order/order.service';
-import { OrderProductsReviewAppController } from '../../../../../src/api/order/order-products/review/order-products-review.app.controller';
+import { OrderProductReviewAppController } from '../../../../../src/api/order/order-products/review/order-product-review.app.controller';
 import { appUserStub } from '../../../../../../../libs/domain/test/app-user/_stub/app-user.stub';
 
 describe('OrderProductsReviewAppController', () => {
-  let orderProductsReviewAppController: OrderProductsReviewAppController;
+  let orderProductsReviewAppController: OrderProductReviewAppController;
   let orderService: OrderService;
 
   beforeEach(async () => {
     const testingModule = await Test.createTestingModule({
-      controllers: [OrderProductsReviewAppController],
+      controllers: [OrderProductReviewAppController],
       providers: [
         {
           provide: OrderService,
@@ -21,7 +21,7 @@ describe('OrderProductsReviewAppController', () => {
     }).compile();
 
     orderProductsReviewAppController = testingModule.get(
-      OrderProductsReviewAppController,
+      OrderProductReviewAppController,
     );
     orderService = testingModule.get(OrderService);
   });

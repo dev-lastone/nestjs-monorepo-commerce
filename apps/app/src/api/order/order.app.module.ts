@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { OrderProductsAppModule } from './order-products/order-products.app.module';
 import { OrdersAppModule } from './orders/orders.app.module';
-import { OrderProductsReviewAppModule } from './order-products/review/order-products-review.app.module';
+import { OrderProductReviewAppModule } from './order-products/review/order-product-review.app.module';
 
 @Module({
   imports: [
     OrdersAppModule,
     OrderProductsAppModule,
-    OrderProductsReviewAppModule,
+    OrderProductReviewAppModule,
   ],
 })
 export class OrderAppModule {}
