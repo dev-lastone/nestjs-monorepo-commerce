@@ -3,9 +3,9 @@ import { ProductService } from '@application/product/product.service';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { SUCCESS } from '@common/constant/constants';
 import { ProductLike } from '@domain/product/product-like.entity';
-import { ProductLikeRepo } from '../../../../src/application/product/like/product-like.repo';
-import { ProductLikeService } from '../../../../src/application/product/like/product-like.service';
-import { ProductLikeDto } from '../../../../src/application/product/like/product-like.dto';
+import { ProductLikeRepo } from '../../../../../src/application/product/like/product-like.repo';
+import { ProductLikeService } from '../../../../../src/application/product/like/product-like.service';
+import { ProductLikeDto } from '../../../../../src/application/product/like/product-like.dto';
 
 describe('ProductLikeAppService', () => {
   let productLikeService: ProductLikeService;
