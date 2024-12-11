@@ -1,5 +1,5 @@
 import { Test } from '@nestjs/testing';
-import { ProductLikeAppController } from '../../../../src/api/product/like/product-like.app.controller';
+import { ProductLikeAppController } from '../../../../src/api/product/products/like/product-like.app.controller';
 import { ProductLikeService } from '../../../../src/application/product/like/product-like.service';
 
 describe('ProductLikeController', () => {

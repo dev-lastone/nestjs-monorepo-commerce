@@ -6,7 +6,7 @@ import { configModule } from '@common/setting/config';
 import { ProductsAppModule } from './product/products/products.app.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from '@common/guard/jwt.auth.guard';
-import { ProductLikeAppModule } from './product/like/product-like.app.module';
+import { ProductLikeAppModule } from './product/products/like/product-like.app.module';
 import { UserAppModule } from './user/user.app.module';
 import { OrderAppModule } from './order/order.app.module';
 import { AppName, typeOrmSetting } from '@common/setting/type-orm.setting';
