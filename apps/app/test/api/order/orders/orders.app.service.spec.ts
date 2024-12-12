@@ -2,7 +2,6 @@ import { Test } from '@nestjs/testing';
 import { OrderProductStatus } from '@domain/order/order-product.entity';
 import { ForbiddenException } from '@nestjs/common';
 import { ProductService } from '@application/product/product.service';
-import { AppUserAddressRepo } from '@application/app-user/address/app-user-address.repo';
 import { OrdersAppService } from '../../../../src/api/order/orders/orders.app.service';
 import {
   productStub1,
@@ -11,6 +10,7 @@ import {
 import { orderStub } from '../../../../../../libs/domain/test/order/_stub/order.stub';
 import { OrdersAppRepo } from '../../../../src/api/order/orders/orders.app.repo';
 import { OrderService } from '@application/order/order.service';
+import { UserAddressService } from '../../../../src/application/user/address/user-address.service';
 
 describe('OrdersAppService', () => {
   let ordersAppService: OrdersAppService;
@@ -26,9 +26,9 @@ describe('OrdersAppService', () => {
           },
         },
         {
-          provide: AppUserAddressRepo,
+          provide: UserAddressService,
           useValue: {
-            findOneById: jest.fn().mockReturnValue({
+            getUserAddressById: jest.fn().mockReturnValue({
               id: 1,
               userId: 1,
               zipcode: '01234',

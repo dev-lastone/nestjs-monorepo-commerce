@@ -79,9 +79,9 @@ describe('UserAddressesAppController', () => {
 
     userAddressesAppController.deleteUserAddress(userId, id);
 
-    expect(userAddressesAppService.deleteUserAddress).toHaveBeenCalledWith(
+    expect(userAddressesAppService.deleteUserAddress).toHaveBeenCalledWith({
       userId,
       id,
-    );
+    });
   });
 });
