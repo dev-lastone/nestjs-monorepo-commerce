@@ -1,5 +1,5 @@
 import { Test } from '@nestjs/testing';
-import { AppUserCartService } from '@application/app-user/cart/app-user-cart.service';
+import { UserCartService } from '../../../../src/application/user/cart/user-cart.service';
 import { UserCartsAppController } from '../../../../src/api/user/carts/user-carts.app.controller';
 import { productStub1 } from '../../../../../../libs/domain/test/product/_stub/product.stub';
 import { userCartStub } from '../../../../../../libs/domain/test/app-user/_stub/user-cart.stub';
@@ -7,14 +7,14 @@ import { userStub } from '../../../../../../libs/domain/test/user/stub/user.stub
 
 describe('UserCartsAppController', () => {
   let userCartsAppController: UserCartsAppController;
-  let userCartService: AppUserCartService;
+  let userCartService: UserCartService;
 
   beforeEach(async () => {
     const testingModule = await Test.createTestingModule({
       controllers: [UserCartsAppController],
       providers: [
         {
-          provide: AppUserCartService,
+          provide: UserCartService,
           useValue: {
             createUserCart: jest.fn(),
             getUserCarts: jest.fn(),
@@ -26,7 +26,7 @@ describe('UserCartsAppController', () => {
     }).compile();
 
     userCartsAppController = testingModule.get(UserCartsAppController);
-    userCartService = testingModule.get(AppUserCartService);
+    userCartService = testingModule.get(UserCartService);
   });
 
   it('postUserCart', () => {

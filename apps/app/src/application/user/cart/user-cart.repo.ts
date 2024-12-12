@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { AppUserCart } from '@domain/app-user/app-user-cart.entity';
 
 @Injectable()
-export class AppUserCartRepo {
+export class UserCartRepo {
   constructor(
     @InjectRepository(AppUserCart)
     private readonly userCartRepo: Repository<AppUserCart>,
