@@ -12,7 +12,7 @@ import {
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserAddressesAppService } from './user-addresses.app.service';
 import { UserId } from '@common/decorator/user-id.decorator';
-import { UserAddressRequestDto } from './user-addresses.app.dto';
+import { UserAddressRequestDto } from '../../../application/user/address/user-address.dto';
 import { UserAddress } from '@domain/app-user/user-address.entity';
 
 @ApiBearerAuth('jwt')
@@ -61,6 +61,6 @@ export class UserAddressesAppController {
   @Delete(':id')
   @HttpCode(204)
   async deleteUserAddress(@UserId() userId: number, @Param('id') id: number) {
-    return await this.userAppService.deleteUserAddress(userId, id);
+    return await this.userAppService.deleteUserAddress({ userId, id });
   }
 }

@@ -1,9 +1,9 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PostOrdersAppReqDto } from './orders.app.dto';
 import { ProductService } from '@application/product/product.service';
-import { AppUserAddressRepo } from '@application/app-user/address/app-user-address.repo';
 import { OrdersAppRepo } from './orders.app.repo';
 import { OrderService } from '@application/order/order.service';
+import { UserAddressService } from '../../../application/user/address/user-address.service';
 
 @Injectable()
 export class OrdersAppService {
@@ -11,12 +11,13 @@ export class OrdersAppService {
     private readonly productService: ProductService,
     private readonly orderService: OrderService,
 
-    private readonly userAddressRepo: AppUserAddressRepo,
+    private readonly userAddressService: UserAddressService,
     private readonly ordersAppRepo: OrdersAppRepo,
   ) {}
 
   async postOrder(userId: number, dto: PostOrdersAppReqDto) {
-    const userAddress = await this.userAddressRepo.findOneById(
+    // TODO user lazy loading
+    const userAddress = await this.userAddressService.getUserAddressById(
       dto.userAddressId,
     );
 
