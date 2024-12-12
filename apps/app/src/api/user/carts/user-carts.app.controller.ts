@@ -15,7 +15,7 @@ import {
   PutUserCartsAppReqDto,
 } from './user-carts.app.dto';
 import { UserId } from '@common/decorator/user-id.decorator';
-import { AppUserCartService } from '@application/app-user/cart/app-user-cart.service';
+import { UserCartService } from '../../../application/user/cart/user-cart.service';
 import { AppUserCart } from '@domain/app-user/app-user-cart.entity';
 import { DeleteUserCartDto } from '@domain/app-user/dto/user-cart.dto';
 
@@ -23,7 +23,7 @@ import { DeleteUserCartDto } from '@domain/app-user/dto/user-cart.dto';
 @ApiTags('user')
 @Controller('user/carts')
 export class UserCartsAppController {
-  constructor(private readonly userCartService: AppUserCartService) {}
+  constructor(private readonly userCartService: UserCartService) {}
 
   @Version('1')
   @Post()

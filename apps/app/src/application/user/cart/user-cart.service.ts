@@ -6,11 +6,11 @@ import {
   DeleteUserCartDto,
   UpdateUserCartDto,
 } from '@domain/app-user/dto/user-cart.dto';
-import { AppUserCartRepo } from './app-user-cart.repo';
+import { UserCartRepo } from './user-cart.repo';
 
 @Injectable()
-export class AppUserCartService {
-  constructor(private readonly userCartRepo: AppUserCartRepo) {}
+export class UserCartService {
+  constructor(private readonly userCartRepo: UserCartRepo) {}
 
   async createUserCart(dto: CreateUserCartDto) {
     const userCart = new AppUserCart();
