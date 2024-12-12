@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { AuthService } from '@application/auth/auth.service';
-import { AppUserService } from '@application/app-user/app-user.service';
+import { UserService } from '../../application/user/user.service';
 import { CreateUserDto } from '@domain/user/dto/create-user.dto';
 import { SignInUserDto } from '@domain/user/dto/sign-in-user.dto';
 
@@ -8,7 +8,7 @@ import { SignInUserDto } from '@domain/user/dto/sign-in-user.dto';
 export class AuthAppService {
   constructor(
     private readonly authService: AuthService,
-    private readonly appUserService: AppUserService,
+    private readonly appUserService: UserService,
   ) {}
 
   async signUp(dto: CreateUserDto) {

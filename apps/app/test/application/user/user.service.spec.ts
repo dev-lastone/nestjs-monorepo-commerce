@@ -1,24 +1,24 @@
 import { Test } from '@nestjs/testing';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { SUCCESS } from '@common/constant/constants';
-import { AppUserService } from '@application/app-user/app-user.service';
-import { AppUserRepo } from '@application/app-user/app-user.repo';
-import { appUserStub } from '../../../domain/test/app-user/_stub/app-user.stub';
-import { createUserDtoStub } from '../../../domain/test/user/stub/dto/create-user.dto.stub';
-import { signInUserDtoStub } from '../../../domain/test/user/stub/dto/sign-in-user.dto.stub';
-import { userStub } from '../../../domain/test/user/stub/user.stub';
-import { invalidPasswordStub } from '../../../domain/test/_vo/_stub/user-password.stub';
+import { UserService } from '../../../src/application/user/user.service';
+import { UserRepo } from '../../../src/application/user/user.repo';
+import { appUserStub } from '../../../../../libs/domain/test/app-user/_stub/app-user.stub';
+import { createUserDtoStub } from '../../../../../libs/domain/test/user/stub/dto/create-user.dto.stub';
+import { signInUserDtoStub } from '../../../../../libs/domain/test/user/stub/dto/sign-in-user.dto.stub';
+import { userStub } from '../../../../../libs/domain/test/user/stub/user.stub';
+import { invalidPasswordStub } from '../../../../../libs/domain/test/_vo/_stub/user-password.stub';
 
 describe('AppUserService', () => {
-  let appUserService: AppUserService;
-  let appUserRepo: AppUserRepo;
+  let appUserService: UserService;
+  let appUserRepo: UserRepo;
 
   beforeEach(async () => {
     const testingModule = await Test.createTestingModule({
       providers: [
-        AppUserService,
+        UserService,
         {
-          provide: AppUserRepo,
+          provide: UserRepo,
           useValue: {
             findOneByEmail: jest.fn(),
           },
@@ -26,8 +26,8 @@ describe('AppUserService', () => {
       ],
     }).compile();
 
-    appUserService = testingModule.get(AppUserService);
-    appUserRepo = testingModule.get(AppUserRepo);
+    appUserService = testingModule.get(UserService);
+    appUserRepo = testingModule.get(UserRepo);
   });
 
   it('signUp', async () => {

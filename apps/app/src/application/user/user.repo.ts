@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 @Injectable()
-export class AppUserRepo {
+export class UserRepo {
   constructor(
     @InjectRepository(AppUser)
     private readonly appUserRepo: Repository<AppUser>,
