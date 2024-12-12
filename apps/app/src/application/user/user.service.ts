@@ -4,14 +4,14 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
-import { AppUserRepo } from '@application/app-user/app-user.repo';
+import { UserRepo } from './user.repo';
 import { AppUser } from '@domain/app-user/app-user.entity';
 import { CreateUserDto } from '@domain/user/dto/create-user.dto';
 import { SignInUserDto } from '@domain/user/dto/sign-in-user.dto';
 
 @Injectable()
-export class AppUserService {
-  constructor(private readonly appUserRepo: AppUserRepo) {}
+export class UserService {
+  constructor(private readonly appUserRepo: UserRepo) {}
 
   async signUp(dto: CreateUserDto) {
     const dupUserEmail = await this.appUserRepo.findOneByEmail(dto.email);
