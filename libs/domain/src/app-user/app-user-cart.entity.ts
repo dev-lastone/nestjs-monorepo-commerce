@@ -3,6 +3,7 @@ import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { AppUser } from '@domain/app-user/app-user.entity';
 import { MyBaseEntity } from '@common/entity/my-base-entity';
 import { CreateUserCartDto } from '@domain/app-user/dto/user-cart.dto';
+import { validateOrReject } from 'class-validator';
 
 @Entity('user_cart', { schema: 'app' })
 export class AppUserCart extends MyBaseEntity {
@@ -23,11 +24,14 @@ export class AppUserCart extends MyBaseEntity {
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   user: AppUser;
 
-  static create(dto: CreateUserCartDto) {
+  static async create(dto: CreateUserCartDto) {
     const userCart = new AppUserCart();
     userCart.userId = dto.userId;
     userCart.productId = dto.productId;
     userCart.count = dto.count;
+
+    await validateOrReject(this);
+
     return userCart;
   }
 }
