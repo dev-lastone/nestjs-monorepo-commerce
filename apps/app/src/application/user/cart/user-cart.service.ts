@@ -13,10 +13,7 @@ export class UserCartService {
   constructor(private readonly userCartRepo: UserCartRepo) {}
 
   async createUserCart(dto: CreateUserCartDto) {
-    const userCart = new AppUserCart();
-    userCart.userId = dto.userId;
-    userCart.productId = dto.productId;
-    userCart.count = dto.count;
+    const userCart = await AppUserCart.create(dto);
 
     return await this.userCartRepo.save(userCart);
   }

@@ -34,7 +34,7 @@ describe('UserCartService', () => {
   it('createUserCart', async () => {
     const dto = { productId: productStub1.id, count: 1 };
 
-    const userCart = AppUserCart.create({
+    const userCart = await AppUserCart.create({
       userId: userCartStub.userId,
       productId: userCartStub.productId,
       count: dto.count,
@@ -76,7 +76,7 @@ describe('UserCartService', () => {
     it('성공', async () => {
       const dto = { count: 2 };
 
-      const userCart = AppUserCart.create({
+      const userCart = await AppUserCart.create({
         userId: userCartStub.userId,
         productId: userCartStub.productId,
         count: dto.count,
