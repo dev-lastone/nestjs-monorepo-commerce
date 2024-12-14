@@ -1,5 +1,5 @@
-import { plainToInstance } from 'class-transformer';
-import { IsNotEmpty, IsString, validateSync } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
+import { dtoToInstance } from '@common/util/dto-to-instance';
 
 export class EnvVariables {
   @IsString()
@@ -28,21 +28,5 @@ export class EnvVariables {
 }
 
 export function validateEnv(config: Record<string, unknown>): EnvVariables {
-  const validatedConfig = plainToInstance(EnvVariables, config, {
-    enableImplicitConversion: true,
-  });
-
-  const errors = validateSync(validatedConfig, {
-    skipMissingProperties: false,
-  });
-
-  if (errors.length > 0) {
-    const errorConstraints = errors.map((error) => {
-      return error.constraints;
-    });
-
-    throw new Error(JSON.stringify(errorConstraints));
-  }
-
-  return validatedConfig;
+  return dtoToInstance({ class: EnvVariables, dto: config });
 }
