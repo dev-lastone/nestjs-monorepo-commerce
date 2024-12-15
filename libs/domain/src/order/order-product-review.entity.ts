@@ -19,11 +19,12 @@ import { dtoToInstance } from '@common/util/dto-to-instance';
 
 @Entity('order_product_review', { schema: 'app' })
 export class OrderProductReview {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({
+    type: 'bigint',
+  })
   @ApiProperty({
     example: 1,
   })
-  @Column({ name: 'id', type: 'bigint' })
   id: number;
 
   @ApiProperty({
