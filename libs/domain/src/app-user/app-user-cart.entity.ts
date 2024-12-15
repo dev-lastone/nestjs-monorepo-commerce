@@ -3,17 +3,26 @@ import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { AppUser } from '@domain/app-user/app-user.entity';
 import { MyBaseEntity } from '@common/entity/my-base-entity';
 import { CreateUserCartDto } from '@domain/app-user/dto/user-cart.dto';
-import { validateOrReject } from 'class-validator';
+import { dtoToInstance } from '@common/util/dto-to-instance';
+import { IsNotEmpty, IsNumber } from 'class-validator';
 
 @Entity('user_cart', { schema: 'app' })
 export class AppUserCart extends MyBaseEntity {
+  @IsNotEmpty()
+  @IsNumber()
   @Column('bigint', { name: 'user_id' })
   userId: number;
+
+  @IsNotEmpty()
+  @IsNumber()
   @ApiProperty({
     example: 1,
   })
   @Column('bigint', { name: 'product_id' })
   productId: number;
+
+  @IsNotEmpty()
+  @IsNumber()
   @ApiProperty({
     example: 1,
   })
@@ -24,14 +33,7 @@ export class AppUserCart extends MyBaseEntity {
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   user: AppUser;
 
-  static async create(dto: CreateUserCartDto) {
-    const userCart = new AppUserCart();
-    userCart.userId = dto.userId;
-    userCart.productId = dto.productId;
-    userCart.count = dto.count;
-
-    await validateOrReject(this);
-
-    return userCart;
+  static create(dto: CreateUserCartDto) {
+    return dtoToInstance({ class: AppUserCart, dto });
   }
 }
