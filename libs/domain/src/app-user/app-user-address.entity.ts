@@ -1,12 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsNotEmpty } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsNumber } from 'class-validator';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { AppUser } from '@domain/app-user/app-user.entity';
 import { Address } from '@domain/_vo/address';
 import { MyBaseEntity } from '@common/entity/my-base-entity';
+import { dtoToInstance } from '@common/util/dto-to-instance';
 
 @Entity('user_address', { schema: 'app' })
 export class AppUserAddress extends MyBaseEntity {
+  @IsNotEmpty()
+  @IsNumber()
   @ApiProperty({
     example: 1,
   })
@@ -28,10 +31,6 @@ export class AppUserAddress extends MyBaseEntity {
   user: AppUser;
 
   static create(dto: { userId: number; isDefault: boolean; address: Address }) {
-    const userAddress = new AppUserAddress();
-    userAddress.userId = dto.userId;
-    userAddress.isDefault = dto.isDefault;
-    userAddress.address = dto.address;
-    return userAddress;
+    return dtoToInstance({ class: AppUserAddress, dto });
   }
 }
