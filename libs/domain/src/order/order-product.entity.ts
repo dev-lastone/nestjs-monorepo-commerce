@@ -5,6 +5,7 @@ import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { Order } from '@domain/order/order.entity';
 import { OrderProductReview } from '@domain/order/order-product-review.entity';
 import {
+  Column,
   Entity,
   JoinColumn,
   ManyToOne,
@@ -36,14 +37,18 @@ export class OrderProduct {
   @ApiProperty({
     example: 1,
   })
+  @Column({ name: 'order_id', type: 'bigint' })
   orderId: number;
 
   @IsNotEmpty()
   @IsNumber()
+  @Column({ name: 'product_id', type: 'bigint' })
   productId: number;
+
   @ApiProperty({
     example: '상품명',
   })
+  @Column({ name: 'name', type: 'varchar', length: 200 })
   name: string;
 
   @IsNotEmpty()
@@ -51,8 +56,10 @@ export class OrderProduct {
   @ApiProperty({
     example: 1000,
   })
+  @Column({ name: 'price', type: 'int' })
   price: number;
 
+  @Column({ name: 'status', type: 'enum', enum: OrderProductStatus })
   status: OrderProductStatus;
 
   @ManyToOne(() => Order, (order) => order.products)
