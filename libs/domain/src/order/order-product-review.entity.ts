@@ -41,7 +41,7 @@ export class OrderProductReview extends MyBaseEntity {
   @IsNotEmpty()
   @IsString()
   @Length(20, 200)
-  @Column({ name: 'address', type: 'varchar', length: '200' })
+  @Column({ name: 'description', type: 'varchar', length: '200' })
   description: string;
 
   @OneToOne(() => OrderProduct, (orderProduct) => orderProduct.review)
