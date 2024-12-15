@@ -1,12 +1,12 @@
 import { Product } from '@domain/product/product.entity';
 import { OrderProduct } from '@domain/order/order-product.entity';
 import { productStub1, productStub2 } from '../product/_stub/product.stub';
-import { userAddressStub } from '../app-user/_stub/user-address.stub';
+import { appUserAddressStub } from '../app-user/_stub/app-user-address.stub';
 import { Order } from '@domain/order/order.entity';
 
 describe('Order Entity', () => {
   it('should create an order with user address and products', () => {
-    const userAddress = userAddressStub;
+    const userAddress = appUserAddressStub;
     const products: Product[] = [productStub1, productStub2];
 
     const order = Order.create(userAddress, products);

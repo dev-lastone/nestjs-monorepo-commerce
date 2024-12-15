@@ -1,6 +1,6 @@
 import { Entity, OneToMany, OneToOne } from 'typeorm';
 import { AppUserPoint } from '@domain/app-user/point/app-user-point.entity';
-import { UserAddress } from '@domain/app-user/user-address.entity';
+import { AppUserAddress } from '@domain/app-user/app-user-address.entity';
 import { AppUserCart } from '@domain/app-user/app-user-cart.entity';
 import { ProductLike } from '@domain/product/product-like.entity';
 import { User } from '@domain/user/user';
@@ -13,8 +13,8 @@ export class AppUser extends User {
   })
   point: AppUserPoint;
 
-  @OneToMany(() => UserAddress, (userAddress) => userAddress.user)
-  addresses: UserAddress[];
+  @OneToMany(() => AppUserAddress, (userAddress) => userAddress.user)
+  addresses: AppUserAddress[];
 
   @OneToMany(() => AppUserCart, (userCart) => userCart.user)
   carts: AppUserCart[];

@@ -2,13 +2,13 @@ import { Test } from '@nestjs/testing';
 import { NON_EXISTENT_ID, SUCCESS } from '@common/constant/constants';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { ForbiddenException } from '@nestjs/common';
-import { UserAddress } from '@domain/app-user/user-address.entity';
-import { userAddressStub } from '../../../../../../libs/domain/test/app-user/_stub/user-address.stub';
+import { AppUserAddress } from '@domain/app-user/app-user-address.entity';
+import { appUserAddressStub } from '../../../../../../libs/domain/test/app-user/_stub/app-user-address.stub';
 import { UserAddressRepo } from '../../../../src/application/user/address/user-address.repo';
 import { UserAddressService } from '../../../../src/application/user/address/user-address.service';
 
 describe('UserAddressService', () => {
-  const userId = userAddressStub.userId;
+  const userId = appUserAddressStub.userId;
   let userAddressService: UserAddressService;
   let userAddressRepo: UserAddressRepo;
 
@@ -53,7 +53,7 @@ describe('UserAddressService', () => {
       it(SUCCESS, async () => {
         dto.isDefault = true;
 
-        const userAddress = UserAddress.create({
+        const userAddress = AppUserAddress.create({
           userId,
           ...dto,
         });
@@ -77,9 +77,9 @@ describe('UserAddressService', () => {
       it('isDefault false', async () => {
         jest
           .spyOn(userAddressRepo, 'findByUserId')
-          .mockResolvedValue([userAddressStub]);
+          .mockResolvedValue([appUserAddressStub]);
 
-        const userAddress = UserAddress.create({
+        const userAddress = AppUserAddress.create({
           userId,
           ...dto,
         });
@@ -104,7 +104,7 @@ describe('UserAddressService', () => {
       it('isDefault true', async () => {
         dto.isDefault = true;
 
-        const userAddress = UserAddress.create({
+        const userAddress = AppUserAddress.create({
           userId,
           ...dto,
         });
@@ -129,7 +129,7 @@ describe('UserAddressService', () => {
     it(ERROR_MESSAGES.UserAddressMaxLength, () => {
       jest
         .spyOn(userAddressRepo, 'findByUserId')
-        .mockResolvedValue(new Array(10).fill(userAddressStub));
+        .mockResolvedValue(new Array(10).fill(appUserAddressStub));
 
       expect(() =>
         userAddressService.createUserAddress({ userId, ...dto }),
@@ -140,12 +140,12 @@ describe('UserAddressService', () => {
   it('get', async () => {
     jest
       .spyOn(userAddressRepo, 'findByUserId')
-      .mockResolvedValue([userAddressStub]);
+      .mockResolvedValue([appUserAddressStub]);
 
     const result = await userAddressService.getUserAddresses(
-      userAddressStub.userId,
+      appUserAddressStub.userId,
     );
-    expect(result).toEqual([userAddressStub]);
+    expect(result).toEqual([appUserAddressStub]);
   });
 
   describe('put', () => {
@@ -158,12 +158,12 @@ describe('UserAddressService', () => {
     };
 
     it(SUCCESS, async () => {
-      const id = userAddressStub.id;
+      const id = appUserAddressStub.id;
 
       jest
         .spyOn(userAddressRepo, 'findOneById')
-        .mockResolvedValue(userAddressStub);
-      jest.spyOn(userAddressRepo, 'save').mockResolvedValue(userAddressStub);
+        .mockResolvedValue(appUserAddressStub);
+      jest.spyOn(userAddressRepo, 'save').mockResolvedValue(appUserAddressStub);
 
       const result = await userAddressService.updateUserAddress({
         id,
@@ -200,11 +200,11 @@ describe('UserAddressService', () => {
     it('403', () => {
       jest
         .spyOn(userAddressRepo, 'findOneById')
-        .mockResolvedValue(userAddressStub);
+        .mockResolvedValue(appUserAddressStub);
 
       expect(() =>
         userAddressService.updateUserAddress({
-          id: userAddressStub.id,
+          id: appUserAddressStub.id,
           userId: 2,
           ...dto,
         }),
@@ -222,22 +222,22 @@ describe('UserAddressService', () => {
     it('403', () => {
       jest
         .spyOn(userAddressRepo, 'findOneById')
-        .mockResolvedValue(userAddressStub);
+        .mockResolvedValue(appUserAddressStub);
 
       expect(() =>
         userAddressService.deleteUserAddress({
           userId: 2,
-          id: userAddressStub.id,
+          id: appUserAddressStub.id,
         }),
       ).rejects.toThrow(new ForbiddenException());
     });
 
     it('성공', async () => {
-      const id = userAddressStub.id;
+      const id = appUserAddressStub.id;
 
       jest
         .spyOn(userAddressRepo, 'findOneById')
-        .mockResolvedValue(userAddressStub);
+        .mockResolvedValue(appUserAddressStub);
 
       const result = await userAddressService.deleteUserAddress({
         userId,

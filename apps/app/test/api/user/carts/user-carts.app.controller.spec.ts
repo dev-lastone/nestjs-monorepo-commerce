@@ -2,7 +2,7 @@ import { Test } from '@nestjs/testing';
 import { UserCartService } from '../../../../src/application/user/cart/user-cart.service';
 import { UserCartsAppController } from '../../../../src/api/user/carts/user-carts.app.controller';
 import { productStub1 } from '../../../../../../libs/domain/test/product/_stub/product.stub';
-import { userCartStub } from '../../../../../../libs/domain/test/app-user/_stub/user-cart.stub';
+import { appUserCartStub } from '../../../../../../libs/domain/test/app-user/_stub/app-user-cart.stub';
 import { userStub } from '../../../../../../libs/domain/test/user/stub/user.stub';
 
 describe('UserCartsAppController', () => {
@@ -50,24 +50,27 @@ describe('UserCartsAppController', () => {
   it('putUserCart', () => {
     const dto = { count: 2 };
     userCartsAppController.putUserCart(
-      userCartStub.userId,
-      userCartStub.id,
+      appUserCartStub.userId,
+      appUserCartStub.id,
       dto,
     );
 
     expect(userCartService.putUserCart).toBeCalledWith({
-      userId: userCartStub.userId,
-      id: userCartStub.id,
+      userId: appUserCartStub.userId,
+      id: appUserCartStub.id,
       count: dto.count,
     });
   });
 
   it('delete', () => {
-    userCartsAppController.deleteUserCart(userCartStub.userId, userCartStub.id);
+    userCartsAppController.deleteUserCart(
+      appUserCartStub.userId,
+      appUserCartStub.id,
+    );
 
     expect(userCartService.deleteUserCart).toBeCalledWith({
-      userId: userCartStub.userId,
-      id: userCartStub.id,
+      userId: appUserCartStub.userId,
+      id: appUserCartStub.id,
     });
   });
 });

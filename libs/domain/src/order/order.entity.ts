@@ -3,7 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import { Product } from '@domain/product/product.entity';
 import { Column, Entity, OneToMany } from 'typeorm';
-import { UserAddress } from '@domain/app-user/user-address.entity';
+import { AppUserAddress } from '@domain/app-user/app-user-address.entity';
 import { Address } from '@domain/_vo/address';
 import { MyBaseEntity } from '@common/entity/my-base-entity';
 
@@ -28,7 +28,7 @@ export class Order extends MyBaseEntity {
   @OneToMany(() => OrderProduct, (orderProduct) => orderProduct.order)
   products: OrderProduct[];
 
-  static create(userAddress: UserAddress, products: Product[]) {
+  static create(userAddress: AppUserAddress, products: Product[]) {
     const order = new Order();
     order.userId = userAddress.userId;
     order.address = userAddress.address;

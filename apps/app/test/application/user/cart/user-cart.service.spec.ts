@@ -3,7 +3,7 @@ import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { UserCartService } from '../../../../src/application/user/cart/user-cart.service';
 import { UserCartRepo } from '../../../../src/application/user/cart/user-cart.repo';
 import { AppUserCart } from '@domain/app-user/app-user-cart.entity';
-import { userCartStub } from '../../../../../../libs/domain/test/app-user/_stub/user-cart.stub';
+import { appUserCartStub } from '../../../../../../libs/domain/test/app-user/_stub/app-user-cart.stub';
 import { appUserStub } from '../../../../../../libs/domain/test/app-user/_stub/app-user.stub';
 import { productStub1 } from '../../../../../../libs/domain/test/product/_stub/product.stub';
 
@@ -19,8 +19,8 @@ describe('UserCartService', () => {
           provide: UserCartRepo,
           useValue: {
             save: jest.fn(),
-            findByUserId: jest.fn().mockResolvedValue([userCartStub]),
-            findOneById: jest.fn().mockResolvedValue(userCartStub),
+            findByUserId: jest.fn().mockResolvedValue([appUserCartStub]),
+            findOneById: jest.fn().mockResolvedValue(appUserCartStub),
             delete: jest.fn(),
           },
         },
@@ -34,9 +34,9 @@ describe('UserCartService', () => {
   it('createUserCart', async () => {
     const dto = { productId: productStub1.id, count: 1 };
 
-    const userCart = await AppUserCart.create({
-      userId: userCartStub.userId,
-      productId: userCartStub.productId,
+    const userCart = AppUserCart.create({
+      userId: appUserCartStub.userId,
+      productId: appUserCartStub.productId,
       count: dto.count,
     });
 
@@ -59,7 +59,7 @@ describe('UserCartService', () => {
 
   it('getUserCarts', async () => {
     const result = await userCartService.getUserCarts(appUserStub.id);
-    expect(result).toEqual([userCartStub]);
+    expect(result).toEqual([appUserCartStub]);
   });
 
   describe('putUserCart', () => {
@@ -76,27 +76,27 @@ describe('UserCartService', () => {
     it('성공', async () => {
       const dto = { count: 2 };
 
-      const userCart = await AppUserCart.create({
-        userId: userCartStub.userId,
-        productId: userCartStub.productId,
+      const userCart = AppUserCart.create({
+        userId: appUserCartStub.userId,
+        productId: appUserCartStub.productId,
         count: dto.count,
       });
 
       jest.spyOn(userCartRepo, 'save').mockResolvedValue({
-        id: userCartStub.id,
+        id: appUserCartStub.id,
         ...userCart,
       });
 
       const result = await userCartService.putUserCart({
-        userId: userCartStub.userId,
-        id: userCartStub.id,
+        userId: appUserCartStub.userId,
+        id: appUserCartStub.id,
         ...dto,
       });
 
       expect(result).toEqual({
-        id: userCartStub.id,
-        userId: userCartStub.userId,
-        productId: userCartStub.productId,
+        id: appUserCartStub.id,
+        userId: appUserCartStub.userId,
+        productId: appUserCartStub.productId,
         count: dto.count,
       });
     });
@@ -104,8 +104,8 @@ describe('UserCartService', () => {
 
   it('deleteUserCart', async () => {
     const result = await userCartService.deleteUserCart({
-      userId: userCartStub.userId,
-      id: userCartStub.id,
+      userId: appUserCartStub.userId,
+      id: appUserCartStub.id,
     });
     expect(result).toBeUndefined();
   });
