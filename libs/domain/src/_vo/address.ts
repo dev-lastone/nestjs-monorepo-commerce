@@ -1,11 +1,7 @@
-import {
-  IsNotEmpty,
-  IsPostalCode,
-  IsString,
-  validateOrReject,
-} from 'class-validator';
+import { IsNotEmpty, IsPostalCode, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Column } from 'typeorm';
+import { dtoToInstance } from '@common/util/dto-to-instance';
 
 export class Address {
   @ApiProperty({
@@ -25,16 +21,6 @@ export class Address {
   address: string;
 
   static create(dto: { zipcode: string; address: string }) {
-    const address = new Address();
-    address.zipcode = dto.zipcode;
-    address.address = dto.address;
-
-    this.validate();
-
-    return address;
-  }
-
-  static async validate() {
-    await validateOrReject(this);
+    return dtoToInstance({ class: Address, dto });
   }
 }
