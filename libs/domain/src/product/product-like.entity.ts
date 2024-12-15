@@ -3,14 +3,21 @@ import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { Product } from '@domain/product/product.entity';
 import { MyBaseEntity } from '@common/entity/my-base-entity';
 import { AppUser } from '@domain/app-user/app-user.entity';
+import { dtoToInstance } from '@common/util/dto-to-instance';
+import { IsNotEmpty, IsNumber } from 'class-validator';
 
 @Entity('product_like', { schema: 'app' })
 export class ProductLike extends MyBaseEntity {
+  @IsNotEmpty()
+  @IsNumber()
   @Column('bigint', { name: 'user_id' })
   userId: number;
+
   @ApiProperty({
     example: 1,
   })
+  @IsNotEmpty()
+  @IsNumber()
   @Column('bigint', { name: 'product_id' })
   productId: number;
 
@@ -23,9 +30,6 @@ export class ProductLike extends MyBaseEntity {
   product: Product;
 
   static create(dto: { userId: number; productId: number }) {
-    const productLike = new ProductLike();
-    productLike.userId = dto.userId;
-    productLike.productId = dto.productId;
-    return productLike;
+    return dtoToInstance({ class: ProductLike, dto });
   }
 }
