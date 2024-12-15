@@ -14,6 +14,7 @@ import {
 } from 'typeorm';
 import { IsNotEmpty, IsNumber } from 'class-validator';
 import { CreateOrderProductReviewDto } from '@domain/order/dto/order-product-review.dto';
+import { dtoToInstance } from '@common/util/dto-to-instance';
 
 export enum OrderProductStatus {
   ORDERED = 'ordered',
@@ -31,14 +32,6 @@ export class OrderProduct {
     example: 1,
   })
   id: number;
-
-  @IsNotEmpty()
-  @IsNumber()
-  @ApiProperty({
-    example: 1,
-  })
-  @Column({ name: 'order_id', type: 'bigint' })
-  orderId: number;
 
   @IsNotEmpty()
   @IsNumber()
@@ -77,13 +70,15 @@ export class OrderProduct {
   review: OrderProductReview;
 
   static create(product: Product) {
-    const orderProduct = new OrderProduct();
-    orderProduct.productId = product.id;
-    orderProduct.name = product.name;
-    orderProduct.price = product.price;
-    orderProduct.status = OrderProductStatus.ORDERED;
-
-    return orderProduct;
+    return dtoToInstance({
+      class: OrderProduct,
+      dto: {
+        productId: product.id,
+        name: product.name,
+        price: product.price,
+        status: OrderProductStatus.ORDERED,
+      },
+    });
   }
 
   deliver() {

@@ -10,7 +10,7 @@ import {
 } from './_stub/order-product.stub';
 
 describe('OrderProduct', () => {
-  it('constructor', () => {
+  it('create', () => {
     const orderProduct = OrderProduct.create(productStub1);
     expect(orderProduct).toEqual({
       productId: productStub1.id,
