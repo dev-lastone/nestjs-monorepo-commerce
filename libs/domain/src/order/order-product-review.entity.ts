@@ -32,11 +32,6 @@ export class OrderProductReview {
   @Column({ name: 'order_product_id', type: 'bigint' })
   orderProductId: number;
 
-  @IsNumber()
-  @IsNotEmpty()
-  @Column({ name: 'user_id', type: 'bigint' })
-  userId: number;
-
   @ApiProperty({
     example: 5,
     description: '점수. 1 ~ 5',
