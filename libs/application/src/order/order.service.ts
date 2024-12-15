@@ -6,10 +6,10 @@ import {
 import { OrderRepo } from '@application/order/order.repo';
 import { AppUserPointHistoryAction } from '@domain/app-user/point/app-user-point.entity';
 import { AppUserPointService } from '@application/app-user-point/app-user-point.service';
-import { CreateOrderProductReviewDto } from '@application/order/order.dto';
 import { Order } from '@domain/order/order.entity';
 import { AppUserAddress } from '@domain/app-user/app-user-address.entity';
 import { Product } from '@domain/product/product.entity';
+import { CreateOrderProductReviewDto } from '@domain/order/dto/order-product-review.dto';
 
 @Injectable()
 export class OrderService {
@@ -67,7 +67,12 @@ export class OrderService {
     return orderProduct;
   }
 
-  async createOrderProductReview(dto: CreateOrderProductReviewDto) {
+  async createOrderProductReview(
+    dto: CreateOrderProductReviewDto & {
+      userId: number;
+      orderProductId: number;
+    },
+  ) {
     const orderProduct = await this.orderRepo.findOneWishOrderProductReview(
       dto.orderProductId,
     );

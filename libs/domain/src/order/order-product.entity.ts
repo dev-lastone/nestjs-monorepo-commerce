@@ -4,7 +4,6 @@ import { BadRequestException } from '@nestjs/common';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { Order } from '@domain/order/order.entity';
 import { OrderProductReview } from '@domain/order/order-product-review.entity';
-import { PostOrderProductsReviewReqDto } from '../../../../apps/app/src/api/order/order-products/review/order-product-review.app.dto';
 import {
   Entity,
   JoinColumn,
@@ -13,6 +12,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { IsNotEmpty, IsNumber } from 'class-validator';
+import { CreateOrderProductReviewDto } from '@domain/order/dto/order-product-review.dto';
 
 export enum OrderProductStatus {
   ORDERED = 'ordered',
@@ -23,7 +23,9 @@ export enum OrderProductStatus {
 
 @Entity('order_product', { schema: 'app' })
 export class OrderProduct {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({
+    type: 'bigint',
+  })
   @ApiProperty({
     example: 1,
   })
@@ -91,7 +93,7 @@ export class OrderProduct {
     this.status = OrderProductStatus.CONFIRMED;
   }
 
-  createReview(dto: PostOrderProductsReviewReqDto) {
+  createReview(dto: CreateOrderProductReviewDto) {
     if (this.status !== OrderProductStatus.CONFIRMED) {
       throw new BadRequestException(ERROR_MESSAGES.NotConfirmStatus);
     }

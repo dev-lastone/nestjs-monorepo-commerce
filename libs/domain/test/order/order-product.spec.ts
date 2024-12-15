@@ -4,8 +4,10 @@ import {
 } from '@domain/order/order-product.entity';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { productStub1 } from '../product/_stub/product.stub';
-import { orderProductStub } from './_stub/order-product.stub';
-import { PostOrderProductsReviewReqDto } from '../../../../apps/app/src/api/order/order-products/review/order-product-review.app.dto';
+import {
+  createOrderProductReviewDtoStub,
+  orderProductStub,
+} from './_stub/order-product.stub';
 
 describe('OrderProduct', () => {
   it('constructor', () => {
@@ -54,31 +56,28 @@ describe('OrderProduct', () => {
   });
 
   describe('createReview', () => {
-    const dto = {
-      score: 5,
-      description: '리뷰 내용은 최소 20자가 되야한다.',
-    } as PostOrderProductsReviewReqDto;
-
     it(ERROR_MESSAGES.NotConfirmStatus, () => {
-      expect(() => orderProductStub.createReview(dto)).toThrowError(
-        ERROR_MESSAGES.NotConfirmStatus,
-      );
+      expect(() =>
+        orderProductStub.createReview(createOrderProductReviewDtoStub),
+      ).toThrowError(ERROR_MESSAGES.NotConfirmStatus);
     });
 
     it('성공', () => {
       orderProductStub.status = OrderProductStatus.CONFIRMED;
-      expect(orderProductStub.createReview(dto)).toEqual({
+      expect(
+        orderProductStub.createReview(createOrderProductReviewDtoStub),
+      ).toEqual({
         orderProductId: orderProductStub.id,
-        ...dto,
+        ...createOrderProductReviewDtoStub,
       });
     });
 
     it(ERROR_MESSAGES.AlreadyReviewed, () => {
       orderProductStub.status = OrderProductStatus.CONFIRMED;
       orderProductStub.review = { id: 1 } as any;
-      expect(() => orderProductStub.createReview(dto)).toThrowError(
-        ERROR_MESSAGES.AlreadyReviewed,
-      );
+      expect(() =>
+        orderProductStub.createReview(createOrderProductReviewDtoStub),
+      ).toThrowError(ERROR_MESSAGES.AlreadyReviewed);
     });
   });
 });
