@@ -22,6 +22,7 @@ export class OrderProductReview {
   @ApiProperty({
     example: 1,
   })
+  @Column({ name: 'id', type: 'bigint' })
   id: number;
 
   @ApiProperty({
