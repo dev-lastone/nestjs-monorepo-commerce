@@ -5,6 +5,7 @@ import { OrderProduct } from '@domain/order/order-product.entity';
 import { ProductLike } from '@domain/product/product-like.entity';
 import { MyBaseEntity } from '@common/entity/my-base-entity';
 import { CreateProductDto } from '@domain/product/dto/product.dto';
+import { dtoToInstance } from '@common/util/dto-to-instance';
 
 @Entity('product', { schema: 'app' })
 export class Product extends MyBaseEntity {
@@ -39,11 +40,6 @@ export class Product extends MyBaseEntity {
   orderProducts: OrderProduct[];
 
   static create(dto: CreateProductDto) {
-    const product = new Product();
-    product.name = dto.name;
-    product.price = dto.price;
-    product.stock = dto.stock;
-
-    return product;
+    return dtoToInstance({ class: Product, dto });
   }
 }
