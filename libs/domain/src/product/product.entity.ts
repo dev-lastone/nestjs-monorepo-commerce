@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { Column, Entity, OneToMany } from 'typeorm';
 import { OrderProduct } from '@domain/order/order-product.entity';
 import { ProductLike } from '@domain/product/product-like.entity';
@@ -12,8 +12,10 @@ export class Product extends MyBaseEntity {
     example: '상품명',
   })
   @IsNotEmpty()
+  @IsString()
   @Column({ name: 'name', type: 'varchar', length: 200 })
   name: string;
+
   @ApiProperty({
     example: 10000,
   })
@@ -21,6 +23,7 @@ export class Product extends MyBaseEntity {
   @IsNotEmpty()
   @Column('int', { name: 'price' })
   price: number;
+
   @ApiProperty({
     example: 10,
   })
