@@ -12,6 +12,7 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { IsNotEmpty, IsNumber } from 'class-validator';
 
 export enum OrderProductStatus {
   ORDERED = 'ordered',
@@ -27,19 +28,29 @@ export class OrderProduct {
     example: 1,
   })
   id: number;
+
+  @IsNotEmpty()
+  @IsNumber()
   @ApiProperty({
     example: 1,
   })
   orderId: number;
+
+  @IsNotEmpty()
+  @IsNumber()
   productId: number;
   @ApiProperty({
     example: '상품명',
   })
   name: string;
+
+  @IsNotEmpty()
+  @IsNumber()
   @ApiProperty({
     example: 1000,
   })
   price: number;
+
   status: OrderProductStatus;
 
   @ManyToOne(() => Order, (order) => order.products)

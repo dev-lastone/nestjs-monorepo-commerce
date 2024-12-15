@@ -1,10 +1,10 @@
 import { Test } from '@nestjs/testing';
 import { UserAddressesAppService } from '../../../../src/api/user/addresses/user-addresses.app.service';
-import { userAddressStub } from '../../../../../../libs/domain/test/app-user/_stub/user-address.stub';
+import { appUserAddressStub } from '../../../../../../libs/domain/test/app-user/_stub/app-user-address.stub';
 import { UserAddressService } from '../../../../src/application/user/address/user-address.service';
 
 describe('UserAddressesAppService', () => {
-  const userId = userAddressStub.userId;
+  const userId = appUserAddressStub.userId;
   let userAddressesService: UserAddressesAppService;
   let userAddressService: UserAddressService;
 
@@ -52,7 +52,7 @@ describe('UserAddressesAppService', () => {
   });
 
   it('putUserAddress', () => {
-    const id = userAddressStub.id;
+    const id = appUserAddressStub.id;
     const dto = {
       isDefault: false,
       address: {
@@ -71,7 +71,7 @@ describe('UserAddressesAppService', () => {
   });
 
   it('deleteUserAddress', () => {
-    const id = userAddressStub.id;
+    const id = appUserAddressStub.id;
 
     userAddressesService.deleteUserAddress({ id, userId });
 

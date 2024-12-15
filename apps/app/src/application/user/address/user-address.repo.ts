@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { UserAddress } from '@domain/app-user/user-address.entity';
+import { AppUserAddress } from '@domain/app-user/app-user-address.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 @Injectable()
 export class UserAddressRepo {
   constructor(
-    @InjectRepository(UserAddress)
-    private readonly userAddressRepo: Repository<UserAddress>,
+    @InjectRepository(AppUserAddress)
+    private readonly userAddressRepo: Repository<AppUserAddress>,
   ) {}
 
-  async save(userAddress: UserAddress) {
+  async save(userAddress: AppUserAddress) {
     return await this.userAddressRepo.save(userAddress);
   }
 

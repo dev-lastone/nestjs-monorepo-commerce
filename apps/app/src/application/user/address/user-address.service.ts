@@ -7,7 +7,7 @@ import {
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { UserAddressRequestDto } from './user-address.dto';
 import { USER_ADDRESS_MAX_LENGTH } from '@common/constant/constants';
-import { UserAddress } from '@domain/app-user/user-address.entity';
+import { AppUserAddress } from '@domain/app-user/app-user-address.entity';
 import { UserAddressRepo } from './user-address.repo';
 
 @Injectable()
@@ -33,7 +33,7 @@ export class UserAddressService {
       }
     }
 
-    const userAddress = UserAddress.create({
+    const userAddress = AppUserAddress.create({
       userId: dto.userId,
       ...dto,
     });

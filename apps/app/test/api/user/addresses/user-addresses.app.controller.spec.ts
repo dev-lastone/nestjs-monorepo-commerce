@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
 import { UserAddressesAppController } from '../../../../src/api/user/addresses/user-addresses.app.controller';
 import { UserAddressesAppService } from '../../../../src/api/user/addresses/user-addresses.app.service';
-import { userAddressStub } from '../../../../../../libs/domain/test/app-user/_stub/user-address.stub';
+import { appUserAddressStub } from '../../../../../../libs/domain/test/app-user/_stub/app-user-address.stub';
 
 describe('UserAddressesAppController', () => {
   let userAddressesAppController: UserAddressesAppController;
@@ -46,16 +46,16 @@ describe('UserAddressesAppController', () => {
   });
 
   it('getUserAddresses', () => {
-    userAddressesAppController.getUserAddresses(userAddressStub.userId);
+    userAddressesAppController.getUserAddresses(appUserAddressStub.userId);
 
     expect(userAddressesAppService.getUserAddresses).toHaveBeenCalledWith(
-      userAddressStub.userId,
+      appUserAddressStub.userId,
     );
   });
 
   it('putUserAddresses', () => {
-    const id = userAddressStub.id;
-    const userId = userAddressStub.userId;
+    const id = appUserAddressStub.id;
+    const userId = appUserAddressStub.userId;
     const dto = {
       isDefault: false,
       address: {
@@ -74,8 +74,8 @@ describe('UserAddressesAppController', () => {
   });
 
   it('deleteUserAddresses', () => {
-    const id = userAddressStub.id;
-    const userId = userAddressStub.userId;
+    const id = appUserAddressStub.id;
+    const userId = appUserAddressStub.userId;
 
     userAddressesAppController.deleteUserAddress(userId, id);
 

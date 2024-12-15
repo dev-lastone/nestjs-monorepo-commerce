@@ -1,8 +1,8 @@
 import { Order } from '@domain/order/order.entity';
 import { productStub1 } from '../../product/_stub/product.stub';
-import { userAddressStub } from '../../app-user/_stub/user-address.stub';
+import { appUserAddressStub } from '../../app-user/_stub/app-user-address.stub';
 
-const order = Order.create(userAddressStub, [productStub1]);
+const order = Order.create(appUserAddressStub, [productStub1]);
 order.id = 1;
 order.products[0].id = 1;
 

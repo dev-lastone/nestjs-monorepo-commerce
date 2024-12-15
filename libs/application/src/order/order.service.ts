@@ -8,7 +8,7 @@ import { AppUserPointHistoryAction } from '@domain/app-user/point/app-user-point
 import { AppUserPointService } from '@application/app-user-point/app-user-point.service';
 import { CreateOrderProductReviewDto } from '@application/order/order.dto';
 import { Order } from '@domain/order/order.entity';
-import { UserAddress } from '@domain/app-user/user-address.entity';
+import { AppUserAddress } from '@domain/app-user/app-user-address.entity';
 import { Product } from '@domain/product/product.entity';
 
 @Injectable()
@@ -19,7 +19,7 @@ export class OrderService {
     private readonly orderRepo: OrderRepo,
   ) {}
 
-  async createOrder(userAddress: UserAddress, products: Product[]) {
+  async createOrder(userAddress: AppUserAddress, products: Product[]) {
     const order = Order.create(userAddress, products);
 
     return await this.orderRepo.save(order);

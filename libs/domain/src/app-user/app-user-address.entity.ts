@@ -6,7 +6,7 @@ import { Address } from '@domain/_vo/address';
 import { MyBaseEntity } from '@common/entity/my-base-entity';
 
 @Entity('user_address', { schema: 'app' })
-export class UserAddress extends MyBaseEntity {
+export class AppUserAddress extends MyBaseEntity {
   @ApiProperty({
     example: 1,
   })
@@ -28,7 +28,7 @@ export class UserAddress extends MyBaseEntity {
   user: AppUser;
 
   static create(dto: { userId: number; isDefault: boolean; address: Address }) {
-    const userAddress = new UserAddress();
+    const userAddress = new AppUserAddress();
     userAddress.userId = dto.userId;
     userAddress.isDefault = dto.isDefault;
     userAddress.address = dto.address;
