@@ -1,5 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsString, Length } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  Length,
+  Max,
+  Min,
+} from 'class-validator';
 import {
   Column,
   Entity,
@@ -30,14 +37,15 @@ export class OrderProductReview {
   @Column({ name: 'user_id', type: 'bigint' })
   userId: number;
 
-  // TODO : score 1 ~ 5 범위 체크
   @ApiProperty({
     example: 5,
     description: '점수. 1 ~ 5',
   })
   @IsNotEmpty()
   @IsNumber()
-  @Column({ name: 'score', type: 'tinyint' })
+  @Min(1)
+  @Max(5)
+  @Column({ name: 'score', type: 'int2' })
   score: number;
 
   @ApiProperty({
