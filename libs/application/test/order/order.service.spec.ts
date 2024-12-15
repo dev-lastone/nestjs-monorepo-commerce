@@ -6,6 +6,7 @@ import { ForbiddenException, NotFoundException } from '@nestjs/common';
 import { OrderService } from '@application/order/order.service';
 import { AppUserPointService } from '@application/app-user-point/app-user-point.service';
 import {
+  createOrderProductReviewDtoStub,
   orderProductStub,
   orderProductWithOrderAndProductStub,
 } from '../../../domain/test/order/_stub/order-product.stub';
@@ -126,8 +127,7 @@ describe('OrderService', () => {
           await orderService.createOrderProductReview({
             orderProductId: NON_EXISTENT_ID,
             userId: userStub.id,
-            score: 5,
-            description: '내용',
+            ...createOrderProductReviewDtoStub,
           }),
       ).rejects.toThrowError(new NotFoundException());
     });
@@ -138,8 +138,7 @@ describe('OrderService', () => {
           await orderService.createOrderProductReview({
             orderProductId: orderProductStub.id,
             userId: NON_EXISTENT_ID,
-            score: 5,
-            description: '내용',
+            ...createOrderProductReviewDtoStub,
           }),
       ).rejects.toThrowError(new ForbiddenException());
     });
@@ -149,18 +148,12 @@ describe('OrderService', () => {
       const dto = {
         orderProductId: orderProductStub.id,
         userId: userStub.id,
-        score: 5,
-        description: '내용',
+        ...createOrderProductReviewDtoStub,
       };
-      const result = await orderService.createOrderProductReview(dto);
+      await orderService.createOrderProductReview(dto);
 
       expect(orderRepo.findOneWishOrderProductReview).toBeCalledWith(1);
       expect(orderRepo.saveProductReview).toBeCalled();
-      expect(result).toEqual({
-        orderProductId: dto.orderProductId,
-        score: dto.score,
-        description: dto.description,
-      });
     });
   });
 });

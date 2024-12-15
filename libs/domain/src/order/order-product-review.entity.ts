@@ -7,26 +7,13 @@ import {
   Max,
   Min,
 } from 'class-validator';
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  OneToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import { OrderProduct } from '@domain/order/order-product.entity';
 import { dtoToInstance } from '@common/util/dto-to-instance';
+import { MyBaseEntity } from '@common/entity/my-base-entity';
 
 @Entity('order_product_review', { schema: 'app' })
-export class OrderProductReview {
-  @PrimaryGeneratedColumn({
-    type: 'bigint',
-  })
-  @ApiProperty({
-    example: 1,
-  })
-  id: number;
-
+export class OrderProductReview extends MyBaseEntity {
   @ApiProperty({
     example: 1,
   })
