@@ -15,6 +15,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { OrderProduct } from '@domain/order/order-product.entity';
+import { dtoToInstance } from '@common/util/dto-to-instance';
 
 @Entity('order_product_review', { schema: 'app' })
 export class OrderProductReview {
@@ -64,11 +65,9 @@ export class OrderProductReview {
     score: number;
     description: string;
   }) {
-    const orderProductReview = new OrderProductReview();
-    orderProductReview.orderProductId = dto.orderProductId;
-    orderProductReview.score = dto.score;
-    orderProductReview.description = dto.description;
-
-    return orderProductReview;
+    return dtoToInstance({
+      class: OrderProductReview,
+      dto,
+    });
   }
 }
