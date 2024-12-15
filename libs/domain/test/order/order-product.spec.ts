@@ -5,6 +5,7 @@ import {
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { productStub1 } from '../product/_stub/product.stub';
 import { orderProductStub } from './_stub/order-product.stub';
+import { PostOrderProductsReviewReqDto } from '../../../../apps/app/src/api/order/order-products/review/order-product-review.app.dto';
 
 describe('OrderProduct', () => {
   it('constructor', () => {
@@ -53,29 +54,31 @@ describe('OrderProduct', () => {
   });
 
   describe('createReview', () => {
+    const dto = {
+      score: 5,
+      description: '리뷰 내용은 최소 20자가 되야한다.',
+    } as PostOrderProductsReviewReqDto;
+
     it(ERROR_MESSAGES.NotConfirmStatus, () => {
-      expect(() =>
-        orderProductStub.createReview({ score: 5, description: '리뷰 내용' }),
-      ).toThrowError(ERROR_MESSAGES.NotConfirmStatus);
+      expect(() => orderProductStub.createReview(dto)).toThrowError(
+        ERROR_MESSAGES.NotConfirmStatus,
+      );
     });
 
     it('성공', () => {
       orderProductStub.status = OrderProductStatus.CONFIRMED;
-      expect(
-        orderProductStub.createReview({ score: 5, description: '리뷰 내용' }),
-      ).toEqual({
+      expect(orderProductStub.createReview(dto)).toEqual({
         orderProductId: orderProductStub.id,
-        score: 5,
-        description: '리뷰 내용',
+        ...dto,
       });
     });
 
     it(ERROR_MESSAGES.AlreadyReviewed, () => {
       orderProductStub.status = OrderProductStatus.CONFIRMED;
       orderProductStub.review = { id: 1 } as any;
-      expect(() =>
-        orderProductStub.createReview({ score: 5, description: '리뷰 내용' }),
-      ).toThrowError(ERROR_MESSAGES.AlreadyReviewed);
+      expect(() => orderProductStub.createReview(dto)).toThrowError(
+        ERROR_MESSAGES.AlreadyReviewed,
+      );
     });
   });
 });
