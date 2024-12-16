@@ -3,7 +3,14 @@ import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { AppUserPointHistory } from '@domain/app-user/point/app-user-point-history.entity';
 import { AppUserPointStorage } from '@domain/app-user/point/app-user-point-storage.entity';
 import { AppUserPointConsumption } from '@domain/app-user/point/app-user-point-consumption.entity';
-import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToOne,
+  PrimaryColumn,
+} from 'typeorm';
 import { AppUser } from '@domain/app-user/app-user.entity';
 
 /*
@@ -61,7 +68,10 @@ export class AppUserPoint {
   @JoinColumn({ name: 'userId', referencedColumnName: 'id' })
   user: AppUser;
 
-  histories: AppUserPointHistory[];
+  @ManyToOne(() => AppUserPointHistory, (history) => history.userPoint, {
+    cascade: true,
+  })
+  histories?: AppUserPointHistory[];
 
   static create() {
     const appUserPoint = new AppUserPoint();

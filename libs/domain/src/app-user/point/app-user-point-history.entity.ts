@@ -1,6 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { AppUserPointHistoryAction } from '@domain/app-user/point/app-user-point.entity';
-import { Column, Entity } from 'typeorm';
+import {
+  AppUserPoint,
+  AppUserPointHistoryAction,
+} from '@domain/app-user/point/app-user-point.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+} from 'typeorm';
 import { AppUserPointStorage } from '@domain/app-user/point/app-user-point-storage.entity';
 import { AppUserPointConsumption } from '@domain/app-user/point/app-user-point-consumption.entity';
 import { MyBaseEntity } from '@common/entity/my-base-entity';
@@ -36,7 +46,16 @@ export class AppUserPointHistory extends MyBaseEntity {
   @Column('bigint', { name: 'action_id' })
   actionId: number;
 
+  @OneToMany(() => AppUserPoint, (point) => point.histories)
+  @JoinColumn({ name: 'userId', referencedColumnName: 'id' })
+  userPoint: AppUserPoint;
+
+  @OneToOne(() => AppUserPointStorage, (pointStorage) => pointStorage.history)
   storage?: AppUserPointStorage;
 
+  @ManyToOne(
+    () => AppUserPointConsumption,
+    (consumption) => consumption.history,
+  )
   consumptions?: AppUserPointConsumption[];
 }
