@@ -69,7 +69,9 @@ export class AppUserPoint {
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   user: AppUser;
 
-  @OneToMany(() => AppUserPointHistory, (history) => history.userPoint)
+  @OneToMany(() => AppUserPointHistory, (history) => history.userPoint, {
+    cascade: true,
+  })
   histories?: AppUserPointHistory[];
 
   static create() {
@@ -88,10 +90,14 @@ export class AppUserPoint {
   save(point: number, action: AppUserPointHistoryAction, actionId: number) {
     this.point += point;
 
-    const history = this.#createDefaultHistory(action, actionId, point);
     const storage = new AppUserPointStorage();
     storage.point = point;
+    storage.expirationAt = new Date();
+    storage.expirationAt.setFullYear(storage.expirationAt.getFullYear() + 1);
+
+    const history = this.#createDefaultHistory(action, actionId, point);
     history.storage = storage;
+
     this.histories = [history];
 
     return history;
@@ -140,7 +146,6 @@ export class AppUserPoint {
     point: number,
   ) {
     const history = new AppUserPointHistory();
-    // history.userId = this.userId;
     history.action = action;
     history.actionId = actionId;
     history.point = point;
