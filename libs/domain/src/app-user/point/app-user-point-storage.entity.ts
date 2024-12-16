@@ -20,9 +20,10 @@ export class AppUserPointStorage {
   @Column('int', { name: 'point' })
   point: number;
 
+  @Column('timestamp', { name: 'expiration_at' })
+  expirationAt: Date;
+
   @OneToOne(() => AppUserPointHistory, (pointHistory) => pointHistory.storage)
   @JoinColumn({ name: 'userPointHistoryId', referencedColumnName: 'id' })
   history: AppUserPointHistory;
-
-  // expirationAt: Date;
 }
