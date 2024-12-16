@@ -17,8 +17,8 @@ import { MyBaseEntity } from '@common/entity/my-base-entity';
 
 @Entity('user_point_history', { schema: 'app' })
 export class AppUserPointHistory extends MyBaseEntity {
-  @Column('bigint', { name: 'user_id' })
-  userId: number;
+  @Column('bigint', { name: 'user_point_id' })
+  userPointId: number;
 
   @ApiProperty({
     example: 1000,
@@ -46,14 +46,16 @@ export class AppUserPointHistory extends MyBaseEntity {
   @Column('bigint', { name: 'action_id' })
   actionId: number;
 
-  @OneToMany(() => AppUserPoint, (point) => point.histories)
-  @JoinColumn({ name: 'userId', referencedColumnName: 'id' })
+  @ManyToOne(() => AppUserPoint, (point) => point.histories)
+  @JoinColumn({ name: 'user_point_id', referencedColumnName: 'id' })
   userPoint: AppUserPoint;
 
-  @OneToOne(() => AppUserPointStorage, (pointStorage) => pointStorage.history)
+  @OneToOne(() => AppUserPointStorage, (pointStorage) => pointStorage.history, {
+    cascade: true,
+  })
   storage?: AppUserPointStorage;
 
-  @ManyToOne(
+  @OneToMany(
     () => AppUserPointConsumption,
     (consumption) => consumption.history,
   )

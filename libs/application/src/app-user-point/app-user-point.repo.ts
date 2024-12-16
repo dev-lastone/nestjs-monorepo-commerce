@@ -21,6 +21,7 @@ export class AppUserPointRepo {
 
   async save(appUserPoint: AppUserPoint) {
     return await this.appUserPointRepo.save(appUserPoint);
+    // return await this.appUserPointHistoryRepo.save(appUserPoint.histories);
   }
 
   async findOneByUserId(userId: number) {
