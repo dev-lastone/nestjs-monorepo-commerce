@@ -2,7 +2,7 @@ import {
   Column,
   Entity,
   JoinColumn,
-  OneToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { AppUserPointHistory } from '@domain/app-user/point/app-user-point-history.entity';
@@ -23,10 +23,10 @@ export class AppUserPointConsumption {
   @Column('int', { name: 'point' })
   point: number;
 
-  @OneToMany(
+  @ManyToOne(
     () => AppUserPointHistory,
     (pointHistory) => pointHistory.consumptions,
   )
-  @JoinColumn({ name: 'userPointHistoryId', referencedColumnName: 'id' })
+  @JoinColumn({ name: 'user_point_history_id', referencedColumnName: 'id' })
   history: AppUserPointHistory;
 }

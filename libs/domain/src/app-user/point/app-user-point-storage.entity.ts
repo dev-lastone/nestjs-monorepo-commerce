@@ -24,6 +24,6 @@ export class AppUserPointStorage {
   expirationAt: Date;
 
   @OneToOne(() => AppUserPointHistory, (pointHistory) => pointHistory.storage)
-  @JoinColumn({ name: 'userPointHistoryId', referencedColumnName: 'id' })
+  @JoinColumn({ name: 'user_point_history_id', referencedColumnName: 'id' })
   history: AppUserPointHistory;
 }
