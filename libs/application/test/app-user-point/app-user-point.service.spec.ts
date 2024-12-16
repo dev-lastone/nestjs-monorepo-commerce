@@ -7,6 +7,7 @@ import { Test } from '@nestjs/testing';
 import { AppUserPointRepo } from '@application/app-user-point/app-user-point.repo';
 import { NotFoundException } from '@nestjs/common';
 import { appUserStub } from '../../../domain/test/app-user/_stub/app-user.stub';
+import { AppUserPointHistory } from '@domain/app-user/point/app-user-point-history.entity';
 
 describe('UserPointService', () => {
   let appUserPointService: AppUserPointService;
@@ -20,6 +21,7 @@ describe('UserPointService', () => {
           provide: AppUserPointRepo,
           useValue: {
             save: jest.fn(),
+            saveHistory: jest.fn(),
             findOneByUserId: jest.fn(),
           },
         },
@@ -50,15 +52,26 @@ describe('UserPointService', () => {
         .spyOn(appUserPointRepo, 'findOneByUserId')
         .mockResolvedValue(userPointStub);
 
+      jest.spyOn(appUserPointRepo, 'save').mockResolvedValue(userPointStub);
+      jest.spyOn(appUserPointRepo, 'saveHistory').mockResolvedValue({
+        id: 1,
+        point: 1000,
+        remainingPoint: 1000,
+        action: AppUserPointHistoryAction.ORDER_PRODUCT,
+        actionId: 3,
+      } as AppUserPointHistory);
+
       const userPoint = await appUserPointService.savePoint(
         1,
         1000,
         AppUserPointHistoryAction.ORDER_PRODUCT,
         3,
       );
+
       expect(userPoint).toEqual({
         point: 1000,
         history: {
+          id: 1,
           point: 1000,
           remainingPoint: 1000,
           action: AppUserPointHistoryAction.ORDER_PRODUCT,

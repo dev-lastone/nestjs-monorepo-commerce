@@ -15,8 +15,16 @@ describe('AppUserPoint', () => {
     const userPoint = AppUserPoint.create();
     userPoint.userId = userStub.id;
 
+    const expirationAt = new Date();
+    expirationAt.setDate(expirationAt.getDate() + 7);
+
     expect(
-      userPoint.save(1000, AppUserPointHistoryAction.ORDER_PRODUCT, 1),
+      userPoint.save(
+        1000,
+        AppUserPointHistoryAction.ORDER_PRODUCT,
+        1,
+        expirationAt,
+      ),
     ).toEqual({
       action: AppUserPointHistoryAction.ORDER_PRODUCT,
       actionId: 1,
@@ -24,6 +32,7 @@ describe('AppUserPoint', () => {
       remainingPoint: 1000,
       storage: {
         point: 1000,
+        expirationAt,
       },
     });
   });
