@@ -71,6 +71,8 @@ describe('UserPointService', () => {
   });
 
   it('usePoint', async () => {
+    const upsertedAt = new Date();
+
     const userPoint = AppUserPoint.create();
     userPoint.userId = appUserStub.id;
     userPoint.point = 1000;
@@ -87,6 +89,8 @@ describe('UserPointService', () => {
           userPointHistoryId: 2,
           point: 1000,
         },
+        createdAt: upsertedAt,
+        updatedAt: upsertedAt,
       },
     ];
 
