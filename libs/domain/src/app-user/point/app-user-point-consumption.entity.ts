@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { AppUserPointHistory } from '@domain/app-user/point/app-user-point-history.entity';
 
 @Entity('user_point_consumption', { schema: 'app' })
 export class AppUserPointConsumption {
@@ -15,4 +22,11 @@ export class AppUserPointConsumption {
 
   @Column('int', { name: 'point' })
   point: number;
+
+  @OneToMany(
+    () => AppUserPointHistory,
+    (pointHistory) => pointHistory.consumptions,
+  )
+  @JoinColumn({ name: 'userPointHistoryId', referencedColumnName: 'id' })
+  history: AppUserPointHistory;
 }

@@ -13,6 +13,7 @@ export class AppUserPointService {
     actionId: number,
   ) {
     const userPoint = await this.#getUserPoint(userId);
+
     const history = userPoint.save(point, action, actionId);
 
     await this.appUserPointRepo.save(userPoint);
