@@ -14,17 +14,27 @@ export class AppUserPointService {
   ) {
     const userPoint = await this.#getUserPoint(userId);
 
-    const history = userPoint.save(point, action, actionId);
+    const expirationAt = new Date();
+    expirationAt.setDate(expirationAt.getDate() + 7);
+    const appUserPointHistory = userPoint.save(
+      point,
+      action,
+      actionId,
+      expirationAt,
+    );
 
     await this.appUserPointRepo.save(userPoint);
+    const createAppUserPointHistory =
+      await this.appUserPointRepo.saveHistory(appUserPointHistory);
 
     return {
       point: userPoint.point,
       history: {
-        point: history.point,
-        remainingPoint: history.remainingPoint,
-        action: history.action,
-        actionId: history.actionId,
+        id: createAppUserPointHistory.id,
+        point: createAppUserPointHistory.point,
+        remainingPoint: createAppUserPointHistory.remainingPoint,
+        action: createAppUserPointHistory.action,
+        actionId: createAppUserPointHistory.actionId,
       },
     };
   }
@@ -43,7 +53,6 @@ export class AppUserPointService {
   //     point: userPoint.point,
   //     history: {
   //       id: history.id,
-  //       userId: history.userId,
   //       point: history.point,
   //       remainingPoint: history.remainingPoint,
   //       action: history.action,
