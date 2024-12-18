@@ -39,27 +39,32 @@ export class AppUserPointService {
     };
   }
 
-  // async usePoint(
-  //   userId: number,
-  //   point: number,
-  //   action: AppUserPointHistoryAction,
-  //   actionId: number,
-  // ) {
-  //   const userPoint = await this.#getUserPoint(userId);
-  //
-  //   const history = userPoint.use(point, action, actionId);
-  //
-  //   return {
-  //     point: userPoint.point,
-  //     history: {
-  //       id: history.id,
-  //       point: history.point,
-  //       remainingPoint: history.remainingPoint,
-  //       action: history.action,
-  //       actionId: history.actionId,
-  //     },
-  //   };
-  // }
+  async usePoint(
+    userId: number,
+    point: number,
+    action: AppUserPointHistoryAction,
+    actionId: number,
+  ) {
+    const userPoint =
+      await this.appUserPointRepo.getUserPointWithAvailablePoints(userId);
+
+    const appUserPointHistory = userPoint.use(point, action, actionId);
+
+    await this.appUserPointRepo.save(userPoint);
+    const createAppUserPointHistory =
+      await this.appUserPointRepo.saveHistory(appUserPointHistory);
+
+    return {
+      point: userPoint.point,
+      history: {
+        id: createAppUserPointHistory.id,
+        point: createAppUserPointHistory.point,
+        remainingPoint: createAppUserPointHistory.remainingPoint,
+        action: createAppUserPointHistory.action,
+        actionId: createAppUserPointHistory.actionId,
+      },
+    };
+  }
 
   async #getUserPoint(userId: number) {
     const userPoint = await this.appUserPointRepo.findOneByUserId(userId);

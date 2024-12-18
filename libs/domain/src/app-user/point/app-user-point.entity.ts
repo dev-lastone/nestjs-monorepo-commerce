@@ -10,6 +10,8 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { AppUser } from '@domain/app-user/app-user.entity';
+import { ERROR_MESSAGES } from '@common/constant/error-messages';
+import { AppUserPointConsumption } from '@domain/app-user/point/app-user-point-consumption.entity';
 
 /*
 	AppUserPoint // 총 포인트
@@ -78,13 +80,6 @@ export class AppUserPoint {
     return appUserPoint;
   }
 
-  // TODO storage 만료일 기준으로 정렬
-  // get storages() {
-  //   return this.histories
-  //     .filter((history) => history.storage.point > 0)
-  //     .map((history) => history.storage);
-  // }
-
   save(
     point: number,
     action: AppUserPointHistoryAction,
@@ -103,40 +98,44 @@ export class AppUserPoint {
     return history;
   }
 
-  // use(point: number, action: AppUserPointHistoryAction, actionId: number) {
-  //   if (this.point < point) {
-  //     throw new Error(ERROR_MESSAGES.NotEnoughPoints);
-  //   }
-  //
-  //   this.point -= point;
-  //   const history = this.#createDefaultHistory(action, actionId, point);
-  //
-  //   let remainingPoint = point;
-  //   while (remainingPoint > 0) {
-  //     const storage = this.storages[0];
-  //
-  //     if (remainingPoint > storage.point) {
-  //       remainingPoint -= storage.point;
-  //       storage.point = 0;
-  //     } else {
-  //       storage.point -= remainingPoint;
-  //       remainingPoint = 0;
-  //     }
-  //
-  //     const consumption = new AppUserPointConsumption();
-  //     consumption.userPointHistoryId = history.id;
-  //     consumption.userPointStorageId = storage.id;
-  //     consumption.point = storage.point;
-  //
-  //     if (history.consumptions) {
-  //       history.consumptions.push(consumption);
-  //     } else {
-  //       history.consumptions = [consumption];
-  //     }
-  //   }
-  //
-  //   return history;
-  // }
+  use(point: number, action: AppUserPointHistoryAction, actionId: number) {
+    if (this.point < point) {
+      throw new Error(ERROR_MESSAGES.NotEnoughPoints);
+    }
+
+    this.point -= point;
+
+    const createHistory = this.#createDefaultHistory(action, actionId, point);
+    let remainingPoint = point;
+    for (const history of this.histories) {
+      if (remainingPoint <= 0) break;
+
+      const storage = history.storage;
+
+      let usedPoint = 0;
+      if (remainingPoint > storage.point) {
+        usedPoint = storage.point;
+        remainingPoint -= storage.point;
+        storage.point = 0;
+      } else {
+        usedPoint = remainingPoint;
+        storage.point -= remainingPoint;
+        remainingPoint = 0;
+      }
+
+      const consumption = new AppUserPointConsumption();
+      consumption.userPointHistoryId = history.id;
+      consumption.userPointStorageId = storage.id;
+      consumption.point = usedPoint;
+
+      if (!createHistory.consumptions) {
+        createHistory.consumptions = [];
+      }
+      createHistory.consumptions.push(consumption);
+    }
+
+    return createHistory;
+  }
 
   #createDefaultHistory(
     action: AppUserPointHistoryAction,
@@ -144,6 +143,7 @@ export class AppUserPoint {
     point: number,
   ) {
     const history = new AppUserPointHistory();
+    history.userPointId = this.id;
     history.action = action;
     history.actionId = actionId;
     history.point = point;
