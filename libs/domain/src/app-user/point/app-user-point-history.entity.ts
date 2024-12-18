@@ -58,6 +58,9 @@ export class AppUserPointHistory extends MyBaseEntity {
   @OneToMany(
     () => AppUserPointConsumption,
     (consumption) => consumption.history,
+    {
+      cascade: true,
+    },
   )
   consumptions?: AppUserPointConsumption[];
 }
