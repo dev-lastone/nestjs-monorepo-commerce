@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { MoreThan, Repository } from 'typeorm';
 import { AppUserPoint } from '@domain/app-user/point/app-user-point.entity';
 import { AppUserPointHistory } from '@domain/app-user/point/app-user-point-history.entity';
 import { AppUserPointStorage } from '@domain/app-user/point/app-user-point-storage.entity';
@@ -31,6 +31,28 @@ export class AppUserPointRepo {
     return await this.appUserPointRepo.findOne({
       where: {
         userId,
+      },
+    });
+  }
+
+  async getUserPointWithAvailablePoints(userId: number) {
+    return await this.appUserPointRepo.findOne({
+      relations: ['histories', 'histories.storage'],
+      where: {
+        userId,
+        histories: {
+          storage: {
+            expirationAt: MoreThan(new Date()),
+            point: MoreThan(0),
+          },
+        },
+      },
+      order: {
+        histories: {
+          storage: {
+            expirationAt: 'ASC',
+          },
+        },
       },
     });
   }
