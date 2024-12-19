@@ -55,12 +55,11 @@ export class OrderService {
 
     orderProduct.confirm();
 
-    await this.appUserPointService.savePoint(
-      userId,
-      orderProduct.product.price * 0.01,
-      AppUserPointHistoryAction.ORDER_PRODUCT,
-      orderProduct.id,
-    );
+    await this.appUserPointService.savePoint(userId, {
+      point: orderProduct.product.price * 0.01,
+      action: AppUserPointHistoryAction.ORDER_PRODUCT,
+      actionId: orderProduct.id,
+    });
 
     await this.orderRepo.saveProduct(orderProduct);
 

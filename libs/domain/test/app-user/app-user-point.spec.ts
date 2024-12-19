@@ -20,9 +20,11 @@ describe('AppUserPoint', () => {
 
     expect(
       userPoint.save(
-        1000,
-        AppUserPointHistoryAction.ORDER_PRODUCT,
-        1,
+        {
+          point: 1000,
+          action: AppUserPointHistoryAction.ORDER_PRODUCT,
+          actionId: 1,
+        },
         expirationAt,
       ),
     ).toEqual({
