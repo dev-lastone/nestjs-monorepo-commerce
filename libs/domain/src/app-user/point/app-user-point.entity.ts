@@ -12,6 +12,7 @@ import {
 import { AppUser } from '@domain/app-user/app-user.entity';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { AppUserPointConsumption } from '@domain/app-user/point/app-user-point-consumption.entity';
+import { AppUserPointDto } from '@domain/app-user/dto/app-user-point.dto';
 
 /*
 	AppUserPoint // 총 포인트
@@ -80,33 +81,28 @@ export class AppUserPoint {
     return appUserPoint;
   }
 
-  save(
-    point: number,
-    action: AppUserPointHistoryAction,
-    actionId: number,
-    expirationAt: Date,
-  ) {
-    this.point += point;
+  save(dto: AppUserPointDto, expirationAt: Date) {
+    this.point += dto.point;
 
     const storage = new AppUserPointStorage();
-    storage.point = point;
+    storage.point = dto.point;
     storage.expirationAt = expirationAt;
 
-    const history = this.#createDefaultHistory(action, actionId, point);
+    const history = this.#createDefaultHistory(dto);
     history.storage = storage;
 
     return history;
   }
 
-  use(point: number, action: AppUserPointHistoryAction, actionId: number) {
-    if (this.point < point) {
+  use(dto: AppUserPointDto) {
+    if (this.point < dto.point) {
       throw new Error(ERROR_MESSAGES.NotEnoughPoints);
     }
 
-    this.point -= point;
+    this.point -= dto.point;
 
-    const createHistory = this.#createDefaultHistory(action, actionId, point);
-    let remainingPoint = point;
+    const createHistory = this.#createDefaultHistory(dto);
+    let remainingPoint = dto.point;
     for (const history of this.histories) {
       if (remainingPoint <= 0) break;
 
@@ -137,16 +133,12 @@ export class AppUserPoint {
     return createHistory;
   }
 
-  #createDefaultHistory(
-    action: AppUserPointHistoryAction,
-    actionId: number,
-    point: number,
-  ) {
+  #createDefaultHistory(dto: AppUserPointDto) {
     const history = new AppUserPointHistory();
     history.userPointId = this.id;
-    history.action = action;
-    history.actionId = actionId;
-    history.point = point;
+    history.action = dto.action;
+    history.actionId = dto.actionId;
+    history.point = dto.point;
     history.remainingPoint = this.point;
 
     return history;

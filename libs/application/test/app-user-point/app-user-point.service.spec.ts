@@ -35,12 +35,11 @@ describe('UserPointService', () => {
   describe('savePoint', () => {
     it('404', () => {
       expect(() =>
-        appUserPointService.savePoint(
-          1,
-          1000,
-          AppUserPointHistoryAction.ORDER_PRODUCT,
-          3,
-        ),
+        appUserPointService.savePoint(1, {
+          point: 1000,
+          action: AppUserPointHistoryAction.ORDER_PRODUCT,
+          actionId: 3,
+        }),
       ).rejects.toThrowError(new NotFoundException());
     });
 
@@ -61,12 +60,11 @@ describe('UserPointService', () => {
         actionId: 3,
       } as AppUserPointHistory);
 
-      const userPoint = await appUserPointService.savePoint(
-        1,
-        1000,
-        AppUserPointHistoryAction.ORDER_PRODUCT,
-        3,
-      );
+      const userPoint = await appUserPointService.savePoint(1, {
+        point: 1000,
+        action: AppUserPointHistoryAction.ORDER_PRODUCT,
+        actionId: 3,
+      });
 
       expect(userPoint).toEqual({
         point: 1000,
