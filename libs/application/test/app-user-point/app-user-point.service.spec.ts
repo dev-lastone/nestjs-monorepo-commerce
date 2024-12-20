@@ -8,6 +8,7 @@ import { AppUserPointRepo } from '@application/app-user-point/app-user-point.rep
 import { NotFoundException } from '@nestjs/common';
 import { appUserStub } from '../../../domain/test/app-user/_stub/app-user.stub';
 import { AppUserPointHistory } from '@domain/app-user/point/app-user-point-history.entity';
+import { AppUserPointStorage } from '@domain/app-user/point/app-user-point-storage.entity';
 
 describe('UserPointService', () => {
   let appUserPointService: AppUserPointService;
@@ -23,6 +24,7 @@ describe('UserPointService', () => {
             save: jest.fn(),
             saveHistory: jest.fn(),
             findOneByUserId: jest.fn(),
+            getUserPointWithAvailablePoints: jest.fn(),
           },
         },
       ],
@@ -79,51 +81,51 @@ describe('UserPointService', () => {
     });
   });
 
-  // it('usePoint', async () => {
-  //   const upsertedAt = new Date();
-  //
-  //   const userPoint = AppUserPoint.create();
-  //   userPoint.userId = appUserStub.id;
-  //   userPoint.point = 1000;
-  //   userPoint.histories = [
-  //     {
-  //       userId: 1,
-  //       id: 2,
-  //       point: 1000,
-  //       remainingPoint: 1000,
-  //       action: AppUserPointHistoryAction.ORDER,
-  //       actionId: 1,
-  //       storage: {
-  //         id: 1,
-  //         userPointHistoryId: 2,
-  //         point: 1000,
-  //       },
-  //       createdAt: upsertedAt,
-  //       updatedAt: upsertedAt,
-  //     },
-  //   ];
-  //
-  //   jest
-  //     .spyOn(appUserPointRepo, 'findOneByUserId')
-  //     .mockResolvedValue(userPoint);
-  //
-  //   const result = await appUserPointService.usePoint(
-  //     1,
-  //     1000,
-  //     AppUserPointHistoryAction.ORDER,
-  //     1,
-  //   );
-  //
-  //   expect(result).toEqual({
-  //     point: 0,
-  //     history: {
-  //       userId: 1,
-  //       id: 2,
-  //       point: 1000,
-  //       remainingPoint: 0,
-  //       action: AppUserPointHistoryAction.ORDER,
-  //       actionId: 1,
-  //     },
-  //   });
-  // });
+  it('usePoint', async () => {
+    const upsertedAt = new Date();
+
+    const userPoint = AppUserPoint.create();
+    userPoint.userId = appUserStub.id;
+    userPoint.point = 1000;
+    userPoint.histories = [
+      {
+        id: 2,
+        userPointId: 1,
+        point: 1000,
+        remainingPoint: 1000,
+        action: AppUserPointHistoryAction.ORDER,
+        actionId: 1,
+        storage: {
+          id: 1,
+          userPointHistoryId: 2,
+          point: 1000,
+          expirationAt: upsertedAt,
+        } as AppUserPointStorage,
+        createdAt: upsertedAt,
+        updatedAt: upsertedAt,
+      } as AppUserPointHistory,
+    ];
+
+    jest
+      .spyOn(appUserPointRepo, 'findOneByUserId')
+      .mockResolvedValue(userPoint);
+
+    const result = await appUserPointService.usePoint(1, {
+      point: 1000,
+      action: AppUserPointHistoryAction.ORDER,
+      actionId: 1,
+    });
+
+    expect(result).toEqual({
+      point: 0,
+      history: {
+        userId: 1,
+        id: 2,
+        point: 1000,
+        remainingPoint: 0,
+        action: AppUserPointHistoryAction.ORDER,
+        actionId: 1,
+      },
+    });
+  });
 });
