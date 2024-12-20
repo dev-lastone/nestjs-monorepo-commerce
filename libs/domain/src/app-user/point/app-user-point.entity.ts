@@ -120,7 +120,6 @@ export class AppUserPoint {
       }
 
       const consumption = new AppUserPointConsumption();
-      consumption.userPointHistoryId = history.id;
       consumption.userPointStorageId = storage.id;
       consumption.point = usedPoint;
 
