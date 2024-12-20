@@ -1,10 +1,11 @@
 import { Body, Controller, Get, Post, Version } from '@nestjs/common';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { OrdersAppService } from './orders.app.service';
 import { PostOrdersAppReqDto } from './orders.app.dto';
 import { UserId } from '@common/decorator/user-id.decorator';
 import { Order } from '@domain/order/order.entity';
 
+@ApiBearerAuth('jwt')
 @ApiTags('order')
 @Controller('orders')
 export class OrdersAppController {

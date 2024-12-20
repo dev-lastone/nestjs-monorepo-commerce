@@ -7,6 +7,10 @@ import { Test } from '@nestjs/testing';
 import { AppUserPointRepo } from '@application/app-user-point/app-user-point.repo';
 import { NotFoundException } from '@nestjs/common';
 import { appUserStub } from '../../../domain/test/app-user/_stub/app-user.stub';
+import { AppUserPointHistory } from '@domain/app-user/point/app-user-point-history.entity';
+import { AppUserPointStorage } from '@domain/app-user/point/app-user-point-storage.entity';
+import { appUserPointSaveDtoStub } from '../../../domain/test/app-user/_stub/app-user-point.stub';
+import { NON_EXISTENT_ID } from '@common/constant/constants';
 
 describe('UserPointService', () => {
   let appUserPointService: AppUserPointService;
@@ -20,7 +24,9 @@ describe('UserPointService', () => {
           provide: AppUserPointRepo,
           useValue: {
             save: jest.fn(),
+            saveHistory: jest.fn(),
             findOneByUserId: jest.fn(),
+            getUserPointWithAvailablePoints: jest.fn(),
           },
         },
       ],
@@ -33,12 +39,7 @@ describe('UserPointService', () => {
   describe('savePoint', () => {
     it('404', () => {
       expect(() =>
-        appUserPointService.savePoint(
-          1,
-          1000,
-          AppUserPointHistoryAction.ORDER_PRODUCT,
-          3,
-        ),
+        appUserPointService.savePoint(NON_EXISTENT_ID, appUserPointSaveDtoStub),
       ).rejects.toThrowError(new NotFoundException());
     });
 
@@ -49,22 +50,23 @@ describe('UserPointService', () => {
       jest
         .spyOn(appUserPointRepo, 'findOneByUserId')
         .mockResolvedValue(userPointStub);
+      jest.spyOn(appUserPointRepo, 'saveHistory').mockResolvedValue({
+        id: 1,
+        remainingPoint: appUserPointSaveDtoStub.point,
+        ...appUserPointSaveDtoStub,
+      } as AppUserPointHistory);
 
       const userPoint = await appUserPointService.savePoint(
-        1,
-        1000,
-        AppUserPointHistoryAction.ORDER_PRODUCT,
-        3,
+        appUserStub.id,
+        appUserPointSaveDtoStub,
       );
+
       expect(userPoint).toEqual({
-        point: 1000,
+        point: appUserPointSaveDtoStub.point,
         history: {
           id: 1,
-          userId: 1,
-          point: 1000,
-          remainingPoint: 1000,
-          action: AppUserPointHistoryAction.ORDER_PRODUCT,
-          actionId: 3,
+          remainingPoint: appUserPointSaveDtoStub.point,
+          ...appUserPointSaveDtoStub,
         },
       });
     });
@@ -76,40 +78,39 @@ describe('UserPointService', () => {
     userPoint.point = 1000;
     userPoint.histories = [
       {
-        userId: 1,
-        id: 2,
-        point: 1000,
         remainingPoint: 1000,
-        action: AppUserPointHistoryAction.ORDER,
-        actionId: 1,
         storage: {
-          id: 1,
-          userPointHistoryId: 2,
           point: 1000,
-        },
-      },
+        } as AppUserPointStorage,
+      } as AppUserPointHistory,
     ];
 
+    const usePointDto = {
+      point: 1000,
+      action: AppUserPointHistoryAction.ORDER,
+      actionId: 1,
+    };
+
     jest
-      .spyOn(appUserPointRepo, 'findOneByUserId')
+      .spyOn(appUserPointRepo, 'getUserPointWithAvailablePoints')
       .mockResolvedValue(userPoint);
+    jest.spyOn(appUserPointRepo, 'saveHistory').mockResolvedValue({
+      id: 1,
+      remainingPoint: 0,
+      ...usePointDto,
+    } as AppUserPointHistory);
 
     const result = await appUserPointService.usePoint(
-      1,
-      1000,
-      AppUserPointHistoryAction.ORDER,
-      1,
+      appUserStub.id,
+      usePointDto,
     );
 
     expect(result).toEqual({
       point: 0,
       history: {
-        userId: 1,
-        id: 2,
-        point: 1000,
+        id: 1,
         remainingPoint: 0,
-        action: AppUserPointHistoryAction.ORDER,
-        actionId: 1,
+        ...usePointDto,
       },
     });
   });

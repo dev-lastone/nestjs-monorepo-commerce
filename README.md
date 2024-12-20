@@ -36,6 +36,7 @@ $ pnpm run test:cov
 - libs.common <- all(domain 로직이 아닌 공통)
 ```
 - 각 앱에 필요없는 부분에 의해서 배포 방지
+- api repo read 전용 (cqrs)
 
 ## TODO
 ### app

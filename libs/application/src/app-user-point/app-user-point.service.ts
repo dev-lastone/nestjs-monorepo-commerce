@@ -1,54 +1,52 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { AppUserPointHistoryAction } from '@domain/app-user/point/app-user-point.entity';
 import { AppUserPointRepo } from '@application/app-user-point/app-user-point.repo';
+import { AppUserPointDto } from '@domain/app-user/dto/app-user-point.dto';
 
 @Injectable()
 export class AppUserPointService {
   constructor(private readonly appUserPointRepo: AppUserPointRepo) {}
 
-  async savePoint(
-    userId: number,
-    point: number,
-    action: AppUserPointHistoryAction,
-    actionId: number,
-  ) {
+  async savePoint(userId: number, dto: AppUserPointDto) {
     const userPoint = await this.#getUserPoint(userId);
-    const history = userPoint.save(point, action, actionId);
+
+    const expirationAt = new Date();
+    expirationAt.setDate(expirationAt.getDate() + 7);
+    const appUserPointHistory = userPoint.save(dto, expirationAt);
 
     await this.appUserPointRepo.save(userPoint);
+    const createAppUserPointHistory =
+      await this.appUserPointRepo.saveHistory(appUserPointHistory);
 
     return {
       point: userPoint.point,
       history: {
-        userId: history.userId,
-        id: history.id,
-        point: history.point,
-        remainingPoint: history.remainingPoint,
-        action: history.action,
-        actionId: history.actionId,
+        id: createAppUserPointHistory.id,
+        point: createAppUserPointHistory.point,
+        remainingPoint: createAppUserPointHistory.remainingPoint,
+        action: createAppUserPointHistory.action,
+        actionId: createAppUserPointHistory.actionId,
       },
     };
   }
 
-  async usePoint(
-    userId: number,
-    point: number,
-    action: AppUserPointHistoryAction,
-    actionId: number,
-  ) {
-    const userPoint = await this.#getUserPoint(userId);
+  async usePoint(userId: number, dto: AppUserPointDto) {
+    const userPoint =
+      await this.appUserPointRepo.getUserPointWithAvailablePoints(userId);
 
-    const history = userPoint.use(point, action, actionId);
+    const appUserPointHistory = userPoint.use(dto);
+
+    await this.appUserPointRepo.save(userPoint);
+    const createAppUserPointHistory =
+      await this.appUserPointRepo.saveHistory(appUserPointHistory);
 
     return {
       point: userPoint.point,
       history: {
-        id: history.id,
-        userId: history.userId,
-        point: history.point,
-        remainingPoint: history.remainingPoint,
-        action: history.action,
-        actionId: history.actionId,
+        id: createAppUserPointHistory.id,
+        point: createAppUserPointHistory.point,
+        remainingPoint: createAppUserPointHistory.remainingPoint,
+        action: createAppUserPointHistory.action,
+        actionId: createAppUserPointHistory.actionId,
       },
     };
   }

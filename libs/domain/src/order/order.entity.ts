@@ -25,7 +25,9 @@ export class Order extends MyBaseEntity {
     type: [OrderProduct],
   })
   @Expose()
-  @OneToMany(() => OrderProduct, (orderProduct) => orderProduct.order)
+  @OneToMany(() => OrderProduct, (orderProduct) => orderProduct.order, {
+    cascade: true,
+  })
   products: OrderProduct[];
 
   static create(userAddress: AppUserAddress, products: Product[]) {

@@ -1,35 +1,31 @@
-import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import {
   AppUserPoint,
   AppUserPointHistoryAction,
 } from '@domain/app-user/point/app-user-point.entity';
-import { userStub } from '../user/stub/user.stub';
+import { ERROR_MESSAGES } from '@common/constant/error-messages';
+import { AppUserPointStorage } from '@domain/app-user/point/app-user-point-storage.entity';
+import { AppUserPointHistory } from '@domain/app-user/point/app-user-point-history.entity';
+import { appUserStub } from './_stub/app-user.stub';
+import { appUserPointSaveDtoStub } from './_stub/app-user-point.stub';
 
 describe('AppUserPoint', () => {
   it('create', () => {
     const userPoint = AppUserPoint.create();
     expect(userPoint).toBeInstanceOf(AppUserPoint);
     expect(userPoint.point).toBe(0);
-    expect(userPoint.histories.length).toBe(0);
   });
+
+  const expirationAt = new Date();
+  expirationAt.setDate(expirationAt.getDate() + 7);
 
   it('save', () => {
     const userPoint = AppUserPoint.create();
-    userPoint.userId = userStub.id;
-
-    expect(
-      userPoint.save(1000, AppUserPointHistoryAction.ORDER_PRODUCT, 1),
-    ).toEqual({
-      id: 1,
-      userId: 1,
-      action: AppUserPointHistoryAction.ORDER_PRODUCT,
-      actionId: 1,
-      point: 1000,
-      remainingPoint: 1000,
+    expect(userPoint.save(appUserPointSaveDtoStub, expirationAt)).toEqual({
+      ...appUserPointSaveDtoStub,
+      remainingPoint: appUserPointSaveDtoStub.point,
       storage: {
-        id: 1,
-        point: 1000,
-        userPointHistoryId: 1,
+        point: appUserPointSaveDtoStub.point,
+        expirationAt,
       },
     });
   });
@@ -37,60 +33,91 @@ describe('AppUserPoint', () => {
   describe('use', () => {
     it(ERROR_MESSAGES.NotEnoughPoints, () => {
       const userPoint = AppUserPoint.create();
-      userPoint.save(1000, AppUserPointHistoryAction.ORDER_PRODUCT, 1);
+      userPoint.save(appUserPointSaveDtoStub, expirationAt);
 
       expect(() =>
-        userPoint.use(1001, AppUserPointHistoryAction.ORDER, 1),
+        userPoint.use({
+          ...appUserPointSaveDtoStub,
+          point: 1001,
+        }),
       ).toThrowError(ERROR_MESSAGES.NotEnoughPoints);
     });
 
     it('성공 - 단일 사용', () => {
       const userPoint = AppUserPoint.create();
-      userPoint.userId = userStub.id;
-      userPoint.save(1000, AppUserPointHistoryAction.ORDER_PRODUCT, 1);
+      userPoint.userId = appUserStub.id;
+      userPoint.point = 1000;
+      userPoint.histories = [
+        {
+          remainingPoint: 1000,
+          storage: {
+            id: 1,
+            point: 1000,
+          } as AppUserPointStorage,
+        } as AppUserPointHistory,
+      ];
 
-      expect(userPoint.use(1000, AppUserPointHistoryAction.ORDER, 1)).toEqual({
-        id: 2,
-        userId: 1,
-        point: 1000,
-        remainingPoint: 0,
+      expect(
+        userPoint.use({
+          point: 1000,
+          action: AppUserPointHistoryAction.ORDER,
+          actionId: 1,
+        }),
+      ).toEqual({
         action: AppUserPointHistoryAction.ORDER,
         actionId: 1,
         consumptions: [
           {
-            userPointHistoryId: 2,
+            point: 1000,
             userPointStorageId: 1,
-            point: 0,
           },
         ],
+        point: 1000,
+        remainingPoint: 0,
       });
     });
 
     it('성공 - 다중 사용', () => {
       const userPoint = AppUserPoint.create();
-      userPoint.userId = userStub.id;
-      userPoint.save(1000, AppUserPointHistoryAction.ORDER_PRODUCT, 1);
-      userPoint.save(1000, AppUserPointHistoryAction.ORDER_PRODUCT, 2);
+      userPoint.point = 2000;
+      userPoint.histories = [
+        {
+          remainingPoint: 1000,
+          storage: {
+            id: 1,
+            point: 1000,
+          } as AppUserPointStorage,
+        } as AppUserPointHistory,
+        {
+          remainingPoint: 1000,
+          storage: {
+            id: 2,
+            point: 1000,
+          } as AppUserPointStorage,
+        } as AppUserPointHistory,
+      ];
 
-      expect(userPoint.use(1500, AppUserPointHistoryAction.ORDER, 1)).toEqual({
-        id: 3,
-        userId: 1,
-        point: 1500,
-        remainingPoint: 500,
+      expect(
+        userPoint.use({
+          action: AppUserPointHistoryAction.ORDER,
+          actionId: 1,
+          point: 1500,
+        }),
+      ).toEqual({
         action: AppUserPointHistoryAction.ORDER,
         actionId: 1,
         consumptions: [
           {
-            userPointHistoryId: 3,
+            point: 1000,
             userPointStorageId: 1,
-            point: 0,
           },
           {
-            userPointHistoryId: 3,
-            userPointStorageId: 2,
             point: 500,
+            userPointStorageId: 2,
           },
         ],
+        point: 1500,
+        remainingPoint: 500,
       });
     });
   });
