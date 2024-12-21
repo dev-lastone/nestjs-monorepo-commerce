@@ -1,10 +1,12 @@
 import { userEmail, userName } from '@common/constant/example';
 import { User } from '@domain/user/user';
-import { userPasswordStub } from '../../_vo/_stub/user-password.stub';
+import { UserPassword } from '@domain/_vo/user-password';
 
 export const userStub = {
   id: 1,
   name: userName,
   email: userEmail,
-  password: userPasswordStub,
+  password: {
+    async compare(password: string) {},
+  } as UserPassword,
 } as User;
