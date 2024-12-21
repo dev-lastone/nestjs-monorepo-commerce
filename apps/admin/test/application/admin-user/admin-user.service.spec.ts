@@ -7,6 +7,7 @@ import { userStub } from '../../../../../libs/domain/test/user/stub/user.stub';
 import { createUserDtoStub } from '../../../../../libs/domain/test/user/stub/dto/create-user.dto.stub';
 import { signInUserDtoStub } from '../../../../../libs/domain/test/user/stub/dto/sign-in-user.dto.stub';
 import { invalidPasswordStub } from '../../../../../libs/domain/test/_vo/_stub/user-password.stub';
+import { AdminUser } from '../../../src/domain/admin-user/admin-user.entity';
 
 describe('AdminUserService', () => {
   let adminUserService: AdminUserService;
@@ -19,6 +20,7 @@ describe('AdminUserService', () => {
         {
           provide: AdminUserRepo,
           useValue: {
+            save: jest.fn(),
             findOneByEmail: jest.fn(),
           },
         },
@@ -29,12 +31,22 @@ describe('AdminUserService', () => {
     adminUserRepo = testingModule.get(AdminUserRepo);
   });
 
-  it('signUp', async () => {
-    jest.spyOn(adminUserService, 'signUp').mockResolvedValue(userStub);
+  describe('signUp', () => {
+    it(ERROR_MESSAGES.DuplicateEmail, () => {
+      jest.spyOn(adminUserRepo, 'findOneByEmail').mockResolvedValue(userStub);
 
-    await adminUserService.signUp(createUserDtoStub);
+      expect(adminUserService.signUp(createUserDtoStub)).rejects.toThrow(
+        ERROR_MESSAGES.DuplicateEmail,
+      );
+    });
 
-    expect(adminUserService.signUp).toBeCalledWith(createUserDtoStub);
+    it(SUCCESS, async () => {
+      jest.spyOn(adminUserRepo, 'findOneByEmail').mockResolvedValue(null);
+      jest.spyOn(adminUserRepo, 'save').mockResolvedValue({} as AdminUser);
+      await expect(adminUserService.signUp(createUserDtoStub)).resolves.toEqual(
+        {},
+      );
+    });
   });
 
   describe('signIn', () => {
