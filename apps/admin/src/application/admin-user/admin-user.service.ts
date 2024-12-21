@@ -19,6 +19,7 @@ export class AdminUserService {
       throw new BadRequestException(ERROR_MESSAGES.DuplicateEmail);
     }
 
+    // TODO application test 고민. 했는지 여부 테스트가 어려움. domainService?
     const user = await AdminUser.create(dto);
 
     return await this.adminUserRepo.save(user);
