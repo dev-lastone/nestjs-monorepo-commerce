@@ -32,7 +32,7 @@ describe('UserAddressService', () => {
     userAddressRepo = testingModule.get(UserAddressRepo);
   });
 
-  describe('post', () => {
+  describe('create', () => {
     const dto = {
       isDefault: false,
       address: {
@@ -137,7 +137,7 @@ describe('UserAddressService', () => {
     });
   });
 
-  it('get', async () => {
+  it('getUserAddresses', async () => {
     jest
       .spyOn(userAddressRepo, 'findByUserId')
       .mockResolvedValue([appUserAddressStub]);
@@ -148,7 +148,7 @@ describe('UserAddressService', () => {
     expect(result).toEqual([appUserAddressStub]);
   });
 
-  describe('put', () => {
+  describe('update', () => {
     const dto = {
       isDefault: false,
       address: {
@@ -245,6 +245,29 @@ describe('UserAddressService', () => {
       });
 
       expect(result).toBeUndefined();
+    });
+  });
+
+  describe('getUserAddressById', () => {
+    it(ERROR_MESSAGES.UserAddressNotFound, () => {
+      jest
+        .spyOn(userAddressRepo, 'findOneById')
+        .mockResolvedValue(undefined as any);
+
+      expect(() =>
+        userAddressService.getUserAddressById(NON_EXISTENT_ID),
+      ).rejects.toThrow(ERROR_MESSAGES.UserAddressNotFound);
+    });
+
+    it(SUCCESS, async () => {
+      jest
+        .spyOn(userAddressRepo, 'findOneById')
+        .mockResolvedValue(appUserAddressStub);
+
+      const result = await userAddressService.getUserAddressById(
+        appUserAddressStub.id,
+      );
+      expect(result).toEqual(appUserAddressStub);
     });
   });
 });

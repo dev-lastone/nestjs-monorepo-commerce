@@ -21,10 +21,6 @@ export class OrdersAppService {
       dto.userAddressId,
     );
 
-    if (!userAddress) {
-      throw new Error('User address not found');
-    }
-
     if (userAddress.userId !== userId) {
       throw new ForbiddenException();
     }
