@@ -7,6 +7,7 @@ import { AppUserPointStorage } from '@domain/app-user/point/app-user-point-stora
 import { AppUserPointHistory } from '@domain/app-user/point/app-user-point-history.entity';
 import { appUserStub } from './_stub/app-user.stub';
 import { appUserPointSaveDtoStub } from './_stub/app-user-point.stub';
+import { AppUserPointDto } from '@domain/app-user/dto/app-user-point.dto';
 
 describe('AppUserPoint', () => {
   it('create', () => {
@@ -57,13 +58,12 @@ describe('AppUserPoint', () => {
         } as AppUserPointHistory,
       ];
 
-      expect(
-        userPoint.use({
-          point: 1000,
-          action: AppUserPointHistoryAction.ORDER,
-          actionId: 1,
-        }),
-      ).toEqual({
+      const dto = new AppUserPointDto();
+      dto.point = 1000;
+      dto.action = AppUserPointHistoryAction.ORDER;
+      dto.actionId = 1;
+
+      expect(userPoint.use(dto)).toEqual({
         action: AppUserPointHistoryAction.ORDER,
         actionId: 1,
         consumptions: [
