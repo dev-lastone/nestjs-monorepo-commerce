@@ -11,6 +11,9 @@ import {
   orderProductWithOrderAndProductStub,
 } from '../../../domain/test/order/_stub/order-product.stub';
 import { userStub } from '../../../domain/test/user/stub/user.stub';
+import { orderStub } from '../../../domain/test/order/_stub/order.stub';
+import { appUserAddressStub } from '../../../domain/test/app-user/_stub/app-user-address.stub';
+import { productStub1 } from '../../../domain/test/product/_stub/product.stub';
 
 describe('OrderService', () => {
   let orderService: OrderService;
@@ -23,6 +26,7 @@ describe('OrderService', () => {
         {
           provide: OrderRepo,
           useValue: {
+            save: jest.fn().mockReturnValue(orderStub),
             findOneProductById: jest.fn().mockReturnValue(orderProductStub),
             saveProduct: jest.fn().mockReturnValue(orderProductStub),
             findOneOrderProductWishOrderAndProduct: jest
@@ -45,6 +49,15 @@ describe('OrderService', () => {
 
     orderService = testingModule.get(OrderService);
     orderRepo = testingModule.get(OrderRepo);
+  });
+
+  it('createOrder', async () => {
+    const result = await orderService.createOrder(appUserAddressStub, [
+      productStub1,
+    ]);
+
+    expect(orderRepo.save).toBeCalled();
+    expect(result).toEqual(orderStub);
   });
 
   describe('orderProductDeliver', () => {
