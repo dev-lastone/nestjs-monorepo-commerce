@@ -8,6 +8,7 @@ import { createUserDtoStub } from '../../../../../libs/domain/test/user/stub/dto
 import { signInUserDtoStub } from '../../../../../libs/domain/test/user/stub/dto/sign-in-user.dto.stub';
 import { userStub } from '../../../../../libs/domain/test/user/stub/user.stub';
 import { invalidPasswordStub } from '../../../../../libs/domain/test/_vo/_stub/user-password.stub';
+import { AppUser } from '@domain/app-user/app-user.entity';
 
 describe('AppUserService', () => {
   let appUserService: UserService;
@@ -20,6 +21,7 @@ describe('AppUserService', () => {
         {
           provide: UserRepo,
           useValue: {
+            save: jest.fn(),
             findOneByEmail: jest.fn(),
           },
         },
@@ -30,12 +32,22 @@ describe('AppUserService', () => {
     appUserRepo = testingModule.get(UserRepo);
   });
 
-  it('signUp', async () => {
-    jest.spyOn(appUserService, 'signUp').mockResolvedValue(appUserStub);
+  describe('signUp', () => {
+    it(ERROR_MESSAGES.DuplicateEmail, async () => {
+      jest.spyOn(appUserRepo, 'findOneByEmail').mockResolvedValue(appUserStub);
 
-    await appUserService.signUp(createUserDtoStub);
+      await expect(appUserService.signUp(createUserDtoStub)).rejects.toThrow(
+        ERROR_MESSAGES.DuplicateEmail,
+      );
+    });
 
-    expect(appUserService.signUp).toBeCalledWith(createUserDtoStub);
+    it(SUCCESS, async () => {
+      jest.spyOn(appUserRepo, 'findOneByEmail').mockResolvedValue(null);
+      jest.spyOn(appUserRepo, 'save').mockResolvedValue({} as AppUser);
+      await expect(appUserService.signUp(createUserDtoStub)).resolves.toEqual(
+        {},
+      );
+    });
   });
 
   describe('signIn', () => {
