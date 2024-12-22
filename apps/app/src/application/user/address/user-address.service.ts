@@ -82,6 +82,12 @@ export class UserAddressService {
   }
 
   async getUserAddressById(id: number) {
-    return await this.userAddressRepo.findOneById(id);
+    const userAddress = await this.userAddressRepo.findOneById(id);
+
+    if (!userAddress) {
+      throw new Error(ERROR_MESSAGES.UserAddressNotFound);
+    }
+
+    return userAddress;
   }
 }
