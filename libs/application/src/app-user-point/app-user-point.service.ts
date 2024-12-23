@@ -1,17 +1,18 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { AppUserPointRepo } from '@application/app-user-point/app-user-point.repo';
-import { AppUserPointDto } from '@domain/app-user/dto/app-user-point.dto';
+import {
+  AppUserPointDto,
+  SaveAppUserPointDto,
+} from '@domain/app-user/dto/app-user-point.dto';
 
 @Injectable()
 export class AppUserPointService {
   constructor(private readonly appUserPointRepo: AppUserPointRepo) {}
 
-  async savePoint(userId: number, dto: AppUserPointDto) {
+  async savePoint(userId: number, dto: SaveAppUserPointDto) {
     const userPoint = await this.#getUserPoint(userId);
 
-    const expirationAt = new Date();
-    expirationAt.setDate(expirationAt.getDate() + 7);
-    const appUserPointHistory = userPoint.save(dto, expirationAt);
+    const appUserPointHistory = userPoint.save(dto);
 
     await this.appUserPointRepo.save(userPoint);
     const createAppUserPointHistory =
