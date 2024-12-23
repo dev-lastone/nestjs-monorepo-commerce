@@ -6,7 +6,7 @@ import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { AppUserPointStorage } from '@domain/app-user/point/app-user-point-storage.entity';
 import { AppUserPointHistory } from '@domain/app-user/point/app-user-point-history.entity';
 import { appUserStub } from './_stub/app-user.stub';
-import { appUserPointSaveDtoStub } from './_stub/app-user-point.stub';
+import { saveAppUserPointDtoStub } from './_stub/app-user-point.stub';
 import { AppUserPointDto } from '@domain/app-user/dto/app-user-point.dto';
 
 describe('AppUserPoint', () => {
@@ -16,17 +16,16 @@ describe('AppUserPoint', () => {
     expect(userPoint.point).toBe(0);
   });
 
-  const expirationAt = new Date();
-  expirationAt.setDate(expirationAt.getDate() + 7);
-
   it('save', () => {
     const userPoint = AppUserPoint.create();
-    expect(userPoint.save(appUserPointSaveDtoStub, expirationAt)).toEqual({
-      ...appUserPointSaveDtoStub,
-      remainingPoint: appUserPointSaveDtoStub.point,
+    expect(userPoint.save(saveAppUserPointDtoStub)).toEqual({
+      point: saveAppUserPointDtoStub.point,
+      action: saveAppUserPointDtoStub.action,
+      actionId: saveAppUserPointDtoStub.actionId,
+      remainingPoint: saveAppUserPointDtoStub.point,
       storage: {
-        point: appUserPointSaveDtoStub.point,
-        expirationAt,
+        point: saveAppUserPointDtoStub.point,
+        expirationAt: saveAppUserPointDtoStub.expirationAt,
       },
     });
   });
@@ -34,11 +33,11 @@ describe('AppUserPoint', () => {
   describe('use', () => {
     it(ERROR_MESSAGES.NotEnoughPoints, () => {
       const userPoint = AppUserPoint.create();
-      userPoint.save(appUserPointSaveDtoStub, expirationAt);
+      userPoint.save(saveAppUserPointDtoStub);
 
       expect(() =>
         userPoint.use({
-          ...appUserPointSaveDtoStub,
+          ...saveAppUserPointDtoStub,
           point: 1001,
         }),
       ).toThrowError(ERROR_MESSAGES.NotEnoughPoints);

@@ -6,3 +6,11 @@ export class AppUserPointDto extends PickType(AppUserPointHistory, [
   'action',
   'actionId',
 ]) {}
+
+export class SaveAppUserPointDto extends PickType(AppUserPointHistory, [
+  'point',
+  'action',
+  'actionId',
+]) {
+  expirationAt: Date;
+}

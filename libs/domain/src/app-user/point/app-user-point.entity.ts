@@ -12,7 +12,10 @@ import {
 import { AppUser } from '@domain/app-user/app-user.entity';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { AppUserPointConsumption } from '@domain/app-user/point/app-user-point-consumption.entity';
-import { AppUserPointDto } from '@domain/app-user/dto/app-user-point.dto';
+import {
+  AppUserPointDto,
+  SaveAppUserPointDto,
+} from '@domain/app-user/dto/app-user-point.dto';
 
 /*
 	AppUserPoint // 총 포인트
@@ -81,12 +84,12 @@ export class AppUserPoint {
     return appUserPoint;
   }
 
-  save(dto: AppUserPointDto, expirationAt: Date) {
+  save(dto: SaveAppUserPointDto) {
     this.point += dto.point;
 
     const storage = new AppUserPointStorage();
     storage.point = dto.point;
-    storage.expirationAt = expirationAt;
+    storage.expirationAt = dto.expirationAt;
 
     const history = this.#createDefaultHistory(dto);
     history.storage = storage;

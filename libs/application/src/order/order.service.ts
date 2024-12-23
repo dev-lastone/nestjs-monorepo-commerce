@@ -55,10 +55,13 @@ export class OrderService {
 
     orderProduct.confirm();
 
+    const expirationAt = new Date();
+    expirationAt.setDate(expirationAt.getDate() + 7);
     await this.appUserPointService.savePoint(userId, {
       point: orderProduct.product.price * 0.01,
       action: AppUserPointHistoryAction.ORDER_PRODUCT,
       actionId: orderProduct.id,
+      expirationAt,
     });
 
     await this.orderRepo.saveProduct(orderProduct);

@@ -9,7 +9,7 @@ import { NotFoundException } from '@nestjs/common';
 import { appUserStub } from '../../../domain/test/app-user/_stub/app-user.stub';
 import { AppUserPointHistory } from '@domain/app-user/point/app-user-point-history.entity';
 import { AppUserPointStorage } from '@domain/app-user/point/app-user-point-storage.entity';
-import { appUserPointSaveDtoStub } from '../../../domain/test/app-user/_stub/app-user-point.stub';
+import { saveAppUserPointDtoStub } from '../../../domain/test/app-user/_stub/app-user-point.stub';
 import { NON_EXISTENT_ID } from '@common/constant/constants';
 
 describe('UserPointService', () => {
@@ -39,7 +39,7 @@ describe('UserPointService', () => {
   describe('savePoint', () => {
     it('404', () => {
       expect(() =>
-        appUserPointService.savePoint(NON_EXISTENT_ID, appUserPointSaveDtoStub),
+        appUserPointService.savePoint(NON_EXISTENT_ID, saveAppUserPointDtoStub),
       ).rejects.toThrowError(new NotFoundException());
     });
 
@@ -52,21 +52,25 @@ describe('UserPointService', () => {
         .mockResolvedValue(userPointStub);
       jest.spyOn(appUserPointRepo, 'saveHistory').mockResolvedValue({
         id: 1,
-        remainingPoint: appUserPointSaveDtoStub.point,
-        ...appUserPointSaveDtoStub,
+        point: saveAppUserPointDtoStub.point,
+        remainingPoint: saveAppUserPointDtoStub.point,
+        action: saveAppUserPointDtoStub.action,
+        actionId: saveAppUserPointDtoStub.actionId,
       } as AppUserPointHistory);
 
       const userPoint = await appUserPointService.savePoint(
         appUserStub.id,
-        appUserPointSaveDtoStub,
+        saveAppUserPointDtoStub,
       );
 
       expect(userPoint).toEqual({
-        point: appUserPointSaveDtoStub.point,
+        point: saveAppUserPointDtoStub.point,
         history: {
           id: 1,
-          remainingPoint: appUserPointSaveDtoStub.point,
-          ...appUserPointSaveDtoStub,
+          point: saveAppUserPointDtoStub.point,
+          remainingPoint: saveAppUserPointDtoStub.point,
+          action: saveAppUserPointDtoStub.action,
+          actionId: saveAppUserPointDtoStub.actionId,
         },
       });
     });
