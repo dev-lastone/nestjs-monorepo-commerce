@@ -26,6 +26,9 @@ export class AppUserPointService {
         remainingPoint: createAppUserPointHistory.remainingPoint,
         action: createAppUserPointHistory.action,
         actionId: createAppUserPointHistory.actionId,
+        storage: {
+          expirationAt: createAppUserPointHistory.storage.expirationAt,
+        },
       },
     };
   }
