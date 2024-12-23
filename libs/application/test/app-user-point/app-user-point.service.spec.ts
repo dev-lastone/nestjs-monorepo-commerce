@@ -56,6 +56,9 @@ describe('UserPointService', () => {
         remainingPoint: saveAppUserPointDtoStub.point,
         action: saveAppUserPointDtoStub.action,
         actionId: saveAppUserPointDtoStub.actionId,
+        storage: {
+          expirationAt: saveAppUserPointDtoStub.expirationAt,
+        },
       } as AppUserPointHistory);
 
       const userPoint = await appUserPointService.savePoint(
@@ -71,6 +74,9 @@ describe('UserPointService', () => {
           remainingPoint: saveAppUserPointDtoStub.point,
           action: saveAppUserPointDtoStub.action,
           actionId: saveAppUserPointDtoStub.actionId,
+          storage: {
+            expirationAt: saveAppUserPointDtoStub.expirationAt,
+          },
         },
       });
     });
