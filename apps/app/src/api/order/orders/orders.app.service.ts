@@ -15,7 +15,7 @@ export class OrdersAppService {
     private readonly ordersAppRepo: OrdersAppRepo,
   ) {}
 
-  async postOrder(userId: number, dto: PostOrdersAppReqDto) {
+  async postOrder(userId: bigint, dto: PostOrdersAppReqDto) {
     // TODO user lazy loading
     const userAddress = await this.userAddressService.getUserAddressById(
       dto.userAddressId,
@@ -34,7 +34,7 @@ export class OrdersAppService {
     return await this.orderService.createOrder(userAddress, products);
   }
 
-  async getOrders(userId: number) {
+  async getOrders(userId: bigint) {
     return await this.ordersAppRepo.findByUserId(userId);
   }
 }

@@ -4,7 +4,7 @@ import { orderStub } from './order.stub';
 import { CreateOrderProductReviewDto } from '@domain/order/dto/order-product-review.dto';
 
 const orderProduct = OrderProduct.create(productStub1);
-orderProduct.id = 1;
+orderProduct.id = 1n;
 
 export const orderProductStub = orderProduct;
 

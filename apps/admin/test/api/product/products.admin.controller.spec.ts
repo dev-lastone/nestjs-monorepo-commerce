@@ -52,14 +52,17 @@ describe('ProductsAdminController', () => {
     updateProductDto.name = '상품2';
     updateProductDto.price = 15000;
 
-    productsAdminController.putProduct(3, updateProductDto);
+    productsAdminController.putProduct(3n, updateProductDto);
 
-    expect(productsAdminService.putProduct).toBeCalledWith(3, updateProductDto);
+    expect(productsAdminService.putProduct).toBeCalledWith(
+      3n,
+      updateProductDto,
+    );
   });
 
   it('delete', () => {
-    productsAdminController.deleteProduct(3);
+    productsAdminController.deleteProduct(3n);
 
-    expect(productsAdminService.deleteProduct).toBeCalledWith(3);
+    expect(productsAdminService.deleteProduct).toBeCalledWith(3n);
   });
 });

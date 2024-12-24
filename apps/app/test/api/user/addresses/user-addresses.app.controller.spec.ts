@@ -28,7 +28,7 @@ describe('UserAddressesAppController', () => {
   });
 
   it('postUserAddresses', () => {
-    const userId = 2;
+    const userId = 2n;
     const dto = {
       isDefault: true,
       address: {

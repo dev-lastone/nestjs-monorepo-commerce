@@ -51,7 +51,7 @@ describe('AppUserPoint', () => {
         {
           remainingPoint: 1000,
           storage: {
-            id: 1,
+            id: 1n,
             point: 1000,
           } as AppUserPointStorage,
         } as AppUserPointHistory,
@@ -60,15 +60,15 @@ describe('AppUserPoint', () => {
       const dto = new AppUserPointDto();
       dto.point = 1000;
       dto.action = AppUserPointHistoryAction.ORDER;
-      dto.actionId = 1;
+      dto.actionId = 1n;
 
       expect(userPoint.use(dto)).toEqual({
         action: AppUserPointHistoryAction.ORDER,
-        actionId: 1,
+        actionId: 1n,
         consumptions: [
           {
             point: 1000,
-            userPointStorageId: 1,
+            userPointStorageId: 1n,
           },
         ],
         point: 1000,
@@ -83,14 +83,14 @@ describe('AppUserPoint', () => {
         {
           remainingPoint: 1000,
           storage: {
-            id: 1,
+            id: 1n,
             point: 1000,
           } as AppUserPointStorage,
         } as AppUserPointHistory,
         {
           remainingPoint: 1000,
           storage: {
-            id: 2,
+            id: 2n,
             point: 1000,
           } as AppUserPointStorage,
         } as AppUserPointHistory,
@@ -99,20 +99,20 @@ describe('AppUserPoint', () => {
       expect(
         userPoint.use({
           action: AppUserPointHistoryAction.ORDER,
-          actionId: 1,
+          actionId: 1n,
           point: 1500,
         }),
       ).toEqual({
         action: AppUserPointHistoryAction.ORDER,
-        actionId: 1,
+        actionId: 1n,
         consumptions: [
           {
             point: 1000,
-            userPointStorageId: 1,
+            userPointStorageId: 1n,
           },
           {
             point: 500,
-            userPointStorageId: 2,
+            userPointStorageId: 2n,
           },
         ],
         point: 1500,

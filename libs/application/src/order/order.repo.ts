@@ -30,7 +30,7 @@ export class OrderRepo {
     return await this.orderProductReviewRepo.save(orderProductReview);
   }
 
-  async findOneProductById(id: number) {
+  async findOneProductById(id: bigint) {
     return await this.orderProductRepo.findOne({
       where: {
         id,
@@ -39,7 +39,7 @@ export class OrderRepo {
   }
 
   // TODO order confirm 전용 find 예정
-  async findOneOrderProductWishOrderAndProduct(id: number) {
+  async findOneOrderProductWishOrderAndProduct(id: bigint) {
     return await this.orderProductRepo.findOne({
       relations: ['order', 'product'],
       where: {
@@ -48,7 +48,7 @@ export class OrderRepo {
     });
   }
 
-  async findOneWishOrderProductReview(id: number) {
+  async findOneWishOrderProductReview(id: bigint) {
     return await this.orderProductRepo.findOne({
       relations: ['product', 'orderProductReview'],
       where: {

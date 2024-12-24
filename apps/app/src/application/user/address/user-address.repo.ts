@@ -14,11 +14,11 @@ export class UserAddressRepo {
     return await this.userAddressRepo.save(userAddress);
   }
 
-  async delete(id: number) {
-    return await this.userAddressRepo.delete(id);
+  async delete(userAddress: AppUserAddress) {
+    return await this.userAddressRepo.delete(userAddress);
   }
 
-  async findByUserId(userId: number) {
+  async findByUserId(userId: bigint) {
     return await this.userAddressRepo.find({
       where: {
         userId,
@@ -26,7 +26,7 @@ export class UserAddressRepo {
     });
   }
 
-  async findOneById(id: number) {
+  async findOneById(id: bigint) {
     return await this.userAddressRepo.findOne({
       where: {
         id,

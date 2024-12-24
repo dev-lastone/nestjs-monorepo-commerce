@@ -12,8 +12,8 @@ export class ProductLikeAppController {
   @Version('1')
   @Post()
   postProductLike(
-    @UserId() userId: number,
-    @Param('productId') productId: number,
+    @UserId() userId: bigint,
+    @Param('productId') productId: bigint,
   ) {
     return this.productLikeService.postProductLike({
       userId,
@@ -24,8 +24,8 @@ export class ProductLikeAppController {
   @Version('1')
   @Delete()
   deleteProductLike(
-    @UserId() userId: number,
-    @Param('productId') productId: number,
+    @UserId() userId: bigint,
+    @Param('productId') productId: bigint,
   ) {
     return this.productLikeService.deleteProductLike({
       userId,

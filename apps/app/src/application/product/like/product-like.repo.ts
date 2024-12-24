@@ -14,8 +14,8 @@ export class ProductLikeRepo {
     return await this.productLikeRepo.save(productLike);
   }
 
-  async delete(id: number) {
-    return await this.productLikeRepo.delete(id);
+  async delete(productLike: ProductLike) {
+    return await this.productLikeRepo.remove(productLike);
   }
 
   async findOne(partial: Partial<ProductLike>) {

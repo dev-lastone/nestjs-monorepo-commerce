@@ -5,21 +5,22 @@ import { MyBaseEntity } from '@common/entity/my-base-entity';
 import { CreateUserCartDto } from '@domain/app-user/dto/user-cart.dto';
 import { dtoToInstance } from '@common/util/dto-to-instance';
 import { IsNotEmpty, IsNumber } from 'class-validator';
+import { IsBigInt } from 'class-validator-extended';
 
 @Entity('user_cart', { schema: 'app' })
 export class AppUserCart extends MyBaseEntity {
   @IsNotEmpty()
-  @IsNumber()
+  @IsBigInt()
   @Column('bigint', { name: 'user_id' })
-  userId: number;
+  userId: bigint;
 
   @IsNotEmpty()
-  @IsNumber()
+  @IsBigInt()
   @ApiProperty({
     example: 1,
   })
   @Column('bigint', { name: 'product_id' })
-  productId: number;
+  productId: bigint;
 
   @IsNotEmpty()
   @IsNumber()

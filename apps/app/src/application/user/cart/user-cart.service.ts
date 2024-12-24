@@ -18,7 +18,7 @@ export class UserCartService {
     return await this.userCartRepo.save(userCart);
   }
 
-  async getUserCarts(userId: number) {
+  async getUserCarts(userId: bigint) {
     return await this.userCartRepo.findByUserId(userId);
   }
 
@@ -35,6 +35,12 @@ export class UserCartService {
   }
 
   async deleteUserCart(dto: DeleteUserCartDto) {
-    return await this.userCartRepo.delete(dto.id);
+    const userCart = await this.userCartRepo.findOneById(dto.id);
+
+    if (!userCart) {
+      throw new NotFoundException(ERROR_MESSAGES.UserCartNotFound);
+    }
+
+    return await this.userCartRepo.delete(userCart);
   }
 }

@@ -11,6 +11,7 @@ import { orderStub } from '../../../../../../libs/domain/test/order/_stub/order.
 import { OrdersAppRepo } from '../../../../src/api/order/orders/orders.app.repo';
 import { OrderService } from '@application/order/order.service';
 import { UserAddressService } from '../../../../src/application/user/address/user-address.service';
+import { userStub } from '../../../../../../libs/domain/test/user/stub/user.stub';
 
 describe('OrdersAppService', () => {
   let ordersAppService: OrdersAppService;
@@ -29,8 +30,8 @@ describe('OrdersAppService', () => {
           provide: UserAddressService,
           useValue: {
             getUserAddressById: jest.fn().mockReturnValue({
-              id: 1,
-              userId: 1,
+              id: 1n,
+              userId: userStub.id,
               zipcode: '01234',
               address: '서울시 강남구 역삼동 *********',
             }),
@@ -40,22 +41,22 @@ describe('OrdersAppService', () => {
           provide: OrderService,
           useValue: {
             createOrder: jest.fn().mockReturnValue({
-              id: 2,
-              userId: 1,
+              id: 2n,
+              userId: userStub.id,
               zipcode: '01234',
               address: '서울시 강남구 역삼동 *********',
               products: [
                 {
-                  id: 2,
-                  orderId: 2,
+                  id: 2n,
+                  orderId: 2n,
                   productId: productStub1.id,
                   name: productStub1.name,
                   price: productStub1.price,
                   status: OrderProductStatus.ORDERED,
                 },
                 {
-                  id: 3,
-                  orderId: 2,
+                  id: 3n,
+                  orderId: 2n,
                   productId: productStub2.id,
                   name: productStub2.name,
                   price: productStub2.price,
@@ -80,35 +81,35 @@ describe('OrdersAppService', () => {
   describe('postOrder', () => {
     it('403', () => {
       expect(() =>
-        ordersAppService.postOrder(2, {
-          userAddressId: 1,
-          productIds: [1, 2],
+        ordersAppService.postOrder(2n, {
+          userAddressId: 1n,
+          productIds: [1n, 2n],
         }),
       ).rejects.toThrowError(new ForbiddenException());
     });
 
     it('성공', async () => {
-      const result = await ordersAppService.postOrder(1, {
-        userAddressId: 1,
-        productIds: [1, 2],
+      const result = await ordersAppService.postOrder(userStub.id, {
+        userAddressId: 1n,
+        productIds: [productStub1.id, productStub2.id],
       });
       expect(result).toEqual({
-        id: 2,
-        userId: 1,
+        id: 2n,
+        userId: userStub.id,
         zipcode: '01234',
         address: '서울시 강남구 역삼동 *********',
         products: [
           {
-            id: 2,
-            orderId: 2,
+            id: 2n,
+            orderId: 2n,
             productId: productStub1.id,
             name: productStub1.name,
             price: productStub1.price,
             status: OrderProductStatus.ORDERED,
           },
           {
-            id: 3,
-            orderId: 2,
+            id: 3n,
+            orderId: 2n,
             productId: productStub2.id,
             name: productStub2.name,
             price: productStub2.price,
@@ -120,7 +121,7 @@ describe('OrdersAppService', () => {
   });
 
   it('getOrders', async () => {
-    const result = await ordersAppService.getOrders(1);
+    const result = await ordersAppService.getOrders(userStub.id);
     expect(result).toEqual([orderStub]);
   });
 });

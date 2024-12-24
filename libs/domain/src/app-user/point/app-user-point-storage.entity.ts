@@ -12,10 +12,10 @@ export class AppUserPointStorage {
   @PrimaryGeneratedColumn({
     type: 'bigint',
   })
-  id: number;
+  id: bigint;
 
   @Column('bigint', { name: 'user_point_history_id' })
-  userPointHistoryId: number;
+  userPointHistoryId: bigint;
 
   @Column('int', { name: 'point' })
   point: number;

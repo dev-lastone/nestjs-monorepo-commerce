@@ -4,8 +4,8 @@ import { AppUserCart } from '@domain/app-user/app-user-cart.entity';
 describe('AppUserCart', () => {
   it('create', async () => {
     const dto: CreateUserCartDto = {
-      userId: 1,
-      productId: 2,
+      userId: 1n,
+      productId: 2n,
       count: 3,
     };
 

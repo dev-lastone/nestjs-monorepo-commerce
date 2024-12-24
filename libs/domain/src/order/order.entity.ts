@@ -14,13 +14,15 @@ export class Order extends MyBaseEntity {
   })
   @Expose()
   @Column({ name: 'user_id', type: 'bigint' })
-  userId: number;
+  userId: bigint;
+
   @ApiProperty({
     example: '01234',
   })
   @Expose()
   @Column(() => Address)
   address: Address;
+
   @ApiProperty({
     type: [OrderProduct],
   })

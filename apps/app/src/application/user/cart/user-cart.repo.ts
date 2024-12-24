@@ -14,11 +14,11 @@ export class UserCartRepo {
     return await this.userCartRepo.save(userCart);
   }
 
-  async delete(id: number) {
-    return await this.userCartRepo.delete(id);
+  async delete(userCart: AppUserCart) {
+    return await this.userCartRepo.delete(userCart);
   }
 
-  async findByUserId(userId: number) {
+  async findByUserId(userId: bigint) {
     return await this.userCartRepo.find({
       where: {
         userId,
@@ -26,7 +26,7 @@ export class UserCartRepo {
     });
   }
 
-  async findOneById(id: number) {
+  async findOneById(id: bigint) {
     return await this.userCartRepo.findOne({
       where: {
         id,

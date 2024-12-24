@@ -10,6 +10,6 @@ const appUserAddress = AppUserAddress.create({
     address: '서울시 강남구 역삼동 *********',
   }),
 });
-appUserAddress.id = 1;
+appUserAddress.id = 1n;
 
 export const appUserAddressStub = appUserAddress;

@@ -28,7 +28,7 @@ export class UserAddressesAppController {
     type: AppUserAddress,
   })
   async postUserAddress(
-    @UserId() userId: number,
+    @UserId() userId: bigint,
     @Body() dto: UserAddressRequestDto,
   ) {
     return await this.userAppService.postUserAddress({ userId, ...dto });
@@ -40,7 +40,7 @@ export class UserAddressesAppController {
     type: AppUserAddress,
     isArray: true,
   })
-  async getUserAddresses(@UserId() userId: number) {
+  async getUserAddresses(@UserId() userId: bigint) {
     return await this.userAppService.getUserAddresses(userId);
   }
 
@@ -50,8 +50,8 @@ export class UserAddressesAppController {
     type: AppUserAddress,
   })
   async putUserAddress(
-    @UserId() userId: number,
-    @Param('id') id: number,
+    @UserId() userId: bigint,
+    @Param('id') id: bigint,
     @Body() dto: UserAddressRequestDto,
   ) {
     return await this.userAppService.putUserAddress({ id, userId, ...dto });
@@ -60,7 +60,7 @@ export class UserAddressesAppController {
   @Version('1')
   @Delete(':id')
   @HttpCode(204)
-  async deleteUserAddress(@UserId() userId: number, @Param('id') id: number) {
+  async deleteUserAddress(@UserId() userId: bigint, @Param('id') id: bigint) {
     return await this.userAppService.deleteUserAddress({ userId, id });
   }
 }

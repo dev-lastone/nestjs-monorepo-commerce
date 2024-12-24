@@ -42,7 +42,7 @@ describe('UserAddressService', () => {
     };
 
     describe('신규 생성', () => {
-      const userId = 2;
+      const userId = 2n;
 
       it(ERROR_MESSAGES.UserAddressDefaultRequired, () => {
         expect(() =>
@@ -57,7 +57,7 @@ describe('UserAddressService', () => {
           userId,
           ...dto,
         });
-        userAddress.id = 2;
+        userAddress.id = 2n;
 
         jest.spyOn(userAddressRepo, 'save').mockResolvedValue(userAddress);
 
@@ -66,7 +66,7 @@ describe('UserAddressService', () => {
           ...dto,
         });
         expect(result).toEqual({
-          id: 2,
+          id: 2n,
           userId,
           ...dto,
         });
@@ -205,7 +205,7 @@ describe('UserAddressService', () => {
       expect(() =>
         userAddressService.updateUserAddress({
           id: appUserAddressStub.id,
-          userId: 2,
+          userId: 2n,
           ...dto,
         }),
       ).rejects.toThrow(new ForbiddenException());
@@ -226,7 +226,7 @@ describe('UserAddressService', () => {
 
       expect(() =>
         userAddressService.deleteUserAddress({
-          userId: 2,
+          userId: 2n,
           id: appUserAddressStub.id,
         }),
       ).rejects.toThrow(new ForbiddenException());

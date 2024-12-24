@@ -9,7 +9,7 @@ import {
 export class AppUserPointService {
   constructor(private readonly appUserPointRepo: AppUserPointRepo) {}
 
-  async savePoint(userId: number, dto: SaveAppUserPointDto) {
+  async savePoint(userId: bigint, dto: SaveAppUserPointDto) {
     const userPoint = await this.#getUserPoint(userId);
 
     const appUserPointHistory = userPoint.save(dto);
@@ -33,7 +33,7 @@ export class AppUserPointService {
     };
   }
 
-  async usePoint(userId: number, dto: AppUserPointDto) {
+  async usePoint(userId: bigint, dto: AppUserPointDto) {
     const userPoint =
       await this.appUserPointRepo.getUserPointWithAvailablePoints(userId);
 
@@ -55,7 +55,7 @@ export class AppUserPointService {
     };
   }
 
-  async #getUserPoint(userId: number) {
+  async #getUserPoint(userId: bigint) {
     const userPoint = await this.appUserPointRepo.findOneByUserId(userId);
 
     if (!userPoint) {
