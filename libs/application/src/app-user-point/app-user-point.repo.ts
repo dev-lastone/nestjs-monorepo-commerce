@@ -27,7 +27,7 @@ export class AppUserPointRepo {
     return await this.appUserPointHistoryRepo.save(appUserPointHistory);
   }
 
-  async findOneByUserId(userId: number) {
+  async findOneByUserId(userId: bigint) {
     return await this.appUserPointRepo.findOne({
       where: {
         userId,
@@ -35,7 +35,7 @@ export class AppUserPointRepo {
     });
   }
 
-  async getUserPointWithAvailablePoints(userId: number) {
+  async getUserPointWithAvailablePoints(userId: bigint) {
     return await this.appUserPointRepo.findOne({
       relations: ['histories', 'histories.storage'],
       where: {

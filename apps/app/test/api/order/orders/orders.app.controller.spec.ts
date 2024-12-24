@@ -25,20 +25,20 @@ describe('OrdersAppController', () => {
   });
 
   it('postOrder', () => {
-    ordersAppController.postOrder(1, {
-      userAddressId: 1,
-      productIds: [1, 2],
+    ordersAppController.postOrder(1n, {
+      userAddressId: 1n,
+      productIds: [1n, 2n],
     });
 
-    expect(ordersAppService.postOrder).toBeCalledWith(1, {
-      userAddressId: 1,
-      productIds: [1, 2],
+    expect(ordersAppService.postOrder).toBeCalledWith(1n, {
+      userAddressId: 1n,
+      productIds: [1n, 2n],
     });
   });
 
   it('getOrders', () => {
-    ordersAppController.getOrders(1);
+    ordersAppController.getOrders(1n);
 
-    expect(ordersAppService.getOrders).toBeCalledWith(1);
+    expect(ordersAppService.getOrders).toBeCalledWith(1n);
   });
 });

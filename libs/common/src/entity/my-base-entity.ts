@@ -9,7 +9,7 @@ export class MyBaseEntity {
   @PrimaryGeneratedColumn({
     type: 'bigint',
   })
-  id: number;
+  id: bigint;
 
   @CreateDateColumn({
     name: 'created_at',

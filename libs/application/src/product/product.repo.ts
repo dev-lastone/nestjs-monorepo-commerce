@@ -14,7 +14,7 @@ export class ProductRepo {
     return await this.productRepo.find();
   }
 
-  async findOneById(id: number) {
+  async findOneById(id: bigint) {
     return await this.productRepo.findOne({
       where: {
         id,
@@ -26,7 +26,7 @@ export class ProductRepo {
     return await this.productRepo.save(product);
   }
 
-  async delete(id: number) {
-    return await this.productRepo.delete(id);
+  async delete(product: Product) {
+    return await this.productRepo.remove(product);
   }
 }

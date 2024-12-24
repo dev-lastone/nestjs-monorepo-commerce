@@ -52,7 +52,7 @@ export class ProductsAdminController {
   @ApiOkResponse({
     type: Product,
   })
-  async putProduct(@Param('id') id: number, @Body() dto: UpdateProductDto) {
+  async putProduct(@Param('id') id: bigint, @Body() dto: UpdateProductDto) {
     return await this.productsAdminService.putProduct(id, {
       name: dto.name,
       price: dto.price,
@@ -63,7 +63,7 @@ export class ProductsAdminController {
   @Version('1')
   @Delete(':id')
   @HttpCode(204)
-  async deleteProduct(@Param('id') id: number) {
+  async deleteProduct(@Param('id') id: bigint) {
     await this.productsAdminService.deleteProduct(id);
   }
 }

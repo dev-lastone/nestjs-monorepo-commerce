@@ -6,7 +6,7 @@ export class PostOrdersAppReqDto {
     example: 1,
   })
   @IsNumber()
-  userAddressId: number;
+  userAddressId: bigint;
   @ApiProperty({
     isArray: true,
     type: Number,
@@ -14,5 +14,5 @@ export class PostOrdersAppReqDto {
   @IsArray()
   @ArrayNotEmpty()
   @IsNumber({}, { each: true })
-  productIds!: number[];
+  productIds!: bigint[];
 }

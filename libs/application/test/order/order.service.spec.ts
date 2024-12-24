@@ -76,7 +76,7 @@ describe('OrderService', () => {
         orderProductStub.id,
       );
 
-      expect(orderRepo.findOneProductById).toBeCalledWith(1);
+      expect(orderRepo.findOneProductById).toBeCalledWith(1n);
       expect(orderRepo.saveProduct).toBeCalled();
       expect(result).toEqual({
         ...orderProductStub,
@@ -119,7 +119,7 @@ describe('OrderService', () => {
       });
 
       expect(orderRepo.findOneOrderProductWishOrderAndProduct).toBeCalledWith(
-        1,
+        1n,
       );
       expect(orderRepo.saveProduct).toBeCalled();
       expect(result).toEqual({
@@ -165,7 +165,7 @@ describe('OrderService', () => {
       };
       await orderService.createOrderProductReview(dto);
 
-      expect(orderRepo.findOneWishOrderProductReview).toBeCalledWith(1);
+      expect(orderRepo.findOneWishOrderProductReview).toBeCalledWith(1n);
       expect(orderRepo.saveProductReview).toBeCalled();
     });
   });

@@ -4,22 +4,23 @@ import { Product } from '@domain/product/product.entity';
 import { MyBaseEntity } from '@common/entity/my-base-entity';
 import { AppUser } from '@domain/app-user/app-user.entity';
 import { dtoToInstance } from '@common/util/dto-to-instance';
-import { IsNotEmpty, IsNumber } from 'class-validator';
+import { IsNotEmpty } from 'class-validator';
+import { IsBigInt } from 'class-validator-extended';
 
 @Entity('product_like', { schema: 'app' })
 export class ProductLike extends MyBaseEntity {
   @IsNotEmpty()
-  @IsNumber()
+  @IsBigInt()
   @Column('bigint', { name: 'user_id' })
-  userId: number;
+  userId: bigint;
 
   @ApiProperty({
     example: 1,
   })
   @IsNotEmpty()
-  @IsNumber()
+  @IsBigInt()
   @Column('bigint', { name: 'product_id' })
-  productId: number;
+  productId: bigint;
 
   @ManyToOne(() => AppUser, (appUser) => appUser.productLikes)
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
@@ -29,7 +30,7 @@ export class ProductLike extends MyBaseEntity {
   @JoinColumn({ name: 'product_id', referencedColumnName: 'id' })
   product: Product;
 
-  static create(dto: { userId: number; productId: number }) {
+  static create(dto: { userId: bigint; productId: bigint }) {
     return dtoToInstance({ class: ProductLike, dto });
   }
 }

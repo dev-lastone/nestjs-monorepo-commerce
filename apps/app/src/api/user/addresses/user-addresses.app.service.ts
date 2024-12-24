@@ -6,24 +6,24 @@ import { UserAddressService } from '../../../application/user/address/user-addre
 export class UserAddressesAppService {
   constructor(private readonly userAddressService: UserAddressService) {}
 
-  async postUserAddress(dto: { userId: number } & UserAddressRequestDto) {
+  async postUserAddress(dto: { userId: bigint } & UserAddressRequestDto) {
     return await this.userAddressService.createUserAddress(dto);
   }
 
-  async getUserAddresses(userId: number) {
+  async getUserAddresses(userId: bigint) {
     return await this.userAddressService.getUserAddresses(userId);
   }
 
   async putUserAddress(
     dto: {
-      id: number;
-      userId: number;
+      id: bigint;
+      userId: bigint;
     } & UserAddressRequestDto,
   ) {
     return await this.userAddressService.updateUserAddress(dto);
   }
 
-  async deleteUserAddress(dto: { id: number; userId: number }) {
+  async deleteUserAddress(dto: { id: bigint; userId: bigint }) {
     await this.userAddressService.deleteUserAddress(dto);
   }
 }

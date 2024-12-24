@@ -15,7 +15,7 @@ export class ProductService {
     return await this.productRepo.find();
   }
 
-  async findOneProduct(id: number) {
+  async findOneProduct(id: bigint) {
     return await this.checkExistentProduct(id);
   }
 
@@ -27,7 +27,7 @@ export class ProductService {
     return await this.productRepo.save(product);
   }
 
-  async updateProduct(id: number, dto: UpdateProductDto) {
+  async updateProduct(id: bigint, dto: UpdateProductDto) {
     const product = await this.checkExistentProduct(id);
 
     product.name = dto.name;
@@ -39,13 +39,13 @@ export class ProductService {
     return product;
   }
 
-  async deleteProduct(id: number) {
-    await this.checkExistentProduct(id);
+  async deleteProduct(id: bigint) {
+    const product = await this.checkExistentProduct(id);
 
-    await this.productRepo.delete(id);
+    await this.productRepo.delete(product);
   }
 
-  async checkExistentProduct(id: number) {
+  async checkExistentProduct(id: bigint) {
     const product = await this.productRepo.findOneById(id);
 
     if (!product) {

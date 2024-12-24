@@ -7,6 +7,6 @@ expirationAt.setDate(expirationAt.getDate() + 7);
 export const saveAppUserPointDtoStub = {
   point: 1000,
   action: AppUserPointHistoryAction.ORDER_PRODUCT,
-  actionId: 1,
+  actionId: 1n,
   expirationAt,
 } as SaveAppUserPointDto;

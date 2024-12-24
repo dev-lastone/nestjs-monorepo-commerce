@@ -41,7 +41,7 @@ export class ProductLikeService {
       throw new BadRequestException(ERROR_MESSAGES.ProductNotLiked);
     }
 
-    await this.productLikeRepo.delete(productLike.id);
+    await this.productLikeRepo.delete(productLike);
 
     return false;
   }

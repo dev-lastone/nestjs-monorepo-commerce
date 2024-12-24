@@ -1,4 +1,4 @@
 export class ProductLikeDto {
-  userId: number;
-  productId: number;
+  userId: bigint;
+  productId: bigint;
 }

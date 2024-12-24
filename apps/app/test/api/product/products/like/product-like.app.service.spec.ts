@@ -6,6 +6,8 @@ import { ProductLike } from '@domain/product/product-like.entity';
 import { ProductLikeRepo } from '../../../../../src/application/product/like/product-like.repo';
 import { ProductLikeService } from '../../../../../src/application/product/like/product-like.service';
 import { ProductLikeDto } from '../../../../../src/application/product/like/product-like.dto';
+import { userStub } from '../../../../../../../libs/domain/test/user/stub/user.stub';
+import { productStub1 } from '../../../../../../../libs/domain/test/product/_stub/product.stub';
 
 describe('ProductLikeAppService', () => {
   let productLikeService: ProductLikeService;
@@ -41,8 +43,8 @@ describe('ProductLikeAppService', () => {
   describe('postProductLike', () => {
     it(ERROR_MESSAGES.ProductAlreadyLiked, () => {
       const dto = new ProductLikeDto();
-      dto.productId = 1;
-      dto.userId = 1;
+      dto.productId = productStub1.id;
+      dto.userId = userStub.id;
 
       const productLike = ProductLike.create(dto);
       jest.spyOn(productLikeRepo, 'findOne').mockResolvedValue(productLike);
@@ -57,8 +59,8 @@ describe('ProductLikeAppService', () => {
 
     it(SUCCESS, async () => {
       const dto = new ProductLikeDto();
-      dto.productId = 1;
-      dto.userId = 2;
+      dto.productId = productStub1.id;
+      dto.userId = 2n;
 
       const result = await productLikeService.postProductLike(dto);
 
@@ -72,8 +74,8 @@ describe('ProductLikeAppService', () => {
   describe('deleteProductLike', () => {
     it(ERROR_MESSAGES.ProductNotLiked, () => {
       const dto = new ProductLikeDto();
-      dto.productId = 1;
-      dto.userId = 2;
+      dto.productId = productStub1.id;
+      dto.userId = 2n;
 
       expect(() => productLikeService.deleteProductLike(dto)).rejects.toThrow(
         ERROR_MESSAGES.ProductNotLiked,
@@ -85,8 +87,8 @@ describe('ProductLikeAppService', () => {
 
     it(SUCCESS, async () => {
       const dto = new ProductLikeDto();
-      dto.productId = 1;
-      dto.userId = 1;
+      dto.productId = productStub1.id;
+      dto.userId = userStub.id;
 
       const productLike = ProductLike.create(dto);
       jest.spyOn(productLikeRepo, 'findOne').mockResolvedValue(productLike);

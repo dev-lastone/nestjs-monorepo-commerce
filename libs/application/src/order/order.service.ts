@@ -25,7 +25,7 @@ export class OrderService {
     return await this.orderRepo.save(order);
   }
 
-  async orderProductDeliver(id: number) {
+  async orderProductDeliver(id: bigint) {
     const orderProduct = await this.orderRepo.findOneProductById(id);
 
     if (!orderProduct) {
@@ -39,7 +39,7 @@ export class OrderService {
     return orderProduct;
   }
 
-  async orderProductConfirm(dto: { id: number; userId: number }) {
+  async orderProductConfirm(dto: { id: bigint; userId: bigint }) {
     const { id, userId } = dto;
 
     const orderProduct =
@@ -71,8 +71,8 @@ export class OrderService {
 
   async createOrderProductReview(
     dto: CreateOrderProductReviewDto & {
-      userId: number;
-      orderProductId: number;
+      userId: bigint;
+      orderProductId: bigint;
     },
   ) {
     const orderProduct = await this.orderRepo.findOneWishOrderProductReview(

@@ -3,7 +3,7 @@ import { productStub1 } from '../../product/_stub/product.stub';
 import { appUserAddressStub } from '../../app-user/_stub/app-user-address.stub';
 
 const order = Order.create(appUserAddressStub, [productStub1]);
-order.id = 1;
-order.products[0].id = 1;
+order.id = 1n;
+order.products[0].id = 1n;
 
 export const orderStub = order;
