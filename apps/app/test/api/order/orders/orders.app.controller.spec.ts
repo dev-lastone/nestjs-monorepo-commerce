@@ -1,6 +1,12 @@
 import { Test } from '@nestjs/testing';
 import { OrdersAppController } from '../../../../src/api/order/orders/orders.app.controller';
 import { OrdersAppService } from '../../../../src/api/order/orders/orders.app.service';
+import { userStub } from '../../../../../../libs/domain/test/user/stub/user.stub';
+import { appUserAddressStub } from '../../../../../../libs/domain/test/app-user/_stub/app-user-address.stub';
+import {
+  productStub1,
+  productStub2,
+} from '../../../../../../libs/domain/test/product/_stub/product.stub';
 
 describe('OrdersAppController', () => {
   let ordersAppController: OrdersAppController;
@@ -25,20 +31,20 @@ describe('OrdersAppController', () => {
   });
 
   it('postOrder', () => {
-    ordersAppController.postOrder(1n, {
-      userAddressId: 1n,
-      productIds: [1n, 2n],
-    });
+    const userId = userStub.id;
+    const dto = {
+      userAddressId: appUserAddressStub.id,
+      productIds: [productStub1.id, productStub2.id],
+    };
+    ordersAppController.postOrder(userId, dto);
 
-    expect(ordersAppService.postOrder).toBeCalledWith(1n, {
-      userAddressId: 1n,
-      productIds: [1n, 2n],
-    });
+    expect(ordersAppService.postOrder).toBeCalledWith({ ...dto, userId });
   });
 
   it('getOrders', () => {
-    ordersAppController.getOrders(1n);
+    const userId = userStub.id;
+    ordersAppController.getOrders(userId);
 
-    expect(ordersAppService.getOrders).toBeCalledWith(1n);
+    expect(ordersAppService.getOrders).toBeCalledWith(userId);
   });
 });

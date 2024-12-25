@@ -7,19 +7,37 @@ import { OrderRepo } from '@application/order/order.repo';
 import { AppUserPointHistoryAction } from '@domain/app-user/point/app-user-point.entity';
 import { AppUserPointService } from '@application/app-user-point/app-user-point.service';
 import { Order } from '@domain/order/order.entity';
-import { AppUserAddress } from '@domain/app-user/app-user-address.entity';
-import { Product } from '@domain/product/product.entity';
 import { CreateOrderProductReviewDto } from '@domain/order/dto/order-product-review.dto';
+import { PostOrdersAppReqDto } from '../../../../apps/app/src/api/order/orders/orders.app.dto';
+import { ProductService } from '@application/product/product.service';
+import { UserAddressService } from '../../../../apps/app/src/application/user/address/user-address.service';
 
 @Injectable()
 export class OrderService {
   constructor(
+    private readonly productService: ProductService,
+    private readonly userAddressService: UserAddressService,
     private readonly appUserPointService: AppUserPointService,
 
     private readonly orderRepo: OrderRepo,
   ) {}
 
-  async createOrder(userAddress: AppUserAddress, products: Product[]) {
+  async createOrder(dto: PostOrdersAppReqDto & { userId: bigint }) {
+    // TODO user lazy loading
+    const userAddress = await this.userAddressService.getUserAddressById(
+      dto.userAddressId,
+    );
+
+    if (userAddress.userId !== dto.userId) {
+      throw new ForbiddenException();
+    }
+
+    const products = await Promise.all(
+      dto.productIds.map(async (id) => {
+        return await this.productService.findOneProduct(id);
+      }),
+    );
+
     const order = Order.create(userAddress, products);
 
     return await this.orderRepo.save(order);

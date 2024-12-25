@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
 import { OrderProductStatus } from '@domain/order/order-product.entity';
 import { OrderRepo } from '@application/order/order.repo';
-import { NON_EXISTENT_ID } from '@common/constant/constants';
+import { NON_EXISTENT_ID, SUCCESS } from '@common/constant/constants';
 import { ForbiddenException, NotFoundException } from '@nestjs/common';
 import { OrderService } from '@application/order/order.service';
 import { AppUserPointService } from '@application/app-user-point/app-user-point.service';
@@ -11,12 +11,17 @@ import {
   orderProductWithOrderAndProductStub,
 } from '../../../domain/test/order/_stub/order-product.stub';
 import { userStub } from '../../../domain/test/user/stub/user.stub';
-import { orderStub } from '../../../domain/test/order/_stub/order.stub';
-import { appUserAddressStub } from '../../../domain/test/app-user/_stub/app-user-address.stub';
 import { productStub1 } from '../../../domain/test/product/_stub/product.stub';
+import { UserAddressService } from '../../../../apps/app/src/application/user/address/user-address.service';
+import { ProductService } from '@application/product/product.service';
+import { orderStub } from '../../../domain/test/order/_stub/order.stub';
+import { Order } from '@domain/order/order.entity';
+import { appUserAddressStub } from '../../../domain/test/app-user/_stub/app-user-address.stub';
 
 describe('OrderService', () => {
   let orderService: OrderService;
+  let userAddressService: UserAddressService;
+  let productService: ProductService;
   let orderRepo: OrderRepo;
 
   beforeEach(async () => {
@@ -39,6 +44,18 @@ describe('OrderService', () => {
           },
         },
         {
+          provide: ProductService,
+          useValue: {
+            findOneProduct: jest.fn().mockReturnValue(productStub1),
+          },
+        },
+        {
+          provide: UserAddressService,
+          useValue: {
+            getUserAddressById: jest.fn().mockReturnValue(appUserAddressStub),
+          },
+        },
+        {
           provide: AppUserPointService,
           useValue: {
             savePoint: jest.fn(),
@@ -48,16 +65,41 @@ describe('OrderService', () => {
     }).compile();
 
     orderService = testingModule.get(OrderService);
+    userAddressService = testingModule.get(UserAddressService);
+    productService = testingModule.get(ProductService);
     orderRepo = testingModule.get(OrderRepo);
   });
 
-  it('createOrder', async () => {
-    const result = await orderService.createOrder(appUserAddressStub, [
-      productStub1,
-    ]);
+  describe('createOrder', () => {
+    it('403', () => {
+      expect(() =>
+        orderService.createOrder({
+          userId: 2n,
+          userAddressId: 1n,
+          productIds: [1n, 2n],
+        }),
+      ).rejects.toThrowError(new ForbiddenException());
+    });
 
-    expect(orderRepo.save).toBeCalled();
-    expect(result).toEqual(orderStub);
+    it('성공', async () => {
+      const dto = {
+        userId: userStub.id,
+        userAddressId: 1n,
+        productIds: [productStub1.id],
+      };
+
+      const result = await orderService.createOrder(dto);
+
+      expect(userAddressService.getUserAddressById).toBeCalledWith(
+        dto.userAddressId,
+      );
+      expect(productService.findOneProduct).toBeCalledWith(dto.productIds[0]);
+
+      const order = Order.create(appUserAddressStub, [productStub1]);
+      expect(orderRepo.save).toBeCalledWith(order);
+
+      expect(result).toEqual(orderStub);
+    });
   });
 
   describe('orderProductDeliver', () => {
@@ -69,7 +111,7 @@ describe('OrderService', () => {
       ).rejects.toThrowError(new NotFoundException());
     });
 
-    it('성공', async () => {
+    it(SUCCESS, async () => {
       orderProductStub.status = OrderProductStatus.ORDERED;
 
       const result = await orderService.orderProductDeliver(
