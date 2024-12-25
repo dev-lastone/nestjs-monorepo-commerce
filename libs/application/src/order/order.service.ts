@@ -43,7 +43,7 @@ export class OrderService {
     const { id, userId } = dto;
 
     const orderProduct =
-      await this.orderRepo.findOneOrderProductWishOrderAndProduct(id);
+      await this.orderRepo.findOneOrderProductWithOrderAndProduct(id);
 
     if (!orderProduct) {
       throw new NotFoundException();
@@ -75,7 +75,7 @@ export class OrderService {
       orderProductId: bigint;
     },
   ) {
-    const orderProduct = await this.orderRepo.findOneWishOrderProductReview(
+    const orderProduct = await this.orderRepo.findOneWithOrderProductReview(
       dto.orderProductId,
     );
     if (!orderProduct) {
