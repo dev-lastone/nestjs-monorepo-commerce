@@ -2,7 +2,11 @@ import { Test } from '@nestjs/testing';
 import { OrderProductStatus } from '@domain/order/order-product.entity';
 import { OrderRepo } from '@application/order/order.repo';
 import { NON_EXISTENT_ID, SUCCESS } from '@common/constant/constants';
-import { ForbiddenException, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  NotFoundException,
+} from '@nestjs/common';
 import { OrderService } from '@application/order/order.service';
 import { AppUserPointService } from '@application/app-user-point/app-user-point.service';
 import {
@@ -17,6 +21,7 @@ import { ProductService } from '@application/product/product.service';
 import { orderStub } from '../../../domain/test/order/_stub/order.stub';
 import { Order } from '@domain/order/order.entity';
 import { appUserAddressStub } from '../../../domain/test/app-user/_stub/app-user-address.stub';
+import { ERROR_MESSAGES } from '@common/constant/error-messages';
 
 describe('OrderService', () => {
   let orderService: OrderService;
@@ -81,10 +86,26 @@ describe('OrderService', () => {
       ).rejects.toThrowError(new ForbiddenException());
     });
 
+    it(ERROR_MESSAGES.NotEnoughStock, () => {
+      jest
+        .spyOn(productService, 'findOneProduct')
+        .mockResolvedValue({ ...productStub1, stock: 0 });
+
+      expect(
+        orderService.createOrder({
+          userId: userStub.id,
+          userAddressId: appUserAddressStub.id,
+          productIds: [productStub1.id],
+        }),
+      ).rejects.toThrowError(
+        new BadRequestException(ERROR_MESSAGES.NotEnoughStock),
+      );
+    });
+
     it('성공', async () => {
       const dto = {
         userId: userStub.id,
-        userAddressId: 1n,
+        userAddressId: appUserAddressStub.id,
         productIds: [productStub1.id],
       };
 
