@@ -16,4 +16,5 @@ export const ERROR_MESSAGES = {
   ProductAlreadyLiked: 'Product already liked',
   ProductNotLiked: 'Product not liked',
   DuplicateEmail: 'Email already exists',
+  NotEnoughStock: 'Not enough stock',
 };

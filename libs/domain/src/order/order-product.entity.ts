@@ -71,6 +71,12 @@ export class OrderProduct {
   review: OrderProductReview;
 
   static create(product: Product) {
+    if (product.stock < 1) {
+      throw new BadRequestException(ERROR_MESSAGES.NotEnoughStock);
+    }
+
+    product.stock -= 1;
+
     return dtoToInstance({
       class: OrderProduct,
       dto: {
