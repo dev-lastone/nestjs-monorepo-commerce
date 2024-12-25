@@ -29,10 +29,10 @@ describe('OrderService', () => {
             save: jest.fn().mockReturnValue(orderStub),
             findOneProductById: jest.fn().mockReturnValue(orderProductStub),
             saveProduct: jest.fn().mockReturnValue(orderProductStub),
-            findOneOrderProductWishOrderAndProduct: jest
+            findOneOrderProductWithOrderAndProduct: jest
               .fn()
               .mockReturnValue(orderProductWithOrderAndProductStub),
-            findOneWishOrderProductReview: jest
+            findOneWithOrderProductReview: jest
               .fn()
               .mockReturnValue(orderProductWithOrderAndProductStub),
             saveProductReview: jest.fn(),
@@ -88,7 +88,7 @@ describe('OrderService', () => {
   describe('orderProductConfirm', () => {
     it('404', () => {
       jest
-        .spyOn(orderRepo, 'findOneOrderProductWishOrderAndProduct')
+        .spyOn(orderRepo, 'findOneOrderProductWithOrderAndProduct')
         .mockReturnValue(undefined);
 
       expect(
@@ -118,7 +118,7 @@ describe('OrderService', () => {
         userId: userStub.id,
       });
 
-      expect(orderRepo.findOneOrderProductWishOrderAndProduct).toBeCalledWith(
+      expect(orderRepo.findOneOrderProductWithOrderAndProduct).toBeCalledWith(
         1n,
       );
       expect(orderRepo.saveProduct).toBeCalled();
@@ -132,7 +132,7 @@ describe('OrderService', () => {
   describe('createOrderProductReview', () => {
     it('404', () => {
       jest
-        .spyOn(orderRepo, 'findOneWishOrderProductReview')
+        .spyOn(orderRepo, 'findOneWithOrderProductReview')
         .mockReturnValue(undefined);
 
       expect(
@@ -165,7 +165,7 @@ describe('OrderService', () => {
       };
       await orderService.createOrderProductReview(dto);
 
-      expect(orderRepo.findOneWishOrderProductReview).toBeCalledWith(1n);
+      expect(orderRepo.findOneWithOrderProductReview).toBeCalledWith(1n);
       expect(orderRepo.saveProductReview).toBeCalled();
     });
   });

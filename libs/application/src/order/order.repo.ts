@@ -39,7 +39,7 @@ export class OrderRepo {
   }
 
   // TODO order confirm 전용 find 예정
-  async findOneOrderProductWishOrderAndProduct(id: bigint) {
+  async findOneOrderProductWithOrderAndProduct(id: bigint) {
     return await this.orderProductRepo.findOne({
       relations: ['order', 'product'],
       where: {
@@ -48,7 +48,7 @@ export class OrderRepo {
     });
   }
 
-  async findOneWishOrderProductReview(id: bigint) {
+  async findOneWithOrderProductReview(id: bigint) {
     return await this.orderProductRepo.findOne({
       relations: ['product', 'orderProductReview'],
       where: {
