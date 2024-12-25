@@ -18,7 +18,7 @@ export class OrdersAppController {
     type: Order,
   })
   async postOrder(@UserId() userId: bigint, @Body() dto: PostOrdersAppReqDto) {
-    return await this.ordersAppService.postOrder(userId, dto);
+    return await this.ordersAppService.postOrder({ ...dto, userId });
   }
 
   @Version('1')
