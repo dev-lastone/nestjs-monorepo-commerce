@@ -11,6 +11,7 @@ import { CreateOrderProductReviewDto } from '@domain/order/dto/order-product-rev
 import { PostOrdersAppReqDto } from '../../../../apps/app/src/api/order/orders/orders.app.dto';
 import { ProductService } from '@application/product/product.service';
 import { UserAddressService } from '../../../../apps/app/src/application/user/address/user-address.service';
+import { Transactional } from 'typeorm-transactional';
 
 @Injectable()
 export class OrderService {
@@ -57,6 +58,7 @@ export class OrderService {
     return orderProduct;
   }
 
+  @Transactional()
   async orderProductConfirm(dto: { id: bigint; userId: bigint }) {
     const { id, userId } = dto;
 
