@@ -1,5 +1,10 @@
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
+import {
+  addTransactionalDataSource,
+  initializeTransactionalContext,
+} from 'typeorm-transactional';
+import { DataSource } from 'typeorm';
 
 export enum AppName {
   ADMIN = 'admin',
@@ -7,6 +12,8 @@ export enum AppName {
 }
 
 export function typeOrmSetting(appName: AppName) {
+  initializeTransactionalContext();
+
   return TypeOrmModule.forRootAsync({
     useFactory: async () => ({
       type: 'postgres',
@@ -18,6 +25,9 @@ export function typeOrmSetting(appName: AppName) {
       synchronize: true,
       logging: process.env.NODE_ENV !== 'test',
     }),
+    async dataSourceFactory(options) {
+      return addTransactionalDataSource(new DataSource(options));
+    },
   });
 }
 
