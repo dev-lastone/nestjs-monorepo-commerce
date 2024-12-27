@@ -1,9 +1,11 @@
 import { Order } from '@domain/order/order.entity';
-import { productStub1 } from '../../product/_stub/product.stub';
 import { appUserAddressStub } from '../../app-user/_stub/app-user-address.stub';
+import { orderProductStub } from './order-product.stub';
 
-const order = Order.create(appUserAddressStub, [productStub1]);
+const order = new Order();
 order.id = 1n;
-order.products[0].id = 1n;
+order.userId = appUserAddressStub.userId;
+order.address = appUserAddressStub.address;
+order.products = [orderProductStub];
 
 export const orderStub = order;
