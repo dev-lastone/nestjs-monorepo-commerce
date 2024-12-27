@@ -11,7 +11,7 @@ export enum AppName {
   APP = 'app',
 }
 
-export function typeOrmSetting(appName: AppName) {
+export function typeOrmSetting(appName?: AppName) {
   initializeTransactionalContext();
 
   return TypeOrmModule.forRootAsync({
@@ -31,7 +31,7 @@ export function typeOrmSetting(appName: AppName) {
   });
 }
 
-function getEntities(appName: AppName) {
+function getEntities(appName?: AppName) {
   const entities = [
     join(__dirname, '../../../../libs/domain/src/**/*.entity.js'),
   ];
