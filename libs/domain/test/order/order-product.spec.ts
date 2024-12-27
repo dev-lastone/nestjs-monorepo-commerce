@@ -10,6 +10,10 @@ import {
 } from './_stub/order-product.stub';
 
 describe('OrderProduct', () => {
+  afterEach(() => {
+    productStub1.stock = 1;
+  });
+
   it('create', () => {
     const orderProduct = OrderProduct.create(productStub1);
     expect(orderProduct).toEqual({
