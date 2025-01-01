@@ -53,7 +53,7 @@ export class OrderProduct {
   @Column({ name: 'price', type: 'int' })
   price: number;
 
-  @Column({ name: 'status', type: 'enum', enum: OrderProductStatus })
+  @Column({ name: 'status', type: 'varchar', length: 20 })
   status: OrderProductStatus;
 
   @ManyToOne(() => Order, (order) => order.products)
