@@ -36,8 +36,7 @@ export class AppUserPointHistory extends MyBaseEntity {
   @ApiProperty({
     enum: AppUserPointHistoryAction,
   })
-  // TODO 1, 2, 3 mapping
-  // @Column({ name: 'action', type: 'enum', enum: AppUserPointHistoryAction })
+  @Column({ name: 'action', type: 'varchar', length: 20 })
   action: AppUserPointHistoryAction;
 
   @ApiProperty({
