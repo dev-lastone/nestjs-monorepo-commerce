@@ -89,6 +89,7 @@ export class OrderService {
     return orderProduct;
   }
 
+  @Transactional()
   async createOrderProductReview(
     dto: CreateOrderProductReviewDto & {
       userId: bigint;
@@ -110,7 +111,17 @@ export class OrderService {
       description: dto.description,
     });
 
-    await this.orderRepo.saveProductReview(orderProductReview);
+    const createOrderProductReview =
+      await this.orderRepo.saveProductReview(orderProductReview);
+
+    const expirationAt = new Date();
+    expirationAt.setDate(expirationAt.getDate() + 7);
+    await this.appUserPointService.savePoint(dto.userId, {
+      point: 1000,
+      action: AppUserPointHistoryAction.REVIEW,
+      actionId: createOrderProductReview.id,
+      expirationAt,
+    });
 
     return orderProductReview;
   }
