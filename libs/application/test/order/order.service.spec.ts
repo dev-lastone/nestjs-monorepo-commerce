@@ -23,6 +23,7 @@ import { appUserAddressStub } from '../../../domain/test/app-user/_stub/app-user
 import { configModule } from '@common/setting/config';
 import { typeOrmSetting } from '@common/setting/type-orm.setting';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
+import { orderProductReviewStub } from '../../../domain/test/order/_stub/order-product-review.stub';
 
 describe('OrderService', () => {
   let orderService: OrderService;
@@ -45,9 +46,7 @@ describe('OrderService', () => {
             findOneOrderProductWithOrderAndProduct: jest
               .fn()
               .mockReturnValue(orderProductWithOrderAndProductStub),
-            findOneWithOrderProductReview: jest
-              .fn()
-              .mockReturnValue(orderProductWithOrderAndProductStub),
+            findOneWithOrderProductReview: jest.fn(),
             saveProductReview: jest.fn(),
           },
         },
@@ -176,22 +175,20 @@ describe('OrderService', () => {
         .spyOn(orderRepo, 'findOneOrderProductWithOrderAndProduct')
         .mockReturnValue(undefined);
 
-      expect(
-        async () =>
-          await orderService.orderProductConfirm({
-            id: NON_EXISTENT_ID,
-            userId: userStub.id,
-          }),
+      expect(() =>
+        orderService.orderProductConfirm({
+          id: NON_EXISTENT_ID,
+          userId: userStub.id,
+        }),
       ).rejects.toThrowError(new NotFoundException());
     });
 
     it('403', () => {
-      expect(
-        async () =>
-          await orderService.orderProductConfirm({
-            id: orderProductStub.id,
-            userId: NON_EXISTENT_ID,
-          }),
+      expect(() =>
+        orderService.orderProductConfirm({
+          id: orderProductStub.id,
+          userId: NON_EXISTENT_ID,
+        }),
       ).rejects.toThrowError(new ForbiddenException());
     });
   });
@@ -199,6 +196,14 @@ describe('OrderService', () => {
   describe('createOrderProductReview', () => {
     it('성공', async () => {
       orderProductStub.status = OrderProductStatus.CONFIRMED;
+
+      jest
+        .spyOn(orderRepo, 'findOneWithOrderProductReview')
+        .mockResolvedValue(orderProductWithOrderAndProductStub);
+      jest
+        .spyOn(orderRepo, 'saveProductReview')
+        .mockResolvedValue(orderProductReviewStub);
+
       const dto = {
         orderProductId: orderProductStub.id,
         userId: userStub.id,
@@ -206,8 +211,11 @@ describe('OrderService', () => {
       };
       await orderService.createOrderProductReview(dto);
 
-      expect(orderRepo.findOneWithOrderProductReview).toBeCalledWith(1n);
+      expect(orderRepo.findOneWithOrderProductReview).toBeCalledWith(
+        orderProductStub.id,
+      );
       expect(orderRepo.saveProductReview).toBeCalled();
+      expect(appUserPointService.savePoint).toBeCalled();
     });
 
     it('403', () => {
