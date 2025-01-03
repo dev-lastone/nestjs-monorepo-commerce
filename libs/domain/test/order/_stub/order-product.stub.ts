@@ -14,12 +14,25 @@ orderProduct.status = OrderProductStatus.ORDERED;
 orderProduct.product = productStub1;
 export const orderProductStub = orderProduct;
 
-const orderProductWithOrderAndProduct = orderProductStub;
-orderProduct.order = orderStub;
-orderProduct.product = productStub1;
-
+const orderProductWithOrderAndProduct = new OrderProduct();
+orderProductWithOrderAndProduct.id = 1n;
+orderProductWithOrderAndProduct.name = productStub1.name;
+orderProductWithOrderAndProduct.price = productStub1.price;
+orderProductWithOrderAndProduct.status = OrderProductStatus.DELIVERED;
+orderProductWithOrderAndProduct.order = orderStub;
+orderProductWithOrderAndProduct.product = productStub1;
 export const orderProductWithOrderAndProductStub =
   orderProductWithOrderAndProduct;
+
+const orderProductWithOrderAndProductAndReview = new OrderProduct();
+orderProductWithOrderAndProductAndReview.id = 1n;
+orderProductWithOrderAndProductAndReview.name = productStub1.name;
+orderProductWithOrderAndProductAndReview.price = productStub1.price;
+orderProductWithOrderAndProductAndReview.status = OrderProductStatus.CONFIRMED;
+orderProductWithOrderAndProductAndReview.order = orderStub;
+orderProductWithOrderAndProductAndReview.product = productStub1;
+export const orderProductWithOrderAndProductAndReviewStub =
+  orderProductWithOrderAndProductAndReview;
 
 export const createOrderProductReviewDtoStub = {
   score: 5,

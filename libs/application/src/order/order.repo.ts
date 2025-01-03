@@ -48,9 +48,9 @@ export class OrderRepo {
     });
   }
 
-  async findOneWithOrderProductReview(id: bigint) {
+  async findOneOrderProductWithOrderAndProductAndReview(id: bigint) {
     return await this.orderProductRepo.findOne({
-      relations: ['product', 'orderProductReview'],
+      relations: ['order', 'product', 'orderProductReview'],
       where: {
         id,
       },

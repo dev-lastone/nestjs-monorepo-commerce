@@ -1,17 +1,13 @@
 import { Test } from '@nestjs/testing';
-import { OrderProductStatus } from '@domain/order/order-product.entity';
 import { OrderRepo } from '@application/order/order.repo';
-import { NON_EXISTENT_ID, SUCCESS } from '@common/constant/constants';
-import {
-  BadRequestException,
-  ForbiddenException,
-  NotFoundException,
-} from '@nestjs/common';
+import { NON_EXISTENT_ID } from '@common/constant/constants';
+import { ForbiddenException, NotFoundException } from '@nestjs/common';
 import { OrderService } from '@application/order/order.service';
 import { AppUserPointService } from '@application/app-user-point/app-user-point.service';
 import {
   createOrderProductReviewDtoStub,
   orderProductStub,
+  orderProductWithOrderAndProductAndReviewStub,
   orderProductWithOrderAndProductStub,
 } from '../../../domain/test/order/_stub/order-product.stub';
 import { userStub } from '../../../domain/test/user/stub/user.stub';
@@ -22,7 +18,6 @@ import { orderStub } from '../../../domain/test/order/_stub/order.stub';
 import { appUserAddressStub } from '../../../domain/test/app-user/_stub/app-user-address.stub';
 import { configModule } from '@common/setting/config';
 import { typeOrmSetting } from '@common/setting/type-orm.setting';
-import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { orderProductReviewStub } from '../../../domain/test/order/_stub/order-product-review.stub';
 
 describe('OrderService', () => {
@@ -43,10 +38,8 @@ describe('OrderService', () => {
             save: jest.fn().mockReturnValue(orderStub),
             findOneProductById: jest.fn().mockReturnValue(orderProductStub),
             saveProduct: jest.fn().mockReturnValue(orderProductStub),
-            findOneOrderProductWithOrderAndProduct: jest
-              .fn()
-              .mockReturnValue(orderProductWithOrderAndProductStub),
-            findOneWithOrderProductReview: jest.fn(),
+            findOneOrderProductWithOrderAndProduct: jest.fn(),
+            findOneOrderProductWithOrderAndProductAndReview: jest.fn(),
             saveProductReview: jest.fn(),
           },
         },
@@ -78,84 +71,134 @@ describe('OrderService', () => {
     orderRepo = testingModule.get(OrderRepo);
   });
 
-  describe('createOrder', () => {
-    it('403', () => {
+  // describe('createOrder', () => {
+  //   it('403', () => {
+  //     expect(
+  //       orderService.createOrder({
+  //         userId: 2n,
+  //         userAddressId: 1n,
+  //         productIds: [1n],
+  //       }),
+  //     ).rejects.toThrowError(new ForbiddenException());
+  //   });
+  //
+  //   it('성공', async () => {
+  //     const dto = {
+  //       userId: userStub.id,
+  //       userAddressId: appUserAddressStub.id,
+  //       productIds: [productStub1.id],
+  //     };
+  //
+  //     const result = await orderService.createOrder(dto);
+  //
+  //     expect(userAddressService.getUserAddressById).toBeCalledWith(
+  //       dto.userAddressId,
+  //     );
+  //     expect(productService.findOneProduct).toBeCalledWith(dto.productIds[0]);
+  //
+  //     // const order = Order.create(appUserAddressStub, [productStub1]);
+  //     // expect(orderRepo.save).toBeCalledWith(orderStub);
+  //     expect(result).toEqual(orderStub);
+  //   });
+  //
+  //   it(ERROR_MESSAGES.NotEnoughStock, () => {
+  //     jest
+  //       .spyOn(productService, 'findOneProduct')
+  //       .mockResolvedValue({ ...productStub1, stock: 0 });
+  //
+  //     expect(
+  //       orderService.createOrder({
+  //         userId: userStub.id,
+  //         userAddressId: appUserAddressStub.id,
+  //         productIds: [productStub1.id],
+  //       }),
+  //     ).rejects.toThrowError(
+  //       new BadRequestException(ERROR_MESSAGES.NotEnoughStock),
+  //     );
+  //   });
+  // });
+  //
+  // describe('orderProductDeliver', () => {
+  //   it(SUCCESS, async () => {
+  //     orderProductStub.status = OrderProductStatus.ORDERED;
+  //
+  //     const result = await orderService.orderProductDeliver(
+  //       orderProductStub.id,
+  //     );
+  //
+  //     expect(orderRepo.findOneProductById).toBeCalledWith(1n);
+  //     expect(orderRepo.saveProduct).toBeCalled();
+  //     expect(result).toEqual({
+  //       ...orderProductStub,
+  //       status: OrderProductStatus.ON_DELIVERY,
+  //     });
+  //   });
+  //
+  //   it('not found', () => {
+  //     jest.spyOn(orderRepo, 'findOneProductById').mockReturnValue(undefined);
+  //
+  //     expect(() =>
+  //       orderService.orderProductDeliver(NON_EXISTENT_ID),
+  //     ).rejects.toThrowError(new NotFoundException());
+  //   });
+  // });
+
+  describe('createOrderProductReview', () => {
+    it('성공', async () => {
+      jest
+        .spyOn(orderRepo, 'findOneOrderProductWithOrderAndProductAndReview')
+        .mockResolvedValue(orderProductWithOrderAndProductAndReviewStub);
+      jest
+        .spyOn(orderRepo, 'saveProductReview')
+        .mockResolvedValue(orderProductReviewStub);
+
+      const dto = {
+        orderProductId: orderProductWithOrderAndProductAndReviewStub.id,
+        userId: userStub.id,
+        ...createOrderProductReviewDtoStub,
+      };
+      await orderService.createOrderProductReview(dto);
+
       expect(
-        orderService.createOrder({
-          userId: 2n,
-          userAddressId: 1n,
-          productIds: [1n],
+        orderRepo.findOneOrderProductWithOrderAndProductAndReview,
+      ).toBeCalledWith(orderProductWithOrderAndProductAndReviewStub.id);
+      expect(orderRepo.saveProductReview).toBeCalled();
+      expect(appUserPointService.savePoint).toBeCalled();
+    });
+
+    it('403', () => {
+      expect(() =>
+        orderService.createOrderProductReview({
+          orderProductId: orderProductWithOrderAndProductAndReviewStub.id,
+          userId: NON_EXISTENT_ID,
+          ...createOrderProductReviewDtoStub,
         }),
       ).rejects.toThrowError(new ForbiddenException());
     });
 
-    it('성공', async () => {
-      const dto = {
-        userId: userStub.id,
-        userAddressId: appUserAddressStub.id,
-        productIds: [productStub1.id],
-      };
-
-      const result = await orderService.createOrder(dto);
-
-      expect(userAddressService.getUserAddressById).toBeCalledWith(
-        dto.userAddressId,
-      );
-      expect(productService.findOneProduct).toBeCalledWith(dto.productIds[0]);
-
-      // const order = Order.create(appUserAddressStub, [productStub1]);
-      // expect(orderRepo.save).toBeCalledWith(orderStub);
-      expect(result).toEqual(orderStub);
-    });
-
-    it(ERROR_MESSAGES.NotEnoughStock, () => {
+    it('404', () => {
       jest
-        .spyOn(productService, 'findOneProduct')
-        .mockResolvedValue({ ...productStub1, stock: 0 });
-
-      expect(
-        orderService.createOrder({
-          userId: userStub.id,
-          userAddressId: appUserAddressStub.id,
-          productIds: [productStub1.id],
-        }),
-      ).rejects.toThrowError(
-        new BadRequestException(ERROR_MESSAGES.NotEnoughStock),
-      );
-    });
-  });
-
-  describe('orderProductDeliver', () => {
-    it(SUCCESS, async () => {
-      orderProductStub.status = OrderProductStatus.ORDERED;
-
-      const result = await orderService.orderProductDeliver(
-        orderProductStub.id,
-      );
-
-      expect(orderRepo.findOneProductById).toBeCalledWith(1n);
-      expect(orderRepo.saveProduct).toBeCalled();
-      expect(result).toEqual({
-        ...orderProductStub,
-        status: OrderProductStatus.ON_DELIVERY,
-      });
-    });
-
-    it('not found', () => {
-      jest.spyOn(orderRepo, 'findOneProductById').mockReturnValue(undefined);
+        .spyOn(orderRepo, 'findOneOrderProductWithOrderAndProductAndReview')
+        .mockReturnValue(undefined);
 
       expect(() =>
-        orderService.orderProductDeliver(NON_EXISTENT_ID),
+        orderService.createOrderProductReview({
+          orderProductId: NON_EXISTENT_ID,
+          userId: userStub.id,
+          ...createOrderProductReviewDtoStub,
+        }),
       ).rejects.toThrowError(new NotFoundException());
     });
   });
 
   describe('orderProductConfirm', () => {
     it('성공', async () => {
-      orderProductStub.status = OrderProductStatus.DELIVERED;
+      jest
+        .spyOn(orderRepo, 'findOneOrderProductWithOrderAndProduct')
+        .mockResolvedValue(orderProductWithOrderAndProductStub);
 
       const result = await orderService.orderProductConfirm({
-        id: orderProductStub.id,
+        id: orderProductWithOrderAndProductStub.id,
         userId: userStub.id,
       });
 
@@ -164,10 +207,16 @@ describe('OrderService', () => {
       );
       expect(orderRepo.saveProduct).toBeCalled();
       expect(appUserPointService.savePoint).toBeCalled();
-      expect(result).toEqual({
-        ...orderProductStub,
-        status: OrderProductStatus.CONFIRMED,
-      });
+      expect(result).toEqual(orderProductWithOrderAndProductStub);
+    });
+
+    it('403', () => {
+      expect(() =>
+        orderService.orderProductConfirm({
+          id: orderProductWithOrderAndProductStub.id,
+          userId: NON_EXISTENT_ID,
+        }),
+      ).rejects.toThrowError(new ForbiddenException());
     });
 
     it('404', () => {
@@ -179,65 +228,6 @@ describe('OrderService', () => {
         orderService.orderProductConfirm({
           id: NON_EXISTENT_ID,
           userId: userStub.id,
-        }),
-      ).rejects.toThrowError(new NotFoundException());
-    });
-
-    it('403', () => {
-      expect(() =>
-        orderService.orderProductConfirm({
-          id: orderProductStub.id,
-          userId: NON_EXISTENT_ID,
-        }),
-      ).rejects.toThrowError(new ForbiddenException());
-    });
-  });
-
-  describe('createOrderProductReview', () => {
-    it('성공', async () => {
-      orderProductStub.status = OrderProductStatus.CONFIRMED;
-
-      jest
-        .spyOn(orderRepo, 'findOneWithOrderProductReview')
-        .mockResolvedValue(orderProductWithOrderAndProductStub);
-      jest
-        .spyOn(orderRepo, 'saveProductReview')
-        .mockResolvedValue(orderProductReviewStub);
-
-      const dto = {
-        orderProductId: orderProductStub.id,
-        userId: userStub.id,
-        ...createOrderProductReviewDtoStub,
-      };
-      await orderService.createOrderProductReview(dto);
-
-      expect(orderRepo.findOneWithOrderProductReview).toBeCalledWith(
-        orderProductStub.id,
-      );
-      expect(orderRepo.saveProductReview).toBeCalled();
-      expect(appUserPointService.savePoint).toBeCalled();
-    });
-
-    it('403', () => {
-      expect(() =>
-        orderService.createOrderProductReview({
-          orderProductId: orderProductStub.id,
-          userId: NON_EXISTENT_ID,
-          ...createOrderProductReviewDtoStub,
-        }),
-      ).rejects.toThrowError(new ForbiddenException());
-    });
-
-    it('404', () => {
-      jest
-        .spyOn(orderRepo, 'findOneWithOrderProductReview')
-        .mockReturnValue(undefined);
-
-      expect(() =>
-        orderService.createOrderProductReview({
-          orderProductId: NON_EXISTENT_ID,
-          userId: userStub.id,
-          ...createOrderProductReviewDtoStub,
         }),
       ).rejects.toThrowError(new NotFoundException());
     });

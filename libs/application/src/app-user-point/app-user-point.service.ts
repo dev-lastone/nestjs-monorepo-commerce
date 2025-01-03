@@ -9,8 +9,8 @@ import {
 export class AppUserPointService {
   constructor(private readonly appUserPointRepo: AppUserPointRepo) {}
 
-  async savePoint(userId: bigint, dto: SaveAppUserPointDto) {
-    const userPoint = await this.#getUserPoint(userId);
+  async savePoint(dto: SaveAppUserPointDto) {
+    const userPoint = await this.#getUserPoint(dto.userId);
 
     const appUserPointHistory = userPoint.save(dto);
 
