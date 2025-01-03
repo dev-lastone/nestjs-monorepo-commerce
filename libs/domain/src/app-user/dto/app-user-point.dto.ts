@@ -13,4 +13,12 @@ export class SaveAppUserPointDto extends PickType(AppUserPointHistory, [
   'actionId',
 ]) {
   expirationAt: Date;
+  userId: bigint;
+}
+
+export class SaveAppUserPointByReviewDto extends PickType(SaveAppUserPointDto, [
+  'action',
+  'actionId',
+]) {
+  userId: bigint;
 }

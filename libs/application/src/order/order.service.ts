@@ -77,7 +77,8 @@ export class OrderService {
 
     const expirationAt = new Date();
     expirationAt.setDate(expirationAt.getDate() + 7);
-    await this.appUserPointService.savePoint(userId, {
+    await this.appUserPointService.savePoint({
+      userId,
       point: orderProduct.product.price * 0.01,
       action: AppUserPointHistoryAction.ORDER_PRODUCT,
       actionId: orderProduct.id,
@@ -96,9 +97,10 @@ export class OrderService {
       orderProductId: bigint;
     },
   ) {
-    const orderProduct = await this.orderRepo.findOneWithOrderProductReview(
-      dto.orderProductId,
-    );
+    const orderProduct =
+      await this.orderRepo.findOneOrderProductWithOrderAndProductAndReview(
+        dto.orderProductId,
+      );
     if (!orderProduct) {
       throw new NotFoundException();
     }
@@ -116,7 +118,8 @@ export class OrderService {
 
     const expirationAt = new Date();
     expirationAt.setDate(expirationAt.getDate() + 7);
-    await this.appUserPointService.savePoint(dto.userId, {
+    await this.appUserPointService.savePoint({
+      userId: dto.userId,
       point: 1000,
       action: AppUserPointHistoryAction.REVIEW,
       actionId: createOrderProductReview.id,

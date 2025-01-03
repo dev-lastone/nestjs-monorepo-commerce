@@ -39,7 +39,10 @@ describe('UserPointService', () => {
   describe('savePoint', () => {
     it('404', () => {
       expect(() =>
-        appUserPointService.savePoint(NON_EXISTENT_ID, saveAppUserPointDtoStub),
+        appUserPointService.savePoint({
+          ...saveAppUserPointDtoStub,
+          userId: NON_EXISTENT_ID,
+        }),
       ).rejects.toThrowError(new NotFoundException());
     });
 
@@ -62,7 +65,6 @@ describe('UserPointService', () => {
       } as AppUserPointHistory);
 
       const userPoint = await appUserPointService.savePoint(
-        appUserStub.id,
         saveAppUserPointDtoStub,
       );
 
