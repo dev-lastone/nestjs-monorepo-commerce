@@ -4,7 +4,6 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { OrderRepo } from '@application/order/order.repo';
-import { AppUserPointHistoryAction } from '@domain/app-user/point/app-user-point.entity';
 import { AppUserPointService } from '@application/app-user-point/app-user-point.service';
 import { Order } from '@domain/order/order.entity';
 import { CreateOrderProductReviewDto } from '@domain/order/dto/order-product-review.dto';
@@ -75,15 +74,7 @@ export class OrderService {
 
     orderProduct.confirm();
 
-    const expirationAt = new Date();
-    expirationAt.setDate(expirationAt.getDate() + 7);
-    await this.appUserPointService.savePoint({
-      userId,
-      point: orderProduct.product.price * 0.01,
-      action: AppUserPointHistoryAction.ORDER_PRODUCT,
-      actionId: orderProduct.id,
-      expirationAt,
-    });
+    await this.appUserPointService.savePointByOrderProduct(orderProduct);
 
     await this.orderRepo.saveProduct(orderProduct);
 

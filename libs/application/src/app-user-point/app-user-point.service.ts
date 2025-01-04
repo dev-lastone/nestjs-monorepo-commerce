@@ -6,6 +6,7 @@ import {
 } from '@domain/app-user/dto/app-user-point.dto';
 import { OrderProductReview } from '@domain/order/order-product-review.entity';
 import { AppUserPointHistoryAction } from '@domain/app-user/point/app-user-point.entity';
+import { OrderProduct } from '@domain/order/order-product.entity';
 
 @Injectable()
 export class AppUserPointService {
@@ -13,13 +14,28 @@ export class AppUserPointService {
 
   async savePointByReview(review: OrderProductReview) {
     const expirationAt = new Date();
-    expirationAt.setDate(expirationAt.getDate() + 7);
+    expirationAt.setDate(expirationAt.getDate() + 100);
 
     return await this.savePoint({
       userId: review.orderProduct.order.userId,
       point: 1000,
       action: AppUserPointHistoryAction.REVIEW,
       actionId: review.id,
+      expirationAt,
+    });
+  }
+
+  async savePointByOrderProduct(orderProduct: OrderProduct) {
+    const expirationAt = new Date();
+    expirationAt.setDate(expirationAt.getDate() + 365);
+
+    const point = orderProduct.product.price * 0.01;
+
+    return await this.savePoint({
+      userId: orderProduct.order.userId,
+      point,
+      action: AppUserPointHistoryAction.ORDER_PRODUCT,
+      actionId: orderProduct.id,
       expirationAt,
     });
   }
