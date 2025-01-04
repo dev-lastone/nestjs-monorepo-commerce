@@ -65,6 +65,7 @@ describe('OrderService', () => {
           provide: AppUserPointService,
           useValue: {
             savePoint: jest.fn(),
+            savePointByReview: jest.fn(),
           },
         },
       ],
@@ -213,7 +214,7 @@ describe('OrderService', () => {
         orderRepo.findOneOrderProductWithOrderAndProductAndReview,
       ).toBeCalledWith(orderProductWithOrderAndProductAndReviewStub.id);
       expect(orderRepo.saveProductReview).toBeCalled();
-      expect(appUserPointService.savePoint).toBeCalled();
+      expect(appUserPointService.savePointByReview).toBeCalled();
     });
 
     it('403', async () => {
