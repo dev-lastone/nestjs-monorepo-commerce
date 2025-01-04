@@ -4,10 +4,25 @@ import {
   AppUserPointDto,
   SaveAppUserPointDto,
 } from '@domain/app-user/dto/app-user-point.dto';
+import { OrderProductReview } from '@domain/order/order-product-review.entity';
+import { AppUserPointHistoryAction } from '@domain/app-user/point/app-user-point.entity';
 
 @Injectable()
 export class AppUserPointService {
   constructor(private readonly appUserPointRepo: AppUserPointRepo) {}
+
+  async savePointByReview(review: OrderProductReview) {
+    const expirationAt = new Date();
+    expirationAt.setDate(expirationAt.getDate() + 7);
+
+    return await this.savePoint({
+      userId: review.orderProduct.order.userId,
+      point: 1000,
+      action: AppUserPointHistoryAction.REVIEW,
+      actionId: review.id,
+      expirationAt,
+    });
+  }
 
   async savePoint(dto: SaveAppUserPointDto) {
     const userPoint = await this.#getUserPoint(dto.userId);

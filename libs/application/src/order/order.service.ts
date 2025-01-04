@@ -115,16 +115,9 @@ export class OrderService {
 
     const createOrderProductReview =
       await this.orderRepo.saveProductReview(orderProductReview);
+    createOrderProductReview.orderProduct = orderProduct;
 
-    const expirationAt = new Date();
-    expirationAt.setDate(expirationAt.getDate() + 7);
-    await this.appUserPointService.savePoint({
-      userId: dto.userId,
-      point: 1000,
-      action: AppUserPointHistoryAction.REVIEW,
-      actionId: createOrderProductReview.id,
-      expirationAt,
-    });
+    await this.appUserPointService.savePointByReview(createOrderProductReview);
 
     return orderProductReview;
   }
