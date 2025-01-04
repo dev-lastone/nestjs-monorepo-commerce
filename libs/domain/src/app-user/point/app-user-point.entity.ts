@@ -50,8 +50,8 @@ import {
  */
 
 export enum AppUserPointHistoryAction {
-  ORDER_PRODUCT = 'order-product',
-  REVIEW = 'review',
+  ORDER_PRODUCT = 'order_product',
+  REVIEW = 'order_product_review',
   ORDER = 'order',
 }
 
