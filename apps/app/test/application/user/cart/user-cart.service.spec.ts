@@ -6,6 +6,7 @@ import { AppUserCart } from '@domain/app-user/app-user-cart.entity';
 import { appUserCartStub } from '../../../../../../libs/domain/test/app-user/_stub/app-user-cart.stub';
 import { appUserStub } from '../../../../../../libs/domain/test/app-user/_stub/app-user.stub';
 import { productStub1 } from '../../../../../../libs/domain/test/product/_stub/product.stub';
+import { SUCCESS } from '@common/constant/constants';
 
 describe('UserCartService', () => {
   let userCartService: UserCartService;
@@ -102,11 +103,21 @@ describe('UserCartService', () => {
     });
   });
 
-  it('deleteUserCart', async () => {
-    const result = await userCartService.deleteUserCart({
-      userId: appUserCartStub.userId,
-      id: appUserCartStub.id,
+  describe('deleteUserCart', () => {
+    it(ERROR_MESSAGES.UserCartNotFound, () => {
+      jest.spyOn(userCartRepo, 'findOneById').mockResolvedValue(null);
+
+      expect(() =>
+        userCartService.deleteUserCart({ id: appUserStub.id, userId: 2n }),
+      ).rejects.toThrow(ERROR_MESSAGES.UserCartNotFound);
     });
-    expect(result).toBeUndefined();
+
+    it(SUCCESS, async () => {
+      const result = await userCartService.deleteUserCart({
+        userId: appUserCartStub.userId,
+        id: appUserCartStub.id,
+      });
+      expect(result).toBeUndefined();
+    });
   });
 });
