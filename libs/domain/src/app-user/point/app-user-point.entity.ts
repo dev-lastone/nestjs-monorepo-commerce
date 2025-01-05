@@ -49,6 +49,7 @@ import {
     한 객체 표현시 각 행위별 사용되지않는 속성 발생, 셀프 참조 발생. 해당 이슈 해결을 위해 분리.
  */
 
+// TODO 적립 사용 구분 필요
 export enum AppUserPointHistoryAction {
   ORDER_PRODUCT = 'order_product',
   REVIEW = 'order_product_review',

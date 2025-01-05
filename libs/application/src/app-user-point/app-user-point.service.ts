@@ -41,7 +41,11 @@ export class AppUserPointService {
   }
 
   async savePoint(dto: SaveAppUserPointDto) {
-    const userPoint = await this.#getUserPoint(dto.userId);
+    const userPoint = await this.appUserPointRepo.findOneByUserId(dto.userId);
+
+    if (!userPoint) {
+      throw new NotFoundException();
+    }
 
     const appUserPointHistory = userPoint.save(dto);
 
@@ -84,15 +88,5 @@ export class AppUserPointService {
         actionId: createAppUserPointHistory.actionId,
       },
     };
-  }
-
-  async #getUserPoint(userId: bigint) {
-    const userPoint = await this.appUserPointRepo.findOneByUserId(userId);
-
-    if (!userPoint) {
-      throw new NotFoundException();
-    }
-
-    return userPoint;
   }
 }
