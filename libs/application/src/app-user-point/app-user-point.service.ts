@@ -1,46 +1,27 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { AppUserPointRepo } from '@application/app-user-point/app-user-point.repo';
-import {
-  AppUserPointDto,
-  SaveAppUserPointDto,
-} from '@domain/app-user/dto/app-user-point.dto';
+import { AppUserPointDto } from '@domain/app-user/dto/app-user-point.dto';
 import { OrderProductReview } from '@domain/order/order-product-review.entity';
-import { AppUserPointHistoryAction } from '@domain/app-user/point/app-user-point.entity';
 import { OrderProduct } from '@domain/order/order-product.entity';
+import { ReviewPointStrategy } from '@domain/app-user/point/strategy/review-point.strategy';
+import { OrderProductPointStrategy } from '@domain/app-user/point/strategy/order-product-point.strategy';
+import { PointStrategy } from '@domain/app-user/point/strategy/point.strategy';
 
 @Injectable()
 export class AppUserPointService {
   constructor(private readonly appUserPointRepo: AppUserPointRepo) {}
 
   async savePointByReview(review: OrderProductReview) {
-    const expirationAt = new Date();
-    expirationAt.setDate(expirationAt.getDate() + 100);
-
-    return await this.savePoint({
-      userId: review.orderProduct.order.userId,
-      point: 1000,
-      action: AppUserPointHistoryAction.REVIEW,
-      actionId: review.id,
-      expirationAt,
-    });
+    const strategy = new ReviewPointStrategy(review);
+    return await this.savePoint(strategy);
   }
 
   async savePointByOrderProduct(orderProduct: OrderProduct) {
-    const expirationAt = new Date();
-    expirationAt.setDate(expirationAt.getDate() + 365);
-
-    const point = orderProduct.product.price * 0.01;
-
-    return await this.savePoint({
-      userId: orderProduct.order.userId,
-      point,
-      action: AppUserPointHistoryAction.ORDER_PRODUCT,
-      actionId: orderProduct.id,
-      expirationAt,
-    });
+    const strategy = new OrderProductPointStrategy(orderProduct);
+    return await this.savePoint(strategy);
   }
 
-  async savePoint(dto: SaveAppUserPointDto) {
+  async savePoint(dto: PointStrategy) {
     const userPoint = await this.appUserPointRepo.findOneByUserId(dto.userId);
 
     if (!userPoint) {

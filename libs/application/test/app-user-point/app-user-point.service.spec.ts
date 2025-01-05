@@ -11,6 +11,10 @@ import { AppUserPointHistory } from '@domain/app-user/point/app-user-point-histo
 import { AppUserPointStorage } from '@domain/app-user/point/app-user-point-storage.entity';
 import { saveAppUserPointDtoStub } from '../../../domain/test/app-user/_stub/app-user-point.stub';
 import { NON_EXISTENT_ID } from '@common/constant/constants';
+import { OrderProductReview } from '@domain/order/order-product-review.entity';
+import { ReviewPointStrategy } from '@domain/app-user/point/strategy/review-point.strategy';
+import { OrderProduct } from '@domain/order/order-product.entity';
+import { OrderProductPointStrategy } from '@domain/app-user/point/strategy/order-product-point.strategy';
 
 describe('UserPointService', () => {
   let appUserPointService: AppUserPointService;
@@ -44,6 +48,26 @@ describe('UserPointService', () => {
           userId: NON_EXISTENT_ID,
         }),
       ).rejects.toThrowError(new NotFoundException());
+    });
+
+    it('review', async () => {
+      const review = new OrderProductReview();
+      const strategy = new ReviewPointStrategy(review);
+      jest.spyOn(appUserPointService, 'savePoint').mockResolvedValue(null);
+
+      await appUserPointService.savePointByReview(review);
+
+      expect(appUserPointService.savePoint).toHaveBeenCalledWith(strategy);
+    });
+
+    it('orderProduct', async () => {
+      const orderProduct = new OrderProduct();
+      const strategy = new OrderProductPointStrategy(orderProduct);
+      jest.spyOn(appUserPointService, 'savePoint').mockResolvedValue(null);
+
+      await appUserPointService.savePointByOrderProduct(orderProduct);
+
+      expect(appUserPointService.savePoint).toHaveBeenCalledWith(strategy);
     });
 
     it('성공', async () => {
