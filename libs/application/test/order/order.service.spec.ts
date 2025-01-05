@@ -231,12 +231,12 @@ describe('OrderService', () => {
       ).rejects.toThrowError(new ForbiddenException());
     });
 
-    it('404', () => {
+    it('404', async () => {
       jest
         .spyOn(orderRepo, 'findOneOrderProductWithOrderAndProductAndReview')
         .mockReturnValue(undefined);
 
-      expect(() =>
+      await expect(() =>
         orderService.createOrderProductReview({
           orderProductId: NON_EXISTENT_ID,
           userId: userStub.id,
