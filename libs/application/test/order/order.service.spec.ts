@@ -156,14 +156,18 @@ describe('OrderService', () => {
 
       const result = await orderService.orderProductConfirm({
         id: orderProductWithOrderAndProductStub.id,
-        userId: userStub.id,
+        userId: orderProductWithOrderAndProductStub.order.userId,
       });
 
       expect(orderRepo.findOneOrderProductWithOrderAndProduct).toBeCalledWith(
         1n,
       );
-      expect(orderRepo.saveProduct).toBeCalled();
-      expect(appUserPointService.savePointByOrderProduct).toBeCalled();
+      expect(appUserPointService.savePointByOrderProduct).toBeCalledWith(
+        orderProductWithOrderAndProductStub,
+      );
+      expect(orderRepo.saveProduct).toBeCalledWith(
+        orderProductWithOrderAndProductStub,
+      );
       expect(result).toEqual(orderProductWithOrderAndProductStub);
     });
 
