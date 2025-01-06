@@ -210,11 +210,19 @@ describe('OrderService', () => {
       };
       await orderService.createOrderProductReview(dto);
 
+      const orderProductReview =
+        orderProductWithOrderAndProductAndReviewStub.createReview({
+          score: dto.score,
+          description: dto.description,
+        });
+
       expect(
         orderRepo.findOneOrderProductWithOrderAndProductAndReview,
       ).toBeCalledWith(orderProductWithOrderAndProductAndReviewStub.id);
-      expect(orderRepo.saveProductReview).toBeCalled();
-      expect(appUserPointService.savePointByReview).toBeCalled();
+      expect(orderRepo.saveProductReview).toBeCalledWith(orderProductReview);
+      expect(appUserPointService.savePointByReview).toBeCalledWith(
+        orderProductReviewStub,
+      );
     });
 
     it('403', async () => {
