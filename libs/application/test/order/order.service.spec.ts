@@ -25,6 +25,7 @@ import { typeOrmSetting } from '@common/setting/type-orm.setting';
 import { orderProductReviewStub } from '../../../domain/test/order/_stub/order-product-review.stub';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { OrderProductStatus } from '@domain/order/order-product.entity';
+import { Order } from '@domain/order/order.entity';
 
 describe('OrderService', () => {
   let orderService: OrderService;
@@ -103,8 +104,9 @@ describe('OrderService', () => {
       );
       expect(productService.findOneProduct).toBeCalledWith(dto.productIds[0]);
 
-      // const order = Order.create(appUserAddressStub, [productStub1]);
-      // expect(orderRepo.save).toBeCalledWith(orderStub);
+      productStub1.stock = 1; // TODO orderService.createOrder 에서 이미 재고처리가 진행되어, 강제로 복구. 좋은 방법 고민해보기
+      const order = Order.create(appUserAddressStub, [productStub1]);
+      expect(orderRepo.save).toBeCalledWith(order);
       expect(result).toEqual(orderStub);
     });
 
