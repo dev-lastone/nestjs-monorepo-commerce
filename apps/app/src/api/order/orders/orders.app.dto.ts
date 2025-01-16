@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ArrayNotEmpty, IsArray } from 'class-validator';
+import { ArrayNotEmpty, IsArray, IsNumber } from 'class-validator';
 import { IsBigInt } from 'class-validator-extended';
 
 export class PostOrdersAppReqDto {
@@ -17,4 +17,10 @@ export class PostOrdersAppReqDto {
   @ArrayNotEmpty()
   @IsBigInt({ each: true })
   productIds!: bigint[];
+
+  @ApiProperty({
+    default: 0,
+  })
+  @IsNumber()
+  point!: number;
 }
