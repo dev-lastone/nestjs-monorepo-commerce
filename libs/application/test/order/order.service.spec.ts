@@ -86,6 +86,7 @@ describe('OrderService', () => {
           userId: 2n,
           userAddressId: 1n,
           productIds: [1n],
+          point: 0,
         }),
       ).rejects.toThrowError(new ForbiddenException());
     });
@@ -95,6 +96,7 @@ describe('OrderService', () => {
         userId: userStub.id,
         userAddressId: appUserAddressStub.id,
         productIds: [productStub1.id],
+        point: 0,
       };
 
       const result = await orderService.createOrder(dto);
@@ -120,6 +122,7 @@ describe('OrderService', () => {
           userId: userStub.id,
           userAddressId: appUserAddressStub.id,
           productIds: [productStub1.id],
+          point: 0,
         }),
       ).rejects.toThrowError(
         new BadRequestException(ERROR_MESSAGES.NotEnoughStock),
