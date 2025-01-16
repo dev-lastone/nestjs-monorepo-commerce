@@ -14,6 +14,7 @@ import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { AppUserPointConsumption } from '@domain/app-user/point/app-user-point-consumption.entity';
 import { AppUserPointDto } from '@domain/app-user/dto/app-user-point.dto';
 import { PointStrategy } from '@domain/app-user/point/strategy/point.strategy';
+import { BadRequestException } from '@nestjs/common';
 
 /*
 	AppUserPoint // 총 포인트
@@ -97,6 +98,13 @@ export class AppUserPoint {
   }
 
   use(dto: AppUserPointDto) {
+    const MINIMUM_USE_POINT = 100;
+    if (dto.point < MINIMUM_USE_POINT) {
+      throw new BadRequestException(
+        `Minimum use point is ${MINIMUM_USE_POINT}`,
+      );
+    }
+
     if (this.point < dto.point) {
       throw new Error(ERROR_MESSAGES.NotEnoughPoints);
     }
