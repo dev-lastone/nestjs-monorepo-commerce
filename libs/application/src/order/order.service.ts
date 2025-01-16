@@ -17,6 +17,7 @@ export class OrderService {
   constructor(
     private readonly productService: ProductService,
     private readonly userAddressService: UserAddressService,
+    // TODO application 끼리 의존하지 않도록 리팩토링
     private readonly appUserPointService: AppUserPointService,
 
     private readonly orderRepo: OrderRepo,
@@ -37,6 +38,8 @@ export class OrderService {
         return await this.productService.findOneProduct(id);
       }),
     );
+
+    // TODO 포인트 사용
 
     const order = Order.create(userAddress, products);
 
