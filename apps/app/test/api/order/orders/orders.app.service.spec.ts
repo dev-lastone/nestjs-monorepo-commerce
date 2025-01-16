@@ -41,6 +41,7 @@ describe('OrdersAppService', () => {
       userId: userStub.id,
       userAddressId: 1n,
       productIds: [productStub1.id, productStub2.id],
+      point: 0,
     };
 
     ordersAppService.postOrder(dto);
