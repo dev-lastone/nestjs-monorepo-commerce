@@ -11,18 +11,19 @@ import { PostOrdersAppReqDto } from '../../../../apps/app/src/api/order/orders/o
 import { ProductService } from '@application/product/product.service';
 import { UserAddressService } from '../../../../apps/app/src/application/user/address/user-address.service';
 import { Transactional } from 'typeorm-transactional';
+import { AppUserPointHistoryAction } from '@domain/app-user/point/app-user-point.entity';
 
 @Injectable()
 export class OrderService {
   constructor(
     private readonly productService: ProductService,
     private readonly userAddressService: UserAddressService,
-    // TODO application 끼리 의존하지 않도록 리팩토링
     private readonly appUserPointService: AppUserPointService,
 
     private readonly orderRepo: OrderRepo,
   ) {}
 
+  @Transactional()
   async createOrder(dto: PostOrdersAppReqDto & { userId: bigint }) {
     // TODO user lazy loading
     const userAddress = await this.userAddressService.getUserAddressById(
@@ -39,11 +40,18 @@ export class OrderService {
       }),
     );
 
-    // TODO 포인트 사용
-
     const order = Order.create(userAddress, products);
+    const createOrder = await this.orderRepo.save(order);
 
-    return await this.orderRepo.save(order);
+    if (dto.point) {
+      await this.appUserPointService.usePoint(dto.userId, {
+        point: dto.point,
+        action: AppUserPointHistoryAction.ORDER,
+        actionId: createOrder.id,
+      });
+    }
+
+    return order;
   }
 
   async orderProductDeliver(id: bigint) {
