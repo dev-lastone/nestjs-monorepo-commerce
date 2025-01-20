@@ -35,6 +35,7 @@ describe('OrdersAppController', () => {
     const dto = {
       userAddressId: appUserAddressStub.id,
       productIds: [productStub1.id, productStub2.id],
+      point: 0,
     };
     ordersAppController.postOrder(userId, dto);
 
