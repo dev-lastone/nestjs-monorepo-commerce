@@ -109,7 +109,7 @@ describe('OrderService', () => {
       productStub1.stock = 1; // TODO orderService.createOrder 에서 이미 재고처리가 진행되어, 강제로 복구. 좋은 방법 고민해보기
       const order = Order.create(appUserAddressStub, [productStub1]);
       expect(orderRepo.save).toBeCalledWith(order);
-      expect(result).toEqual(orderStub);
+      expect(result).toEqual(order);
     });
 
     it(ERROR_MESSAGES.NotEnoughStock, () => {
