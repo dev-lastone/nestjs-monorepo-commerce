@@ -26,6 +26,7 @@ import { orderProductReviewStub } from '../../../domain/test/order/_stub/order-p
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { OrderProductStatus } from '@domain/order/order-product.entity';
 import { Order } from '@domain/order/order.entity';
+import { AppUserPointHistoryAction } from '@domain/app-user/point/app-user-point.entity';
 
 describe('OrderService', () => {
   let orderService: OrderService;
@@ -33,6 +34,10 @@ describe('OrderService', () => {
   let productService: ProductService;
   let appUserPointService: AppUserPointService;
   let orderRepo: OrderRepo;
+
+  beforeEach(() => {
+    productStub1.stock = 1;
+  });
 
   beforeAll(async () => {
     const testingModule = await Test.createTestingModule({
@@ -67,6 +72,7 @@ describe('OrderService', () => {
           useValue: {
             savePointByOrderProduct: jest.fn(),
             savePointByReview: jest.fn(),
+            usePoint: jest.fn(),
           },
         },
       ],
@@ -91,7 +97,7 @@ describe('OrderService', () => {
       ).rejects.toThrowError(new ForbiddenException());
     });
 
-    it('성공', async () => {
+    it('포인트 0', async () => {
       const dto = {
         userId: userStub.id,
         userAddressId: appUserAddressStub.id,
@@ -109,6 +115,32 @@ describe('OrderService', () => {
       productStub1.stock = 1; // TODO orderService.createOrder 에서 이미 재고처리가 진행되어, 강제로 복구. 좋은 방법 고민해보기
       const order = Order.create(appUserAddressStub, [productStub1]);
       expect(orderRepo.save).toBeCalledWith(order);
+      expect(result).toEqual(order);
+    });
+
+    it('포인트 사용', async () => {
+      const dto = {
+        userId: userStub.id,
+        userAddressId: appUserAddressStub.id,
+        productIds: [productStub1.id],
+        point: 100,
+      };
+
+      const result = await orderService.createOrder(dto);
+
+      expect(userAddressService.getUserAddressById).toBeCalledWith(
+        dto.userAddressId,
+      );
+      expect(productService.findOneProduct).toBeCalledWith(dto.productIds[0]);
+
+      productStub1.stock = 1; // TODO orderService.createOrder 에서 이미 재고처리가 진행되어, 강제로 복구. 좋은 방법 고민해보기
+      const order = Order.create(appUserAddressStub, [productStub1]);
+      expect(orderRepo.save).toBeCalledWith(order);
+      expect(appUserPointService.usePoint).toBeCalledWith(userStub.id, {
+        point: dto.point,
+        action: AppUserPointHistoryAction.ORDER,
+        actionId: orderStub.id,
+      });
       expect(result).toEqual(order);
     });
 
