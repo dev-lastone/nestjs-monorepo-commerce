@@ -5,12 +5,13 @@ import { MyBaseEntity } from '@common/entity/my-base-entity';
 import { AppUser } from '@domain/app-user/app-user.entity';
 import { dtoToInstance } from '@common/util/dto-to-instance';
 import { IsNotEmpty, IsNumber } from 'class-validator';
+import { BigIntToNumberTransformer } from '@common/entity/transformer';
 
 @Entity('product_like', { schema: 'app' })
 export class ProductLike extends MyBaseEntity {
   @IsNotEmpty()
   @IsNumber()
-  @Column('bigint', { name: 'user_id' })
+  @Column('bigint', { name: 'user_id', transformer: BigIntToNumberTransformer })
   userId: number;
 
   @ApiProperty({
@@ -18,7 +19,10 @@ export class ProductLike extends MyBaseEntity {
   })
   @IsNotEmpty()
   @IsNumber()
-  @Column('bigint', { name: 'product_id' })
+  @Column('bigint', {
+    name: 'product_id',
+    transformer: BigIntToNumberTransformer,
+  })
   productId: number;
 
   @ManyToOne(() => AppUser, (appUser) => appUser.productLikes)

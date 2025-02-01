@@ -14,10 +14,14 @@ import {
 import { AppUserPointStorage } from '@domain/app-user/point/app-user-point-storage.entity';
 import { AppUserPointConsumption } from '@domain/app-user/point/app-user-point-consumption.entity';
 import { MyBaseEntity } from '@common/entity/my-base-entity';
+import { BigIntToNumberTransformer } from '@common/entity/transformer';
 
 @Entity('user_point_history', { schema: 'app' })
 export class AppUserPointHistory extends MyBaseEntity {
-  @Column('bigint', { name: 'user_point_id' })
+  @Column('bigint', {
+    name: 'user_point_id',
+    transformer: BigIntToNumberTransformer,
+  })
   userPointId: number;
 
   @ApiProperty({
@@ -42,7 +46,10 @@ export class AppUserPointHistory extends MyBaseEntity {
   @ApiProperty({
     example: 1,
   })
-  @Column('bigint', { name: 'action_id' })
+  @Column('bigint', {
+    name: 'action_id',
+    transformer: BigIntToNumberTransformer,
+  })
   actionId: number;
 
   @ManyToOne(() => AppUserPoint, (point) => point.histories)

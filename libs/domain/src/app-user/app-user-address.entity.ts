@@ -5,6 +5,7 @@ import { AppUser } from '@domain/app-user/app-user.entity';
 import { Address } from '@domain/_vo/address';
 import { MyBaseEntity } from '@common/entity/my-base-entity';
 import { dtoToInstance } from '@common/util/dto-to-instance';
+import { BigIntToNumberTransformer } from '@common/entity/transformer';
 
 @Entity('user_address', { schema: 'app' })
 export class AppUserAddress extends MyBaseEntity {
@@ -13,7 +14,11 @@ export class AppUserAddress extends MyBaseEntity {
   @ApiProperty({
     example: 1,
   })
-  @Column({ name: 'user_id', type: 'number' })
+  @Column({
+    name: 'user_id',
+    type: 'bigint',
+    transformer: BigIntToNumberTransformer,
+  })
   userId: number;
 
   @ApiProperty()

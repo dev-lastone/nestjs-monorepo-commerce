@@ -5,12 +5,13 @@ import { MyBaseEntity } from '@common/entity/my-base-entity';
 import { CreateUserCartDto } from '@domain/app-user/dto/user-cart.dto';
 import { dtoToInstance } from '@common/util/dto-to-instance';
 import { IsNotEmpty, IsNumber } from 'class-validator';
+import { BigIntToNumberTransformer } from '@common/entity/transformer';
 
 @Entity('user_cart', { schema: 'app' })
 export class AppUserCart extends MyBaseEntity {
   @IsNotEmpty()
   @IsNumber()
-  @Column('bigint', { name: 'user_id' })
+  @Column('bigint', { name: 'user_id', transformer: BigIntToNumberTransformer })
   userId: number;
 
   @IsNotEmpty()
@@ -18,7 +19,10 @@ export class AppUserCart extends MyBaseEntity {
   @ApiProperty({
     example: 1,
   })
-  @Column('bigint', { name: 'product_id' })
+  @Column('bigint', {
+    name: 'product_id',
+    transformer: BigIntToNumberTransformer,
+  })
   productId: number;
 
   @IsNotEmpty()

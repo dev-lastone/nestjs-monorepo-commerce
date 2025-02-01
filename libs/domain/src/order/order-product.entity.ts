@@ -9,6 +9,7 @@ import { IsNotEmpty, IsNumber } from 'class-validator';
 import { CreateOrderProductReviewDto } from '@domain/order/dto/order-product-review.dto';
 import { dtoToInstance } from '@common/util/dto-to-instance';
 import { PrimaryGeneratedBigintColumn } from '@common/decorator/primary-generated-bigint-column.decorator';
+import { BigIntToNumberTransformer } from '@common/entity/transformer';
 
 export enum OrderProductStatus {
   ORDERED = 'ordered',
@@ -27,7 +28,11 @@ export class OrderProduct {
 
   @IsNotEmpty()
   @IsNumber()
-  @Column({ name: 'product_id', type: 'bigint' })
+  @Column({
+    name: 'product_id',
+    type: 'bigint',
+    transformer: BigIntToNumberTransformer,
+  })
   productId: number;
 
   @ApiProperty({
