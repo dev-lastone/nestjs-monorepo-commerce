@@ -18,7 +18,7 @@ export class UserCartService {
     return await this.userCartRepo.save(userCart);
   }
 
-  async getUserCarts(userId: bigint) {
+  async getUserCarts(userId: number) {
     return await this.userCartRepo.findByUserId(userId);
   }
 

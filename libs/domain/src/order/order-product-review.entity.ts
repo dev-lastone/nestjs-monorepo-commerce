@@ -11,17 +11,16 @@ import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import { OrderProduct } from '@domain/order/order-product.entity';
 import { dtoToInstance } from '@common/util/dto-to-instance';
 import { MyBaseEntity } from '@common/entity/my-base-entity';
-import { IsBigInt } from 'class-validator-extended';
 
 @Entity('order_product_review', { schema: 'app' })
 export class OrderProductReview extends MyBaseEntity {
   @ApiProperty({
     example: 1,
   })
-  @IsBigInt()
+  @IsNumber()
   @IsNotEmpty()
   @Column({ name: 'order_product_id', type: 'bigint' })
-  orderProductId: bigint;
+  orderProductId: number;
 
   @ApiProperty({
     example: 5,
@@ -50,7 +49,7 @@ export class OrderProductReview extends MyBaseEntity {
   orderProduct: OrderProduct;
 
   static create(dto: {
-    orderProductId: bigint;
+    orderProductId: number;
     score: number;
     description: string;
   }) {

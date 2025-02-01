@@ -27,7 +27,7 @@ describe('OrderProductsReviewAppController', () => {
   });
 
   it('postOrderProductConfirm', () => {
-    const id = 1n;
+    const id = 1;
     const dto = { score: 5, description: '내용' };
 
     orderProductsReviewAppController.postOrderProductsReview(
@@ -37,7 +37,7 @@ describe('OrderProductsReviewAppController', () => {
     );
 
     expect(orderService.createOrderProductReview).toBeCalledWith({
-      orderProductId: 1n,
+      orderProductId: 1,
       userId: appUserStub.id,
       ...dto,
     });

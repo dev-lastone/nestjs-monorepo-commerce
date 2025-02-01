@@ -60,7 +60,7 @@ describe('ProductLikeAppService', () => {
     it(SUCCESS, async () => {
       const dto = new ProductLikeDto();
       dto.productId = productStub1.id;
-      dto.userId = 2n;
+      dto.userId = 2;
 
       const result = await productLikeService.postProductLike(dto);
 
@@ -75,7 +75,7 @@ describe('ProductLikeAppService', () => {
     it(ERROR_MESSAGES.ProductNotLiked, () => {
       const dto = new ProductLikeDto();
       dto.productId = productStub1.id;
-      dto.userId = 2n;
+      dto.userId = 2;
 
       expect(() => productLikeService.deleteProductLike(dto)).rejects.toThrow(
         ERROR_MESSAGES.ProductNotLiked,

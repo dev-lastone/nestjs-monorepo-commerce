@@ -1,9 +1,9 @@
 import { AppUserPointHistoryAction } from '@domain/app-user/point/app-user-point.entity';
 
 export interface PointStrategy {
-  get userId(): bigint;
+  get userId(): number;
   get action(): AppUserPointHistoryAction;
-  get actionId(): bigint;
+  get actionId(): number;
   get point(): number;
   get expirationAt(): Date;
 }

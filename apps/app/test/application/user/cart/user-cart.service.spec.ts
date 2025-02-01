@@ -70,7 +70,7 @@ describe('UserCartService', () => {
       jest.spyOn(userCartRepo, 'findOneById').mockResolvedValue(null);
 
       expect(() =>
-        userCartService.putUserCart({ id: appUserStub.id, userId: 2n, ...dto }),
+        userCartService.putUserCart({ id: appUserStub.id, userId: 2, ...dto }),
       ).rejects.toThrow(ERROR_MESSAGES.UserCartNotFound);
     });
 
@@ -108,7 +108,7 @@ describe('UserCartService', () => {
       jest.spyOn(userCartRepo, 'findOneById').mockResolvedValue(null);
 
       expect(() =>
-        userCartService.deleteUserCart({ id: appUserStub.id, userId: 2n }),
+        userCartService.deleteUserCart({ id: appUserStub.id, userId: 2 }),
       ).rejects.toThrow(ERROR_MESSAGES.UserCartNotFound);
     });
 

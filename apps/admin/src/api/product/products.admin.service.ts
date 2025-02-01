@@ -21,7 +21,7 @@ export class ProductsAdminService {
     return await this.productsAdminRepo.find();
   }
 
-  async putProduct(id: bigint, dto: UpdateProductDto) {
+  async putProduct(id: number, dto: UpdateProductDto) {
     return await this.productService.updateProduct(id, {
       name: dto.name,
       price: dto.price,
@@ -29,7 +29,7 @@ export class ProductsAdminService {
     });
   }
 
-  async deleteProduct(id: bigint) {
+  async deleteProduct(id: number) {
     await this.productService.deleteProduct(id);
   }
 }

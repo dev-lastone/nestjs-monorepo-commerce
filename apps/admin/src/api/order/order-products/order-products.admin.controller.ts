@@ -14,7 +14,7 @@ export class OrderProductsAdminController {
   @ApiOkResponse({
     type: Order,
   })
-  async postOrderProductDeliver(@Param('id') id: bigint) {
+  async postOrderProductDeliver(@Param('id') id: number) {
     return await this.orderService.orderProductDeliver(id);
   }
 }

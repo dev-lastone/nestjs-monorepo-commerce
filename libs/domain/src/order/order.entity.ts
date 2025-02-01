@@ -14,7 +14,7 @@ export class Order extends MyBaseEntity {
   })
   @Expose()
   @Column({ name: 'user_id', type: 'bigint' })
-  userId: bigint;
+  userId: number;
 
   @ApiProperty({
     example: '01234',

@@ -49,7 +49,7 @@ export class AppUserPointService {
     };
   }
 
-  async usePoint(userId: bigint, dto: AppUserPointDto) {
+  async usePoint(userId: number, dto: AppUserPointDto) {
     const userPoint =
       await this.appUserPointRepo.getUserPointWithAvailablePoints(userId);
 

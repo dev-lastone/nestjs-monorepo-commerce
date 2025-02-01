@@ -16,8 +16,8 @@ export class OrderProductsAppController {
     type: Order,
   })
   async postOrderProductConfirm(
-    @UserId() userId: bigint,
-    @Param('id') id: bigint,
+    @UserId() userId: number,
+    @Param('id') id: number,
   ) {
     return await this.orderService.orderProductConfirm({
       id,

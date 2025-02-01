@@ -89,9 +89,9 @@ describe('OrderService', () => {
     it('403', () => {
       expect(
         orderService.createOrder({
-          userId: 2n,
-          userAddressId: 1n,
-          productIds: [1n],
+          userId: 2,
+          userAddressId: 1,
+          productIds: [1],
           point: 0,
         }),
       ).rejects.toThrowError(new ForbiddenException());
@@ -168,7 +168,7 @@ describe('OrderService', () => {
         orderProductStub.id,
       );
 
-      expect(orderRepo.findOneProductById).toBeCalledWith(1n);
+      expect(orderRepo.findOneProductById).toBeCalledWith(1);
       expect(orderRepo.saveProduct).toBeCalled();
       expect(result).toEqual({
         ...orderProductStub,
@@ -197,7 +197,7 @@ describe('OrderService', () => {
       });
 
       expect(orderRepo.findOneOrderProductWithOrderAndProduct).toBeCalledWith(
-        1n,
+        1,
       );
       expect(appUserPointService.savePointByOrderProduct).toBeCalledWith(
         orderProductWithOrderAndProductStub,

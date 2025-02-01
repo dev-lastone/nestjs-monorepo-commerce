@@ -17,8 +17,8 @@ export class OrderProductReviewAppController {
     type: OrderProductReview,
   })
   async postOrderProductsReview(
-    @UserId() userId: bigint,
-    @Param('orderProductId') orderProductId: bigint,
+    @UserId() userId: number,
+    @Param('orderProductId') orderProductId: number,
     @Body() dto: CreateOrderProductReviewDto,
   ) {
     return await this.orderService.createOrderProductReview({

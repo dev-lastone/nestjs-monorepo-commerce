@@ -28,7 +28,7 @@ describe('productService', () => {
               return productStub1;
             }),
             save: jest.fn().mockImplementation((product) => ({
-              id: 3n,
+              id: 3,
               ...product,
             })),
             delete: jest.fn(),
@@ -48,7 +48,7 @@ describe('productService', () => {
 
     const result = await productService.createProduct(createProductDto);
     expect(result).toEqual({
-      id: 3n,
+      id: 3,
       ...createProductDto,
     });
   });
@@ -59,7 +59,7 @@ describe('productService', () => {
   });
 
   it('findOneProduct', async () => {
-    const result = await productService.findOneProduct(1n);
+    const result = await productService.findOneProduct(1);
     expect(result).toEqual(productStub1);
   });
 
@@ -76,7 +76,7 @@ describe('productService', () => {
     });
 
     it('성공', async () => {
-      const id = 1n;
+      const id = 1;
       const result = await productService.updateProduct(id, updateProductDto);
       expect(result).toEqual({
         id,

@@ -16,7 +16,7 @@ export class OrdersAdminService {
     });
   }
 
-  async getOrder(id: bigint) {
+  async getOrder(id: number) {
     return await this.ordersAdminRepo.findOne(id);
   }
 }

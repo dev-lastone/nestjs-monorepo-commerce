@@ -1,21 +1,20 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsNotEmpty } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsNumber } from 'class-validator';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { AppUser } from '@domain/app-user/app-user.entity';
 import { Address } from '@domain/_vo/address';
 import { MyBaseEntity } from '@common/entity/my-base-entity';
 import { dtoToInstance } from '@common/util/dto-to-instance';
-import { IsBigInt } from 'class-validator-extended';
 
 @Entity('user_address', { schema: 'app' })
 export class AppUserAddress extends MyBaseEntity {
   @IsNotEmpty()
-  @IsBigInt()
+  @IsNumber()
   @ApiProperty({
     example: 1,
   })
-  @Column({ name: 'user_id', type: 'bigint' })
-  userId: bigint;
+  @Column({ name: 'user_id', type: 'number' })
+  userId: number;
 
   @ApiProperty()
   @IsNotEmpty()
@@ -31,7 +30,7 @@ export class AppUserAddress extends MyBaseEntity {
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   user: AppUser;
 
-  static create(dto: { userId: bigint; isDefault: boolean; address: Address }) {
+  static create(dto: { userId: number; isDefault: boolean; address: Address }) {
     return dtoToInstance({ class: AppUserAddress, dto });
   }
 }

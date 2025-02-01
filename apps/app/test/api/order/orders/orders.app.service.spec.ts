@@ -39,7 +39,7 @@ describe('OrdersAppService', () => {
   it('postOrder', () => {
     const dto = {
       userId: userStub.id,
-      userAddressId: 1n,
+      userAddressId: 1,
       productIds: [productStub1.id, productStub2.id],
       point: 0,
     };

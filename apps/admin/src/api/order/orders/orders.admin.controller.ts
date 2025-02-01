@@ -25,7 +25,7 @@ export class OrdersAdminController {
   @ApiOkResponse({
     type: Order,
   })
-  getOrder(@Param('id') id: bigint) {
+  getOrder(@Param('id') id: number) {
     return this.ordersAdminService.getOrder(id);
   }
 }

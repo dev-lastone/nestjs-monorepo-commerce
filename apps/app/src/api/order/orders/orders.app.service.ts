@@ -10,11 +10,11 @@ export class OrdersAppService {
     private readonly ordersAppRepo: OrdersAppRepo,
   ) {}
 
-  async postOrder(dto: PostOrdersAppReqDto & { userId: bigint }) {
+  async postOrder(dto: PostOrdersAppReqDto & { userId: number }) {
     return await this.orderService.createOrder(dto);
   }
 
-  async getOrders(userId: bigint) {
+  async getOrders(userId: number) {
     return await this.ordersAppRepo.findByUserId(userId);
   }
 }

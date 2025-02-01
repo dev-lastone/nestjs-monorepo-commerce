@@ -14,7 +14,7 @@ export class OrdersAdminRepo {
     return await this.orderRepo.find();
   }
 
-  async findOne(id: bigint) {
+  async findOne(id: number) {
     return await this.orderRepo.findOne({
       where: {
         id,
