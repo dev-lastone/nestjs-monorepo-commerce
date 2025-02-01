@@ -38,19 +38,6 @@ $ pnpm run test:cov
 - 각 앱에 필요없는 부분에 의해서 배포 방지
 - api repo read 전용 (cqrs)
 
-## TODO
-### app
-- [ ] 포인트 사용 (주문)
-- [ ] message
-
-### batch
-- [ ] 포인트 만료
-- [ ] 배송 상태 변경
-
-### etc
-- [ ] integration test
-- [ ] e2e scenario test
-
 ## Unit Test
 ### 기본 규칙
 ```
@@ -67,3 +54,14 @@ domain -> application -> api service -> api controller
 vo UserPassword, envValidate 시도 맛보기 
 
 - 필요시 validateOrReject 로 사용되는 decorator 들 별도 테스트
+
+---
+
+## TODO
+### batch
+- [ ] 포인트 만료
+- [ ] 배송 상태 변경
+
+### etc
+- [ ] integration test
+- [ ] e2e scenario test
