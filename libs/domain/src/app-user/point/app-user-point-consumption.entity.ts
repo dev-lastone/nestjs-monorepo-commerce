@@ -1,21 +1,10 @@
-import {
-  Column,
-  Entity,
-  Generated,
-  JoinColumn,
-  ManyToOne,
-  PrimaryColumn,
-} from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { AppUserPointHistory } from '@domain/app-user/point/app-user-point-history.entity';
-import { BigIntToNumberTransformer } from '@common/entity/transformer';
+import { PrimaryGeneratedBigintColumn } from '@common/decorator/primary-generated-bigint-column.decorator';
 
 @Entity('user_point_consumption', { schema: 'app' })
 export class AppUserPointConsumption {
-  @Generated('increment')
-  @PrimaryColumn({
-    type: 'bigint',
-    transformer: BigIntToNumberTransformer,
-  })
+  @PrimaryGeneratedBigintColumn()
   id: number;
 
   @Column('bigint', { name: 'user_point_history_id' })

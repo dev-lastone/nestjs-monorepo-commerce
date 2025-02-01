@@ -4,19 +4,11 @@ import { BadRequestException } from '@nestjs/common';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { Order } from '@domain/order/order.entity';
 import { OrderProductReview } from '@domain/order/order-product-review.entity';
-import {
-  Column,
-  Entity,
-  Generated,
-  JoinColumn,
-  ManyToOne,
-  OneToOne,
-  PrimaryColumn,
-} from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
 import { IsNotEmpty, IsNumber } from 'class-validator';
 import { CreateOrderProductReviewDto } from '@domain/order/dto/order-product-review.dto';
 import { dtoToInstance } from '@common/util/dto-to-instance';
-import { BigIntToNumberTransformer } from '@common/entity/transformer';
+import { PrimaryGeneratedBigintColumn } from '@common/decorator/primary-generated-bigint-column.decorator';
 
 export enum OrderProductStatus {
   ORDERED = 'ordered',
@@ -27,11 +19,7 @@ export enum OrderProductStatus {
 
 @Entity('order_product', { schema: 'app' })
 export class OrderProduct {
-  @Generated('increment')
-  @PrimaryColumn({
-    type: 'bigint',
-    transformer: BigIntToNumberTransformer,
-  })
+  @PrimaryGeneratedBigintColumn()
   @ApiProperty({
     example: 1,
   })

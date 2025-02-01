@@ -1,22 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { AppUserPointHistory } from '@domain/app-user/point/app-user-point-history.entity';
 import { AppUserPointStorage } from '@domain/app-user/point/app-user-point-storage.entity';
-import {
-  Column,
-  Entity,
-  Generated,
-  JoinColumn,
-  OneToMany,
-  OneToOne,
-  PrimaryColumn,
-} from 'typeorm';
+import { Column, Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
 import { AppUser } from '@domain/app-user/app-user.entity';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { AppUserPointConsumption } from '@domain/app-user/point/app-user-point-consumption.entity';
 import { AppUserPointDto } from '@domain/app-user/dto/app-user-point.dto';
 import { PointStrategy } from '@domain/app-user/point/strategy/point.strategy';
 import { BadRequestException } from '@nestjs/common';
-import { BigIntToNumberTransformer } from '@common/entity/transformer';
+import { PrimaryGeneratedBigintColumn } from '@common/decorator/primary-generated-bigint-column.decorator';
 
 /*
 	AppUserPoint // 총 포인트
@@ -59,11 +51,7 @@ export enum AppUserPointHistoryAction {
 
 @Entity('user_point', { schema: 'app' })
 export class AppUserPoint {
-  @Generated('increment')
-  @PrimaryColumn({
-    type: 'bigint',
-    transformer: BigIntToNumberTransformer,
-  })
+  @PrimaryGeneratedBigintColumn()
   id: number;
 
   @Column('bigint', { name: 'user_id' })
