@@ -4,10 +4,11 @@ import { AppUserPointStorage } from '@domain/app-user/point/app-user-point-stora
 import {
   Column,
   Entity,
+  Generated,
   JoinColumn,
   OneToMany,
   OneToOne,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
 } from 'typeorm';
 import { AppUser } from '@domain/app-user/app-user.entity';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
@@ -15,6 +16,7 @@ import { AppUserPointConsumption } from '@domain/app-user/point/app-user-point-c
 import { AppUserPointDto } from '@domain/app-user/dto/app-user-point.dto';
 import { PointStrategy } from '@domain/app-user/point/strategy/point.strategy';
 import { BadRequestException } from '@nestjs/common';
+import { BigIntToNumberTransformer } from '@common/entity/transformer';
 
 /*
 	AppUserPoint // 총 포인트
@@ -57,8 +59,10 @@ export enum AppUserPointHistoryAction {
 
 @Entity('user_point', { schema: 'app' })
 export class AppUserPoint {
-  @PrimaryGeneratedColumn({
+  @Generated('increment')
+  @PrimaryColumn({
     type: 'bigint',
+    transformer: BigIntToNumberTransformer,
   })
   id: number;
 

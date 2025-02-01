@@ -1,13 +1,17 @@
 import {
   CreateDateColumn,
   DeleteDateColumn,
-  PrimaryGeneratedColumn,
+  Generated,
+  PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { BigIntToNumberTransformer } from '@common/entity/transformer';
 
 export class MyBaseEntity {
-  @PrimaryGeneratedColumn({
+  @Generated('increment')
+  @PrimaryColumn({
     type: 'bigint',
+    transformer: BigIntToNumberTransformer,
   })
   id: number;
 

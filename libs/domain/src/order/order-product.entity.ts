@@ -7,14 +7,16 @@ import { OrderProductReview } from '@domain/order/order-product-review.entity';
 import {
   Column,
   Entity,
+  Generated,
   JoinColumn,
   ManyToOne,
   OneToOne,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
 } from 'typeorm';
 import { IsNotEmpty, IsNumber } from 'class-validator';
 import { CreateOrderProductReviewDto } from '@domain/order/dto/order-product-review.dto';
 import { dtoToInstance } from '@common/util/dto-to-instance';
+import { BigIntToNumberTransformer } from '@common/entity/transformer';
 
 export enum OrderProductStatus {
   ORDERED = 'ordered',
@@ -25,8 +27,10 @@ export enum OrderProductStatus {
 
 @Entity('order_product', { schema: 'app' })
 export class OrderProduct {
-  @PrimaryGeneratedColumn({
+  @Generated('increment')
+  @PrimaryColumn({
     type: 'bigint',
+    transformer: BigIntToNumberTransformer,
   })
   @ApiProperty({
     example: 1,
