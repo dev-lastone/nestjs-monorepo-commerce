@@ -30,9 +30,6 @@ export class OrderService {
       dto.userAddressId,
     );
 
-    console.log('@@@@@@');
-    console.log(typeof userAddress.userId);
-    console.log(userAddress.userId, dto.userId);
     if (userAddress.userId !== dto.userId) {
       throw new ForbiddenException();
     }
