@@ -9,6 +9,7 @@ import { AppUserPointDto } from '@domain/app-user/dto/app-user-point.dto';
 import { PointStrategy } from '@domain/app-user/point/strategy/point.strategy';
 import { BadRequestException } from '@nestjs/common';
 import { PrimaryGeneratedBigintColumn } from '@common/decorator/primary-generated-bigint-column.decorator';
+import { BigIntToNumberTransformer } from '@common/entity/transformer';
 
 /*
 	AppUserPoint // 총 포인트
@@ -54,7 +55,7 @@ export class AppUserPoint {
   @PrimaryGeneratedBigintColumn()
   id: number;
 
-  @Column('bigint', { name: 'user_id' })
+  @Column('bigint', { name: 'user_id', transformer: BigIntToNumberTransformer })
   userId: number;
 
   @ApiProperty({
