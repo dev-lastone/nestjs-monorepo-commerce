@@ -78,7 +78,7 @@ describe('UserPointService', () => {
         .spyOn(appUserPointRepo, 'findOneByUserId')
         .mockResolvedValue(userPointStub);
       jest.spyOn(appUserPointRepo, 'saveHistory').mockResolvedValue({
-        id: 1n,
+        id: 1,
         point: saveAppUserPointDtoStub.point,
         remainingPoint: saveAppUserPointDtoStub.point,
         action: saveAppUserPointDtoStub.action,
@@ -95,7 +95,7 @@ describe('UserPointService', () => {
       expect(userPoint).toEqual({
         point: saveAppUserPointDtoStub.point,
         history: {
-          id: 1n,
+          id: 1,
           point: saveAppUserPointDtoStub.point,
           remainingPoint: saveAppUserPointDtoStub.point,
           action: saveAppUserPointDtoStub.action,
@@ -124,14 +124,14 @@ describe('UserPointService', () => {
     const usePointDto = {
       point: 1000,
       action: AppUserPointHistoryAction.ORDER,
-      actionId: 1n,
+      actionId: 1,
     };
 
     jest
       .spyOn(appUserPointRepo, 'getUserPointWithAvailablePoints')
       .mockResolvedValue(userPoint);
     jest.spyOn(appUserPointRepo, 'saveHistory').mockResolvedValue({
-      id: 1n,
+      id: 1,
       remainingPoint: 0,
       ...usePointDto,
     } as AppUserPointHistory);
@@ -144,7 +144,7 @@ describe('UserPointService', () => {
     expect(result).toEqual({
       point: 0,
       history: {
-        id: 1n,
+        id: 1,
         remainingPoint: 0,
         ...usePointDto,
       },

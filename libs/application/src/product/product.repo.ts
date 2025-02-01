@@ -14,7 +14,7 @@ export class ProductRepo {
     return await this.productRepo.find();
   }
 
-  async findOneById(id: bigint) {
+  async findOneById(id: number) {
     return await this.productRepo.findOne({
       where: {
         id,

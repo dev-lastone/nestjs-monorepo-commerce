@@ -18,7 +18,7 @@ export class UserAddressRepo {
     return await this.userAddressRepo.delete(userAddress);
   }
 
-  async findByUserId(userId: bigint) {
+  async findByUserId(userId: number) {
     return await this.userAddressRepo.find({
       where: {
         userId,
@@ -26,7 +26,7 @@ export class UserAddressRepo {
     });
   }
 
-  async findOneById(id: bigint) {
+  async findOneById(id: number) {
     return await this.userAddressRepo.findOne({
       where: {
         id,

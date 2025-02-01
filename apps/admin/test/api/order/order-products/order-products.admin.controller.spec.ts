@@ -26,7 +26,7 @@ describe('OrderProductsAdminController', () => {
   });
 
   it('postOrderProductDeliver', () => {
-    const id = 1n;
+    const id = 1;
 
     orderProductsAdminController.postOrderProductDeliver(id);
 

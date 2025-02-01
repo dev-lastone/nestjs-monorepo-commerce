@@ -26,7 +26,7 @@ describe('OrderProductsAppController', () => {
   });
 
   it('postOrderProductConfirm', () => {
-    const id = 1n;
+    const id = 1;
 
     orderProductsAppController.postOrderProductConfirm(appUserStub.id, id);
 

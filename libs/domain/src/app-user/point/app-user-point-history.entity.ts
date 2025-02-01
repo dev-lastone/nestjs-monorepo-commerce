@@ -18,7 +18,7 @@ import { MyBaseEntity } from '@common/entity/my-base-entity';
 @Entity('user_point_history', { schema: 'app' })
 export class AppUserPointHistory extends MyBaseEntity {
   @Column('bigint', { name: 'user_point_id' })
-  userPointId: bigint;
+  userPointId: number;
 
   @ApiProperty({
     example: 1000,
@@ -43,7 +43,7 @@ export class AppUserPointHistory extends MyBaseEntity {
     example: 1,
   })
   @Column('bigint', { name: 'action_id' })
-  actionId: bigint;
+  actionId: number;
 
   @ManyToOne(() => AppUserPoint, (point) => point.histories)
   @JoinColumn({ name: 'user_point_id', referencedColumnName: 'id' })

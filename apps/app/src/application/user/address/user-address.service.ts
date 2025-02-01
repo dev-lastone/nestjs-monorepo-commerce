@@ -14,7 +14,7 @@ import { UserAddressRepo } from './user-address.repo';
 export class UserAddressService {
   constructor(private readonly userAddressRepo: UserAddressRepo) {}
 
-  async createUserAddress(dto: { userId: bigint } & UserAddressRequestDto) {
+  async createUserAddress(dto: { userId: number } & UserAddressRequestDto) {
     const userAddresses = await this.userAddressRepo.findByUserId(dto.userId);
 
     if (userAddresses?.length >= USER_ADDRESS_MAX_LENGTH) {
@@ -41,14 +41,14 @@ export class UserAddressService {
     return await this.userAddressRepo.save(userAddress);
   }
 
-  async getUserAddresses(userId: bigint) {
+  async getUserAddresses(userId: number) {
     return await this.userAddressRepo.findByUserId(userId);
   }
 
   async updateUserAddress(
     dto: {
-      id: bigint;
-      userId: bigint;
+      id: number;
+      userId: number;
     } & UserAddressRequestDto,
   ) {
     const userAddress = await this.userAddressRepo.findOneById(dto.id);
@@ -67,7 +67,7 @@ export class UserAddressService {
     return await this.userAddressRepo.save(userAddress);
   }
 
-  async deleteUserAddress(dto: { id: bigint; userId: bigint }) {
+  async deleteUserAddress(dto: { id: number; userId: number }) {
     const userAddress = await this.userAddressRepo.findOneById(dto.id);
 
     if (!userAddress) {
@@ -81,7 +81,7 @@ export class UserAddressService {
     await this.userAddressRepo.delete(userAddress);
   }
 
-  async getUserAddressById(id: bigint) {
+  async getUserAddressById(id: number) {
     const userAddress = await this.userAddressRepo.findOneById(id);
 
     if (!userAddress) {

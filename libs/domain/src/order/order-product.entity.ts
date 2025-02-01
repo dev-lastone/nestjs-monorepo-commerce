@@ -15,7 +15,6 @@ import {
 import { IsNotEmpty, IsNumber } from 'class-validator';
 import { CreateOrderProductReviewDto } from '@domain/order/dto/order-product-review.dto';
 import { dtoToInstance } from '@common/util/dto-to-instance';
-import { IsBigInt } from 'class-validator-extended';
 
 export enum OrderProductStatus {
   ORDERED = 'ordered',
@@ -32,12 +31,12 @@ export class OrderProduct {
   @ApiProperty({
     example: 1,
   })
-  id: bigint;
+  id: number;
 
   @IsNotEmpty()
-  @IsBigInt()
+  @IsNumber()
   @Column({ name: 'product_id', type: 'bigint' })
-  productId: bigint;
+  productId: number;
 
   @ApiProperty({
     example: '상품명',

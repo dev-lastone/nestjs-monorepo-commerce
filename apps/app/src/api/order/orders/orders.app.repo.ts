@@ -10,7 +10,7 @@ export class OrdersAppRepo {
     private readonly orderRepo: Repository<Order>,
   ) {}
 
-  async findByUserId(userId: bigint) {
+  async findByUserId(userId: number) {
     return await this.orderRepo.find({
       where: {
         userId,

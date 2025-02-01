@@ -3,7 +3,7 @@ import { User } from '@domain/user/user';
 import { UserPassword } from '@domain/_vo/user-password';
 
 export const userStub = {
-  id: 1n,
+  id: 1,
   name: userName,
   email: userEmail,
   password: {

@@ -60,10 +60,10 @@ export class AppUserPoint {
   @PrimaryGeneratedColumn({
     type: 'bigint',
   })
-  id: bigint;
+  id: number;
 
   @Column('bigint', { name: 'user_id' })
-  userId: bigint;
+  userId: number;
 
   @ApiProperty({
     example: 1000,

@@ -31,7 +31,7 @@ export class UserCartsAppController {
     status: 201,
     type: AppUserCart,
   })
-  postUserCart(@UserId() userId: bigint, @Body() dto: PostUserCartsAppReqDto) {
+  postUserCart(@UserId() userId: number, @Body() dto: PostUserCartsAppReqDto) {
     return this.userCartService.createUserCart({
       userId,
       ...dto,
@@ -40,7 +40,7 @@ export class UserCartsAppController {
 
   @Version('1')
   @Get()
-  getUserCarts(@UserId() userId: bigint) {
+  getUserCarts(@UserId() userId: number) {
     return this.userCartService.getUserCarts(userId);
   }
 
@@ -51,8 +51,8 @@ export class UserCartsAppController {
     type: AppUserCart,
   })
   putUserCart(
-    @UserId() userId: bigint,
-    @Param('id') id: bigint,
+    @UserId() userId: number,
+    @Param('id') id: number,
     @Body() dto: PutUserCartsAppReqDto,
   ) {
     return this.userCartService.putUserCart({
@@ -65,7 +65,7 @@ export class UserCartsAppController {
   @Version('1')
   @Delete(':id')
   @HttpCode(204)
-  deleteUserCart(@UserId() userId: bigint, @Param('id') id: bigint) {
+  deleteUserCart(@UserId() userId: number, @Param('id') id: number) {
     const dto = new DeleteUserCartDto();
     dto.userId = userId;
     dto.id = id;

@@ -27,10 +27,10 @@ describe('ProductLikeController', () => {
   });
 
   it('post', () => {
-    productLikeAppController.postProductLike(2n, productStub1.id);
+    productLikeAppController.postProductLike(2, productStub1.id);
 
     expect(productLikeService.postProductLike).toBeCalledWith({
-      userId: 2n,
+      userId: 2,
       productId: productStub1.id,
     });
   });

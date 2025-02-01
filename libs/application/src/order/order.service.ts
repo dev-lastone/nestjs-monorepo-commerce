@@ -24,7 +24,7 @@ export class OrderService {
   ) {}
 
   @Transactional()
-  async createOrder(dto: PostOrdersAppReqDto & { userId: bigint }) {
+  async createOrder(dto: PostOrdersAppReqDto & { userId: number }) {
     // TODO user lazy loading
     const userAddress = await this.userAddressService.getUserAddressById(
       dto.userAddressId,
@@ -54,7 +54,7 @@ export class OrderService {
     return order;
   }
 
-  async orderProductDeliver(id: bigint) {
+  async orderProductDeliver(id: number) {
     const orderProduct = await this.orderRepo.findOneProductById(id);
 
     if (!orderProduct) {
@@ -69,7 +69,7 @@ export class OrderService {
   }
 
   @Transactional()
-  async orderProductConfirm(dto: { id: bigint; userId: bigint }) {
+  async orderProductConfirm(dto: { id: number; userId: number }) {
     const { id, userId } = dto;
 
     const orderProduct =
@@ -95,8 +95,8 @@ export class OrderService {
   @Transactional()
   async createOrderProductReview(
     dto: CreateOrderProductReviewDto & {
-      userId: bigint;
-      orderProductId: bigint;
+      userId: number;
+      orderProductId: number;
     },
   ) {
     const orderProduct =

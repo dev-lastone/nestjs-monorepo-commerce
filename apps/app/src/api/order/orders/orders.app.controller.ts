@@ -17,7 +17,7 @@ export class OrdersAppController {
     status: 201,
     type: Order,
   })
-  async postOrder(@UserId() userId: bigint, @Body() dto: PostOrdersAppReqDto) {
+  async postOrder(@UserId() userId: number, @Body() dto: PostOrdersAppReqDto) {
     return await this.ordersAppService.postOrder({ ...dto, userId });
   }
 
@@ -27,7 +27,7 @@ export class OrdersAppController {
     status: 200,
     type: [Order],
   })
-  async getOrders(@UserId() userId: bigint) {
+  async getOrders(@UserId() userId: number) {
     return await this.ordersAppService.getOrders(userId);
   }
 }
