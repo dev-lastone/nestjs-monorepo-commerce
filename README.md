@@ -58,6 +58,9 @@ vo UserPassword, envValidate 시도 맛보기
 ---
 
 ## TODO
+
+- [ ] 외래키 id 없애기
+
 ### batch
 - [ ] 포인트 만료
 - [ ] 배송 상태 변경
