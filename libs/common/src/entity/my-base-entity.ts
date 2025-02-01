@@ -1,18 +1,8 @@
-import {
-  CreateDateColumn,
-  DeleteDateColumn,
-  Generated,
-  PrimaryColumn,
-  UpdateDateColumn,
-} from 'typeorm';
-import { BigIntToNumberTransformer } from '@common/entity/transformer';
+import { CreateDateColumn, DeleteDateColumn, UpdateDateColumn } from 'typeorm';
+import { PrimaryGeneratedBigintColumn } from '@common/decorator/primary-generated-bigint-column.decorator';
 
 export class MyBaseEntity {
-  @Generated('increment')
-  @PrimaryColumn({
-    type: 'bigint',
-    transformer: BigIntToNumberTransformer,
-  })
+  @PrimaryGeneratedBigintColumn()
   id: number;
 
   @CreateDateColumn({
