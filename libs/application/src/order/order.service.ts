@@ -68,6 +68,8 @@ export class OrderService {
     return orderProduct;
   }
 
+  // TODO 조회 로직은 app 에서 처리하도록 리팩토링
+  // confirm 로직만 재활용
   @Transactional()
   async orderProductConfirm(dto: { id: number; userId: number }) {
     const { id, userId } = dto;
