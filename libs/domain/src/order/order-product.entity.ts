@@ -4,12 +4,20 @@ import { BadRequestException } from '@nestjs/common';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { Order } from '@domain/order/order.entity';
 import { OrderProductReview } from '@domain/order/order-product-review.entity';
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
-import { IsNotEmpty, IsNumber } from 'class-validator';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+} from 'typeorm';
+import { IsNotEmpty, IsNumber, MaxLength } from 'class-validator';
 import { CreateOrderProductReviewDto } from '@domain/order/dto/order-product-review.dto';
 import { dtoToInstance } from '@common/util/dto-to-instance';
 import { PrimaryGeneratedBigintColumn } from '@common/decorator/primary-generated-bigint-column.decorator';
 import { BigIntToNumberTransformer } from '@common/entity/transformer';
+import { OrderProductHistory } from '@domain/order/order-product-history.entity';
 
 export enum OrderProductStatus {
   ORDERED = 'ordered',
@@ -49,6 +57,9 @@ export class OrderProduct {
   @Column({ name: 'price', type: 'int' })
   price: number;
 
+  // TODO status classValidator 만들어보기
+  @IsNotEmpty()
+  @MaxLength(20)
   @Column({ name: 'status', type: 'varchar', length: 20 })
   status: OrderProductStatus;
 
@@ -59,6 +70,12 @@ export class OrderProduct {
   @ManyToOne(() => Product, (product) => product.orderProducts)
   @JoinColumn({ name: 'product_id', referencedColumnName: 'id' })
   product: Product;
+
+  @OneToMany(
+    () => OrderProductHistory,
+    (orderProductHistory) => orderProductHistory.orderProduct,
+  )
+  histories: OrderProductHistory[];
 
   @OneToOne(
     () => OrderProductReview,
