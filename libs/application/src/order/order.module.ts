@@ -8,10 +8,16 @@ import { OrderProductReview } from '@domain/order/order-product-review.entity';
 import { OrderRepo } from '@application/order/order.repo';
 import { ProductModule } from '@application/product/product.module';
 import { UserAddressModule } from '../../../../apps/app/src/application/user/address/user-address.module';
+import { OrderProductHistory } from '@domain/order/order-product-history.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Order, OrderProduct, OrderProductReview]),
+    TypeOrmModule.forFeature([
+      Order,
+      OrderProduct,
+      OrderProductHistory,
+      OrderProductReview,
+    ]),
     ProductModule,
     UserAddressModule,
     AppUserPointModule,

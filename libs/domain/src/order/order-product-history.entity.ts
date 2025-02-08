@@ -30,6 +30,7 @@ export class OrderProductHistory extends MyBaseEntity {
     return dtoToInstance({
       class: OrderProductHistory,
       dto: {
+        orderProductId: orderProduct.id,
         status: orderProduct.status,
       },
     });
