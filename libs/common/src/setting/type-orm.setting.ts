@@ -9,6 +9,7 @@ import { DataSource } from 'typeorm';
 export enum AppName {
   ADMIN = 'admin',
   APP = 'app',
+  BATCH = 'batch',
 }
 
 export function typeOrmSetting(appName?: AppName) {
