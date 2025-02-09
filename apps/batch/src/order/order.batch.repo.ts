@@ -1,24 +1,33 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Order } from '@domain/order/order.entity';
-import { OrderProductStatus } from '@domain/order/order-product.entity';
+import {
+  OrderProduct,
+  OrderProductStatus,
+} from '@domain/order/order-product.entity';
 
 @Injectable()
-export class OrderRepo {
+export class OrderBatchRepo {
   constructor(
-    @InjectRepository(Order)
-    private readonly orderRepo: Repository<Order>,
+    @InjectRepository(OrderProduct)
+    private readonly orderProductBatchRepo: Repository<OrderProduct>,
   ) {}
 
-  // TODO 주문이력 관리 추가 설계 필요
   async findOrderProductsToBeConfirmed() {
-    return await this.orderRepo
-      .createQueryBuilder('order')
-      .innerJoinAndSelect('order.products', 'products')
-      .where('order.')
-      .andWhere('products.status = :status', {
+    const week = 1000 * 60 * 60 * 24 * 7;
+    const deliveredWeekAgo = new Date(Date.now() - week);
+
+    return await this.orderProductBatchRepo
+      .createQueryBuilder('orderProduct')
+      .innerJoinAndSelect('orderProduct.histories', 'histories')
+      .where('orderProduct.status = :status', {
         status: OrderProductStatus.DELIVERED,
+      })
+      .andWhere('histories.status = :status', {
+        status: OrderProductStatus.DELIVERED,
+      })
+      .andWhere('histories.createdAt < :deliveredWeekAgo', {
+        deliveredWeekAgo,
       })
       .getMany();
   }
