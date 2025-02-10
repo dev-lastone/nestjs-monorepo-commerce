@@ -12,6 +12,7 @@ import { ProductService } from '@application/product/product.service';
 import { UserAddressService } from '../../../../apps/app/src/application/user/address/user-address.service';
 import { Transactional } from 'typeorm-transactional';
 import { AppUserPointHistoryAction } from '@domain/app-user/point/app-user-point.entity';
+import { OrderProduct } from '@domain/order/order-product.entity';
 
 @Injectable()
 export class OrderService {
@@ -68,23 +69,8 @@ export class OrderService {
     return orderProduct;
   }
 
-  // TODO 조회 로직은 app 에서 처리하도록 리팩토링
-  // confirm 로직만 재활용
   @Transactional()
-  async orderProductConfirm(dto: { id: number; userId: number }) {
-    const { id, userId } = dto;
-
-    const orderProduct =
-      await this.orderRepo.findOneOrderProductWithOrderAndProduct(id);
-
-    if (!orderProduct) {
-      throw new NotFoundException();
-    }
-
-    if (orderProduct.order.userId !== userId) {
-      throw new ForbiddenException();
-    }
-
+  async orderProductConfirm(orderProduct: OrderProduct) {
     orderProduct.confirm();
 
     await this.appUserPointService.savePointByOrderProduct(orderProduct);

@@ -45,16 +45,6 @@ export class OrderRepo {
     });
   }
 
-  // TODO order confirm 전용 find 예정
-  async findOneOrderProductWithOrderAndProduct(id: number) {
-    return await this.orderProductRepo.findOne({
-      relations: ['order', 'product'],
-      where: {
-        id,
-      },
-    });
-  }
-
   async findOneOrderProductWithOrderAndProductAndReview(id: number) {
     return await this.orderProductRepo.findOne({
       relations: ['order', 'product', 'orderProductReview'],

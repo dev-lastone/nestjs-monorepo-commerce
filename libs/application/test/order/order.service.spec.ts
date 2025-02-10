@@ -50,7 +50,6 @@ describe('OrderService', () => {
             save: jest.fn().mockReturnValue(orderStub),
             findOneProductById: jest.fn().mockReturnValue(orderProductStub),
             saveProduct: jest.fn().mockReturnValue(orderProductStub),
-            findOneOrderProductWithOrderAndProduct: jest.fn(),
             findOneOrderProductWithOrderAndProductAndReview: jest.fn(),
             saveProductReview: jest.fn(),
           },
@@ -185,54 +184,18 @@ describe('OrderService', () => {
     });
   });
 
-  describe('orderProductConfirm', () => {
-    it('성공', async () => {
-      jest
-        .spyOn(orderRepo, 'findOneOrderProductWithOrderAndProduct')
-        .mockResolvedValue(orderProductWithOrderAndProductStub);
+  it('orderProductConfirm', async () => {
+    const orderProduct = orderProductWithOrderAndProductStub;
 
-      const result = await orderService.orderProductConfirm({
-        id: orderProductWithOrderAndProductStub.id,
-        userId: orderProductWithOrderAndProductStub.order.userId,
-      });
+    const result = await orderService.orderProductConfirm(orderProduct);
 
-      expect(orderRepo.findOneOrderProductWithOrderAndProduct).toBeCalledWith(
-        1,
-      );
-      expect(appUserPointService.savePointByOrderProduct).toBeCalledWith(
-        orderProductWithOrderAndProductStub,
-      );
-      expect(orderRepo.saveProduct).toBeCalledWith(
-        orderProductWithOrderAndProductStub,
-      );
-      expect(result).toEqual(orderProductWithOrderAndProductStub);
-    });
-
-    it('403', async () => {
-      jest
-        .spyOn(orderRepo, 'findOneOrderProductWithOrderAndProduct')
-        .mockResolvedValue(orderProductWithOrderAndProductStub);
-
-      await expect(() =>
-        orderService.orderProductConfirm({
-          id: orderProductWithOrderAndProductStub.id,
-          userId: NON_EXISTENT_ID,
-        }),
-      ).rejects.toThrowError(new ForbiddenException());
-    });
-
-    it('404', () => {
-      jest
-        .spyOn(orderRepo, 'findOneOrderProductWithOrderAndProduct')
-        .mockReturnValue(undefined);
-
-      expect(() =>
-        orderService.orderProductConfirm({
-          id: NON_EXISTENT_ID,
-          userId: userStub.id,
-        }),
-      ).rejects.toThrowError(new NotFoundException());
-    });
+    expect(appUserPointService.savePointByOrderProduct).toBeCalledWith(
+      orderProductWithOrderAndProductStub,
+    );
+    expect(orderRepo.saveProduct).toBeCalledWith(
+      orderProductWithOrderAndProductStub,
+    );
+    expect(result).toEqual(orderProductWithOrderAndProductStub);
   });
 
   describe('createOrderProductReview', () => {
