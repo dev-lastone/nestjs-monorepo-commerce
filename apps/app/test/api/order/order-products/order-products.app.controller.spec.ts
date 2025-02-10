@@ -1,28 +1,27 @@
 import { Test } from '@nestjs/testing';
-import { OrderService } from '@application/order/order.service';
 import { OrderProductsAppController } from '../../../../src/api/order/order-products/order-products.app.controller';
 import { appUserStub } from '../../../../../../libs/domain/test/app-user/_stub/app-user.stub';
+import { OrderProductsAppService } from '../../../../src/api/order/order-products/order-products.app.service';
 
 describe('OrderProductsAppController', () => {
   let orderProductsAppController: OrderProductsAppController;
-  let orderService: OrderService;
+  let orderProductsAppService: OrderProductsAppService;
 
   beforeEach(async () => {
     const testingModule = await Test.createTestingModule({
       controllers: [OrderProductsAppController],
       providers: [
         {
-          provide: OrderService,
+          provide: OrderProductsAppService,
           useValue: {
-            patchOrderProduct: jest.fn(),
-            orderProductConfirm: jest.fn(),
+            postOrderProductConfirm: jest.fn(),
           },
         },
       ],
     }).compile();
 
     orderProductsAppController = testingModule.get(OrderProductsAppController);
-    orderService = testingModule.get(OrderService);
+    orderProductsAppService = testingModule.get(OrderProductsAppService);
   });
 
   it('postOrderProductConfirm', () => {
@@ -30,7 +29,7 @@ describe('OrderProductsAppController', () => {
 
     orderProductsAppController.postOrderProductConfirm(appUserStub.id, id);
 
-    expect(orderService.orderProductConfirm).toBeCalledWith({
+    expect(orderProductsAppService.postOrderProductConfirm).toBeCalledWith({
       id,
       userId: appUserStub.id,
     });
