@@ -65,7 +65,6 @@ vo UserPassword, envValidate 시도 맛보기
 
 ### batch
 - [ ] 포인트 만료
-- [ ] 배송 상태 변경
 
 ### etc
 - [ ] integration test
