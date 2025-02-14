@@ -15,7 +15,7 @@ export class OrderBatchService {
   async confirmOrdersAutomatically() {
     const orderProducts =
       await this.orderBatchRepo.findOrderProductsToBeConfirmed();
-    // 구매확정 로직(상태변경, 포인트 적립)
+
     orderProducts.map((orderProduct) => {
       this.orderService.orderProductConfirm(orderProduct);
     });
