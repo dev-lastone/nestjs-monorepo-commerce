@@ -9,6 +9,7 @@ export const ERROR_MESSAGES = {
   PasswordConfirm: 'Please check the password.',
   NotEnoughPoints: 'Not enough points.',
   AlreadyBeenDelivered: 'Already been delivered.',
+  NotOnDeliveryStatus: 'Not on delivery status.',
   NotDeliveryStatus: 'Not delivery status.',
   NotConfirmStatus: 'Not confirm status.',
   AlreadyReviewed: 'Already reviewed.',

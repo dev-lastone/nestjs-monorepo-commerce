@@ -108,6 +108,13 @@ export class OrderProduct {
     this.status = OrderProductStatus.ON_DELIVERY;
   }
 
+  delivered() {
+    if (this.status !== OrderProductStatus.ON_DELIVERY) {
+      throw new BadRequestException(ERROR_MESSAGES.NotOnDeliveryStatus);
+    }
+    this.status = OrderProductStatus.DELIVERED;
+  }
+
   confirm() {
     if (this.status !== OrderProductStatus.DELIVERED) {
       throw new BadRequestException(ERROR_MESSAGES.NotDeliveryStatus);

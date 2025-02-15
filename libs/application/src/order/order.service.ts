@@ -63,6 +63,14 @@ export class OrderService {
     return orderProduct;
   }
 
+  async delivered(orderProduct: OrderProduct) {
+    orderProduct.delivered();
+
+    await this.orderRepo.saveProduct(orderProduct);
+
+    return orderProduct;
+  }
+
   @Transactional()
   async orderProductConfirm(orderProduct: OrderProduct) {
     orderProduct.confirm();
