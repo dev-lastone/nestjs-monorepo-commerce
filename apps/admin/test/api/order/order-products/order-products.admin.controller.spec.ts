@@ -1,19 +1,19 @@
 import { Test } from '@nestjs/testing';
-import { OrderService } from '@application/order/order.service';
 import { OrderProductsAdminController } from '../../../../src/api/order/order-products/order-products.admin.controller';
+import { OrderProductsAdminService } from '../../../../src/api/order/order-products/order-products.admin.service';
 
 describe('OrderProductsAdminController', () => {
   let orderProductsAdminController: OrderProductsAdminController;
-  let orderService: OrderService;
+  let orderProductsAdminService: OrderProductsAdminService;
 
   beforeEach(async () => {
     const testingModule = await Test.createTestingModule({
       controllers: [OrderProductsAdminController],
       providers: [
         {
-          provide: OrderService,
+          provide: OrderProductsAdminService,
           useValue: {
-            orderProductDeliver: jest.fn(),
+            postOrderProductDeliver: jest.fn(),
           },
         },
       ],
@@ -22,7 +22,7 @@ describe('OrderProductsAdminController', () => {
     orderProductsAdminController = testingModule.get(
       OrderProductsAdminController,
     );
-    orderService = testingModule.get(OrderService);
+    orderProductsAdminService = testingModule.get(OrderProductsAdminService);
   });
 
   it('postOrderProductDeliver', () => {
@@ -30,6 +30,8 @@ describe('OrderProductsAdminController', () => {
 
     orderProductsAdminController.postOrderProductDeliver(id);
 
-    expect(orderService.orderProductDeliver).toBeCalledWith(id);
+    expect(orderProductsAdminService.postOrderProductDeliver).toBeCalledWith(
+      id,
+    );
   });
 });
