@@ -16,7 +16,7 @@ export class OrderBatchService {
     const orderProducts =
       await this.orderBatchRepo.findOrderProductsToBeDelivered();
 
-    orderProducts.map((orderProduct) => {
+    orderProducts.forEach((orderProduct) => {
       this.orderService.delivered(orderProduct);
     });
   }
@@ -26,7 +26,7 @@ export class OrderBatchService {
     const orderProducts =
       await this.orderBatchRepo.findOrderProductsToBeConfirmed();
 
-    orderProducts.map((orderProduct) => {
+    orderProducts.forEach((orderProduct) => {
       this.orderService.orderProductConfirm(orderProduct);
     });
   }
