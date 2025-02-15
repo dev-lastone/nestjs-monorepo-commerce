@@ -11,8 +11,18 @@ export class OrderBatchService {
     private readonly orderBatchRepo: OrderBatchRepo,
   ) {}
 
+  @Cron('0 0 */1 * * *')
+  async deliveryOrderProductsAutomatically() {
+    const orderProducts =
+      await this.orderBatchRepo.findOrderProductsToBeDelivered();
+
+    orderProducts.map((orderProduct) => {
+      this.orderService.orderProductDeliver(orderProduct.id);
+    });
+  }
+
   @Cron('0 0 0 * * *')
-  async confirmOrdersAutomatically() {
+  async confirmOrderProductsAutomatically() {
     const orderProducts =
       await this.orderBatchRepo.findOrderProductsToBeConfirmed();
 

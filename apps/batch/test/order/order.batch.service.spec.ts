@@ -35,8 +35,8 @@ describe('OrderBatchService', () => {
     orderBatchRepo = testingModule.get(OrderBatchRepo);
   });
 
-  it('confirmOrdersAutomatically', async () => {
-    await orderBatchService.confirmOrdersAutomatically();
+  it('confirmOrderProductsAutomatically', async () => {
+    await orderBatchService.confirmOrderProductsAutomatically();
 
     expect(orderBatchRepo.findOrderProductsToBeConfirmed).toBeCalled();
     expect(orderService.orderProductConfirm).toBeCalledWith(

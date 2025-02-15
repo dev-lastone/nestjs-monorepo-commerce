@@ -13,6 +13,15 @@ export class OrderBatchRepo {
     private readonly orderProductBatchRepo: Repository<OrderProduct>,
   ) {}
 
+  async findOrderProductsToBeDelivered() {
+    return await this.orderProductBatchRepo
+      .createQueryBuilder('orderProduct')
+      .where('orderProduct.status = :status', {
+        status: OrderProductStatus.ON_DELIVERY,
+      })
+      .getMany();
+  }
+
   async findOrderProductsToBeConfirmed() {
     const week = 1000 * 60 * 60 * 24 * 7;
     const deliveredWeekAgo = new Date(Date.now() - week);
