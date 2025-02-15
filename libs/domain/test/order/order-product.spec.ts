@@ -42,6 +42,23 @@ describe('OrderProduct', () => {
     });
   });
 
+  describe('delivered', () => {
+    it(ERROR_MESSAGES.NotOnDeliveryStatus, () => {
+      const orderProduct = OrderProduct.create(productStub1);
+      orderProduct.status = OrderProductStatus.ORDERED;
+      expect(() => orderProduct.delivered()).toThrowError(
+        ERROR_MESSAGES.NotOnDeliveryStatus,
+      );
+    });
+
+    it('성공', () => {
+      const orderProduct = OrderProduct.create(productStub1);
+      orderProduct.status = OrderProductStatus.ON_DELIVERY;
+      orderProduct.delivered();
+      expect(orderProduct.status).toBe(OrderProductStatus.DELIVERED);
+    });
+  });
+
   describe('confirm', () => {
     it(ERROR_MESSAGES.NotDeliveryStatus, () => {
       const orderProduct = OrderProduct.create(productStub1);

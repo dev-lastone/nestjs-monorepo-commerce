@@ -12,12 +12,12 @@ export class OrderBatchService {
   ) {}
 
   @Cron('0 0 */1 * * *')
-  async deliveryOrderProductsAutomatically() {
+  async deliveredOrderProductsAutomatically() {
     const orderProducts =
       await this.orderBatchRepo.findOrderProductsToBeDelivered();
 
     orderProducts.map((orderProduct) => {
-      this.orderService.orderProductDeliver(orderProduct.id);
+      this.orderService.delivered(orderProduct);
     });
   }
 

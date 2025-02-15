@@ -16,7 +16,7 @@ describe('OrderBatchService', () => {
         {
           provide: OrderService,
           useValue: {
-            orderProductDeliver: jest.fn(),
+            delivered: jest.fn(),
             orderProductConfirm: jest.fn(),
           },
         },
@@ -39,12 +39,12 @@ describe('OrderBatchService', () => {
     orderBatchRepo = testingModule.get(OrderBatchRepo);
   });
 
-  it('deliveryOrderProductsAutomatically', async () => {
-    await orderBatchService.deliveryOrderProductsAutomatically();
+  it('deliveredOrderProductsAutomatically', async () => {
+    await orderBatchService.deliveredOrderProductsAutomatically();
 
     expect(orderBatchRepo.findOrderProductsToBeDelivered).toBeCalled();
-    expect(orderService.orderProductDeliver).toBeCalledWith(
-      orderProductWithOrderAndProductStub.id,
+    expect(orderService.delivered).toBeCalledWith(
+      orderProductWithOrderAndProductStub,
     );
   });
 
