@@ -16,12 +16,16 @@ describe('OrderBatchService', () => {
         {
           provide: OrderService,
           useValue: {
+            orderProductDeliver: jest.fn(),
             orderProductConfirm: jest.fn(),
           },
         },
         {
           provide: OrderBatchRepo,
           useValue: {
+            findOrderProductsToBeDelivered: jest
+              .fn()
+              .mockResolvedValue([orderProductWithOrderAndProductStub]),
             findOrderProductsToBeConfirmed: jest
               .fn()
               .mockResolvedValue([orderProductWithOrderAndProductStub]),
@@ -33,6 +37,15 @@ describe('OrderBatchService', () => {
     orderService = testingModule.get(OrderService);
     orderBatchService = testingModule.get(OrderBatchService);
     orderBatchRepo = testingModule.get(OrderBatchRepo);
+  });
+
+  it('deliveryOrderProductsAutomatically', async () => {
+    await orderBatchService.deliveryOrderProductsAutomatically();
+
+    expect(orderBatchRepo.findOrderProductsToBeDelivered).toBeCalled();
+    expect(orderService.orderProductDeliver).toBeCalledWith(
+      orderProductWithOrderAndProductStub.id,
+    );
   });
 
   it('confirmOrderProductsAutomatically', async () => {
