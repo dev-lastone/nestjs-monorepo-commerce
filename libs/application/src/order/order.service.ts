@@ -55,13 +55,7 @@ export class OrderService {
     return order;
   }
 
-  async orderProductDeliver(id: number) {
-    const orderProduct = await this.orderRepo.findOneProductById(id);
-
-    if (!orderProduct) {
-      throw new NotFoundException();
-    }
-
+  async orderProductDeliver(orderProduct: OrderProduct) {
     orderProduct.deliver();
 
     await this.orderRepo.saveProduct(orderProduct);

@@ -1,6 +1,6 @@
 import { Test } from '@nestjs/testing';
 import { OrderRepo } from '@application/order/order.repo';
-import { NON_EXISTENT_ID, SUCCESS } from '@common/constant/constants';
+import { NON_EXISTENT_ID } from '@common/constant/constants';
 import {
   BadRequestException,
   ForbiddenException,
@@ -161,26 +161,13 @@ describe('OrderService', () => {
     });
   });
 
-  describe('orderProductDeliver', () => {
-    it(SUCCESS, async () => {
-      const result = await orderService.orderProductDeliver(
-        orderProductStub.id,
-      );
+  it('orderProductDeliver', async () => {
+    const result = await orderService.orderProductDeliver(orderProductStub);
 
-      expect(orderRepo.findOneProductById).toBeCalledWith(1);
-      expect(orderRepo.saveProduct).toBeCalled();
-      expect(result).toEqual({
-        ...orderProductStub,
-        status: OrderProductStatus.ON_DELIVERY,
-      });
-    });
-
-    it('not found', () => {
-      jest.spyOn(orderRepo, 'findOneProductById').mockReturnValue(undefined);
-
-      expect(() =>
-        orderService.orderProductDeliver(NON_EXISTENT_ID),
-      ).rejects.toThrowError(new NotFoundException());
+    expect(orderRepo.saveProduct).toBeCalled();
+    expect(result).toEqual({
+      ...orderProductStub,
+      status: OrderProductStatus.ON_DELIVERY,
     });
   });
 

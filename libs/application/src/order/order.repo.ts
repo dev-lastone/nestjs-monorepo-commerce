@@ -37,14 +37,6 @@ export class OrderRepo {
     return await this.orderProductReviewRepo.save(orderProductReview);
   }
 
-  async findOneProductById(id: number) {
-    return await this.orderProductRepo.findOne({
-      where: {
-        id,
-      },
-    });
-  }
-
   async findOneOrderProductWithOrderAndProductAndReview(id: number) {
     return await this.orderProductRepo.findOne({
       relations: ['order', 'product', 'orderProductReview'],
