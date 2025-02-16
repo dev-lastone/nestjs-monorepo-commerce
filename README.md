@@ -66,3 +66,4 @@ vo UserPassword, envValidate 시도 맛보기
 ### etc
 - [ ] integration test
 - [ ] e2e scenario test
+- [ ] repo test h2?
