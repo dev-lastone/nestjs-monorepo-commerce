@@ -6,6 +6,8 @@ import { OrderProduct } from '@domain/order/order-product.entity';
 import { ReviewPointStrategy } from '@domain/app-user/point/strategy/review-point.strategy';
 import { OrderProductPointStrategy } from '@domain/app-user/point/strategy/order-product-point.strategy';
 import { PointStrategy } from '@domain/app-user/point/strategy/point.strategy';
+import { AppUserPoint } from '@domain/app-user/point/app-user-point.entity';
+import { Transactional } from 'typeorm-transactional';
 
 @Injectable()
 export class AppUserPointService {
@@ -69,5 +71,12 @@ export class AppUserPointService {
         actionId: createAppUserPointHistory.actionId,
       },
     };
+  }
+
+  @Transactional()
+  async expirePoint(appUserPoint: AppUserPoint) {
+    appUserPoint.expire();
+
+    await this.appUserPointRepo.save(appUserPoint);
   }
 }

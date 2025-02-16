@@ -48,6 +48,7 @@ export enum AppUserPointHistoryAction {
   ORDER_PRODUCT = 'order_product',
   REVIEW = 'order_product_review',
   ORDER = 'order',
+  EXPIRE = 'expire', // TODO 테이블 존재안함. 아래 방법 고민
 }
 
 @Entity('user_point', { schema: 'app' })
@@ -135,6 +136,46 @@ export class AppUserPoint {
     return createHistory;
   }
 
+  expire() {
+    const point = this.histories.reduce(
+      (result, history) => {
+        history.storage.point = 0;
+        result.point += history.storage.point;
+
+        // TODO
+        // 만료의 actionId 는 무엇이 되어야하는가.
+        // storage 하자니, 개별
+        // consumption 하자니, 서로 참조
+        // null 로 하자니, 하나때문에 null 허용되어야함
+        // 0 으로 하자니, 의미없고 나중에 이런케이스 또 있으면?
+        // table 을 따로 만들자니 의미없이 확장
+        // consumption 을 사용하지 말고, 그냥 개별 만료 시킬까?
+        const createHistory = this.#createDefaultHistory({
+          point,
+          action: AppUserPointHistoryAction.EXPIRE,
+          actionId: history.storage.id,
+        });
+
+        const consumption = new AppUserPointConsumption();
+        consumption.point = point;
+        consumption.userPointStorageId = this.histories[0].storage.id;
+
+        history.consumptions = [consumption];
+
+        return {
+          point,
+          history: createHistory,
+        };
+      },
+      {
+        point: 0,
+        histories: [],
+      },
+    );
+  }
+
+  // TODO abstract?
+  // point, remainingPoint 점검 필요
   #createDefaultHistory(dto: AppUserPointDto) {
     const history = new AppUserPointHistory();
     history.userPointId = this.id;
