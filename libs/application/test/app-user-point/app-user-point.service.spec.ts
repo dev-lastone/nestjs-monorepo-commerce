@@ -8,11 +8,11 @@ import { AppUserPointRepo } from '@application/app-user-point/app-user-point.rep
 import { appUserStub } from '../../../domain/test/app-user/_stub/app-user.stub';
 import { AppUserPointHistory } from '@domain/app-user/point/app-user-point-history.entity';
 import { AppUserPointStorage } from '@domain/app-user/point/app-user-point-storage.entity';
-import { saveAppUserPointDtoStub } from '../../../domain/test/app-user/_stub/app-user-point.stub';
 import { OrderProductReview } from '@domain/order/order-product-review.entity';
 import { ReviewPointStrategy } from '@domain/app-user/point/strategy/review-point.strategy';
 import { OrderProduct } from '@domain/order/order-product.entity';
 import { OrderProductPointStrategy } from '@domain/app-user/point/strategy/order-product-point.strategy';
+import { orderProductWithOrderAndProductStub } from '../../../domain/test/order/_stub/order-product.stub';
 
 describe('UserPointService', () => {
   let appUserPointService: AppUserPointService;
@@ -63,34 +63,38 @@ describe('UserPointService', () => {
       const userPointStub = AppUserPoint.create();
       userPointStub.userId = appUserStub.id;
 
+      const orderProductPointStrategy = new OrderProductPointStrategy(
+        orderProductWithOrderAndProductStub as OrderProduct,
+      );
+
       jest
         .spyOn(appUserPointRepo, 'findOneByUserId')
         .mockResolvedValue(userPointStub);
       jest.spyOn(appUserPointRepo, 'saveHistory').mockResolvedValue({
         id: 1,
-        point: saveAppUserPointDtoStub.point,
-        remainingPoint: saveAppUserPointDtoStub.point,
-        action: saveAppUserPointDtoStub.action,
-        actionId: saveAppUserPointDtoStub.actionId,
+        point: orderProductPointStrategy.point,
+        remainingPoint: orderProductPointStrategy.point,
+        action: orderProductPointStrategy.action,
+        actionId: orderProductPointStrategy.actionId,
         storage: {
-          expirationAt: saveAppUserPointDtoStub.expirationAt,
+          expirationAt: orderProductPointStrategy.expirationAt,
         },
       } as AppUserPointHistory);
 
       const userPoint = await appUserPointService.savePoint(
-        saveAppUserPointDtoStub,
+        orderProductPointStrategy,
       );
 
       expect(userPoint).toEqual({
-        point: saveAppUserPointDtoStub.point,
+        point: orderProductPointStrategy.point,
         history: {
           id: 1,
-          point: saveAppUserPointDtoStub.point,
-          remainingPoint: saveAppUserPointDtoStub.point,
-          action: saveAppUserPointDtoStub.action,
-          actionId: saveAppUserPointDtoStub.actionId,
+          point: orderProductPointStrategy.point,
+          remainingPoint: orderProductPointStrategy.point,
+          action: orderProductPointStrategy.action,
+          actionId: orderProductPointStrategy.actionId,
           storage: {
-            expirationAt: saveAppUserPointDtoStub.expirationAt,
+            expirationAt: orderProductPointStrategy.expirationAt,
           },
         },
       });

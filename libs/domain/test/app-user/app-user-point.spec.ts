@@ -8,6 +8,9 @@ import { AppUserPointHistory } from '@domain/app-user/point/app-user-point-histo
 import { appUserStub } from './_stub/app-user.stub';
 import { saveAppUserPointDtoStub } from './_stub/app-user-point.stub';
 import { AppUserPointDto } from '@domain/app-user/dto/app-user-point.dto';
+import { OrderProductPointStrategy } from '@domain/app-user/point/strategy/order-product-point.strategy';
+import { orderProductStub } from '../order/_stub/order-product.stub';
+import { OrderProduct } from '@domain/order/order-product.entity';
 
 describe('AppUserPoint', () => {
   it('create', () => {
@@ -18,14 +21,17 @@ describe('AppUserPoint', () => {
 
   it('save', () => {
     const userPoint = AppUserPoint.create();
-    expect(userPoint.save(saveAppUserPointDtoStub)).toEqual({
-      point: saveAppUserPointDtoStub.point,
-      action: saveAppUserPointDtoStub.action,
-      actionId: saveAppUserPointDtoStub.actionId,
-      remainingPoint: saveAppUserPointDtoStub.point,
+    const orderProductPointStrategy = new OrderProductPointStrategy(
+      orderProductStub as OrderProduct,
+    );
+    expect(userPoint.save(orderProductPointStrategy)).toEqual({
+      point: orderProductPointStrategy.point,
+      action: orderProductPointStrategy.action,
+      actionId: orderProductPointStrategy.actionId,
+      remainingPoint: orderProductPointStrategy.point,
       storage: {
-        point: saveAppUserPointDtoStub.point,
-        expirationAt: saveAppUserPointDtoStub.expirationAt,
+        point: orderProductPointStrategy.point,
+        expirationAt: orderProductPointStrategy.expirationAt,
       },
     });
   });
@@ -33,7 +39,17 @@ describe('AppUserPoint', () => {
   describe('use', () => {
     it(ERROR_MESSAGES.NotEnoughPoints, () => {
       const userPoint = AppUserPoint.create();
-      userPoint.save(saveAppUserPointDtoStub);
+      userPoint.userId = appUserStub.id;
+      userPoint.point = 1000;
+      userPoint.histories = [
+        {
+          remainingPoint: 1000,
+          storage: {
+            id: 1,
+            point: 1000,
+          } as AppUserPointStorage,
+        } as AppUserPointHistory,
+      ];
 
       expect(() =>
         userPoint.use({
