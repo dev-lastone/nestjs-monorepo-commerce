@@ -5,12 +5,10 @@ import {
 } from '@domain/app-user/point/app-user-point.entity';
 import { Test } from '@nestjs/testing';
 import { AppUserPointRepo } from '@application/app-user-point/app-user-point.repo';
-import { NotFoundException } from '@nestjs/common';
 import { appUserStub } from '../../../domain/test/app-user/_stub/app-user.stub';
 import { AppUserPointHistory } from '@domain/app-user/point/app-user-point-history.entity';
 import { AppUserPointStorage } from '@domain/app-user/point/app-user-point-storage.entity';
 import { saveAppUserPointDtoStub } from '../../../domain/test/app-user/_stub/app-user-point.stub';
-import { NON_EXISTENT_ID } from '@common/constant/constants';
 import { OrderProductReview } from '@domain/order/order-product-review.entity';
 import { ReviewPointStrategy } from '@domain/app-user/point/strategy/review-point.strategy';
 import { OrderProduct } from '@domain/order/order-product.entity';
@@ -41,15 +39,6 @@ describe('UserPointService', () => {
   });
 
   describe('savePoint', () => {
-    it('404', () => {
-      expect(() =>
-        appUserPointService.savePoint({
-          ...saveAppUserPointDtoStub,
-          userId: NON_EXISTENT_ID,
-        }),
-      ).rejects.toThrowError(new NotFoundException());
-    });
-
     it('review', async () => {
       const review = new OrderProductReview();
       const strategy = new ReviewPointStrategy(review);

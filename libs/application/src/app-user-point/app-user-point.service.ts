@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { AppUserPointRepo } from '@application/app-user-point/app-user-point.repo';
 import { AppUserPointDto } from '@domain/app-user/dto/app-user-point.dto';
 import { OrderProductReview } from '@domain/order/order-product-review.entity';
@@ -25,10 +25,6 @@ export class AppUserPointService {
 
   async savePoint(dto: PointStrategy) {
     const userPoint = await this.appUserPointRepo.findOneByUserId(dto.userId);
-
-    if (!userPoint) {
-      throw new NotFoundException();
-    }
 
     const appUserPointHistory = userPoint.save(dto);
 
