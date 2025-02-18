@@ -48,9 +48,10 @@ export class AppUserPointHistory extends MyBaseEntity {
   })
   @Column('bigint', {
     name: 'action_id',
+    nullable: true,
     transformer: BigIntToNumberTransformer,
   })
-  actionId: number;
+  actionId?: number | null;
 
   @ManyToOne(() => AppUserPoint, (point) => point.histories)
   @JoinColumn({ name: 'user_point_id', referencedColumnName: 'id' })

@@ -75,8 +75,9 @@ export class AppUserPointService {
 
   @Transactional()
   async expirePoint(appUserPoint: AppUserPoint) {
-    appUserPoint.expire();
+    const appUserPointHistory = appUserPoint.expire();
 
     await this.appUserPointRepo.save(appUserPoint);
+    await this.appUserPointRepo.saveHistory(appUserPointHistory);
   }
 }
