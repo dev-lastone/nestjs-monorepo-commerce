@@ -136,4 +136,39 @@ describe('AppUserPoint', () => {
       });
     });
   });
+
+  it('expire', () => {
+    const userPoint = AppUserPoint.create();
+    userPoint.point = 1000;
+    userPoint.histories = [
+      {
+        storage: {
+          id: 1,
+          point: 500,
+        } as AppUserPointStorage,
+      } as AppUserPointHistory,
+      {
+        storage: {
+          id: 2,
+          point: 500,
+        } as AppUserPointStorage,
+      } as AppUserPointHistory,
+    ];
+
+    expect(userPoint.expire()).toEqual({
+      action: AppUserPointHistoryAction.EXPIRE,
+      consumptions: [
+        {
+          point: 500,
+          userPointStorageId: 1,
+        },
+        {
+          point: 500,
+          userPointStorageId: 2,
+        },
+      ],
+      point: 1000,
+      remainingPoint: 0,
+    });
+  });
 });
