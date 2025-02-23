@@ -13,13 +13,16 @@ import { ReviewPointStrategy } from '@domain/app-user/point/strategy/review-poin
 import { OrderProduct } from '@domain/order/order-product.entity';
 import { OrderProductPointStrategy } from '@domain/app-user/point/strategy/order-product-point.strategy';
 import { orderProductWithOrderAndProductStub } from '../../../domain/test/order/_stub/order-product.stub';
+import { configModule } from '@common/setting/config';
+import { typeOrmSetting } from '@common/setting/type-orm.setting';
 
 describe('UserPointService', () => {
   let appUserPointService: AppUserPointService;
   let appUserPointRepo: AppUserPointRepo;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const testingModule = await Test.createTestingModule({
+      imports: [configModule(), typeOrmSetting()],
       providers: [
         AppUserPointService,
         {
@@ -142,5 +145,26 @@ describe('UserPointService', () => {
         ...usePointDto,
       },
     });
+  });
+
+  it('expirePoint', async () => {
+    const userPoint = AppUserPoint.create();
+    userPoint.userId = appUserStub.id;
+    userPoint.point = 1000;
+    userPoint.histories = [
+      {
+        remainingPoint: 1000,
+        storage: {
+          point: 1000,
+        } as AppUserPointStorage,
+      } as AppUserPointHistory,
+    ];
+
+    jest.spyOn(appUserPointRepo, 'saveHistory').mockResolvedValue(null);
+
+    await appUserPointService.expirePoint(userPoint);
+
+    expect(userPoint.point).toBe(0);
+    expect(userPoint.histories[0].storage.point).toBe(0);
   });
 });
