@@ -42,6 +42,49 @@ describe('UserPointService', () => {
   });
 
   describe('savePoint', () => {
+    it('savePoint', async () => {
+      const userPointStub = AppUserPoint.create();
+      userPointStub.userId = appUserStub.id;
+
+      const orderProductPointStrategy = new OrderProductPointStrategy(
+        orderProductWithOrderAndProductStub as OrderProduct,
+      );
+      // TODO 개선필요
+      const expirationAt = orderProductPointStrategy.expirationAt;
+
+      jest
+        .spyOn(appUserPointRepo, 'findOneByUserId')
+        .mockResolvedValue(userPointStub);
+      jest.spyOn(appUserPointRepo, 'saveHistory').mockResolvedValue({
+        id: 1,
+        point: orderProductPointStrategy.point,
+        remainingPoint: orderProductPointStrategy.point,
+        action: orderProductPointStrategy.action,
+        actionId: orderProductPointStrategy.actionId,
+        storage: {
+          expirationAt,
+        },
+      } as AppUserPointHistory);
+
+      const userPoint = await appUserPointService.savePoint(
+        orderProductPointStrategy,
+      );
+
+      expect(userPoint).toEqual({
+        point: orderProductPointStrategy.point,
+        history: {
+          id: 1,
+          point: orderProductPointStrategy.point,
+          remainingPoint: orderProductPointStrategy.point,
+          action: orderProductPointStrategy.action,
+          actionId: orderProductPointStrategy.actionId,
+          storage: {
+            expirationAt,
+          },
+        },
+      });
+    });
+
     it('review', async () => {
       const review = new OrderProductReview();
       const strategy = new ReviewPointStrategy(review);
@@ -60,47 +103,6 @@ describe('UserPointService', () => {
       await appUserPointService.savePointByOrderProduct(orderProduct);
 
       expect(appUserPointService.savePoint).toHaveBeenCalledWith(strategy);
-    });
-
-    it('성공', async () => {
-      const userPointStub = AppUserPoint.create();
-      userPointStub.userId = appUserStub.id;
-
-      const orderProductPointStrategy = new OrderProductPointStrategy(
-        orderProductWithOrderAndProductStub as OrderProduct,
-      );
-
-      jest
-        .spyOn(appUserPointRepo, 'findOneByUserId')
-        .mockResolvedValue(userPointStub);
-      jest.spyOn(appUserPointRepo, 'saveHistory').mockResolvedValue({
-        id: 1,
-        point: orderProductPointStrategy.point,
-        remainingPoint: orderProductPointStrategy.point,
-        action: orderProductPointStrategy.action,
-        actionId: orderProductPointStrategy.actionId,
-        storage: {
-          expirationAt: orderProductPointStrategy.expirationAt,
-        },
-      } as AppUserPointHistory);
-
-      const userPoint = await appUserPointService.savePoint(
-        orderProductPointStrategy,
-      );
-
-      expect(userPoint).toEqual({
-        point: orderProductPointStrategy.point,
-        history: {
-          id: 1,
-          point: orderProductPointStrategy.point,
-          remainingPoint: orderProductPointStrategy.point,
-          action: orderProductPointStrategy.action,
-          actionId: orderProductPointStrategy.actionId,
-          storage: {
-            expirationAt: orderProductPointStrategy.expirationAt,
-          },
-        },
-      });
     });
   });
 
