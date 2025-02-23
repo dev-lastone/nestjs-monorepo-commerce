@@ -25,6 +25,7 @@ export class OrderProductPointStrategy implements PointStrategy {
     return this.orderProduct.product.price * 0.01;
   }
 
+  // TODO test 어려움. 조회할때마다 date 값이 새로 생성. 개선 필요.
   get expirationAt() {
     const expirationAt = new Date();
     expirationAt.setDate(expirationAt.getDate() + 365);
