@@ -37,6 +37,28 @@ describe('AppUserPoint', () => {
   });
 
   describe('use', () => {
+    it(ERROR_MESSAGES.MinimumUsePoint, () => {
+      const userPoint = AppUserPoint.create();
+      userPoint.userId = appUserStub.id;
+      userPoint.point = 1000;
+      userPoint.histories = [
+        {
+          remainingPoint: 1000,
+          storage: {
+            id: 1,
+            point: 1000,
+          } as AppUserPointStorage,
+        } as AppUserPointHistory,
+      ];
+
+      expect(() =>
+        userPoint.use({
+          ...saveAppUserPointDtoStub,
+          point: 99,
+        }),
+      ).toThrowError(ERROR_MESSAGES.MinimumUsePoint);
+    });
+
     it(ERROR_MESSAGES.NotEnoughPoints, () => {
       const userPoint = AppUserPoint.create();
       userPoint.userId = appUserStub.id;

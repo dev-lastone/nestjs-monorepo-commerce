@@ -10,6 +10,7 @@ import { PointStrategy } from '@domain/app-user/point/strategy/point.strategy';
 import { BadRequestException } from '@nestjs/common';
 import { PrimaryGeneratedBigintColumn } from '@common/decorator/primary-generated-bigint-column.decorator';
 import { BigIntToNumberTransformer } from '@common/entity/transformer';
+import { MINIMUM_USE_POINT } from '@common/constant/constants';
 
 /*
 	AppUserPoint // 총 포인트
@@ -92,11 +93,8 @@ export class AppUserPoint {
   }
 
   use(dto: AppUserPointDto) {
-    const MINIMUM_USE_POINT = 100;
     if (dto.point < MINIMUM_USE_POINT) {
-      throw new BadRequestException(
-        `Minimum use point is ${MINIMUM_USE_POINT}`,
-      );
+      throw new BadRequestException(ERROR_MESSAGES.MinimumUsePoint);
     }
 
     if (this.point < dto.point) {
