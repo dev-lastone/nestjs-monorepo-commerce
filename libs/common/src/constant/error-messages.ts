@@ -1,4 +1,7 @@
-import { USER_ADDRESS_MAX_LENGTH } from '@common/constant/constants';
+import {
+  MINIMUM_USE_POINT,
+  USER_ADDRESS_MAX_LENGTH,
+} from '@common/constant/constants';
 
 export const ERROR_MESSAGES = {
   ProductNotFound: 'Product not found',
@@ -7,6 +10,7 @@ export const ERROR_MESSAGES = {
   UserAddressDefaultRequired: 'Please set the default address.',
   UserCartNotFound: 'User cart not found',
   PasswordConfirm: 'Please check the password.',
+  MinimumUsePoint: `Minimum use point is ${MINIMUM_USE_POINT}`,
   NotEnoughPoints: 'Not enough points.',
   AlreadyBeenDelivered: 'Already been delivered.',
   NotOnDeliveryStatus: 'Not on delivery status.',
