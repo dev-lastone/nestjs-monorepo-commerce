@@ -20,8 +20,6 @@ import { UserAddressService } from '../../../../apps/app/src/application/user/ad
 import { ProductService } from '@application/product/product.service';
 import { orderStub } from '../../../domain/test/order/_stub/order.stub';
 import { appUserAddressStub } from '../../../domain/test/app-user/_stub/app-user-address.stub';
-import { configModule } from '@common/setting/config';
-import { typeOrmSetting } from '@common/setting/type-orm.setting';
 import { orderProductReviewStub } from '../../../domain/test/order/_stub/order-product-review.stub';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { OrderProductStatus } from '@domain/order/order-product.entity';
@@ -41,7 +39,6 @@ describe('OrderService', () => {
 
   beforeAll(async () => {
     const testingModule = await Test.createTestingModule({
-      imports: [configModule(), typeOrmSetting()],
       providers: [
         OrderService,
         {
