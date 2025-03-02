@@ -13,8 +13,6 @@ import { ReviewPointStrategy } from '@domain/app-user/point/strategy/review-poin
 import { OrderProduct } from '@domain/order/order-product.entity';
 import { OrderProductPointStrategy } from '@domain/app-user/point/strategy/order-product-point.strategy';
 import { orderProductWithOrderAndProductStub } from '../../../domain/test/order/_stub/order-product.stub';
-import { configModule } from '@common/setting/config';
-import { typeOrmSetting } from '@common/setting/type-orm.setting';
 
 describe('UserPointService', () => {
   let appUserPointService: AppUserPointService;
@@ -22,7 +20,6 @@ describe('UserPointService', () => {
 
   beforeAll(async () => {
     const testingModule = await Test.createTestingModule({
-      imports: [configModule(), typeOrmSetting()],
       providers: [
         AppUserPointService,
         {
