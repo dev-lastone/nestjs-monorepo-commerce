@@ -23,6 +23,7 @@ export class AppUserPointService {
     return await this.savePoint(strategy);
   }
 
+  @Transactional()
   async savePoint(dto: PointStrategy) {
     const userPoint = await this.appUserPointRepo.findOneByUserId(dto.userId);
 
@@ -47,6 +48,7 @@ export class AppUserPointService {
     };
   }
 
+  @Transactional()
   async usePoint(userId: number, dto: AppUserPointDto) {
     const userPoint =
       await this.appUserPointRepo.getUserPointWithAvailablePoints(userId);
