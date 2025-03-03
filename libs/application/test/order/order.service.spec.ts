@@ -168,6 +168,16 @@ describe('OrderService', () => {
     });
   });
 
+  it('delivered', async () => {
+    const result = await orderService.delivered(orderProductStub);
+
+    expect(orderRepo.saveProduct).toBeCalled();
+    expect(result).toEqual({
+      ...orderProductStub,
+      status: OrderProductStatus.DELIVERED,
+    });
+  });
+
   it('orderProductConfirm', async () => {
     const orderProduct = orderProductWithOrderAndProductStub;
 
