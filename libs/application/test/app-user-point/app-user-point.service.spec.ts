@@ -46,8 +46,6 @@ describe('UserPointService', () => {
       const orderProductPointStrategy = new OrderProductPointStrategy(
         orderProductWithOrderAndProductStub as OrderProduct,
       );
-      // TODO 개선필요
-      const expirationAt = orderProductPointStrategy.expirationAt;
 
       jest
         .spyOn(appUserPointRepo, 'findOneByUserId')
@@ -59,7 +57,7 @@ describe('UserPointService', () => {
         action: orderProductPointStrategy.action,
         actionId: orderProductPointStrategy.actionId,
         storage: {
-          expirationAt,
+          expirationAt: orderProductPointStrategy.expirationAt,
         },
       } as AppUserPointHistory);
 
@@ -76,7 +74,7 @@ describe('UserPointService', () => {
           action: orderProductPointStrategy.action,
           actionId: orderProductPointStrategy.actionId,
           storage: {
-            expirationAt,
+            expirationAt: orderProductPointStrategy.expirationAt,
           },
         },
       });

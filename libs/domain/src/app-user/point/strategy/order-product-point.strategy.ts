@@ -4,9 +4,11 @@ import { PointStrategy } from '@domain/app-user/point/strategy/point.strategy';
 
 export class OrderProductPointStrategy implements PointStrategy {
   private orderProduct: OrderProduct;
+  private readonly date: Date;
 
   constructor(orderProduct: OrderProduct) {
     this.orderProduct = orderProduct;
+    this.date = new Date();
   }
 
   get userId() {
@@ -25,9 +27,8 @@ export class OrderProductPointStrategy implements PointStrategy {
     return this.orderProduct.product.price * 0.01;
   }
 
-  // TODO test 어려움. 조회할때마다 date 값이 새로 생성. 개선 필요.
   get expirationAt() {
-    const expirationAt = new Date();
+    const expirationAt = this.date;
     expirationAt.setDate(expirationAt.getDate() + 365);
     return expirationAt;
   }
