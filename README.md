@@ -60,9 +60,6 @@ vo UserPassword, envValidate 시도 맛보기
 ## TODO
 - [ ] 외래키 id 없애기
 
-### batch
-- [ ] 포인트 만료
-
 ### etc
 - [ ] integration test
 - [ ] e2e scenario test
