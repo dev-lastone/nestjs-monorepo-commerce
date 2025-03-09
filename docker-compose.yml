@@ -1,0 +1,40 @@
+version: "3.9"
+
+services:
+  master:
+    image: bitnami/postgresql:16
+    container_name: postgres-master
+    restart: on-failure
+    volumes:
+      - postgresql_main_data:/bitnami/postgresql
+      - ./replication-user-grant.sql:/docker-entrypoint-initdb. d/db.sql
+    environment:
+      - POSTGRESQL_REPLICATION_MODE=master
+      - POSTGRESQL_REPLICATION_USER=slave
+      - POSTGRESQL_REPLICATION_PASSWORD=1234
+      - POSTGRESQL_USERNAME=master
+      - POSTGRESQL_PASSWORD=1234
+      - POSTGRESQL_DATABASE=commerce
+    ports:
+      - "5432:5432"
+
+  slave:
+    image: bitnami/postgresql:16
+    container_name: postgres-slave
+    restart: on-failure
+    environment:
+      - POSTGRESQL_REPLICATION_MODE=slave
+      - POSTGRESQL_REPLICATION_USER=slave
+      - POSTGRESQL_REPLICATION_PASSWORD=1234
+      - POSTGRESQL_MASTER_HOST=master
+      - POSTGRESQL_MASTER_PORT_NUMBER=5432
+      - POSTGRESQL_USERNAME=slave
+      - POSTGRESQL_PASSWORD=1234
+    depends_on:
+      - master
+    ports:
+      - "5433:5432"
+
+volumes:
+  postgresql_main_data:
+    driver: local
