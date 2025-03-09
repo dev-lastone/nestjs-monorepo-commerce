@@ -18,13 +18,28 @@ export function typeOrmSetting(appName?: AppName) {
   return TypeOrmModule.forRootAsync({
     useFactory: async () => ({
       type: 'postgres',
-      host: process.env.DB_HOST,
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_DATABASE,
       entities: getEntities(appName),
       synchronize: true,
       logging: process.env.NODE_ENV !== 'test',
+      replication: {
+        defaultMode: 'slave',
+        master: {
+          host: process.env.DB_HOST,
+          database: process.env.DB_DATABASE,
+          username: process.env.DB_USERNAME,
+          password: process.env.DB_PASSWORD,
+          port: +process.env.DB_PORT,
+        },
+        slaves: [
+          {
+            host: process.env.DB_HOST,
+            database: process.env.DB_DATABASE,
+            username: process.env.DB_SLAVE_USERNAME,
+            password: process.env.DB_SLAVE_PASSWORD,
+            port: +process.env.DB_SLAVE_PORT,
+          },
+        ],
+      },
     }),
     async dataSourceFactory(options) {
       return addTransactionalDataSource(new DataSource(options));
