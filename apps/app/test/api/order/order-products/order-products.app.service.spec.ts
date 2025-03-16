@@ -47,7 +47,7 @@ describe('OrderProductsAppService', () => {
         userId: orderProductWithOrderAndProductStub.order.userId,
       });
 
-      expect(orderService.orderProductConfirm).toBeCalledWith(
+      expect(orderService.orderProductConfirm).toHaveBeenCalledWith(
         orderProductWithOrderAndProductStub,
       );
     });

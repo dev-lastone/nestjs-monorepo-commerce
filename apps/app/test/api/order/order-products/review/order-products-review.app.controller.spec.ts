@@ -36,7 +36,7 @@ describe('OrderProductsReviewAppController', () => {
       dto,
     );
 
-    expect(orderService.createOrderProductReview).toBeCalledWith({
+    expect(orderService.createOrderProductReview).toHaveBeenCalledWith({
       orderProductId: 1,
       userId: appUserStub.id,
       ...dto,

@@ -103,14 +103,16 @@ describe('OrderService', () => {
 
       const result = await orderService.createOrder(dto);
 
-      expect(userAddressService.getUserAddressById).toBeCalledWith(
+      expect(userAddressService.getUserAddressById).toHaveBeenCalledWith(
         dto.userAddressId,
       );
-      expect(productService.findOneProduct).toBeCalledWith(dto.productIds[0]);
+      expect(productService.findOneProduct).toHaveBeenCalledWith(
+        dto.productIds[0],
+      );
 
       productStub1.stock = 1; // TODO orderService.createOrder 에서 이미 재고처리가 진행되어, 강제로 복구. 좋은 방법 고민해보기
       const order = Order.create(appUserAddressStub, [productStub1]);
-      expect(orderRepo.save).toBeCalledWith(order);
+      expect(orderRepo.save).toHaveBeenCalledWith(order);
       expect(result).toEqual(order);
     });
 
@@ -124,15 +126,17 @@ describe('OrderService', () => {
 
       const result = await orderService.createOrder(dto);
 
-      expect(userAddressService.getUserAddressById).toBeCalledWith(
+      expect(userAddressService.getUserAddressById).toHaveBeenCalledWith(
         dto.userAddressId,
       );
-      expect(productService.findOneProduct).toBeCalledWith(dto.productIds[0]);
+      expect(productService.findOneProduct).toHaveBeenCalledWith(
+        dto.productIds[0],
+      );
 
       productStub1.stock = 1; // TODO orderService.createOrder 에서 이미 재고처리가 진행되어, 강제로 복구. 좋은 방법 고민해보기
       const order = Order.create(appUserAddressStub, [productStub1]);
-      expect(orderRepo.save).toBeCalledWith(order);
-      expect(appUserPointService.usePoint).toBeCalledWith(userStub.id, {
+      expect(orderRepo.save).toHaveBeenCalledWith(order);
+      expect(appUserPointService.usePoint).toHaveBeenCalledWith(userStub.id, {
         point: dto.point,
         action: AppUserPointHistoryAction.ORDER,
         actionId: orderStub.id,
@@ -183,10 +187,10 @@ describe('OrderService', () => {
 
     const result = await orderService.orderProductConfirm(orderProduct);
 
-    expect(appUserPointService.savePointByOrderProduct).toBeCalledWith(
+    expect(appUserPointService.savePointByOrderProduct).toHaveBeenCalledWith(
       orderProductWithOrderAndProductStub,
     );
-    expect(orderRepo.saveProduct).toBeCalledWith(
+    expect(orderRepo.saveProduct).toHaveBeenCalledWith(
       orderProductWithOrderAndProductStub,
     );
     expect(result).toEqual(orderProductWithOrderAndProductStub);
@@ -216,9 +220,11 @@ describe('OrderService', () => {
 
       expect(
         orderRepo.findOneOrderProductWithOrderAndProductAndReview,
-      ).toBeCalledWith(orderProductWithOrderAndProductAndReviewStub.id);
-      expect(orderRepo.saveProductReview).toBeCalledWith(orderProductReview);
-      expect(appUserPointService.savePointByReview).toBeCalledWith(
+      ).toHaveBeenCalledWith(orderProductWithOrderAndProductAndReviewStub.id);
+      expect(orderRepo.saveProductReview).toHaveBeenCalledWith(
+        orderProductReview,
+      );
+      expect(appUserPointService.savePointByReview).toHaveBeenCalledWith(
         orderProductReviewStub,
       );
     });

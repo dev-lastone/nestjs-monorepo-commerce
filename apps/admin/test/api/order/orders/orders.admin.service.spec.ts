@@ -34,6 +34,6 @@ describe('OrdersAdminService', () => {
   it('getOrder', () => {
     ordersAdminService.getOrder(orderStub.id);
 
-    expect(ordersAdminRepo.findOne).toBeCalledWith(orderStub.id);
+    expect(ordersAdminRepo.findOne).toHaveBeenCalledWith(orderStub.id);
   });
 });

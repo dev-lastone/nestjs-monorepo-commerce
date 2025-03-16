@@ -46,7 +46,7 @@ describe('OrdersAppService', () => {
 
     ordersAppService.postOrder(dto);
 
-    expect(orderService.createOrder).toBeCalledWith(dto);
+    expect(orderService.createOrder).toHaveBeenCalledWith(dto);
   });
 
   it('getOrders', async () => {

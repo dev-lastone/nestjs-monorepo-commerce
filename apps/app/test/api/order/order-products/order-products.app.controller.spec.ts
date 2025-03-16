@@ -29,7 +29,9 @@ describe('OrderProductsAppController', () => {
 
     orderProductsAppController.postOrderProductConfirm(appUserStub.id, id);
 
-    expect(orderProductsAppService.postOrderProductConfirm).toBeCalledWith({
+    expect(
+      orderProductsAppService.postOrderProductConfirm,
+    ).toHaveBeenCalledWith({
       id,
       userId: appUserStub.id,
     });

@@ -29,7 +29,7 @@ describe('ProductLikeController', () => {
   it('post', () => {
     productLikeAppController.postProductLike(2, productStub1.id);
 
-    expect(productLikeService.postProductLike).toBeCalledWith({
+    expect(productLikeService.postProductLike).toHaveBeenCalledWith({
       userId: 2,
       productId: productStub1.id,
     });
@@ -38,7 +38,7 @@ describe('ProductLikeController', () => {
   it('delete', () => {
     productLikeAppController.deleteProductLike(userStub.id, productStub1.id);
 
-    expect(productLikeService.deleteProductLike).toBeCalledWith({
+    expect(productLikeService.deleteProductLike).toHaveBeenCalledWith({
       userId: userStub.id,
       productId: productStub1.id,
     });

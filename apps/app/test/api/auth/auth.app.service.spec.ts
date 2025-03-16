@@ -42,8 +42,8 @@ describe('AuthAppService', () => {
 
     await authAppService.signUp(createUserDtoStub);
 
-    expect(appUserService.signUp).toBeCalledWith(createUserDtoStub);
-    expect(authService.createToken).toBeCalledWith(userStub);
+    expect(appUserService.signUp).toHaveBeenCalledWith(createUserDtoStub);
+    expect(authService.createToken).toHaveBeenCalledWith(userStub);
   });
 
   it('signIn', async () => {
@@ -51,7 +51,7 @@ describe('AuthAppService', () => {
 
     await authAppService.signIn(signInUserDtoStub);
 
-    expect(appUserService.signIn).toBeCalledWith(signInUserDtoStub);
-    expect(authService.createToken).toBeCalledWith(userStub);
+    expect(appUserService.signIn).toHaveBeenCalledWith(signInUserDtoStub);
+    expect(authService.createToken).toHaveBeenCalledWith(userStub);
   });
 });

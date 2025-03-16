@@ -38,7 +38,9 @@ describe('ProductsAdminController', () => {
 
     productsAdminController.postProduct(createProductDto);
 
-    expect(productsAdminService.postProduct).toBeCalledWith(createProductDto);
+    expect(productsAdminService.postProduct).toHaveBeenCalledWith(
+      createProductDto,
+    );
   });
 
   it('get', () => {
@@ -54,12 +56,15 @@ describe('ProductsAdminController', () => {
 
     productsAdminController.putProduct(3, updateProductDto);
 
-    expect(productsAdminService.putProduct).toBeCalledWith(3, updateProductDto);
+    expect(productsAdminService.putProduct).toHaveBeenCalledWith(
+      3,
+      updateProductDto,
+    );
   });
 
   it('delete', () => {
     productsAdminController.deleteProduct(3);
 
-    expect(productsAdminService.deleteProduct).toBeCalledWith(3);
+    expect(productsAdminService.deleteProduct).toHaveBeenCalledWith(3);
   });
 });

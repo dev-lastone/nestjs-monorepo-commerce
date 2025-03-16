@@ -75,10 +75,10 @@ describe('AppUserService', () => {
 
       await appUserService.signIn(signInUserDtoStub);
 
-      expect(appUserRepo.findOneByEmail).toBeCalledWith(
+      expect(appUserRepo.findOneByEmail).toHaveBeenCalledWith(
         signInUserDtoStub.email,
       );
-      expect(userStub.password.compare).toBeCalledWith(
+      expect(userStub.password.compare).toHaveBeenCalledWith(
         signInUserDtoStub.password,
       );
     });
