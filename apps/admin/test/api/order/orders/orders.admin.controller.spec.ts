@@ -34,6 +34,6 @@ describe('OrdersAdminController', () => {
   it('getOrder', () => {
     ordersAdminController.getOrder(orderStub.id);
 
-    expect(ordersAdminService.getOrder).toBeCalledWith(orderStub.id);
+    expect(ordersAdminService.getOrder).toHaveBeenCalledWith(orderStub.id);
   });
 });

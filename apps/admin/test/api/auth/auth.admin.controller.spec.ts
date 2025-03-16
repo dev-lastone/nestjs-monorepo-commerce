@@ -29,12 +29,12 @@ describe('AuthAdminController', () => {
   it('signUp', () => {
     authAdminController.signUp(createUserDtoStub);
 
-    expect(authAdminService.signUp).toBeCalledWith(createUserDtoStub);
+    expect(authAdminService.signUp).toHaveBeenCalledWith(createUserDtoStub);
   });
 
   it('signIn', () => {
     authAdminController.signIn(signInUserDtoStub);
 
-    expect(authAdminService.signIn).toBeCalledWith(signInUserDtoStub);
+    expect(authAdminService.signIn).toHaveBeenCalledWith(signInUserDtoStub);
   });
 });

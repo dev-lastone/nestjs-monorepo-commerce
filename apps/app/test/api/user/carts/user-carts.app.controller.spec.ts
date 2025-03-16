@@ -34,7 +34,7 @@ describe('UserCartsAppController', () => {
 
     userCartsAppController.postUserCart(userStub.id, dto);
 
-    expect(userCartService.createUserCart).toBeCalledWith(userStub.id, {
+    expect(userCartService.createUserCart).toHaveBeenCalledWith(userStub.id, {
       productId: dto.productId,
       count: dto.count,
     });
@@ -43,7 +43,7 @@ describe('UserCartsAppController', () => {
   it('getUserCarts', () => {
     userCartsAppController.getUserCarts(userStub.id);
 
-    expect(userCartService.getUserCarts).toBeCalledWith(userStub.id);
+    expect(userCartService.getUserCarts).toHaveBeenCalledWith(userStub.id);
   });
 
   it('putUserCart', () => {
@@ -54,7 +54,7 @@ describe('UserCartsAppController', () => {
       dto,
     );
 
-    expect(userCartService.putUserCart).toBeCalledWith({
+    expect(userCartService.putUserCart).toHaveBeenCalledWith({
       userId: appUserCartStub.userId,
       id: appUserCartStub.id,
       count: dto.count,
@@ -67,7 +67,7 @@ describe('UserCartsAppController', () => {
       appUserCartStub.id,
     );
 
-    expect(userCartService.deleteUserCart).toBeCalledWith({
+    expect(userCartService.deleteUserCart).toHaveBeenCalledWith({
       userId: appUserCartStub.userId,
       id: appUserCartStub.id,
     });

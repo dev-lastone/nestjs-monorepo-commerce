@@ -39,13 +39,13 @@ describe('OrdersAppController', () => {
     };
     ordersAppController.postOrder(userId, dto);
 
-    expect(ordersAppService.postOrder).toBeCalledWith({ ...dto, userId });
+    expect(ordersAppService.postOrder).toHaveBeenCalledWith({ ...dto, userId });
   });
 
   it('getOrders', () => {
     const userId = userStub.id;
     ordersAppController.getOrders(userId);
 
-    expect(ordersAppService.getOrders).toBeCalledWith(userId);
+    expect(ordersAppService.getOrders).toHaveBeenCalledWith(userId);
   });
 });

@@ -30,8 +30,8 @@ describe('OrderProductsAdminController', () => {
 
     orderProductsAdminController.postOrderProductDeliver(id);
 
-    expect(orderProductsAdminService.postOrderProductDeliver).toBeCalledWith(
-      id,
-    );
+    expect(
+      orderProductsAdminService.postOrderProductDeliver,
+    ).toHaveBeenCalledWith(id);
   });
 });

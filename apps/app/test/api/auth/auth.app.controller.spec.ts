@@ -29,12 +29,12 @@ describe('AuthAppController', () => {
   it('signUp', async () => {
     await authAppController.signUp(createUserDtoStub);
 
-    expect(authAppService.signUp).toBeCalledWith(createUserDtoStub);
+    expect(authAppService.signUp).toHaveBeenCalledWith(createUserDtoStub);
   });
 
   it('signIn', async () => {
     await authAppController.signIn(signInUserDtoStub);
 
-    expect(authAppService.signIn).toBeCalledWith(signInUserDtoStub);
+    expect(authAppService.signIn).toHaveBeenCalledWith(signInUserDtoStub);
   });
 });

@@ -43,7 +43,7 @@ describe('OrderBatchService', () => {
     await orderBatchService.deliveredOrderProductsAutomatically();
 
     expect(orderBatchRepo.findOrderProductsToBeDelivered).toBeCalled();
-    expect(orderService.delivered).toBeCalledWith(
+    expect(orderService.delivered).toHaveBeenCalledWith(
       orderProductWithOrderAndProductStub,
     );
   });
@@ -52,7 +52,7 @@ describe('OrderBatchService', () => {
     await orderBatchService.confirmOrderProductsAutomatically();
 
     expect(orderBatchRepo.findOrderProductsToBeConfirmed).toBeCalled();
-    expect(orderService.orderProductConfirm).toBeCalledWith(
+    expect(orderService.orderProductConfirm).toHaveBeenCalledWith(
       orderProductWithOrderAndProductStub,
     );
   });
