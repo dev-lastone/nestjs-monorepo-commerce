@@ -7,6 +7,7 @@ import { appUserCartStub } from '../../../../../../libs/domain/test/app-user/_st
 import { appUserStub } from '../../../../../../libs/domain/test/app-user/_stub/app-user.stub';
 import { productStub1 } from '../../../../../../libs/domain/test/product/_stub/product.stub';
 import { SUCCESS } from '@common/constant/constants';
+import { ProductService } from '@application/product/product.service';
 
 describe('UserCartService', () => {
   let userCartService: UserCartService;
@@ -25,6 +26,12 @@ describe('UserCartService', () => {
             delete: jest.fn(),
           },
         },
+        {
+          provide: ProductService,
+          useValue: {
+            findOneProduct: jest.fn().mockResolvedValue(productStub1),
+          },
+        },
       ],
     }).compile();
 
@@ -37,7 +44,7 @@ describe('UserCartService', () => {
 
     const userCart = AppUserCart.create({
       userId: appUserCartStub.userId,
-      productId: appUserCartStub.productId,
+      product: appUserCartStub.product,
       count: dto.count,
     });
 
@@ -46,14 +53,11 @@ describe('UserCartService', () => {
       ...userCart,
     });
 
-    const result = await userCartService.createUserCart({
-      userId: appUserStub.id,
-      ...dto,
-    });
+    const result = await userCartService.createUserCart(appUserStub.id, dto);
     expect(result).toEqual({
       id: 2,
       userId: appUserStub.id,
-      productId: dto.productId,
+      product: appUserCartStub.product,
       count: dto.count,
     });
   });
@@ -79,7 +83,7 @@ describe('UserCartService', () => {
 
       const userCart = AppUserCart.create({
         userId: appUserCartStub.userId,
-        productId: appUserCartStub.productId,
+        product: appUserCartStub.product,
         count: dto.count,
       });
 
@@ -97,7 +101,7 @@ describe('UserCartService', () => {
       expect(result).toEqual({
         id: appUserCartStub.id,
         userId: appUserCartStub.userId,
-        productId: appUserCartStub.productId,
+        product: appUserCartStub.product,
         count: dto.count,
       });
     });

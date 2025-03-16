@@ -3,8 +3,8 @@ import { AppUserCart } from '../app-user-cart.entity';
 
 export class CreateUserCartDto extends PickType(AppUserCart, [
   'userId',
-  'productId',
   'count',
+  'product',
 ] as const) {}
 
 export class UpdateUserCartDto extends PickType(AppUserCart, [
