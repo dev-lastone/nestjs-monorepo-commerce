@@ -60,7 +60,6 @@ vo UserPassword, envValidate 시도 맛보기
 ## TODO
 - [ ] 외래키 id 없애기
 => user 의 경우 jwt 로 검증된 데이터라 select 불필요. 다른 entity 는 제거 가능.
-- [ ] 단순조회도 cqrs 적용 (read db 사용하도록 분리)
 
 ### etc
 - [ ] integration test
