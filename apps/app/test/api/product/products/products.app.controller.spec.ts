@@ -26,6 +26,6 @@ describe('ProductsAppController', () => {
   it('getProducts', () => {
     productsAppController.getProducts();
 
-    expect(productsAppService.getProducts).toBeCalled();
+    expect(productsAppService.getProducts).toHaveBeenCalled();
   });
 });

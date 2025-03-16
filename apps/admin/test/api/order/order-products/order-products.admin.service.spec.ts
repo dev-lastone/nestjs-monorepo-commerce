@@ -46,7 +46,7 @@ describe('OrderProductsAdminService', () => {
       expect(
         orderProductsAdminRepo.findOneOrderProductById,
       ).toHaveBeenCalledWith(1);
-      expect(orderService.orderProductDeliver).toBeCalled();
+      expect(orderService.orderProductDeliver).toHaveBeenCalled();
     });
 
     it('404', () => {

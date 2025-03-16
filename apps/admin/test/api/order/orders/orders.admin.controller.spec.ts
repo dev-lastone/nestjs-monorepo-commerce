@@ -28,7 +28,7 @@ describe('OrdersAdminController', () => {
   it('getOrders', () => {
     ordersAdminController.getOrders();
 
-    expect(ordersAdminService.getOrders).toBeCalled();
+    expect(ordersAdminService.getOrders).toHaveBeenCalled();
   });
 
   it('getOrder', () => {
