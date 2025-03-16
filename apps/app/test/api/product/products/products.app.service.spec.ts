@@ -26,6 +26,6 @@ describe('ProductsAppService', () => {
   it('getProducts', () => {
     productsAppService.getProducts();
 
-    expect(productsAppRepo.find).toBeCalled();
+    expect(productsAppRepo.find).toHaveBeenCalled();
   });
 });

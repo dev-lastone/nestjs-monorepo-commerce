@@ -38,7 +38,7 @@ describe('PointBatchService', () => {
   it('expirePoint', async () => {
     await pointBatchService.expirePoint();
 
-    expect(pointBatchRepo.findExpirationPoints).toBeCalled();
-    expect(appUserPointService.expirePoint).toBeCalled();
+    expect(pointBatchRepo.findExpirationPoints).toHaveBeenCalled();
+    expect(appUserPointService.expirePoint).toHaveBeenCalled();
   });
 });

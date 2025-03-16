@@ -165,7 +165,7 @@ describe('OrderService', () => {
   it('orderProductDeliver', async () => {
     const result = await orderService.orderProductDeliver(orderProductStub);
 
-    expect(orderRepo.saveProduct).toBeCalled();
+    expect(orderRepo.saveProduct).toHaveBeenCalled();
     expect(result).toEqual({
       ...orderProductStub,
       status: OrderProductStatus.ON_DELIVERY,
@@ -175,7 +175,7 @@ describe('OrderService', () => {
   it('delivered', async () => {
     const result = await orderService.delivered(orderProductStub);
 
-    expect(orderRepo.saveProduct).toBeCalled();
+    expect(orderRepo.saveProduct).toHaveBeenCalled();
     expect(result).toEqual({
       ...orderProductStub,
       status: OrderProductStatus.DELIVERED,

@@ -53,7 +53,7 @@ describe('ProductsAdminService', () => {
   it('get', () => {
     productsAdminService.getProducts();
 
-    expect(productsAdminRepo.find).toBeCalled();
+    expect(productsAdminRepo.find).toHaveBeenCalled();
   });
 
   it('put', () => {

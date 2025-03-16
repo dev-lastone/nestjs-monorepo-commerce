@@ -46,7 +46,7 @@ describe('ProductsAdminController', () => {
   it('get', () => {
     productsAdminController.getProducts();
 
-    expect(productsAdminService.getProducts).toBeCalled();
+    expect(productsAdminService.getProducts).toHaveBeenCalled();
   });
 
   it('put', () => {
