@@ -6,6 +6,7 @@ import { ProductLike } from '@domain/product/product-like.entity';
 import { MyBaseEntity } from '@common/entity/my-base-entity';
 import { CreateProductDto } from '@domain/product/dto/product.dto';
 import { dtoToInstance } from '@common/util/dto-to-instance';
+import { AppUserCart } from '@domain/app-user/app-user-cart.entity';
 
 @Entity('product', { schema: 'app' })
 export class Product extends MyBaseEntity {
@@ -38,6 +39,9 @@ export class Product extends MyBaseEntity {
 
   @OneToMany(() => OrderProduct, (orderProduct) => orderProduct.product)
   orderProducts: OrderProduct[];
+
+  @OneToMany(() => AppUserCart, (appUserCart) => appUserCart.product)
+  userCarts: AppUserCart[];
 
   static create(dto: CreateProductDto) {
     return dtoToInstance({ class: Product, dto });

@@ -34,8 +34,7 @@ describe('UserCartsAppController', () => {
 
     userCartsAppController.postUserCart(userStub.id, dto);
 
-    expect(userCartService.createUserCart).toBeCalledWith({
-      userId: userStub.id,
+    expect(userCartService.createUserCart).toBeCalledWith(userStub.id, {
       productId: dto.productId,
       count: dto.count,
     });

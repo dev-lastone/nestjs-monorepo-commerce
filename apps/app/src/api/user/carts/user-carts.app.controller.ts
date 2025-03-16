@@ -32,10 +32,7 @@ export class UserCartsAppController {
     type: AppUserCart,
   })
   postUserCart(@UserId() userId: number, @Body() dto: PostUserCartsAppReqDto) {
-    return this.userCartService.createUserCart({
-      userId,
-      ...dto,
-    });
+    return this.userCartService.createUserCart(userId, dto);
   }
 
   @Version('1')
@@ -44,7 +41,7 @@ export class UserCartsAppController {
     return this.userCartService.getUserCarts(userId);
   }
 
-  // TODO patch
+  // TODO 상품 재고 변경
   @Version('1')
   @Put(':id')
   @ApiResponse({

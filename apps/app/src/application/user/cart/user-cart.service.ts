@@ -2,18 +2,24 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { AppUserCart } from '@domain/app-user/app-user-cart.entity';
 import {
-  CreateUserCartDto,
   DeleteUserCartDto,
   UpdateUserCartDto,
 } from '@domain/app-user/dto/user-cart.dto';
 import { UserCartRepo } from './user-cart.repo';
+import { ProductService } from '@application/product/product.service';
+import { PostUserCartsAppReqDto } from '../../../api/user/carts/user-carts.app.dto';
 
 @Injectable()
 export class UserCartService {
-  constructor(private readonly userCartRepo: UserCartRepo) {}
+  constructor(
+    private readonly productService: ProductService,
+    private readonly userCartRepo: UserCartRepo,
+  ) {}
 
-  async createUserCart(dto: CreateUserCartDto) {
-    const userCart = await AppUserCart.create(dto);
+  async createUserCart(userId: number, dto: PostUserCartsAppReqDto) {
+    const product = await this.productService.findOneProduct(dto.productId);
+
+    const userCart = AppUserCart.create({ userId, ...dto, product });
 
     return await this.userCartRepo.save(userCart);
   }
