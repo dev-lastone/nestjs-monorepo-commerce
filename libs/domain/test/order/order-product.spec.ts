@@ -88,7 +88,7 @@ describe('OrderProduct', () => {
       expect(
         orderProductStub.createReview(createOrderProductReviewDtoStub),
       ).toEqual({
-        orderProductId: orderProductStub.id,
+        orderProduct: orderProductStub,
         ...createOrderProductReviewDtoStub,
       });
     });

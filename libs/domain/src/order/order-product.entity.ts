@@ -121,7 +121,7 @@ export class OrderProduct {
     }
 
     return OrderProductReview.create({
-      orderProductId: this.id,
+      orderProduct: this,
       score: dto.score,
       description: dto.description,
     });

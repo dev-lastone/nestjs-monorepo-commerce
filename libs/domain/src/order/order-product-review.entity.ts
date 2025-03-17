@@ -15,14 +15,6 @@ import { MyBaseEntity } from '@common/entity/my-base-entity';
 @Entity('order_product_review', { schema: 'app' })
 export class OrderProductReview extends MyBaseEntity {
   @ApiProperty({
-    example: 1,
-  })
-  @IsNumber()
-  @IsNotEmpty()
-  @Column({ name: 'order_product_id', type: 'bigint' })
-  orderProductId: number;
-
-  @ApiProperty({
     example: 5,
     description: '점수. 1 ~ 5',
   })
@@ -49,7 +41,7 @@ export class OrderProductReview extends MyBaseEntity {
   orderProduct: OrderProduct;
 
   static create(dto: {
-    orderProductId: number;
+    orderProduct: OrderProduct;
     score: number;
     description: string;
   }) {
