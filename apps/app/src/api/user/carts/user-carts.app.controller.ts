@@ -41,7 +41,6 @@ export class UserCartsAppController {
     return this.userCartService.getUserCarts(userId);
   }
 
-  // TODO 상품 재고 변경
   @Version('1')
   @Put(':id')
   @ApiResponse({

@@ -17,7 +17,9 @@ export class UserCartService {
   ) {}
 
   async createUserCart(userId: number, dto: PostUserCartsAppReqDto) {
+    // TODO 재고 확인
     const product = await this.productService.findOneProduct(dto.productId);
+    // TODO 이미 담았는지 확인
 
     const userCart = AppUserCart.create({ userId, ...dto, product });
 
@@ -29,6 +31,7 @@ export class UserCartService {
   }
 
   async putUserCart(dto: UpdateUserCartDto) {
+    // TODO 재고 확인
     const userCart = await this.userCartRepo.findOneById(dto.id);
 
     if (!userCart) {
