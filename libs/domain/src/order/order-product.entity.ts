@@ -16,7 +16,6 @@ import { IsNotEmpty, IsNumber, MaxLength } from 'class-validator';
 import { CreateOrderProductReviewDto } from '@domain/order/dto/order-product-review.dto';
 import { dtoToInstance } from '@common/util/dto-to-instance';
 import { PrimaryGeneratedBigintColumn } from '@common/decorator/primary-generated-bigint-column.decorator';
-import { BigIntToNumberTransformer } from '@common/entity/transformer';
 import { OrderProductHistory } from '@domain/order/order-product-history.entity';
 
 export enum OrderProductStatus {
@@ -33,15 +32,6 @@ export class OrderProduct {
     example: 1,
   })
   id: number;
-
-  @IsNotEmpty()
-  @IsNumber()
-  @Column({
-    name: 'product_id',
-    type: 'bigint',
-    transformer: BigIntToNumberTransformer,
-  })
-  productId: number;
 
   @ApiProperty({
     example: '상품명',
