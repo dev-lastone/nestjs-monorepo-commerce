@@ -6,7 +6,6 @@ import {
   ManyToOne,
 } from 'typeorm';
 import { dtoToInstance } from '@common/util/dto-to-instance';
-import { BigIntToNumberTransformer } from '@common/entity/transformer';
 import {
   OrderProduct,
   OrderProductStatus,
@@ -18,13 +17,6 @@ import { PrimaryGeneratedBigintColumn } from '@common/decorator/primary-generate
 export class OrderProductHistory {
   @PrimaryGeneratedBigintColumn()
   id: number;
-
-  @Column({
-    name: 'order_product_id',
-    type: 'bigint',
-    transformer: BigIntToNumberTransformer,
-  })
-  orderProductId: number;
 
   @IsNotEmpty()
   @MaxLength(20)
@@ -45,7 +37,7 @@ export class OrderProductHistory {
     return dtoToInstance({
       class: OrderProductHistory,
       dto: {
-        orderProductId: orderProduct.id,
+        orderProduct: orderProduct,
         status: orderProduct.status,
       },
     });
