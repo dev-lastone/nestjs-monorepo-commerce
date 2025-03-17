@@ -6,6 +6,7 @@ import { Column, Entity, OneToMany } from 'typeorm';
 import { AppUserAddress } from '@domain/app-user/app-user-address.entity';
 import { Address } from '@domain/_vo/address';
 import { MyBaseEntity } from '@common/entity/my-base-entity';
+import { BigIntToNumberTransformer } from '@common/entity/transformer';
 
 @Entity('order', { schema: 'app' })
 export class Order extends MyBaseEntity {
@@ -13,7 +14,7 @@ export class Order extends MyBaseEntity {
     example: 1,
   })
   @Expose()
-  @Column({ name: 'user_id', type: 'bigint' })
+  @Column('bigint', { name: 'user_id', transformer: BigIntToNumberTransformer })
   userId: number;
 
   @ApiProperty({
