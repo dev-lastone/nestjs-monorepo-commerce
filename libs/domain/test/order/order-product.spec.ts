@@ -17,7 +17,7 @@ describe('OrderProduct', () => {
   it('create', () => {
     const orderProduct = OrderProduct.create(productStub1);
     expect(orderProduct).toEqual({
-      productId: productStub1.id,
+      product: productStub1,
       name: productStub1.name,
       price: productStub1.price,
       status: OrderProductStatus.ORDERED,
