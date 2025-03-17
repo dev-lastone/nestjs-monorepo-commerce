@@ -46,7 +46,10 @@ describe('ProductLikeAppService', () => {
       dto.productId = productStub1.id;
       dto.userId = userStub.id;
 
-      const productLike = ProductLike.create(dto);
+      const productLike = ProductLike.create({
+        userId: dto.userId,
+        product: productStub1,
+      });
       jest.spyOn(productLikeRepo, 'findOne').mockResolvedValue(productLike);
 
       expect(() => productLikeService.postProductLike(dto)).rejects.toThrow(
@@ -90,7 +93,10 @@ describe('ProductLikeAppService', () => {
       dto.productId = productStub1.id;
       dto.userId = userStub.id;
 
-      const productLike = ProductLike.create(dto);
+      const productLike = ProductLike.create({
+        userId: dto.userId,
+        product: productStub1,
+      });
       jest.spyOn(productLikeRepo, 'findOne').mockResolvedValue(productLike);
 
       const result = await productLikeService.deleteProductLike(dto);

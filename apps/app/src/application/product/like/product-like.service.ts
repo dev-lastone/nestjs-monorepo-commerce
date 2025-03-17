@@ -13,28 +13,34 @@ export class ProductLikeService {
   ) {}
 
   async postProductLike(dto: ProductLikeDto) {
-    await this.productService.checkExistentProduct(dto.productId);
+    const product = await this.productService.checkExistentProduct(
+      dto.productId,
+    );
 
     const productLike = await this.productLikeRepo.findOne({
       userId: dto.userId,
-      productId: dto.productId,
+      product,
     });
 
     if (productLike) {
       throw new BadRequestException(ERROR_MESSAGES.ProductAlreadyLiked);
     }
 
-    await this.productLikeRepo.save(ProductLike.create(dto));
+    await this.productLikeRepo.save(
+      ProductLike.create({ userId: dto.userId, product }),
+    );
 
     return true;
   }
 
   async deleteProductLike(dto: ProductLikeDto) {
-    await this.productService.checkExistentProduct(dto.productId);
+    const product = await this.productService.checkExistentProduct(
+      dto.productId,
+    );
 
     const productLike = await this.productLikeRepo.findOne({
       userId: dto.userId,
-      productId: dto.productId,
+      product,
     });
 
     if (!productLike) {
