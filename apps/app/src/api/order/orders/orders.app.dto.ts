@@ -10,7 +10,7 @@ export class PostOrdersAppReqDto {
 
   @ApiProperty({
     isArray: true,
-    type: BigInt,
+    example: [1],
   })
   @IsArray()
   @ArrayNotEmpty()
