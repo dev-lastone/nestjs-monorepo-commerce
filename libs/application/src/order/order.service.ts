@@ -26,7 +26,6 @@ export class OrderService {
 
   @Transactional()
   async createOrder(dto: PostOrdersAppReqDto & { userId: number }) {
-    // TODO user lazy loading
     const userAddress = await this.userAddressService.getUserAddressById(
       dto.userAddressId,
     );
