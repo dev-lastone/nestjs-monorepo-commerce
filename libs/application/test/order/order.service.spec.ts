@@ -90,7 +90,7 @@ describe('OrderService', () => {
           productIds: [1],
           point: 0,
         }),
-      ).rejects.toThrowError(new ForbiddenException());
+      ).rejects.toThrow(new ForbiddenException());
     });
 
     it('포인트 0', async () => {
@@ -156,9 +156,7 @@ describe('OrderService', () => {
           productIds: [productStub1.id],
           point: 0,
         }),
-      ).rejects.toThrowError(
-        new BadRequestException(ERROR_MESSAGES.NotEnoughStock),
-      );
+      ).rejects.toThrow(new BadRequestException(ERROR_MESSAGES.NotEnoughStock));
     });
   });
 
@@ -240,7 +238,7 @@ describe('OrderService', () => {
           userId: NON_EXISTENT_ID,
           ...createOrderProductReviewDtoStub,
         }),
-      ).rejects.toThrowError(new ForbiddenException());
+      ).rejects.toThrow(new ForbiddenException());
     });
 
     it('404', async () => {
@@ -254,7 +252,7 @@ describe('OrderService', () => {
           userId: userStub.id,
           ...createOrderProductReviewDtoStub,
         }),
-      ).rejects.toThrowError(new NotFoundException());
+      ).rejects.toThrow(new NotFoundException());
     });
   });
 });

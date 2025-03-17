@@ -29,7 +29,7 @@ describe('OrderProduct', () => {
       const orderProduct = OrderProduct.create(productStub1);
       orderProduct.status = OrderProductStatus.DELIVERED;
 
-      expect(() => orderProduct.deliver()).toThrowError(
+      expect(() => orderProduct.deliver()).toThrow(
         ERROR_MESSAGES.AlreadyBeenDelivered,
       );
     });
@@ -46,7 +46,7 @@ describe('OrderProduct', () => {
     it(ERROR_MESSAGES.NotOnDeliveryStatus, () => {
       const orderProduct = OrderProduct.create(productStub1);
       orderProduct.status = OrderProductStatus.ORDERED;
-      expect(() => orderProduct.delivered()).toThrowError(
+      expect(() => orderProduct.delivered()).toThrow(
         ERROR_MESSAGES.NotOnDeliveryStatus,
       );
     });
@@ -63,7 +63,7 @@ describe('OrderProduct', () => {
     it(ERROR_MESSAGES.NotDeliveryStatus, () => {
       const orderProduct = OrderProduct.create(productStub1);
       orderProduct.status = OrderProductStatus.ON_DELIVERY;
-      expect(() => orderProduct.confirm()).toThrowError(
+      expect(() => orderProduct.confirm()).toThrow(
         ERROR_MESSAGES.NotDeliveryStatus,
       );
     });
@@ -80,7 +80,7 @@ describe('OrderProduct', () => {
     it(ERROR_MESSAGES.NotConfirmStatus, () => {
       expect(() =>
         orderProductStub.createReview(createOrderProductReviewDtoStub),
-      ).toThrowError(ERROR_MESSAGES.NotConfirmStatus);
+      ).toThrow(ERROR_MESSAGES.NotConfirmStatus);
     });
 
     it('성공', () => {
@@ -98,7 +98,7 @@ describe('OrderProduct', () => {
       orderProductStub.review = { id: 1 } as any;
       expect(() =>
         orderProductStub.createReview(createOrderProductReviewDtoStub),
-      ).toThrowError(ERROR_MESSAGES.AlreadyReviewed);
+      ).toThrow(ERROR_MESSAGES.AlreadyReviewed);
     });
   });
 });

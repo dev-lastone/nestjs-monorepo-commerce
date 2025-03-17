@@ -56,7 +56,7 @@ describe('AppUserPoint', () => {
           ...saveAppUserPointDtoStub,
           point: 99,
         }),
-      ).toThrowError(ERROR_MESSAGES.MinimumUsePoint);
+      ).toThrow(ERROR_MESSAGES.MinimumUsePoint);
     });
 
     it(ERROR_MESSAGES.NotEnoughPoints, () => {
@@ -78,7 +78,7 @@ describe('AppUserPoint', () => {
           ...saveAppUserPointDtoStub,
           point: 1001,
         }),
-      ).toThrowError(ERROR_MESSAGES.NotEnoughPoints);
+      ).toThrow(ERROR_MESSAGES.NotEnoughPoints);
     });
 
     it('성공 - 단일 사용', () => {
