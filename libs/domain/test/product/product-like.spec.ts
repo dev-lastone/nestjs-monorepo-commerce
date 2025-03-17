@@ -6,7 +6,7 @@ describe('ProductLike', () => {
   it('create', () => {
     const dto = {
       userId: userStub.id,
-      productId: productStub1.id,
+      product: productStub1,
     };
 
     const productLike = ProductLike.create(dto);
