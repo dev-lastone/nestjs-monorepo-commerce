@@ -60,6 +60,7 @@ export class OrderService {
     return order;
   }
 
+  @Transactional()
   async orderProductDeliver(orderProduct: OrderProduct) {
     orderProduct.deliver();
 
@@ -68,6 +69,7 @@ export class OrderService {
     return orderProduct;
   }
 
+  @Transactional()
   async delivered(orderProduct: OrderProduct) {
     orderProduct.delivered();
 
