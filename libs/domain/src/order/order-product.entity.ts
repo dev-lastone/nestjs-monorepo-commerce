@@ -47,7 +47,7 @@ export class OrderProduct {
   @Column({ name: 'price', type: 'int' })
   price: number;
 
-  // TODO status classValidator 만들어보기
+  // TODO status classValidator
   @IsNotEmpty()
   @MaxLength(20)
   @Column({ name: 'status', type: 'varchar', length: 20 })
@@ -83,7 +83,7 @@ export class OrderProduct {
     return dtoToInstance({
       class: OrderProduct,
       dto: {
-        productId: product.id,
+        product: product,
         name: product.name,
         price: product.price,
         status: OrderProductStatus.ORDERED,
