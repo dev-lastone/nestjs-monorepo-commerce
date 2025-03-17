@@ -56,7 +56,7 @@ describe('OrderProductsAdminService', () => {
 
       expect(() =>
         orderProductsAdminService.postOrderProductDeliver(NON_EXISTENT_ID),
-      ).rejects.toThrowError(new NotFoundException());
+      ).rejects.toThrow(new NotFoundException());
     });
   });
 });

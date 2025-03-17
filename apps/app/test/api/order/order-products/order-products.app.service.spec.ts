@@ -62,7 +62,7 @@ describe('OrderProductsAppService', () => {
           id: orderProductWithOrderAndProductStub.id,
           userId: NON_EXISTENT_ID,
         }),
-      ).rejects.toThrowError(new ForbiddenException());
+      ).rejects.toThrow(new ForbiddenException());
     });
 
     it('404', () => {
@@ -75,7 +75,7 @@ describe('OrderProductsAppService', () => {
           id: NON_EXISTENT_ID,
           userId: userStub.id,
         }),
-      ).rejects.toThrowError(new NotFoundException());
+      ).rejects.toThrow(new NotFoundException());
     });
   });
 });
