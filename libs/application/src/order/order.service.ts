@@ -36,12 +36,18 @@ export class OrderService {
 
     const products = await Promise.all(
       dto.productIds.map(async (id) => {
+        // TODO 재고 확인, lock
         return await this.productService.findOneProduct(id);
       }),
     );
 
     const order = Order.create(userAddress, products);
     const createOrder = await this.orderRepo.save(order);
+    await Promise.all(
+      order.products.map((orderProduct) => {
+        return this.orderRepo.saveProduct(orderProduct);
+      }),
+    );
 
     if (dto.point) {
       await this.appUserPointService.usePoint(dto.userId, {
