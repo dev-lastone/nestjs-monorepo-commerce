@@ -5,7 +5,6 @@ import { OrderProductReview } from '@domain/order/order-product-review.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { OrderProductHistory } from '@domain/order/order-product-history.entity';
-import { Transactional } from 'typeorm-transactional';
 
 @Injectable()
 export class OrderRepo {
@@ -26,7 +25,6 @@ export class OrderRepo {
     return await this.orderRepo.save(order);
   }
 
-  @Transactional()
   async saveProduct(orderProduct: OrderProduct) {
     const history = OrderProductHistory.create(orderProduct);
     await this.orderProductHistoryRepo.save(history);
