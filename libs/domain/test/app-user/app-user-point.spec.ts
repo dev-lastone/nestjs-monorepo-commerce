@@ -33,6 +33,9 @@ describe('AppUserPoint', () => {
         point: orderProductPointStrategy.point,
         expirationAt: orderProductPointStrategy.expirationAt,
       },
+      userPoint: {
+        point: 100,
+      },
     });
   });
 
@@ -111,6 +114,19 @@ describe('AppUserPoint', () => {
         ],
         point: 1000,
         remainingPoint: 0,
+        userPoint: {
+          histories: [
+            {
+              remainingPoint: 1000,
+              storage: {
+                id: 1,
+                point: 0,
+              },
+            },
+          ],
+          point: 0,
+          userId: 1,
+        },
       });
     });
 
@@ -155,6 +171,25 @@ describe('AppUserPoint', () => {
         ],
         point: 1500,
         remainingPoint: 500,
+        userPoint: {
+          histories: [
+            {
+              remainingPoint: 1000,
+              storage: {
+                id: 1,
+                point: 0,
+              },
+            },
+            {
+              remainingPoint: 1000,
+              storage: {
+                id: 2,
+                point: 500,
+              },
+            },
+          ],
+          point: 500,
+        },
       });
     });
   });
