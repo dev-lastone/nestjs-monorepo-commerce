@@ -167,7 +167,7 @@ export class AppUserPoint {
   // point, remainingPoint 점검 필요
   #createDefaultHistory(dto: AppUserPointDto) {
     const history = new AppUserPointHistory();
-    history.userPointId = this.id;
+    history.userPoint = this;
     history.action = dto.action;
     history.actionId = dto.actionId;
     history.point = dto.point; // actionPoint

@@ -18,12 +18,6 @@ import { BigIntToNumberTransformer } from '@common/entity/transformer';
 
 @Entity('user_point_history', { schema: 'app' })
 export class AppUserPointHistory extends MyBaseEntity {
-  @Column('bigint', {
-    name: 'user_point_id',
-    transformer: BigIntToNumberTransformer,
-  })
-  userPointId: number;
-
   @ApiProperty({
     example: 1000,
   })
