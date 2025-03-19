@@ -55,9 +55,14 @@ export class AppUserPointService {
 
     const appUserPointHistory = userPoint.use(dto);
 
-    await this.appUserPointRepo.save(userPoint);
+    const storages = userPoint.histories.map((history) => history.storage);
+    await this.appUserPointRepo.saveStorage(storages);
+
     const createAppUserPointHistory =
       await this.appUserPointRepo.saveHistory(appUserPointHistory);
+
+    delete userPoint.histories;
+    await this.appUserPointRepo.save(userPoint);
 
     return {
       point: userPoint.point,
@@ -75,7 +80,12 @@ export class AppUserPointService {
   async expirePoint(appUserPoint: AppUserPoint) {
     const appUserPointHistory = appUserPoint.expire();
 
-    await this.appUserPointRepo.save(appUserPoint);
+    const storages = appUserPoint.histories.map((history) => history.storage);
+    await this.appUserPointRepo.saveStorage(storages);
+
     await this.appUserPointRepo.saveHistory(appUserPointHistory);
+
+    delete appUserPoint.histories;
+    await this.appUserPointRepo.save(appUserPoint);
   }
 }
