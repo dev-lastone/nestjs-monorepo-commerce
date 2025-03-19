@@ -58,11 +58,5 @@ vo UserPassword, envValidate 시도 맛보기
 ---
 
 ## TODO
-- [ ] 외래키 id 없애기
-=> user 의 경우 jwt 로 검증된 데이터라 select 불필요. 다른 entity 는 제거 가능.
-- [ ] userPoint
-
-### etc
+- [ ] repo test
 - [ ] integration test
-- [ ] e2e scenario test
-- [ ] repo test h2?
