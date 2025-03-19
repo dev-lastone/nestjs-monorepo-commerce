@@ -109,7 +109,10 @@ describe('AppUserPoint', () => {
         consumptions: [
           {
             point: 1000,
-            userPointStorageId: 1,
+            storage: {
+              id: 1,
+              point: 0,
+            },
           },
         ],
         point: 1000,
@@ -162,11 +165,17 @@ describe('AppUserPoint', () => {
         consumptions: [
           {
             point: 1000,
-            userPointStorageId: 1,
+            storage: {
+              id: 1,
+              point: 0,
+            },
           },
           {
             point: 500,
-            userPointStorageId: 2,
+            storage: {
+              id: 2,
+              point: 500,
+            },
           },
         ],
         point: 1500,
@@ -217,15 +226,38 @@ describe('AppUserPoint', () => {
       consumptions: [
         {
           point: 500,
-          userPointStorageId: 1,
+          storage: {
+            id: 1,
+            point: 0,
+          },
         },
         {
           point: 500,
-          userPointStorageId: 2,
+          storage: {
+            id: 2,
+            point: 0,
+          },
         },
       ],
       point: 1000,
       remainingPoint: 0,
+      userPoint: {
+        histories: [
+          {
+            storage: {
+              id: 1,
+              point: 0,
+            },
+          },
+          {
+            storage: {
+              id: 2,
+              point: 0,
+            },
+          },
+        ],
+        point: 0,
+      },
     });
   });
 });
