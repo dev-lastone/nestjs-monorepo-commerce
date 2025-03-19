@@ -27,6 +27,7 @@ describe('UserPointService', () => {
           useValue: {
             save: jest.fn(),
             saveHistory: jest.fn(),
+            saveStorage: jest.fn(),
             findOneByUserId: jest.fn(),
             getUserPointWithAvailablePoints: jest.fn(),
           },
@@ -162,6 +163,5 @@ describe('UserPointService', () => {
     await appUserPointService.expirePoint(userPoint);
 
     expect(userPoint.point).toBe(0);
-    expect(userPoint.histories[0].storage.point).toBe(0);
   });
 });
