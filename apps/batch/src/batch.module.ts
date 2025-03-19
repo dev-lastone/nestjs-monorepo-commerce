@@ -5,6 +5,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { OrderBatchModule } from './order/order.batch.module';
 import { configModule } from '@common/setting/config';
 import { AppName, typeOrmSetting } from '@common/setting/type-orm.setting';
+import { PointBatchModule } from './point/point.batch.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { AppName, typeOrmSetting } from '@common/setting/type-orm.setting';
     typeOrmSetting(AppName.BATCH),
     ScheduleModule.forRoot(),
     OrderBatchModule,
+    PointBatchModule,
   ],
   controllers: [BatchController],
   providers: [BatchService],
