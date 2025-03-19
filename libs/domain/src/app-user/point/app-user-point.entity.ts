@@ -122,7 +122,7 @@ export class AppUserPoint {
       }
 
       const consumption = new AppUserPointConsumption();
-      consumption.userPointStorageId = storage.id;
+      consumption.storage = storage;
       consumption.point = usedPoint;
 
       if (!createHistory.consumptions) {
@@ -144,7 +144,7 @@ export class AppUserPoint {
 
     const createConsumptions = this.histories.map((history) => {
       const consumption = new AppUserPointConsumption();
-      consumption.userPointStorageId = history.storage.id;
+      consumption.storage = history.storage;
       consumption.point = history.storage.point;
       return consumption;
     });
@@ -164,7 +164,6 @@ export class AppUserPoint {
   }
 
   // TODO abstract?
-  // point, remainingPoint 점검 필요
   #createDefaultHistory(dto: AppUserPointDto) {
     const history = new AppUserPointHistory();
     history.userPoint = this;
