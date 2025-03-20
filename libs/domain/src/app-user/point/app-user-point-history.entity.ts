@@ -18,6 +18,8 @@ import { BigIntToNumberTransformer } from '@common/entity/transformer';
 
 @Entity('user_point_history', { schema: 'app' })
 export class AppUserPointHistory extends MyBaseEntity {
+  // TODO userPointId 살리는거 고민. this 로 인해 반환값 커짐
+  // typeorm 1:N save update 시 n 쪽 null 처리되는 이슈 검색
   @ApiProperty({
     example: 1000,
   })
