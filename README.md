@@ -28,6 +28,23 @@ $ pnpm run test
 $ pnpm run test:cov
 ```
 
+## 폴더 구조
+```
+apps
+├─ admin
+│   ├─ api (controller)
+│   ├─ application (전용 응용 로직)
+│   └─ domain (전용 도메인 로직)
+├─ app
+│   └─ ...
+└─ batch
+    └─ ...
+libs
+├─ application (디비 의존 모듈성 코어 로직)
+├─ common (공통 설정 / 유틸성)
+└─ domain (순수 도메인 로직)
+```
+
 ## 의존 규칙
 ```
 - libs.domain <- libs.application <- api
