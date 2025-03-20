@@ -10,6 +10,8 @@ $ pnpm install
 
 ```bash
 # development
+# docker (db master & slave)
+$ docker-compose up -d
 # admin
 $ pnpm run start:admin-dev
 # app
