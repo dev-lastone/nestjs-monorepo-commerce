@@ -79,3 +79,4 @@ vo UserPassword, envValidate 시도 맛보기
 ## TODO
 - [ ] repo test
 - [ ] integration test
+- [ ] e2e test
