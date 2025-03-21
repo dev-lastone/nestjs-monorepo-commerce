@@ -1,5 +1,5 @@
 module.exports = {
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
+  setupFilesAfterEnv: process.env === 'test' ? ['<rootDir>/jest.setup.ts'] : [],
   moduleFileExtensions: ['js', 'json', 'ts'],
   rootDir: '.',
   testMatch: ['**/*.spec.ts'],
