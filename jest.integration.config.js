@@ -1,21 +1,19 @@
 module.exports = {
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   moduleFileExtensions: ['js', 'json', 'ts'],
   rootDir: '.',
-  testMatch: ['**/*.spec.ts', '!**/*.integration.spec.ts'],
+  testMatch: ['**/*.integration.spec.ts'],
   transform: {
     '^.+\\.(t|j)s$': 'ts-jest',
   },
   coveragePathIgnorePatterns: [
     'main.ts',
     'common/src/setting/*',
-    '.repo.ts$',
     '/node_modules/',
     '.e2e-spec.ts$',
     '.module.ts$',
   ],
   collectCoverageFrom: ['**/*.(t|j)s'],
-  coverageDirectory: './coverage',
+  coverageDirectory: './coverage/integration',
   testEnvironment: 'node',
   roots: ['<rootDir>/apps/', '<rootDir>/libs/'],
   moduleNameMapper: {
