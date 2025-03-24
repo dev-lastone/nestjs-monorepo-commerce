@@ -18,6 +18,7 @@
     "test": "NODE_ENV=test jest --detectOpenHandles",
     "test:cov": "NODE_ENV=test jest --coverage --detectOpenHandles",
     "test:watch": "NODE_ENV=test jest --watch --detectOpenHandles",
+    "test:integration": "NODE_ENV=test-integration jest --config jest.integration.config.js",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./apps/app/test/jest-e2e.json"
   },
