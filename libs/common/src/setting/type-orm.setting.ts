@@ -12,14 +12,18 @@ export enum AppName {
   BATCH = 'batch',
 }
 
+// TODO abstract
 export function typeOrmSetting(appName?: AppName) {
   initializeTransactionalContext();
+
+  const IS_TEST = process.env.NODE_ENV?.startsWith('test');
 
   return TypeOrmModule.forRootAsync({
     useFactory: async () => ({
       type: 'postgres',
-      entities: getEntities(appName),
-      synchronize: true,
+      entities: getEntities(appName, IS_TEST),
+      synchronize: IS_TEST,
+      dropSchema: IS_TEST,
       logging: process.env.NODE_ENV !== 'test',
       replication: {
         defaultMode: 'slave',
@@ -47,14 +51,22 @@ export function typeOrmSetting(appName?: AppName) {
   });
 }
 
-function getEntities(appName?: AppName) {
-  const entities = [
-    join(__dirname, '../../../../libs/domain/src/**/*.entity.js'),
-  ];
+function getEntities(appName?: AppName, IS_TEST?: boolean) {
+  const entities = IS_TEST
+    ? [join(__dirname, '../../../domain/src/**/*.entity.ts')]
+    : [join(__dirname, '../../../../libs/domain/src/**/*.entity.js')];
   if (appName === 'admin') {
-    entities.push(join(__dirname, '../../../../apps/admin/src/**/*.entity.js'));
+    entities.push(
+      IS_TEST
+        ? join(__dirname, '../../../../apps/admin/src/**/*.entity.ts')
+        : join(__dirname, '../../../../apps/admin/src/**/*.entity.js'),
+    );
   } else if (appName === 'app') {
-    entities.push(join(__dirname, '../../../../apps/app/src/**/*.entity.js'));
+    entities.push(
+      IS_TEST
+        ? join(__dirname, '../../../../apps/app/src/**/*.entity.ts')
+        : join(__dirname, '../../../../apps/app/src/**/*.entity.js'),
+    );
   }
   return entities;
 }
