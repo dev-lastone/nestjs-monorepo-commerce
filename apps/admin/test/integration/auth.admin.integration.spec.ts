@@ -3,6 +3,7 @@ import * as request from 'supertest';
 import { userStub } from '../../../../libs/domain/test/user/stub/user.stub';
 import { AdminModule } from '../../src/admin.module';
 import { initializeTransactionalContext } from 'typeorm-transactional';
+import { userPassword } from '@common/constant/example';
 
 describe('admin auth', () => {
   let app;
@@ -26,9 +27,10 @@ describe('admin auth', () => {
     return request(app.getHttpServer())
       .post('/auth/sign-up')
       .send({
+        name: userStub.name,
         email: userStub.email,
-        password: userStub.password,
+        password: userPassword,
       })
-      .expect({});
+      .expect(201);
   });
 });
