@@ -23,14 +23,24 @@ describe('admin auth', () => {
     await app.close();
   });
 
-  it('post - /sign-up', () => {
-    return request(app.getHttpServer())
+  it('post - /sign-up', (done) => {
+    request(app.getHttpServer())
       .post('/auth/sign-up')
       .send({
         name: userStub.name,
         email: userStub.email,
         password: userPassword,
       })
-      .expect(201);
+      .expect(201, done);
+  });
+
+  it('post - /sign-in', (done) => {
+    request(app.getHttpServer())
+      .post('/auth/sign-in')
+      .send({
+        email: userStub.email,
+        password: userPassword,
+      })
+      .expect(201, done);
   });
 });
