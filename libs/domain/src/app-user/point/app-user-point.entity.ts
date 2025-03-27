@@ -1,7 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { AppUserPointHistory } from '@domain/app-user/point/app-user-point-history.entity';
 import { AppUserPointStorage } from '@domain/app-user/point/app-user-point-storage.entity';
-import { Column, Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
+import {
+  Column,
+  Entity,
+  Index,
+  JoinColumn,
+  OneToMany,
+  OneToOne,
+} from 'typeorm';
 import { AppUser } from '@domain/app-user/app-user.entity';
 import { ERROR_MESSAGES } from '@common/constant/error-messages';
 import { AppUserPointConsumption } from '@domain/app-user/point/app-user-point-consumption.entity';
@@ -53,6 +60,7 @@ export enum AppUserPointHistoryAction {
 }
 
 @Entity('user_point', { schema: 'app' })
+@Index(['user'])
 export class AppUserPoint {
   @PrimaryGeneratedBigintColumn()
   id: number;
@@ -66,7 +74,10 @@ export class AppUserPoint {
   @Column('int', { name: 'point', default: 0 })
   point: number;
 
-  @OneToOne(() => AppUser, (user) => user.point)
+  @OneToOne(() => AppUser, (user) => user.point, {
+    createForeignKeyConstraints: false,
+    nullable: false,
+  })
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   user: AppUser;
 

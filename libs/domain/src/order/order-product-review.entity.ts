@@ -7,12 +7,13 @@ import {
   Max,
   Min,
 } from 'class-validator';
-import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
+import { Column, Entity, Index, JoinColumn, OneToOne } from 'typeorm';
 import { OrderProduct } from '@domain/order/order-product.entity';
 import { dtoToInstance } from '@common/util/dto-to-instance';
 import { MyBaseEntity } from '@common/entity/my-base-entity';
 
 @Entity('order_product_review', { schema: 'app' })
+@Index(['orderProduct'])
 export class OrderProductReview extends MyBaseEntity {
   @ApiProperty({
     example: 5,
@@ -36,7 +37,10 @@ export class OrderProductReview extends MyBaseEntity {
   @Column({ name: 'description', type: 'varchar', length: '200' })
   description: string;
 
-  @OneToOne(() => OrderProduct, (orderProduct) => orderProduct.review)
+  @OneToOne(() => OrderProduct, (orderProduct) => orderProduct.review, {
+    createForeignKeyConstraints: false,
+    nullable: false,
+  })
   @JoinColumn({ name: 'order_product_id', referencedColumnName: 'id' })
   orderProduct: OrderProduct;
 
