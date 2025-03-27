@@ -7,6 +7,7 @@ import { OrderProductReview } from '@domain/order/order-product-review.entity';
 import {
   Column,
   Entity,
+  Index,
   JoinColumn,
   ManyToOne,
   OneToMany,
@@ -26,6 +27,8 @@ export enum OrderProductStatus {
 }
 
 @Entity('order_product', { schema: 'app' })
+@Index(['order'])
+@Index(['product'])
 export class OrderProduct {
   @PrimaryGeneratedBigintColumn()
   @ApiProperty({
@@ -53,11 +56,17 @@ export class OrderProduct {
   @Column({ name: 'status', type: 'varchar', length: 20 })
   status: OrderProductStatus;
 
-  @ManyToOne(() => Order, (order) => order.products)
+  @ManyToOne(() => Order, (order) => order.products, {
+    createForeignKeyConstraints: false,
+    nullable: false,
+  })
   @JoinColumn({ name: 'order_id', referencedColumnName: 'id' })
   order: Order;
 
-  @ManyToOne(() => Product, (product) => product.orderProducts)
+  @ManyToOne(() => Product, (product) => product.orderProducts, {
+    createForeignKeyConstraints: false,
+    nullable: false,
+  })
   @JoinColumn({ name: 'product_id', referencedColumnName: 'id' })
   product: Product;
 

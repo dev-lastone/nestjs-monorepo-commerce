@@ -6,6 +6,7 @@ import {
 import {
   Column,
   Entity,
+  Index,
   JoinColumn,
   ManyToOne,
   OneToMany,
@@ -17,6 +18,7 @@ import { MyBaseEntity } from '@common/entity/my-base-entity';
 import { BigIntToNumberTransformer } from '@common/entity/transformer';
 
 @Entity('user_point_history', { schema: 'app' })
+@Index(['userPoint'])
 export class AppUserPointHistory extends MyBaseEntity {
   // TODO userPointId 살리는거 고민. this 로 인해 반환값 커짐
   // typeorm 1:N save update 시 n 쪽 null 처리되는 이슈 검색
@@ -49,7 +51,10 @@ export class AppUserPointHistory extends MyBaseEntity {
   })
   actionId?: number | null;
 
-  @ManyToOne(() => AppUserPoint, (point) => point.histories)
+  @ManyToOne(() => AppUserPoint, (point) => point.histories, {
+    createForeignKeyConstraints: false,
+    nullable: false,
+  })
   @JoinColumn({ name: 'user_point_id', referencedColumnName: 'id' })
   userPoint: AppUserPoint;
 
