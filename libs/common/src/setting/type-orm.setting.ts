@@ -1,30 +1,75 @@
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { join } from 'path';
 import {
   addTransactionalDataSource,
   initializeTransactionalContext,
 } from 'typeorm-transactional';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
+import { join } from 'path';
 
-export enum AppName {
-  ADMIN = 'admin',
-  APP = 'app',
-  BATCH = 'batch',
+export function typeOrmAdminSetting() {
+  const entities = [
+    join(__dirname, '../../../../libs/domain/src/**/*.entity.js'),
+    join(__dirname, '../../../../apps/admin/src/**/*.entity.js'),
+  ];
+  return createTypeOrmSetting({
+    entities,
+    synchronize: true,
+    dropSchema: true,
+  });
 }
 
-// TODO abstract
-export function typeOrmSetting(appName?: AppName) {
-  initializeTransactionalContext();
+export function typeOrmAppSetting() {
+  const entities = [
+    join(__dirname, '../../../../libs/domain/src/**/*.entity.js'),
+    join(__dirname, '../../../../apps/app/src/**/*.entity.js'),
+  ];
+  return createTypeOrmSetting({
+    entities,
+    synchronize: true,
+    dropSchema: true,
+  });
+}
 
-  const IS_TEST = process.env.NODE_ENV?.startsWith('test');
+export function typeOrmAdminTestSetting() {
+  const entities = [
+    join(__dirname, '../../../domain/src/**/*.entity.ts'),
+    join(__dirname, '../../../../apps/admin/src/**/*.entity.ts'),
+  ];
+  return createTypeOrmSetting({
+    entities,
+    synchronize: true,
+    dropSchema: true,
+  });
+}
+
+export function typeOrmAppTestSetting() {
+  const entities = [
+    join(__dirname, '../../../domain/src/**/*.entity.ts'),
+    join(__dirname, '../../../../apps/app/src/**/*.entity.ts'),
+  ];
+  return createTypeOrmSetting({
+    entities,
+    synchronize: true,
+    dropSchema: true,
+  });
+}
+
+function createTypeOrmSetting(dto: {
+  entities: string[];
+  synchronize: boolean;
+  dropSchema: boolean;
+}) {
+  const { entities, synchronize, dropSchema } = dto;
+
+  initializeTransactionalContext();
 
   return TypeOrmModule.forRootAsync({
     useFactory: async () => ({
       type: 'postgres',
-      entities: getEntities(appName, IS_TEST),
-      synchronize: IS_TEST,
-      dropSchema: IS_TEST,
-      logging: process.env.NODE_ENV !== 'test',
+      entities,
+      synchronize,
+      dropSchema,
+      logging: true,
       replication: {
         defaultMode: 'slave',
         master: {
@@ -49,24 +94,4 @@ export function typeOrmSetting(appName?: AppName) {
       return addTransactionalDataSource(new DataSource(options));
     },
   });
-}
-
-function getEntities(appName?: AppName, IS_TEST?: boolean) {
-  const entities = IS_TEST
-    ? [join(__dirname, '../../../domain/src/**/*.entity.ts')]
-    : [join(__dirname, '../../../../libs/domain/src/**/*.entity.js')];
-  if (appName === 'admin') {
-    entities.push(
-      IS_TEST
-        ? join(__dirname, '../../../../apps/admin/src/**/*.entity.ts')
-        : join(__dirname, '../../../../apps/admin/src/**/*.entity.js'),
-    );
-  } else if (appName === 'app') {
-    entities.push(
-      IS_TEST
-        ? join(__dirname, '../../../../apps/app/src/**/*.entity.ts')
-        : join(__dirname, '../../../../apps/app/src/**/*.entity.js'),
-    );
-  }
-  return entities;
 }

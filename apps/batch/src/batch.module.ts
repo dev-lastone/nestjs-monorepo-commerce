@@ -4,13 +4,13 @@ import { BatchService } from './batch.service';
 import { ScheduleModule } from '@nestjs/schedule';
 import { OrderBatchModule } from './order/order.batch.module';
 import { configModule } from '@common/setting/config';
-import { AppName, typeOrmSetting } from '@common/setting/type-orm.setting';
+import { typeOrmAppSetting } from '@common/setting/type-orm.setting';
 import { PointBatchModule } from './point/point.batch.module';
 
 @Module({
   imports: [
     configModule(),
-    typeOrmSetting(AppName.BATCH),
+    typeOrmAppSetting(),
     ScheduleModule.forRoot(),
     OrderBatchModule,
     PointBatchModule,
