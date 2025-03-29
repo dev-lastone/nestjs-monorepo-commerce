@@ -8,7 +8,7 @@ export function configModule() {
     validate: validateEnv,
     envFilePath: [
       join(__dirname, '../../../../../../../.env'), // build
-      join(__dirname, '../../../../.env'), // test
+      join(__dirname, '../../../../.env.test'), // test
     ],
   });
 }
