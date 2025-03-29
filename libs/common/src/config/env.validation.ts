@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { dtoToInstance } from '@common/util/dto-to-instance';
 
 export class EnvVariables {
@@ -22,9 +22,21 @@ export class EnvVariables {
   @IsNotEmpty()
   DB_PASSWORD: string;
 
+  @IsNumber()
+  @IsNotEmpty()
+  DB_PORT: number;
+
   @IsString()
   @IsNotEmpty()
-  DB_DATABASE: string;
+  DB_SLAVE_USERNAME: string;
+
+  @IsString()
+  @IsNotEmpty()
+  DB_SLAVE_PASSWORD: string;
+
+  @IsNumber()
+  @IsNotEmpty()
+  DB_SLAVE_PORT: number;
 }
 
 export function validateEnv(config: Record<string, unknown>): EnvVariables {
