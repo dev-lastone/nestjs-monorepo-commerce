@@ -13,6 +13,7 @@ describe('env validation', () => {
       DB_SLAVE_USERNAME: 'slave',
       DB_SLAVE_PASSWORD: 'slave-password',
       DB_SLAVE_PORT: 4321,
+      DB_DATABASE: 'database',
     };
 
     const envVariables = Object.assign(new EnvVariables(), config);
@@ -60,6 +61,10 @@ describe('env validation', () => {
         isNotEmpty: 'DB_SLAVE_PORT should not be empty',
         isNumber:
           'DB_SLAVE_PORT must be a number conforming to the specified constraints',
+      },
+      {
+        isNotEmpty: 'DB_DATABASE should not be empty',
+        isString: 'DB_DATABASE must be a string',
       },
     ];
 
