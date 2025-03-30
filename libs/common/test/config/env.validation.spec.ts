@@ -3,29 +3,19 @@ import { EnvVariables, validateEnv } from '@common/config/env.validation';
 
 describe('env validation', () => {
   it('성공', () => {
-    const JWT_SECRET = 'test';
-    const JWT_EXPIRES_IN = '60s';
-    const DB_HOST = 'localhost';
-    const DB_USERNAME = 'root';
-    const DB_PASSWORD = 'password';
-    const DB_DATABASE = 'test';
-
     const config = {
-      JWT_SECRET,
-      JWT_EXPIRES_IN,
-      DB_HOST,
-      DB_USERNAME,
-      DB_PASSWORD,
-      DB_DATABASE,
+      JWT_SECRET: 'test',
+      JWT_EXPIRES_IN: '60s',
+      DB_HOST: 'localhost',
+      DB_USERNAME: 'root',
+      DB_PASSWORD: 'password',
+      DB_PORT: 1234,
+      DB_SLAVE_USERNAME: 'slave',
+      DB_SLAVE_PASSWORD: 'slave-password',
+      DB_SLAVE_PORT: 4321,
     };
 
-    const envVariables = new EnvVariables();
-    envVariables.JWT_SECRET = JWT_SECRET;
-    envVariables.JWT_EXPIRES_IN = JWT_EXPIRES_IN;
-    envVariables.DB_HOST = DB_HOST;
-    envVariables.DB_USERNAME = DB_USERNAME;
-    envVariables.DB_PASSWORD = DB_PASSWORD;
-    envVariables.DB_DATABASE = DB_DATABASE;
+    const envVariables = Object.assign(new EnvVariables(), config);
 
     expect(validateEnv(config)).toEqual(envVariables);
   });
@@ -54,8 +44,22 @@ describe('env validation', () => {
         isString: 'DB_PASSWORD must be a string',
       },
       {
-        isNotEmpty: 'DB_DATABASE should not be empty',
-        isString: 'DB_DATABASE must be a string',
+        isNotEmpty: 'DB_PORT should not be empty',
+        isNumber:
+          'DB_PORT must be a number conforming to the specified constraints',
+      },
+      {
+        isNotEmpty: 'DB_SLAVE_USERNAME should not be empty',
+        isString: 'DB_SLAVE_USERNAME must be a string',
+      },
+      {
+        isNotEmpty: 'DB_SLAVE_PASSWORD should not be empty',
+        isString: 'DB_SLAVE_PASSWORD must be a string',
+      },
+      {
+        isNotEmpty: 'DB_SLAVE_PORT should not be empty',
+        isNumber:
+          'DB_SLAVE_PORT must be a number conforming to the specified constraints',
       },
     ];
 
