@@ -18,7 +18,10 @@ export class AuthAdminController {
     type: String,
   })
   async signUp(@Body() dto: CreateUserDto) {
-    return await this.authAdminService.signUp(dto);
+    const token = await this.authAdminService.signUp(dto);
+    return {
+      token,
+    };
   }
 
   @Public()
