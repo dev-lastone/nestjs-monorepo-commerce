@@ -1,15 +1,15 @@
 import { Test } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
-import { TestHelperModule } from './test-helper.module';
 import { TestHelperService } from '@common/test/test-helper.service';
 
+// TODO describe 까지 커버할 정도?
 export class IntegrationTestBase {
   public app: INestApplication;
   protected testHelperService: TestHelperService;
 
-  async beforeAll(module: any) {
+  async beforeAll(module: any, testHelperModule: any) {
     const moduleRef = await Test.createTestingModule({
-      imports: [TestHelperModule, module],
+      imports: [testHelperModule, module],
     }).compile();
 
     this.app = moduleRef.createNestApplication();

@@ -14,7 +14,7 @@ export function typeOrmAdminSetting() {
   return createTypeOrmSetting({
     entities,
     synchronize: true,
-    dropSchema: true,
+    dropSchema: false,
   });
 }
 
@@ -26,7 +26,7 @@ export function typeOrmAppSetting() {
   return createTypeOrmSetting({
     entities,
     synchronize: true,
-    dropSchema: true,
+    dropSchema: false,
   });
 }
 

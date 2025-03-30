@@ -3,12 +3,13 @@ import { AuthAdminModule } from '../../src/api/auth/auth.admin.module';
 import * as request from 'supertest';
 import { userStub } from '../../../../libs/domain/test/user/stub/user.stub';
 import { userPassword } from '@common/constant/example';
+import { TestHelperAdminModule } from './test-helper.admin.module';
 
 describe('admin auth', () => {
   const testBase = new IntegrationTestBase();
 
   beforeAll(async () => {
-    await testBase.beforeAll(AuthAdminModule);
+    await testBase.beforeAll(AuthAdminModule, TestHelperAdminModule);
   });
 
   afterAll(async () => {
