@@ -7,7 +7,7 @@ services:
     restart: on-failure
     volumes:
       - postgresql_main_data:/bitnami/postgresql
-      - ./replication-user-grant.sql:/docker-entrypoint-initdb. d/db.sql
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
     environment:
       - POSTGRESQL_REPLICATION_MODE=master
       - POSTGRESQL_REPLICATION_USER=slave
