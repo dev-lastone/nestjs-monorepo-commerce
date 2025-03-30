@@ -37,6 +37,10 @@ export class EnvVariables {
   @IsNumber()
   @IsNotEmpty()
   DB_SLAVE_PORT: number;
+
+  @IsString()
+  @IsNotEmpty()
+  DB_DATABASE: string;
 }
 
 export function validateEnv(config: Record<string, unknown>): EnvVariables {
