@@ -2,39 +2,38 @@ version: "3.9"
 
 services:
   master:
+    env_file:
+      - .env.test
     image: bitnami/postgresql:16
     container_name: postgres-master
-    restart: on-failure
+    restart: always
     volumes:
-      - postgresql_main_data:/bitnami/postgresql
       - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
     environment:
       - POSTGRESQL_REPLICATION_MODE=master
-      - POSTGRESQL_REPLICATION_USER=slave
-      - POSTGRESQL_REPLICATION_PASSWORD=1234
-      - POSTGRESQL_USERNAME=master
-      - POSTGRESQL_PASSWORD=1234
-      - POSTGRESQL_DATABASE=commerce
+      - POSTGRESQL_REPLICATION_USER=${DB_SLAVE_USERNAME}
+      - POSTGRESQL_REPLICATION_PASSWORD=${DB_SLAVE_PASSWORD}
+      - POSTGRESQL_USERNAME=${DB_USERNAME}
+      - POSTGRESQL_PASSWORD=${DB_PASSWORD}
+      - POSTGRESQL_DATABASE=${DB_DATABASE}
     ports:
-      - "5432:5432"
+      - "${DB_PORT}:5432"
 
   slave:
+    env_file:
+      - .env.test
     image: bitnami/postgresql:16
     container_name: postgres-slave
-    restart: on-failure
+    restart: always
     environment:
       - POSTGRESQL_REPLICATION_MODE=slave
-      - POSTGRESQL_REPLICATION_USER=slave
-      - POSTGRESQL_REPLICATION_PASSWORD=1234
+      - POSTGRESQL_REPLICATION_USER=${DB_SLAVE_USERNAME}
+      - POSTGRESQL_REPLICATION_PASSWORD=${DB_SLAVE_PASSWORD}
       - POSTGRESQL_MASTER_HOST=master
-      - POSTGRESQL_MASTER_PORT_NUMBER=5432
-      - POSTGRESQL_USERNAME=slave
-      - POSTGRESQL_PASSWORD=1234
+      - POSTGRESQL_MASTER_PORT_NUMBER=${DB_PORT}
+      - POSTGRESQL_USERNAME=${DB_USERNAME}
+      - POSTGRESQL_PASSWORD=${DB_PASSWORD}
     depends_on:
       - master
     ports:
-      - "5433:5432"
-
-volumes:
-  postgresql_main_data:
-    driver: local
+      - "${DB_SLAVE_PORT}:5432"
