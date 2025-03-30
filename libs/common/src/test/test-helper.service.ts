@@ -13,6 +13,11 @@ export class TestHelperService {
     }
   }
 
+  async clearEntity(entity: any) {
+    const repository = this.dataSource.getRepository(entity);
+    await repository.clear();
+  }
+
   async closeConnection() {
     await this.dataSource.destroy();
   }
