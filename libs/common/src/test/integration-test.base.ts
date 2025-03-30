@@ -19,9 +19,22 @@ export class IntegrationTestBase {
     await this.app.init();
   }
 
+  // e2e 용도
   async afterAll() {
     await this.testHelperService.clearDatabase();
     await this.testHelperService.closeConnection();
     await this.app.close();
   }
+
+  // integration 용도
+  async afterEach(entity: any) {
+    await this.testHelperService.clearEntity(entity);
+  }
+
+  async close() {
+    await this.testHelperService.closeConnection();
+    await this.app.close();
+  }
+
+  // TODO before 특정 기능을 위한 세팅 로직
 }
