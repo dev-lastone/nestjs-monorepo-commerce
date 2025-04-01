@@ -77,7 +77,8 @@ vo UserPassword, envValidate 시도 맛보기
 ---
 
 ## TODO
-- [ ] repo test
 - [ ] integration test
+  - [ ] init-db.sql .env 참조하도록
   - [ ] apps 전체 통합 할꺼아니면 실행 구분 필요. 초기화 충돌
 - [ ] e2e test
+- [ ] repo test
